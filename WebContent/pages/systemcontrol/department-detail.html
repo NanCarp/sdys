@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>用户管理-部门管理-添加</title>
+
+
+    <link href="../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+    <link href="../../dist/css/sb-admin-2.css" rel="stylesheet">
+    <link href="../../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="../../css/admin.css" rel="stylesheet" type="text/css">
+    <link href="../../resource/bootstrapValidator/css/bootstrapValidator.min.css" rel="stylesheet" />
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	<style>
+		label{padding-right: 0;padding-top: 6px}
+	</style>
+</head>
+<body style="width: 90%">
+<form class="form-horizontal" role="form" style="margin-top: 20px">
+    <div class="form-group">
+        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="v1">部门名称：</label>
+        <div class="col-xs-6">
+            <input class="form-control" id="v1" type="text" placeholder="请输入公司名称" name="department" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="v2">所属公司：</label>
+         <div class="col-xs-6">
+            <select class="form-control" id="v4" name="company">
+  				<option value="">请选择状态</option>
+  				<option value="阿里">阿里</option>
+  				<option value="百度">百度</option>
+			</select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="v5" style="padding-top: 0">备注：</label>
+        <div class="col-xs-6">
+        	<textarea class="form-control" id="v5" type="text" name="remarks"></textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-4 col-xs-offset-1 control-label" for="v"></label>
+        <div class="col-xs-6 text-right">
+            <button type="button" class="btn btn-10">取消</button>
+            <button id="v" type="submit" class="btn btn-primary">保存</button>
+        </div>
+    </div>
+</form>
+
+<script src="../../vendor/jquery/jquery.min.js"></script>
+<script src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="../../vendor/metisMenu/metisMenu.min.js"></script>
+<script src="../../dist/js/sb-admin-2.js"></script>
+<script src="../../resource/bootstrapValidator/js/bootstrapValidator.min.js"></script>
+</body>
+<script>
+$(function () {
+    $('form').bootstrapValidator({　
+    	message: 'This value is not valid',
+    	feedbackIcons: {
+    	 	valid: 'glyphicon glyphicon-ok',
+    	 	invalid: 'glyphicon glyphicon-remove',
+    	 	validating: 'glyphicon glyphicon-refresh'
+    					},　　
+        fields: {
+        	department: {
+                message: '验证失败',
+                validators: {
+                    notEmpty: {
+                        message: '部门名称不能为空'
+                    },
+            		regexp: {
+                    	regexp: /^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$/,
+                    	message: '不能有特殊字符'
+            		}
+                }
+            },
+            company: {
+                validators: {
+                    notEmpty: {
+                        message: '组织代码不能为空'
+                    },
+                }
+            }
+        }
+    });
+});
+
+</script>
+</html>

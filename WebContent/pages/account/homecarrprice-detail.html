@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>预报价管理-国际货物运价管理-添加</title>
+
+ 
+    <link href="../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+    <link href="../../dist/css/sb-admin-2.css" rel="stylesheet">
+    <link href="../../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+	<link href="../../css/admin.css" rel="stylesheet" type="text/css">
+	 <link href="../../resource/bootstrapValidator/css/bootstrapValidator.min.css" rel="stylesheet" />
+	 <link href="../../resource/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	<style>
+		label{padding-right: 0;padding-top: 6px}
+	</style>
+</head>
+
+<body style="width: 90%;">
+<form class="form-horizontal" role="form" style="margin-top: 20px">
+    <div class="form-group">
+        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="v1" >日期：</label>
+        <div class='col-xs-6'>  
+        	<input class="form_datetime form-control" type="text" name="datetime" placeholder="选择日期">
+        </div>
+    </div>
+    <div class="form-group">
+   		<label class="col-xs-4 col-xs-offset-1 control-label text-right" for="v2">项目名称：</label>
+        <div class="col-xs-6">
+            <input class="form-control text-left" id="v2" type="text" placeholder="项目名称" name="projectname"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="v3" >国内：</label>
+        <div class="col-xs-6">
+            <input class="form-control text-left" id="v3" type="text" placeholder="国内" name="home"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="v4" >柜型：</label>
+        <div class="col-xs-6">
+            <input class="form-control text-left" id="v4" type="text" placeholder="柜型" name="carstyle"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="v5" >出货地：</label>
+        <div class="col-xs-6">
+            <input class="form-control text-left" id="v5" type="text" placeholder="出货地" name="Shipmentplace"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="v6">目的地省份：</label>
+        <div class="col-xs-6">
+            <input class="form-control text-left" id="v6" type="text" placeholder="目的地省份" name="despro"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="v7">目的地城市：</label>
+        <div class="col-xs-6">
+            <input class="form-control text-left" id="v7" type="text" placeholder="目的地城市" name="descity"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="v8">具体地址：</label>
+        <div class="col-xs-6">
+            <input class="form-control text-left" id="v8" type="text" placeholder="具体地址" name="speadd"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="v9">运输时间：</label>
+        <div class="col-xs-6">
+            <input class="form-control text-left" id="v9" type="text" placeholder="运输时间" name="trftime"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="v10">销售询价(元/车)：</label>
+        <div class="col-xs-6">
+            <input class="form-control text-left" id="v10" type="text" placeholder="销售询价(元/车)" name="Salinqcar"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="v11" >销售询价(元/w):</label>
+        <div class="col-xs-6">
+            <input class="form-control text-left" id="v11" type="text" placeholder="销售询价(元/w)" name="Salinqyu"/>
+        </div>
+    </div>        
+    <div class="form-group">
+        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="v12" style="padding-top: 0">备注：</label>
+        <div class="col-xs-6">
+        	<textarea class="form-control" id="v12" type="text" name="remarks"></textarea>       
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-4 col-xs-offset-1 control-label" for="v"></label>
+        <div class="col-xs-6 text-right">
+            <button type="button" class="btn btn-10">取消</button>
+            <button id="v" type="submit" class="btn btn-primary">保存</button>
+        </div>
+    </div>
+</form>
+
+<script src="../../vendor/jquery/jquery.min.js"></script>
+<script src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="../../vendor/metisMenu/metisMenu.min.js"></script>
+<script src="../../dist/js/sb-admin-2.js"></script>
+<script src="../../resource/bootstrapValidator/js/bootstrapValidator.min.js"></script>
+<script src="../../resource/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script> 
+<script src="../../resource/bootstrap-datetimepicker/js/moment-with-locales.min.js"></script>
+<script src="../../resource/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+<script>
+$(function () {	
+    $(".form_datetime").datetimepicker({
+    	 format: "yyyy-mm-dd",
+    	 autoclose: true,
+    	 todayBtn: true,
+    	 todayHighlight: true,
+    	 showMeridian: true,
+    	 pickerPosition: "bottom-left",
+    	 language: 'zh-CN',//中文，需要引用zh-CN.js包
+    	 startView: 2,//月视图
+    	 minView: 2//日期时间选择器所能够提供的最精确的时间选择视图
+    	 });
+    
+    $('form').bootstrapValidator({
+    	message: 'This value is not valid',
+    	feedbackIcons: {
+    	 	valid: 'glyphicon glyphicon-ok',
+    	 	invalid: 'glyphicon glyphicon-remove',
+    	 	validating: 'glyphicon glyphicon-refresh'
+    					},　　　
+        fields: {
+        	datetime: {
+                message: '验证失败',
+                validators: {
+                     notEmpty: {
+                    	 message: '日期不能为空'
+                    }, 
+                }
+            },
+            projectname: {
+                message: '验证失败',
+                validators: {
+                    notEmpty: {
+                        message: '项目名称不能为空'
+                    },
+            		regexp: {
+                    	regexp: /^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$/,
+                    	message: '不能有特殊字符'
+            		}
+                }
+            },
+            home: {
+                validators: {
+                    notEmpty: {
+                        message: '国内不能为空'
+                    },
+            		regexp: {
+                    	regexp: /^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$/,
+                    	message: '不能有特殊字符'
+            		}
+                }
+            },
+            carstyle: {
+                validators: {
+                    notEmpty: {
+                        message: '柜型不能为空'
+                    },
+            		regexp: {
+                    	regexp: /^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$/,
+                    	message: '不能有特殊字符'
+            		}
+                }
+            },
+            Shipmentplace: {
+                validators: {
+                    notEmpty: {
+                        message: '出货地不能为空'
+                    },
+            		regexp: {
+                    	regexp: /^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$/,
+                    	message: '不能有特殊字符'
+            		}
+                }
+            },
+            despro: {
+                validators: {
+                    notEmpty: {
+                        message: '目的地省份不能为空'
+                    },
+            		regexp: {
+                    	regexp: /^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$/,
+                    	message: '不能有特殊字符'
+            		}
+                }
+            },
+            descity: {
+                validators: {
+                    notEmpty: {
+                        message: '目的地城市不能为空'
+                    },
+            		regexp: {
+                    	regexp: /^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$/,
+                    	message: '不能有特殊字符'
+            		}
+                }
+            },
+            speadd: {
+                validators: {
+                    notEmpty: {
+                        message: '具体地址'
+                    },
+            		regexp: {
+                    	regexp: /^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$/,
+                    	message: '不能有特殊字符'
+            		}
+                }
+            },
+            trftime: {
+                validators: {
+                    notEmpty: {
+                        message: '运输时间'
+                    },
+            		regexp: {
+                    	regexp: /^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$/,
+                    	message: '不能有特殊字符'
+            		}
+                }
+            },
+            Salinqcar: {
+                validators: {
+                    notEmpty: {
+                        message: '销售询价不能为空'
+                    },
+                    regexp: {
+                        regexp: /^[0-9]+(\.[0-9]{1,8})?$/,
+                        message: '请输入正确的金额'
+                    }
+                }
+            },
+            Salinqyu: {
+                validators: {
+                    notEmpty: {
+                        message: '销售询价不能为空'
+                    },
+                    regexp: {
+                        regexp: /^[0-9]+(\.[0-9]{1,8})?$/,
+                        message: '请输入正确的金额'
+                    }
+                }
+            },                      
+        }
+    });
+    
+});
+
+</script>
+</body>
+
+</html>

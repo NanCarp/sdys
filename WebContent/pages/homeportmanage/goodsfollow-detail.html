@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>添加货物运输跟踪管理</title>
+ 
+    <link href="../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+    <link href="../../dist/css/sb-admin-2.css" rel="stylesheet">
+    <link href="../../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+	<link href="../../css/admin.css" rel="stylesheet" type="text/css">
+	<link href="../../resource/bootstrapValidator/css/bootstrapValidator.min.css" rel="stylesheet" />
+	 <link href="../../resource/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	<style>
+		label{padding-right: 0;padding-top: 6px}
+	</style>
+</head>
+
+<body style="width: 90%">
+<form class="form-horizontal" role="form" style="margin-top: 20px">
+    <div class="form-group">
+        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="v1">提货日期：</label>
+        <div class='col-xs-6'>  
+             <input class="form_datetime form-control" type="text" name="datetime" placeholder="创建日期">    
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="v2">物流公司名称：</label>
+        <div class="col-xs-6">
+            <input class="form-control text-left" id="v2" type="text" placeholder="物流公司名称" name="logistics_company"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="v3">运单号：</label>
+        <div class="col-xs-6">
+            <input class="form-control text-left" id="v3" type="text" placeholder="运单号" name="Waybill_no"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="v4">出库单号：</label>
+        <div class="col-xs-6">
+            <input class="form-control text-left" id="v4" type="text" placeholder="出库单号" name="wareentry"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="v5">提货地点：</label>
+        <div class="col-xs-6">
+            <input class="form-control text-left" id="v5" type="text" placeholder="提货地点" name="delivery_place"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="v6">客户名称：</label>
+        <div class="col-xs-6">
+            <input class="form-control text-left" id="v6" type="text" placeholder="客户名称" name="customer"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="v7">目的地：</label>
+        <div class="col-xs-6">
+            <input class="form-control text-left" id="v7" type="text" placeholder="目的地" name="destination"/>
+        </div>
+    </div>
+        <div class="form-group">
+        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="v8">收货人：</label>
+        <div class="col-xs-6">
+            <input class="form-control text-left" id="v8" type="text" placeholder="收货人" name="consignee"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="v9">联系电话：</label>
+        <div class="col-xs-6">
+            <input class="form-control text-left" id="v9" type="text" placeholder="联系电话" name="contant"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="v10">货物名称：</label>
+        <div class="col-xs-6">
+            <input class="form-control text-left" id="v10" type="text" placeholder="货物名称" name="goods_name"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="v11">发货数量(托)：</label>
+        <div class="col-xs-6">
+            <input class="form-control text-left" id="v11" type="text" placeholder="发货数量(托)" name="Shipment_quantity"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="v12">体积(CBM)：</label>
+        <div class="col-xs-6">
+            <input class="form-control text-left" id="v12" type="text" placeholder="体积(CBM)" name="volume"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="v13">重量(KG)：</label>
+        <div class="col-xs-6">
+            <input class="form-control text-left" id="v13" type="text" placeholder="重量(KG)" name="weight"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="v14">运输方式：</label>
+        <div class="col-xs-6">
+            <input class="form-control text-left" id="v14" type="text" placeholder="运输方式" name="ship_type"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="v15">运输时效：</label>
+        <div class="col-xs-6">
+            <input class="form-control text-left" id="v15" type="text" placeholder="运输时效" name="transport_limitation"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="v16">发车日期：</label>
+        <div class="col-xs-6">
+            <input class="form_datetime  form-control text-left" id="v16" type="text" placeholder="发车日期" name="leave_car_date"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="v17">跟踪日期：</label>
+        <div class="col-xs-6">
+            <input class="form_datetime  form-control text-left" id="v17" type="text" placeholder="跟踪日期" name="follow_date"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="v18">跟踪时间：</label>
+        <div class="col-xs-6">
+            <input class="form-control text-left" id="v18" type="text" placeholder="跟踪时间" name="follow_time" />
+        </div>
+    </div> 
+    <div class="form-group">
+        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="v19">所在地点：</label>
+        <div class="col-xs-6">
+            <input class="form-control text-left" id="v19" type="text" placeholder="所在地点" name="location"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="v20">预计货物到站时间：</label>
+        <div class="col-xs-6">
+            <input class="form_datetime  form-control text-left" id="v20" type="text" placeholder="预计货物到达时间" name="estimate_arrival_time"/>
+        </div>
+    </div> 
+    <div class="form-group">
+        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="v21">签收日期：</label>
+        <div class="col-xs-6">
+            <input class="form_datetime  form-control text-left" id="v21" type="text" placeholder="签收日期" name="receipt_date"/>
+        </div>
+    </div> 
+    <div class="form-group">
+        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="v22">货物状况：</label>
+        <div class="col-xs-6">
+         	<input class="form-control" type="text" name="goods_status" placeholder="货物状况" id="v22">  
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="v23">额外费用原因及金额：</label>
+        <div class="col-xs-6">
+        	<input class="form-control" type="text" name="extra_remark" placeholder="额外费用原因及金额" id="v23"> 
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="v24" style="padding-top: 0">备注：</label>
+        <div class="col-xs-6">
+            <textarea class="form-control" id="v24" placeholder="请输入备注" name="remark"></textarea>
+        </div>
+    </div>               
+    <div class="form-group">
+        <label class="col-xs-4 col-xs-offset-1 control-label" for="v"></label>
+        <div class="col-xs-6 text-right">
+            <button type="button" class="btn btn-10">取消</button>
+            <button id="v" type="submit" class="btn btn-primary">保存</button>
+        </div>
+    </div>
+</form>
+
+<script src="../../vendor/jquery/jquery.min.js"></script>
+<script src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="../../vendor/metisMenu/metisMenu.min.js"></script>
+<script src="../../dist/js/sb-admin-2.js"></script>
+<script src="../../resource/bootstrapValidator/js/bootstrapValidator.min.js"></script>
+<script src="../../resource/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script> 
+<script src="../../resource/bootstrap-datetimepicker/js/moment-with-locales.min.js"></script>
+<script src="../../resource/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+<script>
+$(function () {	
+	$(".form_datetime").datetimepicker({
+   	 format: "yyyy-mm-dd",
+   	 autoclose: true,
+   	 todayBtn: true,
+   	 todayHighlight: true,
+   	 showMeridian: true,
+   	 pickerPosition: "bottom-left",
+   	 language: 'zh-CN',//中文，需要引用zh-CN.js包
+   	 startView: 2,//月视图
+   	 minView: 2//日期时间选择器所能够提供的最精确的时间选择视图
+   	
+   	 });  
+    $('form').bootstrapValidator({
+    	message: 'This value is not valid',
+    	feedbackIcons: {
+    	 	valid: 'glyphicon glyphicon-ok',
+    	 	invalid: 'glyphicon glyphicon-remove',
+    	 	validating: 'glyphicon glyphicon-refresh'
+    					},　　　
+        fields: {
+        	datetime: {
+                message: '验证失败',
+                validators: {
+                    notEmpty: {
+                        message: '日期不能为空'
+                    }
+                }
+            },
+            logistics_company: {
+                message: '验证失败',
+                validators: {
+                    notEmpty: {
+                        message: '物流公司不能为空'
+                    },
+            		regexp: {
+                    	regexp: /^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$/,
+                    	message: '不能有特殊字符'
+            		}
+                }
+            },
+            Waybill_no: {
+                validators: {
+                    notEmpty: {
+                        message: '运单号不能为空'
+                    },
+            		regexp: {
+                    	regexp: /^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$/,
+                    	message: '不能有特殊字符'
+            		}
+                }
+            },
+            wareentry: {
+                validators: {
+                    notEmpty: {
+                        message: '出库单号不能为空'
+                    },
+            		regexp: {
+                    	regexp: /^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$/,
+                    	message: '不能有特殊字符'
+            		}
+                }
+            },
+            delivery_place: {
+                validators: {
+                    notEmpty: {
+                        message: '提货地点不能为空'
+                    },
+            		regexp: {
+                    	regexp: /^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$/,
+                    	message: '不能有特殊字符'
+            		}
+                }
+            },
+            customer: {
+                validators: {
+                    notEmpty: {
+                        message: '客户名称不能为空'
+                    },
+            		regexp: {
+                    	regexp: /^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$/,
+                    	message: '不能有特殊字符'
+            		}
+                }
+            },           
+            destination: {
+                validators: {
+                    notEmpty: {
+                        message: '目的地不能为空'
+                    },
+            		regexp: {
+                    	regexp: /^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$/,
+                    	message: '不能有特殊字符'
+            		}
+                }
+            },
+            consignee: {
+                validators: {
+                    notEmpty: {
+                        message: '收货人不能为空'
+                    },
+            		regexp: {
+                    	regexp: /^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$/,
+                    	message: '不能有特殊字符'
+            		}
+                }
+            },
+            contant: {
+                validators: {
+                    notEmpty: {
+                        message: '联系电话不能为空'
+                    },
+            		regexp: {
+                    	regexp: /^[0-9]*[1-9][0-9]*$/,
+                    	message: '请输入正确格式'
+            		}
+                }
+            },
+            goods_name: {
+                validators: {
+                    notEmpty: {
+                        message: '货物名称不能为空'
+                    },
+            		regexp: {
+                    	regexp: /^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$/,
+                    	message: '不能有特殊字符'
+            		}
+                }
+            },
+            Shipment_quantity: {
+                validators: {
+                    notEmpty: {
+                        message: '发货数量不能为空'
+                    },
+            		regexp: {
+                    	regexp: /^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$/,
+                    	message: '不能有特殊字符'
+            		}
+                }
+            },
+            volume: {
+                validators: {
+                    notEmpty: {
+                        message: '体积不能为空'
+                    },
+            		regexp: {
+                    	regexp: /^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$/,
+                    	message: '不能有特殊字符'
+            		}
+                }
+            },
+            weight: {
+                validators: {
+                    notEmpty: {
+                        message: '重量不能为空'
+                    },
+                    regexp: {
+                        regexp: /^[0-9]+(\.[0-9]{1,8})?$/,
+                        message: '不能有特殊字符'
+                    }
+                }
+            },
+            ship_type: {
+                validators: {
+                    notEmpty: {
+                        message: '运输方式不能为空'
+                    },
+                    regexp: {
+                        regexp: /^[0-9]+(\.[0-9]{1,8})?$/,
+                        message: '不能有特殊字符'
+                    }
+                }
+            },
+            transport_limitation:{
+                validators: {
+                    notEmpty: {
+                        message: '运输时效不能为空'
+                    },
+                    regexp: {
+                        regexp: /^[0-9]+(\.[0-9]{1,8})?$/,
+                        message: '不能有特殊字符'
+                    }
+                }
+            },
+            leave_car_date: {
+                validators: {
+                    notEmpty: {
+                        message: '发车日期不能为空'
+                    }                   
+                }
+            },
+            follow_date: {
+                validators: {
+                    notEmpty: {
+                        message: '跟踪日期不能为空'
+                    }                  
+                }
+            },           
+            follow_time: {
+                validators: {
+                    notEmpty: {
+                        message: '跟踪时间不能为空'
+                    },
+                    regexp: {
+                        regexp: /^[0-9]+(\.[0-9]{1,8})?$/,
+                        message: '不能有特殊字符'
+                    }
+                }
+            },
+            location: {
+                validators: {
+                	notEmpty: {
+                        message: '所在地不能为空'
+                    },
+                    regexp: {
+                        regexp: /^[0-9]+(\.[0-9]{1,8})?$/,
+                        message: '不能有特殊字符'
+                    }
+                }
+            },
+            estimate_arrival_time: {
+                validators: {
+                	notEmpty: {
+                        message: '预计到达时间不能为空'
+                    }
+                }
+            },
+            receipt_date: {
+                validators: {
+                	notEmpty: {
+                        message: '签收日期不能为空'
+                    },
+                    regexp: {
+                        regexp: /^[0-9]+(\.[0-9]{1,8})?$/,
+                        message: '不能有特殊字符'
+                    }
+                }
+            },
+            goods_status: {
+                validators: {
+                	notEmpty: {
+                        message: '货物状况不能为空'
+                    },
+                    regexp: {
+                        regexp: /^[0-9]+(\.[0-9]{1,8})?$/,
+                        message: '不能有特殊字符'
+                    }
+                }
+            },
+            extra_remark: {
+                validators: {
+                	notEmpty: {
+                        message: '额外费用及金额不能为空'
+                    },
+                    regexp: {
+                        regexp: /^[0-9]+(\.[0-9]{1,8})?$/,
+                        message: '不能有特殊字符'
+                    }
+                }
+            }         
+        }
+    });
+    
+});
+</script>
+
+</body>
+
+</html>

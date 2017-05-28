@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>供应商对账表（国际 ）</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="../../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="../../dist/css/sb-admin-2.css" rel="stylesheet">
+    <link href="../../css/admin.css" rel="stylesheet">
+    <link href="../../resource/bootstrapvalidator/css/bootstrapValidator.min.css" rel="stylesheet">
+	<link href="../../resource/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <style type="text/css">
+		body { margin:0 15px;}
+		form { margin-top:20px;}
+		label { padding-top:6px;padding-right:0;}
+	</style>
+	
+    <!-- Custom Fonts -->
+    <link href="../../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+    <form class="form-horizontal" role="form">
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right"for="v1">我司编号：</label>
+            <div class="col-xs-6">
+	            <input class="form-control" id="v1" type="text" placeholder="我司编号" name="my_company_no"/>
+	        </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right"for="v2">公司编号：</label>
+            <div class="col-xs-6">
+	            <input class="form-control" id="v2" type="text" placeholder="公司编号" name="company_no"/>
+	        </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v3">销售：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v3" type="text" placeholder="销售" name="sell">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v4">销售区域：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v4" type="text" placeholder="销售区域" name="sell_area">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v5">目的港：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v5" type="text" placeholder="目的港" name="dest_port">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v6">贸易条款：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v6" type="text" placeholder="贸易条款" name="trade_clause">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v7">运输方式：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v7" type="text" placeholder="运输方式" name="transport">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v8">供应商：</label>
+            <div class="col-xs-6">
+                <select id="v8" class="form-control" name="enterprise">
+	                <option value="">请选择供应商</option>
+	                <option value="1">圆通</option>
+	                <option value="2">中通</option>
+	                <option value="3">顺丰</option>
+	            </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v9">件数：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v9" type="text" placeholder="件数" name="quantity">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v10">重量：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v10" type="text" placeholder="重量" name="weight">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v11">体积：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v11" type="text" placeholder="体积" name="volume">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v12">箱量：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v12" type="text" placeholder="箱量" name="container_quantity">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v13">柜型：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v13" type="text" placeholder="柜型" name="container_type">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v14">集装箱号：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v14" type="text" placeholder="集装箱号" name="container_no">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v15">出厂日期：</label>
+            <div class="col-xs-6">
+                <input class="form_datetime form-control " id="v15" type="text" placeholder="出厂日期" name="factory_date">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v16">船公司/航空公司：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v16" type="text" placeholder="船公司/航空公司" name="airline">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v17">航名航次：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v17" type="text" placeholder="航名航次" name="flight_name">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v18">航班号：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v18" type="text" placeholder="航班号" name="flight_no">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v19">提单号：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v19" type="text" placeholder="提单号" name="bl_no">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v20">预计离港：</label>
+            <div class="col-xs-6">
+                <input class="form_datetime form-control" id="v20" type="text" placeholder="预计离港日期" name="estimated_departure_date">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v21">实际离港：</label>
+            <div class="col-xs-6">
+                <input class="form_datetime form-control" id="v21" type="text" placeholder="实际离港日期" name="actual_departure_date">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v22">预计到港：</label>
+            <div class="col-xs-6">
+                <input class="form_datetime form-control" id="v22" type="text" placeholder="预计到港日期" name="estimated_arrival_date">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v23">实际到港：</label>
+            <div class="col-xs-6">
+                <input class="form_datetime form-control" id="v23" type="text" placeholder="实际到港日期" name="actual_arrival_date">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v24">文件/报关费：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v24" type="text" placeholder="费用（按发票总计）" name="customs_fee">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v25">文件/报关费：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v25" type="text" placeholder="费用（说明）"  name="customs_fee_remark">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v26">国内拖车费：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v26" type="text" placeholder="国内拖车费" name="domestic_trailer_fee">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v27">国内拖车费说明：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v27" type="text" placeholder="国内拖车费说明" name="domestic_trailer_fee_remark">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v28">国际海运费：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v28" type="text" placeholder="国际海运费" name="ocean_freight">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v29">国际海运费说明：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v29" type="text" placeholder="国际海运费说明" name="ocean_freight_remark">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v30">代收代付（国内）：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v30" type="text" placeholder="代收代付（国内）" name="domestic_agent">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v31">代收代付（国内）说明：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v31" type="text" placeholder="代收代付（国内）说明" name="domestic_agent_remark">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v32">国外清关费：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v32" type="text" placeholder="国外清关费" name="customs_clearance_fee">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v33">国外清关费说明：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v33" type="text" placeholder="国外清关费说明" name="customs_clearance_fee_remark">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v34">国外送货费：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v34" type="text" placeholder="国外送货费" name="foreign_delivery_fee">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v35">国外送货费说明：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v35" type="text" placeholder="国外送货费说明" name="foreign_delivery_fee_remark">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v36">代收代付（国际）：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v36" type="text" placeholder="代收代付（国际）" name="international_agent">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v37">代收代付（国际）说明：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v37" type="text" placeholder="代收代付（国际）说明" name="international_agent_remark">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v38">过夜费：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v38" type="text" placeholder="过夜费" name="overnight_fee">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v39">放空费：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v39" type="text" placeholder="放空费" name="empty_fee">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v40">落箱费：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v40" type="text" placeholder="落箱费" name="handling_fee">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v41">检查费：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v41" type="text" placeholder="检查费" name="inspection_fee">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label" for="v5"></label>
+            <div class="col-xs-6 text-right">
+	            <button type="button" class="btn btn-10">取消</button>
+	            <button id="v" type="submit" class="btn btn-11">保存</button>
+        	</div>
+        </div>
+    </form>
+<!-- jQuery -->
+<script src="../../vendor/jquery/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
+
+<!-- Metis Menu Plugin JavaScript -->
+<script src="../../vendor/metisMenu/metisMenu.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="../../dist/js/sb-admin-2.js"></script>
+<script src="../../resource/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
+<script src="../../js/provision/statement_international_detail.js"></script>
+<script src="../../resource/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script> 
+<script src="../../resource/bootstrap-datetimepicker/js/moment-with-locales.min.js"></script>
+<script src="../../resource/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+
+
+</body>
+
+</html>

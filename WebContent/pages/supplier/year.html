@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>供应商年度考核</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="../../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+    <!-- DataTables CSS -->
+    <link href="../../vendor/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet">
+
+    <!-- DataTables Responsive CSS -->
+    <link href="../../vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="../../dist/css/sb-admin-2.css" rel="stylesheet">
+    <link href="../../css/common/common.css" rel="stylesheet">
+    <link href="../../css/admin.css" rel="stylesheet">
+    <link href="../../resource/bootstrapvalidator/css/bootstrapValidator.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../resource/layui/css/layui.css" media="all" />
+	
+    <!-- Custom Fonts -->
+    <link href="../../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+<div id="wrapper">
+
+        <div class="row">
+            <div class="col-lg-12" >
+                <div class="panel panel-default">
+                    <!-- panel-heading -->
+                    <div class="panel-heading">
+	                    <div class="container container-fluid">
+		                	<div class="row">
+		                        <div class="col-sm-2 col-xs-4 head_2">
+	                        		<select class="form-control">
+	                        			<option>年份</option>
+										<option>2013</option>
+										<option>2014</option>
+										<option>2015</option>
+										<option>2016</option>
+										<option>2017</option>
+										<option>2018</option>
+	                        		</select>
+	                        	</div>
+	                        	<div class="col-sm-2 col-xs-4 head_2">
+                  					<input type="search" class="form-control" placeholder="供应商" name="enterprise" id="enterprise">
+                  				</div>
+                  				<div class="col-sm-1 col-xs-12 head_1">
+                       				<button class="btn btn-primary" onclick="_search()">查询</button>
+                       			</div>
+                       			<div class="col-sm-2 col-xs-6 head_3">
+		                        	<button class="btn btn-success" onclick="_add()">新增年度考核</button>
+		                        </div>
+		                        <div class="col-sm-1 col-xs-6 head_1">
+		                        	<button class="btn btn-8 " onclick="_calculate()">评分</button>
+		                        </div>
+		                        <div class="col-sm-2 col-xs-6 head_4">
+		                        	<button class="btn btn-4 " onclick="_batchDelete()">批量删除</button>
+		                        </div>
+	                        </div>
+	                    </div>
+	                </div>
+                    <!-- /.panel-heading -->
+	                <div class="panel-body">
+	                    <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+	                        <thead>
+		                        <tr>
+		                        	<th><input type="checkbox" id="checkAll"></th> 
+		                            <th>序号</th>
+		                            <th>年份</th>
+		                            <th>公司名称</th>
+		                            <th>M1</th>
+		                            <th>M2</th>
+		                            <th>M3</th>
+		                            <th>M4</th>
+		                            <th>M5</th>
+		                            <th>M6</th>
+		                            <th>M7</th>
+		                            <th>M8</th>
+		                            <th>M9</th>
+		                            <th>M10</th>
+		                            <th>M11</th>
+		                            <th>M12</th>
+		                            <th>年度得分</th>
+		                            <th>评定等级</th>
+		                            <th>备注</th>
+		                            <th>操作</th>
+		                        </tr>
+	                        </thead>
+	                        <tbody>
+		                        <tr>
+		                        	<td><input type="checkbox" name="sub"></td>
+		                            <td>1</td>
+		                            <td>2017</td>
+		                            <td>圆通</td>
+		                            <td>90</td>
+		                            <td>90</td>
+		                            <td>90</td>
+		                            <td>90</td>
+		                            <td>90</td>
+		                            <td>90</td>
+		                            <td>90</td>
+		                            <td>90</td>
+		                            <td>90</td>
+		                            <td>90</td>
+		                            <td>90</td>
+		                            <td>90</td>
+		                            <td>90</td>
+		                            <td>A</td>
+		                            <td>效率很高，可以加强合作。</td>
+		                            <td>
+		                                <button class="btn btn-3 btn-xs" onclick="_edit()">编辑</button>
+		                                <button class="btn btn-4 btn-xs" onclick="_delete()">删除</button>
+		                            </td>
+		                        </tr>
+		                        <tr>
+		                        	<td><input type="checkbox" name="sub"></td>
+		                            <td>2</td>
+		                            <td>2017</td>
+		                            <td>圆通</td>
+		                            <td>90</td>
+		                            <td>90</td>
+		                            <td>90</td>
+		                            <td>90</td>
+		                            <td>90</td>
+		                            <td>90</td>
+		                            <td>90</td>
+		                            <td>90</td>
+		                            <td>90</td>
+		                            <td>90</td>
+		                            <td>90</td>
+		                            <td>90</td>
+		                            <td>90</td>
+		                            <td>A</td>
+		                            <td>效率很高，可以加强合作。</td>
+		                            <td>
+		                                <button class="btn btn-3 btn-xs" onclick="_edit()">编辑</button>
+		                                <button class="btn btn-4 btn-xs" onclick="_delete()">删除</button>
+		                            </td>
+		                        </tr>
+		                        <tr>
+		                        	<td><input type="checkbox" name="sub"></td>
+		                            <td>3</td>
+		                            <td>2017</td>
+		                            <td>圆通</td>
+		                            <td>90</td>
+		                            <td>90</td>
+		                            <td>90</td>
+		                            <td>90</td>
+		                            <td>90</td>
+		                            <td>90</td>
+		                            <td>90</td>
+		                            <td>90</td>
+		                            <td>90</td>
+		                            <td>90</td>
+		                            <td>90</td>
+		                            <td>90</td>
+		                            <td>90</td>
+		                            <td>A</td>
+		                            <td>效率很高，可以加强合作。</td>
+		                            <td>
+		                                <button class="btn btn-3 btn-xs" onclick="_edit()">编辑</button>
+		                                <button class="btn btn-4 btn-xs" onclick="_delete()">删除</button>
+		                            </td>
+		                        </tr>
+		                        <tr>
+		                        	<td><input type="checkbox" name="sub"></td>
+		                            <td>4</td>
+		                            <td>2017</td>
+		                            <td>圆通</td>
+		                            <td>90</td>
+		                            <td>90</td>
+		                            <td>90</td>
+		                            <td>90</td>
+		                            <td>90</td>
+		                            <td>90</td>
+		                            <td>90</td>
+		                            <td>90</td>
+		                            <td>90</td>
+		                            <td>90</td>
+		                            <td>90</td>
+		                            <td>90</td>
+		                            <td>90</td>
+		                            <td>A</td>
+		                            <td>效率很高，可以加强合作。</td>
+		                            <td>
+		                                <button class="btn btn-3 btn-xs" onclick="_edit()">编辑</button>
+		                                <button class="btn btn-4 btn-xs" onclick="_delete()">删除</button>
+		                            </td>
+		                        </tr>
+	                        </tbody>
+	                    </table>
+                           <!-- /.table-responsive -->
+                       </div>
+                       <!-- /.panel-body -->
+                       <!-- panel-footer -->
+	                    <div class="panel-footer container" style="width:100%;">
+	                    	<div class="col-sm-5">
+	                    		<span>显示<strong>1~10</strong>条，共有数据<strong>100</strong>条</span>
+	                    	</div>
+			                <div class="col-sm-7" style="max-width: 400px;float: right;" >
+			                    <div id="forpage" class="forpage" style="float: right;"></div>
+			                </div>
+			                <script src="../../resource/laypage/laypage.js"></script>
+			            </div>
+			            <!-- /.panel-footer -->
+                   </div>
+                   <!-- /.panel -->
+               </div>
+               <!-- /.col-lg-12 -->
+           </div>
+
+           <!-- /.row -->
+
+	</div>
+	<!-- /#wrapper -->
+
+<!-- jQuery -->
+<script src="../../vendor/jquery/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
+
+<!-- Metis Menu Plugin JavaScript -->
+<script src="../../vendor/metisMenu/metisMenu.min.js"></script>
+
+<!-- DataTables JavaScript -->
+<script src="../../vendor/datatables/js/jquery.dataTables.min.js"></script>
+<script src="../../vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+<script src="../../vendor/datatables-responsive/dataTables.responsive.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="../../resource/layer/layer.js"></script>
+<script src="../../resource/layui/layui.js"></script>
+<script src="../../js/common/admin.js"></script>
+<script src="../../js/jquery.nicescroll.min.js"></script>
+<script src="../../resource/laypage/laypage.js"></script>
+
+<!-- Page-Level Demo Scripts - Tables - Use for reference -->
+<script>
+	//分页
+	$(function(){
+		 laypage({
+		    cont: document.getElementById('forpage'), //容器。值支持id名、原生dom对象，jquery对象,
+		    pages: 10, //总页数
+		    skin: '#molv', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+		    groups: 5, //连续显示分页数
+		    curr: 2,
+		    first:false,
+		    last:false,
+		    jump: function(e, first){ //触发分页后的回调
+		        
+		    }
+		});
+	});
+	//全选、全不选
+	$("#checkAll").click(function() {
+	    $("input[name='sub']").prop("checked", this.checked);
+	});
+	  
+	$("input[name='sub']").click(function() {
+	    var $subs = $("input[name='sub']");
+	    $("#checkAll").prop("checked" , $subs.length == $subs.filter(":checked").length ? true :false);
+	});
+	// 搜索
+	function _search(){
+		layui.use('layer',function(){
+			var layer = layui.layer;
+			if($.trim($('#enterprise').val())!=''){
+				var reg = /^[a-zA-Z0-9_\u0391-\uFFE5 ]{1,30}$/;
+				if(!reg.test($('#enterprise').val())){
+					layer.tips('不允许有特殊字符，最多20个字符', '#enterprise', {tips: [1, '#34495E']});return;
+				}					
+			}
+		})
+	}
+	// 评分
+    function _calculate(){
+    	layer.msg('评分成功', {icon: 1});
+    }
+    // 编辑
+    function _edit(){
+    	open_window('编辑年度考核','/supplier/getYear', 480, 350);
+    }
+    // 新增
+	function _add(){
+		open_window('新增年度考核','/supplier/getYear', 480, 350);
+	}
+    // 删除
+	function _delete(){
+	    //询问框
+	    layer.confirm('确认删除吗？', {
+	   	 title: ['信息', 'font-weight:600;color:#fff;background-color: #3367D6;'],
+	        btn: ['确认','取消'] //按钮
+	    }, function(){
+	        layer.msg('删除成功', {icon: 1});
+	    }, function(){
+	
+	    });
+	}
+	// 批量删除
+    function _batchDelete(){
+        //询问框
+        layer.confirm('确认批量删除吗？', {
+        	title: ['信息', 'font-weight:600;color:#fff;background-color: #3367D6;'],
+            btn: ['确认','取消'] //按钮
+        }, function(){
+            layer.msg('删除成功', {icon: 1});
+        }, function(){
+
+        }); 
+    }
+	// 查看明细
+	function _detail(){
+		open_window('查看明细','/supplier/yearDetail', 480, 370);
+	}
+</script>
+
+</body>
+
+</html>

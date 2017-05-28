@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>预报价管理-国际货物运价管理-添加</title>
+ 
+    <link href="../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+    <link href="../../dist/css/sb-admin-2.css" rel="stylesheet">
+    <link href="../../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+	<link href="../../css/admin.css" rel="stylesheet" type="text/css">
+	<link href="../../resource/bootstrapValidator/css/bootstrapValidator.min.css" rel="stylesheet" />
+	 <link href="../../resource/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	<style>
+		label{padding-right: 0;padding-top: 6px}
+	</style>
+</head>
+
+<body style="width: 90%">
+<form class="form-horizontal" role="form" style="margin-top: 20px">
+    <div class="form-group">
+        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="v1">日期：</label>
+        <div class='col-xs-6'>  
+             <input class="form_datetime form-control" type="text" name="datetime" placeholder="选择日期">    
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="v2">项目名称：</label>
+        <div class="col-xs-6">
+            <input class="form-control text-left" id="v2" type="text" placeholder="项目名称" name="projectname"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="v3">柜型：</label>
+        <div class="col-xs-6">
+            <input class="form-control text-left" id="v3" type="text" placeholder="柜型" name="carstyle"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="v4">出货地：</label>
+        <div class="col-xs-6">
+            <input class="form-control text-left" id="v4" type="text" placeholder="出货地" name="Shipmentplace"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="v5">目的国家：</label>
+        <div class="col-xs-6">
+            <input class="form-control text-left" id="v5" type="text" placeholder="目的国家" name="descountry"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="v6">目的港口：</label>
+        <div class="col-xs-6">
+            <input class="form-control text-left" id="v6" type="text" placeholder="目的港口" name="desport"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="v7">贸易方式：</label>
+        <div class="col-xs-6">
+            <input class="form-control text-left" id="v7" type="text" placeholder="贸易方式" name="trademethod"/>
+        </div>
+    </div>
+        <div class="form-group">
+        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="v8">运输方式：</label>
+        <div class="col-xs-6">
+            <input class="form-control text-left" id="v8" type="text" placeholder="运输方式" name="trfstyle"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="v9">船公司名称：</label>
+        <div class="col-xs-6">
+            <input class="form-control text-left" id="v9" type="text" placeholder="船公司" name="boatname"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="v10">船期(班次)：</label>
+        <div class="col-xs-6">
+            <input class="form-control text-left" id="v10" type="text" placeholder="船期(班次)" name="saildate"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="v11">航程时间：</label>
+        <div class="col-xs-6">
+            <input class="form-control text-left" id="v11" type="text" placeholder="航程时间" name="sailtime"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="v12">国内段费用合计：</label>
+        <div class="col-xs-6">
+            <input class="form-control text-left" id="v12" type="text" placeholder="国内段费用合计" name="hometotalcost"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="v13">海运(空运)费：</label>
+        <div class="col-xs-6">
+            <input class="form-control text-left" id="v13" type="text" placeholder="海运费（空运费）" name="Oceancost"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="v14">港口附加费：</label>
+        <div class="col-xs-6">
+            <input class="form-control text-left" id="v14" type="text" placeholder="港口附加费" name="portextracost"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="v15">附加费备注：</label>
+        <div class="col-xs-6">
+            <input class="form-control text-left" id="v15" type="text" placeholder="附加费备注" name="extracostremak"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="v16">国外目的地费用：</label>
+        <div class="col-xs-6">
+            <input class="form-control text-left" id="v16" type="text" placeholder="国外目的地费用" name="abroadcost"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="v17">销售总报价(元)：</label>
+        <div class="col-xs-6">
+            <input class="form-control text-left" id="v17" type="text" placeholder="销售总报价(元)" name="Saltotalcost"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="v18">销售报价(元)：</label>
+        <div class="col-xs-6">
+            <input class="form-control text-left" id="v18" type="text" placeholder="销售报价(元)" name="salcost"/>
+        </div>
+    </div>       
+    <div class="form-group">
+        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="v19" style="padding-top: 0">备注：</label>
+        <div class="col-xs-6">
+        	<textarea class="form-control" id="v19" type="text" name="remarks"></textarea>       
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-4 col-xs-offset-1 control-label" for="v"></label>
+        <div class="col-xs-6 text-right">
+            <button type="button" class="btn btn-10">取消</button>
+            <button id="v" type="submit" class="btn btn-primary">保存</button>
+        </div>
+    </div>
+</form>
+
+<script src="../../vendor/jquery/jquery.min.js"></script>
+<script src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="../../vendor/metisMenu/metisMenu.min.js"></script>
+<script src="../../dist/js/sb-admin-2.js"></script>
+<script src="../../resource/bootstrapValidator/js/bootstrapValidator.min.js"></script>
+<script src="../../resource/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script> 
+<script src="../../resource/bootstrap-datetimepicker/js/moment-with-locales.min.js"></script>
+<script src="../../resource/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+<script>
+$(function () {	
+	$(".form_datetime").datetimepicker({
+   	 format: "yyyy-mm-dd",
+   	 autoclose: true,
+   	 todayBtn: true,
+   	 todayHighlight: true,
+   	 showMeridian: true,
+   	 pickerPosition: "bottom-left",
+   	 language: 'zh-CN',//中文，需要引用zh-CN.js包
+   	 startView: 2,//月视图
+   	 minView: 2//日期时间选择器所能够提供的最精确的时间选择视图
+   	 });  
+    $('form').bootstrapValidator({
+    	message: 'This value is not valid',
+    	feedbackIcons: {
+    	 	valid: 'glyphicon glyphicon-ok',
+    	 	invalid: 'glyphicon glyphicon-remove',
+    	 	validating: 'glyphicon glyphicon-refresh'
+    					},　　　
+        fields: {
+        	datetime: {
+                message: '验证失败',
+                validators: {
+                    notEmpty: {
+                        message: '日期不能为空'
+                    }
+                }
+            },
+            projectname: {
+                message: '验证失败',
+                validators: {
+                    notEmpty: {
+                        message: '项目名称不能为空'
+                    },
+            		regexp: {
+                    	regexp: /^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$/,
+                    	message: '不能有特殊字符'
+            		}
+                }
+            },
+            carstyle: {
+                validators: {
+                    notEmpty: {
+                        message: '柜型不能为空'
+                    },
+            		regexp: {
+                    	regexp: /^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$/,
+                    	message: '不能有特殊字符'
+            		}
+                }
+            },
+            Shipmentplace: {
+                validators: {
+                    notEmpty: {
+                        message: '出货地不能为空'
+                    },
+            		regexp: {
+                    	regexp: /^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$/,
+                    	message: '不能有特殊字符'
+            		}
+                }
+            },
+            descountry: {
+                validators: {
+                    notEmpty: {
+                        message: '目的国家不能为空'
+                    },
+            		regexp: {
+                    	regexp: /^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$/,
+                    	message: '不能有特殊字符'
+            		}
+                }
+            },
+            desport: {
+                validators: {
+                    notEmpty: {
+                        message: '目的港口不能为空'
+                    },
+            		regexp: {
+                    	regexp: /^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$/,
+                    	message: '不能有特殊字符'
+            		}
+                }
+            },
+            trademethod: {
+                validators: {
+                    notEmpty: {
+                        message: '贸易方式'
+                    },
+            		regexp: {
+                    	regexp: /^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$/,
+                    	message: '不能有特殊字符'
+            		}
+                }
+            },
+            trfstyle: {
+                validators: {
+                    notEmpty: {
+                        message: '运输方式'
+                    },
+            		regexp: {
+                    	regexp: /^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$/,
+                    	message: '不能有特殊字符'
+            		}
+                }
+            },
+            boatname: {
+                validators: {
+                    notEmpty: {
+                        message: '船公司名称'
+                    },
+            		regexp: {
+                    	regexp: /^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$/,
+                    	message: '不能有特殊字符'
+            		}
+                }
+            },
+            saildate: {
+                validators: {
+                    notEmpty: {
+                        message: '船期不能为空'
+                    },
+            		regexp: {
+                    	regexp: /^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$/,
+                    	message: '不能有特殊字符'
+            		}
+                }
+            },
+            sailtime: {
+                validators: {
+                    notEmpty: {
+                        message: '航程时间不能为空'
+                    },
+            		regexp: {
+                    	regexp: /^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$/,
+                    	message: '不能有特殊字符'
+            		}
+                }
+            },
+            hometotalcost: {
+                validators: {
+                    notEmpty: {
+                        message: '国内段费用合计不能为空'
+                    },
+                    regexp: {
+                        regexp: /^[0-9]+(\.[0-9]{1,8})?$/,
+                        message: '请输入正确的金额'
+                    }
+                }
+            },
+            Oceancost: {
+                validators: {
+                    notEmpty: {
+                        message: '海运(空运)费不能为空'
+                    },
+                    regexp: {
+                        regexp: /^[0-9]+(\.[0-9]{1,8})?$/,
+                        message: '请输入正确的金额'
+                    }
+                }
+            },
+            portextracost: {
+                validators: {
+                    notEmpty: {
+                        message: '港口附加费不能为空'
+                    },
+                    regexp: {
+                        regexp: /^[0-9]+(\.[0-9]{1,8})?$/,
+                        message: '请输入正确的金额'
+                    }
+                }
+            },
+            extracostremak: {
+                	//附加费备注
+            },
+            abroadcost: {
+                validators: {
+                    notEmpty: {
+                        message: '国外目的费用不能为空'
+                    },
+                    regexp: {
+                        regexp: /^[0-9]+(\.[0-9]{1,8})?$/,
+                        message: '请输入正确的金额'
+                    }
+                }
+            },
+            Saltotalcost: {
+                validators: {
+                	notEmpty: {
+                        message: '销售总报价不能为空'
+                    },
+                    regexp: {
+                        regexp: /^[0-9]+(\.[0-9]{1,8})?$/,
+                        message: '请输入正确的金额'
+                    }
+                }
+            },
+            salcost: {
+                validators: {
+                	notEmpty: {
+                        message: '销售报价不能为空'
+                    },
+                    regexp: {
+                        regexp: /^[0-9]+(\.[0-9]{1,8})?$/,
+                        message: '请输入正确的金额'
+                    }
+                }
+            },
+            remarks: {
+                //备注
+            },
+           
+
+        }
+    });
+    
+});
+</script>
+
+</body>
+
+</html>

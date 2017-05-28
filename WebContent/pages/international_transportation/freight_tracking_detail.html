@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>货物运输跟踪管理</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="../../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="../../dist/css/sb-admin-2.css" rel="stylesheet">
+    <link href="../../css/admin.css" rel="stylesheet">
+    <link href="../../resource/bootstrapvalidator/css/bootstrapValidator.min.css" rel="stylesheet">
+	<link href="../../resource/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <style type="text/css">
+		body { margin:0 15px;}
+		form { margin-top:20px;}
+		label { padding-top:6px;padding-right:0;}
+	</style>
+	
+    <!-- Custom Fonts -->
+    <link href="../../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+    <form class="form-horizontal" role="form">
+        <!-- <div class="form-group">
+            <label class="col-xs-5 control-label text-right"for="v1">创建日期：</label>
+            <div class="col-xs-6">
+	            <input class="form_datetime form-control " id="v2" type="text" placeholder="请选择日期" name="entrustment_date">
+	        </div>
+        </div> -->
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right"for="v2">出厂日期：</label>
+            <div class="col-xs-6">
+	            <input class="form_datetime form-control " id="v2" type="text" placeholder="出厂日期" name="factory_date">
+	        </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v3">收货人：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v3" type="text" placeholder="收货人" name="receiver">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v4">发票号：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v4" type="text" placeholder="发票号" name="invoice_no">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v5">数量（PC）：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v5" type="text" placeholder="数量" name="quantity_pc">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v6">币种：</label>
+            <div class="col-xs-6">
+	            <select id="v6" class="form-control" name="currency">
+	                <option value="">请选择币种</option>
+	                <option value="1">人民币（RMB）</option>
+	                <option value="2">美元（USD）</option>
+	                <option value="3">欧元（EUR）</option>
+	            </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v7">币值：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v7" type="text" placeholder="币值" name="currency_value">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v8">贸易条款：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v8" type="text" placeholder="贸易条款" name="trade_clause">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v9">目的港：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v9" type="text" placeholder="目的港" name="destination">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v10">报关口岸：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v10" type="text" placeholder="报关口岸" name="entry_port">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v11">起运港：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v11" type="text" placeholder="起运港" name="loading_port">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v12">运输方式：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v2" type="text" placeholder="运输方式" name="transport">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v13">重量：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v13" placeholder="重量" name="weight">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v14">体积：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v14" type="text" placeholder="体积" name="volume">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v15">箱量：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v15" type="text" placeholder="箱量" name="container_quantity">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v16">船公司（航空公司）：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v16" placeholder="船公司（航空公司）" name="airline">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v17">船航次（航班号）：</label>
+            <div class="col-xs-6">
+                <input class="form-control " id="v17" type="text" placeholder="船航次（航班号）" name="flight_no">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v18">预计离港：</label>
+            <div class="col-xs-6">
+                <input class="form_datetime form-control " id="v18" type="text" placeholder="预计离港日期" name="estimated_departure_date">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v19">实际离港：</label>
+            <div class="col-xs-6">
+                <input class="form_datetime form-control " id="v19" type="text" placeholder="实际离港日期" name="actual_departure_date">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v20">预计到港：</label>
+            <div class="col-xs-6">
+                <input class="form_datetime form-control" id="v20" type="text" placeholder="预计到港日期" name="estimated_arrival_date">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v21">实际到港：</label>
+            <div class="col-xs-6">
+                <input class="form_datetime form-control" id="v21" type="text" placeholder="实际到港日期" name="actual_arrival_date">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v22">申报日期：</label>
+            <div class="col-xs-6">
+                <input class="form_datetime form-control" id="v22" type="text" placeholder="申报日期" name="declaration_date">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v23">预录单号：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v23" type="text" placeholder="预录单号" name="pre_record_no">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v24">预录时间：</label>
+            <div class="col-xs-6">
+                <input class="form_datetime form-control" id="v24" type="text" placeholder="预录时间" name="pre_record_time">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v25">预提单号：</label>
+            <div class="col-xs-6">
+                <input class="form-control " id="v25" type="text" placeholder="预提单号" name="pre_bl_no">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v26">提单送达日期：</label>
+            <div class="col-xs-6">
+                <input class="form_datetime form-control" id="v26" type="text" placeholder="请选择日期" name="bl_arrive_date">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v27">出单方式：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v27" type="text" placeholder="请选择出单方式" name="issue_type">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v28">退单时间：</label>
+            <div class="col-xs-6">
+                <input class="form_datetime form-control" id="v28" type="text" placeholder="请选择日期" name="chargeback_time">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v29">IMO NO：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v29" type="text" placeholder="IMO NO" name="imo_no">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v30">供应商：</label>
+            <div class="col-xs-6">
+                <select id="v30" class="form-control" name="forwarder">
+	                <option value="">请选择供应商</option>
+	                <option value="1">圆通</option>
+	                <option value="2">中通</option>
+	                <option value="3">顺丰</option>
+	            </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v31">FREE DM：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v31" type="text" placeholder="FREE DM" name="free_dm">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v32">FREE DT：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v32" type="text" placeholder="FREE DT" name="free_dt">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v33">集装箱号：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v33" type="text" placeholder="集装箱号" name="container_no">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v34" style="padding-top:0;">备注：</label>
+            <div class="col-xs-6">
+                <textarea class="form-control" id="v34" placeholder="备注" name="remark"></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label" for="v"></label>
+            <div class="col-xs-6 text-right">
+	            <button type="button" class="btn btn-10">取消</button>
+	            <button id="v" type="submit" class="btn btn-11">保存</button>
+        	</div>
+        </div>
+    </form>
+<!-- jQuery -->
+<script src="../../vendor/jquery/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
+
+<!-- Metis Menu Plugin JavaScript -->
+<script src="../../vendor/metisMenu/metisMenu.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="../../resource/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
+<script src="../../resource/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script> 
+<script src="../../resource/bootstrap-datetimepicker/js/moment-with-locales.min.js"></script>
+<script src="../../resource/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+
+<script type="text/javascript">
+$(function(){
+   	// 日期控件
+   	$(".form_datetime").datetimepicker({
+   		format: "yyyy-mm-dd",
+   		autoclose: true,
+   		todayBtn: true,
+   		todayHighlight: true,
+   		showMeridian: true,
+   		pickerPosition: "bottom-left",
+   		language: 'zh-CN',//中文，需要引用zh-CN.js包
+   		startView: 2,//月视图
+   		minView: 2//日期时间选择器所能够提供的最精确的时间选择视图
+   	});
+	// 表单校验
+	$('form').bootstrapValidator({
+		message: 'This value is not valid',
+		feedbackIcons: {
+			valid: 'glyphicon glyphicon-ok',
+			invalid: 'glyphicon glyphicon-remove',
+			validating: 'glyphicon glyphicon-refresh'
+		},
+		fields: {
+			factory_date: {
+				validators: {
+					notEmpty: {
+						message: '请选择日期!'
+					}
+				}
+			},
+			receiver: {
+				validators: {
+					notEmpty: {
+						message: '不能为空!'
+					},
+					regexp: {
+	                    regexp: /^[a-zA-Z0-9_\u0391-\uFFE5]+$/,
+	                    message: '不能包含特殊字符'
+	                },
+				}
+			},
+			invoice_no: {
+				validators: {
+					notEmpty: {
+						message: '不能为空!'
+					},
+					regexp: {
+	                    regexp: /^[a-zA-Z0-9_\u0391-\uFFE5]+$/,
+	                    message: '不能包含特殊字符'
+	                },
+				}
+			},
+			quantity_pc: {
+				validators: {
+					notEmpty: {
+						message: '不能为空!'
+					},
+					regexp: {
+	                    regexp: /^[0-9]+$/,
+	                    message: '正确的数量'
+	                }
+				}
+			},
+			currency: {
+				validators: {
+					notEmpty: {
+						message: '不能为空!'
+					}
+				}
+			},
+			currency_value: {
+				validators: {
+					notEmpty: {
+						message: '不能为空!'
+					},
+					regexp: {
+                        regexp: /^[0-9]+(\.[0-9]{1,})?$/,
+                        message: '正确的币值'
+                    }
+				}
+			},
+			trade_clause: {
+				validators: {
+					notEmpty: {
+						message: '不能为空!'
+					},
+					regexp: {
+	                    regexp: /^[a-zA-Z0-9_\u0391-\uFFE5]+$/,
+	                    message: '不能包含特殊字符'
+	                }
+				}
+			},
+			destination: {
+				validators: {
+					notEmpty: {
+						message: '不能为空!'
+					},
+					regexp: {
+	                    regexp: /^[a-zA-Z0-9_\u0391-\uFFE5]+$/,
+	                    message: '不能包含特殊字符'
+	                },
+				}
+			},
+			entry_port: {
+				validators: {
+					notEmpty: {
+						message: '不能为空!'
+					},
+					regexp: {
+	                    regexp: /^[a-zA-Z0-9_\u0391-\uFFE5]+$/,
+	                    message: '不能包含特殊字符'
+	                },
+				}
+			},
+			loading_port: {
+				validators: {
+					notEmpty: {
+						message: '不能为空!'
+					},
+					regexp: {
+	                    regexp: /^[a-zA-Z0-9_\u0391-\uFFE5]+$/,
+	                    message: '不能包含特殊字符'
+	                },
+				}
+			},
+			transport: {
+				validators: {
+					notEmpty: {
+						message: '不能为空!'
+					},
+					regexp: {
+	                    regexp: /^[a-zA-Z0-9_\u0391-\uFFE5]+$/,
+	                    message: '不能包含特殊字符'
+	                },
+				}
+			},
+			weight: {
+				validators: {
+					notEmpty: {
+						message: '不能为空!'
+					},
+					regexp: {
+	                    regexp: /^[0-9]+(\.[0-9]{1,})?$/,
+	                    message: '正确的重量'
+	                }
+				}
+			},
+			volume: {
+				validators: {
+					notEmpty: {
+						message: '不能为空!'
+					},
+					regexp: {
+	                    regexp: /^[0-9]+(\.[0-9]{1,})?$/,
+	                    message: '正确的体积'
+	                }
+				}
+			},
+			container_quantity: {
+				validators: {
+					notEmpty: {
+						message: '不能为空!'
+					},
+					regexp: {
+	                    regexp: /^[0-9]+$/,
+	                    message: '正确的数量'
+	                }
+				}
+			},
+			airline: {
+				validators: {
+					notEmpty: {
+						message: '不能为空!'
+					},
+					regexp: {
+	                    regexp: /^[a-zA-Z0-9_\u0391-\uFFE5]+$/,
+	                    message: '不能包含特殊字符'
+	                },
+				}
+			},
+			flight_no: {
+				validators: {
+					notEmpty: {
+						message: '不能为空!'
+					}
+				}
+			},
+			estimated_departure_date: {
+				validators: {
+					notEmpty: {
+						message: '请选择日期!'
+					}
+				}
+			},
+			actual_departure_date: {
+				validators: {
+					notEmpty: {
+						message: '请选择日期!'
+					},
+					regexp: {
+	                    regexp: /^[a-zA-Z0-9_\u0391-\uFFE5]+$/,
+	                    message: '不能包含特殊字符'
+	                }
+				}
+			},
+			estimated_arrival_date: {
+				validators: {
+					notEmpty: {
+						message: '请选择日期!'
+					}
+				}
+			},
+			actual_arrival_date: {
+				validators: {
+					notEmpty: {
+						message: '请选择日期!'
+					}
+				}
+			},
+			declaration_date: {
+				validators: {
+					notEmpty: {
+						message: '请选择日期!'
+					}
+				}
+			},
+			pre_record_no: {
+				validators: {
+					notEmpty: {
+						message: '不能为空!'
+					},
+					regexp: {
+	                    regexp: /^[a-zA-Z0-9_\u0391-\uFFE5]+$/,
+	                    message: '不能包含特殊字符'
+	                }
+				}
+			},
+			pre_record_time: {
+				validators: {
+					notEmpty: {
+						message: '请选择日期!'
+					}
+				}
+			},
+			pre_bl_no: {
+				validators: {
+					notEmpty: {
+						message: '不能为空!'
+					},
+					regexp: {
+	                    regexp: /^[a-zA-Z0-9_\u0391-\uFFE5]+$/,
+	                    message: '不能包含特殊字符'
+	                }
+				}
+			},
+			bl_arrive_date: {
+				validators: {
+					notEmpty: {
+						message: '请选择日期!'
+					}
+				}
+			},
+			issue_type: {
+				validators: {
+					notEmpty: {
+						message: '不能为空!'
+					},
+					regexp: {
+	                    regexp: /^[a-zA-Z0-9_\u0391-\uFFE5]+$/,
+	                    message: '不能包含特殊字符'
+	                },
+				}
+			},
+			chargeback_time: {
+				validators: {
+					notEmpty: {
+						message: '请选择日期!'
+					}
+				}
+			},
+			imo_no: {
+				validators: {
+					notEmpty: {
+						message: '不能为空!'
+					},
+					regexp: {
+	                    regexp: /^[a-zA-Z0-9_\u0391-\uFFE5]+$/,
+	                    message: '不能包含特殊字符'
+	                }
+				}
+			},
+			forwarder: {
+				validators: {
+					notEmpty: {
+						message: '不能为空!'
+					}
+				}
+			},
+			free_dm: {
+				validators: {
+					notEmpty: {
+						message: '不能为空!'
+					},
+					regexp: {
+	                    regexp: /^[0-9]+(\.[0-9]{1,})?$/,
+	                    message: '请输入正确的金额'
+	                }
+				}
+			},
+			free_dt: {
+				validators: {
+					notEmpty: {
+						message: '不能为空!'
+					},
+					regexp: {
+	                    regexp: /^[0-9]+(\.[0-9]{1,})?$/,
+	                    message: '请输入正确的金额'
+	                }
+				}
+			},
+			container_no: {
+				validators: {
+					notEmpty: {
+						message: '不能为空!'
+					}
+				}
+			},
+			remark: {
+				validators: {
+					stringLength: {
+	                    min: 0,
+	                    max: 200,
+	                    message: '最多200个字符'
+	                }
+				}
+			},
+			
+		}
+	});
+});
+</script>
+
+</body>
+
+</html>

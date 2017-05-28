@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>供应商对账表（国内 ）</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="../../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="../../dist/css/sb-admin-2.css" rel="stylesheet">
+    <link href="../../css/admin.css" rel="stylesheet">
+    <link href="../../resource/bootstrapvalidator/css/bootstrapValidator.min.css" rel="stylesheet">
+    <link href="../../resource/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+	<style type="text/css">
+		body { margin:0 15px;}
+		form { margin-top:20px;}
+		label { padding-top:6px;padding-right:0;}
+	</style>
+	
+    <!-- Custom Fonts -->
+    <link href="../../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+    <form class="form-horizontal" role="form">
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right"for="v1">出库单号：</label>
+            <div class="col-xs-6">
+            <input class="form-control" id="v1" type="text" placeholder="请输出库单号" name="outbound"/>
+        </div>
+        </div>
+        <div class="form-group">
+			<label class="col-xs-5 control-label text-right" for="v2">运输公司：</label>
+			<div class="col-xs-6">
+				<select id="v2" class="form-control" name="enterprise">
+	                <option value="">请选择供应商</option>
+	                <option value="1">圆通</option>
+	                <option value="2">中通</option>
+	                <option value="3">顺丰</option>
+	            </select>
+			</div>
+		</div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v3">运单号：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v3" type="text" placeholder="运单号" name="waybill">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v4">委托日期：</label>
+            <div class="col-xs-6">
+                <input class="form_datetime form-control" id="v4" type="text" placeholder="委托日期" name="delegation_date">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v5">发件方公司：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v5" type="text" placeholder="发件方公司" name="sender">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v6">收件方公司：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v6" type="text" placeholder="收件方公司" name="receiver">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v7">起运地：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v7" type="text" placeholder="起运地" name="origin">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v8">目的地：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v8" type="text" placeholder="目的地" name="destination">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v9">付费指示：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v9" type="text" placeholder="付费指示" name="payment_instruction">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v10">车型：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v10" type="text" placeholder="车型" name="motorcycle_type">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v11">车牌号码：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v11" type="text" placeholder="车牌号码" name="bus_no">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v12">司机姓名：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v12" type="text" placeholder="司机姓名" name="driver">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v13">手机号码：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v13" type="text" placeholder="手机号码" name="phone">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v14">件数/毛重/体积：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v14" type="text" placeholder="件数/毛重/体积" name="quantity">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v15">实际出厂日：</label>
+            <div class="col-xs-6">
+                <input class="form_datetime form-control" id="v15" type="text" placeholder="实际出厂日" name="actual_factory_date" >
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v16">预计到达日：</label>
+            <div class="col-xs-6">
+                <input class="form_datetime form-control" id="v16" type="text" placeholder="预计到达日" name="estimated_arrival_date">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v17">实际签收日：</label>
+            <div class="col-xs-6">
+                <input class="form_datetime form-control" id="v17" type="text" placeholder="实际签收日" name="actual_sign_date">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v19">报价费用：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v19" type="text" placeholder="报价费用" name="quotation_cost">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v20">额外费用：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v20" type="text" placeholder="额外费用" name="extra_cost">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v21">实际收费：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v21" type="text" placeholder="实际收费（含11%税）" name="actual_cost">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v21">货物种类：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="v21" type="text" placeholder="货物种类" name="goods_type">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="v18" style="padding-top:0;">备注：</label>
+            <div class="col-xs-6">
+                <textarea class="form-control" id="v18" placeholder="备注" name="remark"></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label" for="v5"></label>
+            <div class="col-xs-6 text-right">
+	            <button type="button" class="btn btn-10">取消</button>
+	            <button id="v" type="submit" class="btn btn-11">保存</button>
+        	</div>
+        </div>
+    </form>
+<!-- jQuery -->
+<script src="../../vendor/jquery/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
+
+<!-- Metis Menu Plugin JavaScript -->
+<script src="../../vendor/metisMenu/metisMenu.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="../../resource/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
+<script src="../../resource/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script> 
+<script src="../../resource/bootstrap-datetimepicker/js/moment-with-locales.min.js"></script>
+<script src="../../resource/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+
+<script type="text/javascript">
+$(function(){
+   	// 日期控件
+   	$(".form_datetime").datetimepicker({
+   		format: "yyyy-mm-dd",
+   		autoclose: true,
+   		todayBtn: true,
+   		todayHighlight: true,
+   		showMeridian: true,
+   		pickerPosition: "bottom-left",
+   		language: 'zh-CN',//中文，需要引用zh-CN.js包
+   		startView: 2,//月视图
+   		minView: 2//日期时间选择器所能够提供的最精确的时间选择视图
+   	});
+	// 表单校验
+	$('form').bootstrapValidator({
+		message: 'This value is not valid',
+		feedbackIcons: {
+			valid: 'glyphicon glyphicon-ok',
+			invalid: 'glyphicon glyphicon-remove',
+			validating: 'glyphicon glyphicon-refresh'
+		},
+		fields: {
+			outbound: {
+				validators: {
+					notEmpty: {
+						message: '不能为空!'
+					}
+				}
+			},
+			enterprise: {
+				validators: {
+					notEmpty: {
+						message: '请选择供应商!'
+					}
+				}
+			},
+			waybill: {
+				validators: {
+					notEmpty: {
+						message: '不能为空!'
+					}
+				}
+			},
+			delegation_date: {
+				validators: {
+					notEmpty: {
+						message: '请选择日期!'
+					}
+				}
+			},
+			sender: {
+				validators: {
+					notEmpty: {
+						message: '不能为空!'
+					},
+					regexp: {
+                        regexp: /^[a-zA-Z0-9_\u0391-\uFFE5]+$/,
+                        message: '不能包含特殊字符'
+                    },
+				}
+			},
+			receiver: {
+				validators: {
+					notEmpty: {
+						message: '不能为空!'
+					},
+					regexp: {
+                        regexp: /^[a-zA-Z0-9_\u0391-\uFFE5]+$/,
+                        message: '不能包含特殊字符'
+                    },
+				}
+			},
+			origin: {
+				validators: {
+					notEmpty: {
+						message: '不能为空!'
+					},
+					regexp: {
+                        regexp: /^[a-zA-Z0-9_\u0391-\uFFE5]+$/,
+                        message: '不能包含特殊字符'
+                    },
+			
+				}
+			},
+			destination: {
+				validators: {
+					notEmpty: {
+						message: '不能为空!'
+					},
+					regexp: {
+                        regexp: /^[a-zA-Z0-9_\u0391-\uFFE5]+$/,
+                        message: '不能包含特殊字符'
+                    },
+				}
+			},
+			payment_instruction: {
+				validators: {
+					notEmpty: {
+						message: '不能为空!'
+					}
+				}
+			},
+			motorcycle_type: {
+				validators: {
+					notEmpty: {
+						message: '不能为空!'
+					}
+				}
+			},
+			bus_no: {
+				validators: {
+					notEmpty: {
+						message: '不能为空!'
+					},
+					regexp: {
+	                    regexp: /^[a-zA-Z0-9_\u0391-\uFFE5]+$/,
+	                    message: '不能包含特殊字符'
+	                },
+				}
+			},
+			driver: {
+				validators: {
+					notEmpty: {
+						message: '不能为空!'
+					},
+					regexp: {
+	                    regexp: /^[a-zA-Z0-9_\u0391-\uFFE5]+$/,
+	                    message: '不能包含特殊字符'
+	                },
+				}
+			},
+			phone: {
+				validators: {
+					notEmpty: {
+						message: '不能为空!'
+					},
+				/* regexp: {
+                    regexp: /^[a-zA-Z0-9_\u0391-\uFFE5]+$/,
+                    message: '不能包含特殊字符'
+                }, */
+				}
+			},
+			quantity: {
+				validators: {
+					notEmpty: {
+						message: '不能为空!'
+					},
+				/* regexp: {
+                    regexp: ,
+                    message: ''
+                }, */
+				}
+			},
+			actual_factory_date: {
+				validators: {
+					notEmpty: {
+						message: '请选择日期!'
+					}
+				}
+			},
+			estimated_arrival_date: {
+				validators: {
+					notEmpty: {
+						message: '请选择日期!'
+					}
+				}
+			},
+			actual_sign_date: {
+				validators: {
+					notEmpty: {
+						message: '请选择日期!'
+					}
+				}
+			},
+			remark: {
+				validators: {
+					stringLength: {
+	                    min: 0,
+	                    max: 200,
+	                    message: '最多200个字符'
+	                }
+				}
+			},
+			quotation_cost: {
+				validators: {
+					notEmpty: {
+						message: '不能为空!'
+					},
+					regexp: {
+	                    regexp: /^[0-9]+(\.[0-9]{1,})?$/,
+	                    message: '请输入正确的金额'
+	                }
+				}
+			},
+			extra_cost: {
+				validators: {
+					notEmpty: {
+						message: '不能为空!'
+					},
+					regexp: {
+	                    regexp: /^[0-9]+(\.[0-9]{1,})?$/,
+	                    message: '请输入正确的金额'
+	                }
+				}
+			},
+			actual_cost: {
+				validators: {
+					notEmpty: {
+						message: '不能为空!'
+					},
+					regexp: {
+	                    regexp: /^[0-9]+(\.[0-9]{1,})?$/,
+	                    message: '请输入正确的金额'
+	                }
+				}
+			},
+			goods_type: {
+				validators: {
+					notEmpty: {
+						message: '不能为空!'
+					}
+				}
+			},
+		}
+	});
+});
+
+</script>
+</body>
+
+</html>

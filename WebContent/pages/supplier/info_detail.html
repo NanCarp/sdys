@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>供应商信息管理</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="../../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="../../dist/css/sb-admin-2.css" rel="stylesheet">
+	<link href="../../css/admin.css" rel="stylesheet">
+	<link href="../../resource/bootstrapvalidator/css/bootstrapValidator.min.css" rel="stylesheet">
+	<style type="text/css">
+		body { margin:0 15px;}
+		form { margin-top:20px;}
+		label { padding-top:6px;padding-right:0;}
+	</style>
+	
+    <!-- Custom Fonts -->
+    <link href="../../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+<form id="defaultForm" class="form-horizontal" role="form">
+	<#if info??>
+	<div class="form-group">
+		<label class="col-xs-5 control-label text-right" for="v1">注册代码：</label>
+		<div class="col-xs-6">
+            <input class="form-control" id="v1" type="text" name="registrationCode" value="${info.registration_code}" readonly/>
+        </div>
+    </div>
+    <div class="form-group">
+		<label class="col-xs-5 control-label text-right" for="v2">货代名称：</label>
+		<div class="col-xs-6">
+            <input class="form-control" id="v2" type="text" placeholder="货代名称"  name="forwarder" value="${info.supplier_name}"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="v3">合同号：</label>
+        <div class="col-xs-6">
+            <input class="form-control" id="v3" type="text" placeholder="合同号"  name="contract_no" value="${info.contract_no}"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="v4">货代等级：</label>
+        <div class="col-xs-6">
+            <select id="v4" class="form-control" name="level">
+                <option value="">请选择等级</option>
+                <option value="1">AA</option>
+                <option value="2">A</option>
+                <option value="3">B</option>
+                <option value="4">C</option>
+                <option value="5">D</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+		<label class="col-xs-5 control-label text-right" for="v5">货代类型：</label>
+		<div class="col-xs-6">
+			<select id="v5" class="form-control" name="type">
+				<option value="">请选择供应商类型</option>
+				<option value="1">备选</option>
+				<option value="2">合格</option>
+			</select>
+		</div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="v6">业务范围：</label>
+        <div class="col-xs-6">
+            <input class="form-control" id="v6" type="text" placeholder="业务范围" name="scope" value="${info.supplier_field}"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="v7">合作年限：</label>
+        <div class="col-xs-6">
+			<select id="v7" class="form-control" name="cooperationDuration">
+				<option value="">合作年限</option>
+				<option value="1">1年</option>
+				<option value="2">2年</option>
+				<option value="3">3年</option>
+				<option value="4">4年</option>
+				<option value="5">5年</option>
+			</select>
+		</div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="v8">保证金：</label>
+        <div class="col-xs-6">
+            <input class="form-control" id="v8" type="text" placeholder="保证金（万元）" name="deposit"  value="${info.supplier_bail}"/>
+        </div>
+    </div>
+    <div class="form-group">
+		<label class="col-xs-5 control-label text-right" for="v9">联系人：</label>
+		<div class="col-xs-6">
+			<select id="v9" class="form-control" name="contact">
+			<option value="">联系人</option>
+			<option value="1">丁聪华</option>
+			<option value="2">孙蝶妃</option>
+			<option value="3">陈莲眉</option>
+			</select>
+		</div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="v10">联系电话：</label>
+        <div class="col-xs-6">
+            <input class="form-control" id="v10" type="text" placeholder="联系电话" name="phone" value="${info.phone}"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="v11">邮箱：</label>
+        <div class="col-xs-6">
+            <input class="form-control" id="v11" type="text" placeholder="邮箱" name="email" value="${info.email}"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="v12" style="padding-top:0;">备注：</label>
+        <div class="col-xs-6">
+            <textarea class="form-control" id="v12" type="text" placeholder="备注" name="remark">${info.remark}</textarea>
+        </div>
+    </div>
+	<#else>
+    <!-- <div class="form-group">
+		<label class="col-xs-5 control-label text-right" for="v1">注册代码：</label>
+		<div class="col-xs-6">
+            <input class="form-control" id="v1" type="text" placeholder="02316598"  name="register_no" readonly/>
+        </div>
+    </div> -->
+    <div class="form-group">
+		<label class="col-xs-5 control-label text-right" for="v2">货代名称：</label>
+		<div class="col-xs-6">
+			<select id="v2" class="form-control" name="forwarder">
+				<option value="">请选择货代</option>
+				<#if forwarderList??>
+				<#list forwarderList as forwarder>
+				<option value="${forwarder.supplier_id}" _state="${forwarder.state}">${forwarder.supplier_name}</option>
+				</#list>
+				</#if>
+			</select>
+		</div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="v3">合同号：</label>
+        <div class="col-xs-6">
+            <input class="form-control" id="v3" type="text" placeholder="合同号"  name="contract_no"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="v4">货代等级：</label>
+        <div class="col-xs-6">
+            <select id="v4" class="form-control" name="level">
+                <option value="">请选择等级</option>
+                <option value="AA">AA</option>
+                <option value="A">A</option>
+                <option value="B">B</option>
+                <option value="C">C</option>
+                <option value="D">D</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+		<label class="col-xs-5 control-label text-right" for="v5">货代类型：</label>
+		<div class="col-xs-6">
+			<input class="form-control" id="v5" type="text" placeholder="供应商类型"  name="type"  value="" readonly/>
+		</div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="v6">业务范围：</label>
+        <div class="col-xs-6">
+            <input class="form-control" id="v6" type="text" placeholder="业务范围" name="scope"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="v7">合作年限：</label>
+        <div class="col-xs-6">
+			<select id="v7" class="form-control" name="cooperationDuration">
+				<option value="">合作年限</option>
+				<option value="1">1年</option>
+				<option value="2">2年</option>
+				<option value="3">3年</option>
+				<option value="4">4年</option>
+				<option value="5">5年</option>
+			</select>
+		</div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="v8">保证金：</label>
+        <div class="col-xs-6">
+            <input class="form-control" id="v8" type="text" placeholder="保证金（万元）" name="deposit"/>
+        </div>
+    </div>
+    <div class="form-group">
+		<label class="col-xs-5 control-label text-right" for="v9">联系人：</label>
+		<div class="col-xs-6">
+			<select id="v9" class="form-control" name="contact">
+			<option value="">联系人</option>
+			<option value="丁聪华">丁聪华</option>
+			<option value="孙蝶妃">孙蝶妃</option>
+			<option value="陈莲眉">陈莲眉</option>
+			</select>
+		</div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="v10">联系电话：</label>
+        <div class="col-xs-6">
+            <input class="form-control" id="v10" type="text" placeholder="联系电话" name="phone"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="v11">邮箱：</label>
+        <div class="col-xs-6">
+            <input class="form-control" id="v11" type="text" placeholder="邮箱" name="email"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="v12" style="padding-top:0;">备注：</label>
+        <div class="col-xs-6">
+            <textarea class="form-control" id="v12" placeholder="备注" name="remark"></textarea>
+        </div>
+    </div>
+    </#if>
+    <div class="form-group">
+        <label class="col-xs-5 control-label" for="v"></label>
+        <div class="col-xs-6 text-right">
+            <button type="button" class="btn btn-10">取消</button>
+            <button id="v" type="submit" class="btn btn-11">保存</button>
+        </div>
+    </div>
+</form>
+<!-- jQuery -->
+<script src="../../vendor/jquery/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
+
+<!-- Metis Menu Plugin JavaScript -->
+<script src="../../vendor/metisMenu/metisMenu.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="../../dist/js/sb-admin-2.js"></script>
+<script src="../../resource/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
+
+<script type="text/javascript">
+$(function(){
+	// 表单校验
+	$('#defaultForm').bootstrapValidator({
+		message: 'This value is not valid',
+		feedbackIcons: {
+			valid: 'glyphicon glyphicon-ok',
+			invalid: 'glyphicon glyphicon-remove',
+			validating: 'glyphicon glyphicon-refresh'
+		},
+		fields: {
+			forwarder: {
+				validators: {
+					notEmpty: {
+						message: '不能为空!'
+					}
+				}
+			},
+			contract_no: {
+				validators: {
+					notEmpty:{
+						message: '不能为空!'
+					},
+					regexp: {
+                        regexp: /^[a-zA-Z0-9]+$/,
+                        message: '只能包含大写、小写、数字'
+                    }
+				}
+			},
+			level: {
+				validators: {
+					notEmpty: {
+						message: '请选择等级!'
+					}
+				}
+			},
+			type: {
+				validators: {
+					notEmpty: {
+						message: '请选择类型!'
+					}
+				}
+			},
+			scope: {
+				validators: {
+					notEmpty: {
+						message: '不能为空!'
+					},
+					regexp: {
+                        regexp: /^[a-zA-Z0-9_\u0391-\uFFE5]+$/,
+                        message: '不能包含特殊字符'
+                    }
+				}
+			},
+			cooperationDuration: {
+				validators: {
+					notEmpty: {
+						message: '不能为空!'
+					},
+					regexp: {
+                        regexp: /^[a-zA-Z0-9_\u0391-\uFFE5]+$/,
+                        message: '不能包含特殊字符'
+                    }
+				}
+			},
+			email: {
+				validators: {
+					notEmpty: {
+						message: '不能为空!'
+					},
+					regexp: {
+                        regexp: /^(\w)+(\.\w+)*@(\w)+((\.\w{2,3}){1,3})$/,
+                        message: '请输入正确的邮箱'
+                    }
+				}
+			},
+			deposit: {
+				validators: {
+					notEmpty: {
+						message: '不能为空!'
+					},
+					regexp: {
+                        regexp: /^[0-9]+(\.[0-9]{1,})?$/,
+                        message: '请输入正确的金额'
+                    }
+				}
+			},
+			remark: {
+				validators: {
+					stringLength: {
+	                    min: 0,
+	                    max: 200,
+	                    message: '最多200个字符'
+	                }
+				}
+			},
+			contact: {
+				validators: {
+					notEmpty: {
+						message: '不能为空!'
+					},
+					regexp: {
+                        regexp: /^[a-zA-Z0-9_\u0391-\uFFE5]+$/,
+                        message: '不能包含特殊字符'
+                    }
+				}
+			},
+			phone: {
+				validators: {
+					notEmpty: {
+						message: '不能为空!'
+					},
+					regexp: {
+                        regexp: /((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)/,
+                        message: '请输入正确的电话号码'
+                    }
+				}
+			},
+			email: {
+				validators: {
+					notEmpty: {
+						message: '不能为空!'
+					}
+				}
+			},
+		}
+	});
+});
+
+$('#v2').change(function(){
+	console.log($(this).val());
+});
+
+</script>
+</body>
+
+</html>
