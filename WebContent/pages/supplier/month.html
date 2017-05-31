@@ -28,6 +28,7 @@
     <link href="../../css/common/common.css" rel="stylesheet">
     <link href="../../css/admin.css" rel="stylesheet">
     <link rel="stylesheet" href="../../resource/layui/css/layui.css" media="all" />
+    <link href="../../resource/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
 
     <!-- Custom Fonts -->
     <link href="../../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -50,7 +51,7 @@
 	                    <div class="container container-fluid">
 		                	<div class="row">
 		                        <div class="col-sm-2 col-xs-3 head_2">
-	                        		<select class="form-control">
+	                        		<!-- <select class="form-control">
 	                        			<option value="">年份</option>
 										<option value="2013">2013</option>
 										<option value="2014">2014</option>
@@ -58,7 +59,8 @@
 										<option value="2016">2016</option>
 										<option value="2017">2017</option>
 										<option value="2018">2018</option>
-	                        		</select>
+	                        		</select> -->
+	                        		<input class="form-control form_datetime" placeholder="年份" name="year" id="year" value="">
 	                        	</div>
 	                        	<div class="col-sm-2 col-xs-3 head_2">
 	                        		<select class="form-control" >
@@ -185,14 +187,14 @@
                         </div>
                         <!-- /.panel-body -->
                         <!-- panel-footer -->
-	                    <div class="panel-footer container" style="width:100%;">
+	                    <!-- <div class="panel-footer container" style="width:100%;">
 	                    	<div class="col-sm-5">
 	                    		<span>显示<strong>1~10</strong>条，共有数据<strong>100</strong>条</span>
 	                    	</div>
 			                <div class="col-sm-7" style="max-width: 400px;float: right;" >
 			                    <div id="forpage" class="forpage" style="float: right;"></div>
 			                </div>
-			            </div>
+			            </div> -->
 			            <!-- /.panel-footer -->
                     </div>
                     <!-- /.panel -->
@@ -225,11 +227,35 @@
 <script src="../../js/common/admin.js"></script>
 <script src="../../js/jquery.nicescroll.min.js"></script>
 <script src="../../resource/laypage/laypage.js"></script>
+<script src="../../resource/bootstrap-datetimepicker/js/moment-with-locales.min.js"></script>
+<script src="../../resource/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
 
 <!-- Page-Level Demo Scripts - Tables - Use for reference -->
 <script>
 	//分页
-	$(function(){
+	$(document).ready(function(){
+        $('#dataTables-example').DataTable({
+        	searching: false,// 搜索
+        	ordering: false,// 排序
+        	lengthChange: false,
+        	"scrollX": true,
+        	"scrollY": true,
+        	"scrollCollapse": true,
+        	language: {
+        		zeroRecords: "没有匹配结果",
+        		info : "显示  _START_ ~ _END_ 条，共有数据   _TOTAL_ 条",
+        		infoEmpty: "显示第 0 ~ 0 项结果，共 0 项", 
+                paginate: {
+                    first:    '第一页',
+                    previous: '上一页',
+                    next:     '下一页',
+                    last:     '最后一页'
+                },
+            },
+        
+        });
+    });
+	/* $(function(){
 		 laypage({
 		    cont: document.getElementById('forpage'), //容器。值支持id名、原生dom对象，jquery对象,
 		    pages: 10, //总页数
@@ -242,7 +268,7 @@
 		        
 		    }
 		});
-	});
+	}); */
 	// 查询
 	function _search(){
 		layui.use('layer',function(){
@@ -299,6 +325,17 @@
 	function _detail(){
 		// open_window('附件','#', 480, 370);
 	}
+	// 日期控件
+   	$(".form_datetime").datetimepicker({
+   		format: "yyyy-mm-dd",
+   		autoclose: true,
+   		todayBtn: true,
+   		todayHighlight: true,
+   		showMeridian: true,
+   		pickerPosition: "bottom-left",
+   		language: 'zh-CN',//中文，需要引用zh-CN.js包
+   		startView: 4,//年视图
+   	});
 </script>
 
 </body>

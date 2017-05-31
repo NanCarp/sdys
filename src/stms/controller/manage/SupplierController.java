@@ -306,6 +306,14 @@ public class SupplierController extends Controller{
 	* @throws 
 	*/
 	public void getMonth() {
+		//　获取月度考核　id
+		Integer id = getParaToInt(0, null);
+		// id 不为空，即为编辑
+		if (id != null){
+			
+		} else{// 新增
+			
+		}
 		render("month_detail.html");
 	}
 	
