@@ -41,23 +41,25 @@
 
 <body>
 <form id="defaultForm" class="form-horizontal" role="form">
+	<input hidden="" name="supplierId" value="${info.supplier_id!}" id="supplierId">
 	<#if info??>
-	<div class="form-group">
+	<input hidden="" name="id" value="${info.id}">
+	<!-- <div class="form-group">
 		<label class="col-xs-5 control-label text-right" for="v1">注册代码：</label>
 		<div class="col-xs-6">
-            <input class="form-control" id="v1" type="text" name="registrationCode" value="${info.registration_code}" readonly/>
+            <input class="form-control" id="v1" type="text" name="registrationCode" value="" readonly/>
         </div>
-    </div>
+    </div> -->
     <div class="form-group">
-		<label class="col-xs-5 control-label text-right" for="v2">货代名称：</label>
-		<div class="col-xs-6">
-            <input class="form-control" id="v2" type="text" placeholder="货代名称"  name="forwarder" value="${info.supplier_name}"/>
-        </div>
+		<label class="col-xs-5 control-label text-right" for="forwarder">货代名称：</label>
+        <div class="col-xs-6">
+			<input id="forwarder" class="form-control" name="forwarder" value="${forwarder.supplier_name}" readonly>
+		</div>
     </div>
     <div class="form-group">
         <label class="col-xs-5 control-label text-right" for="v3">合同号：</label>
         <div class="col-xs-6">
-            <input class="form-control" id="v3" type="text" placeholder="合同号"  name="contract_no" value="${info.contract_no}"/>
+            <input class="form-control" id="v3" type="text" placeholder="合同号"  name="contractNo" value="${info.contract_no}"/>
         </div>
     </div>
     <div class="form-group">
@@ -76,17 +78,13 @@
     <div class="form-group">
 		<label class="col-xs-5 control-label text-right" for="v5">货代类型：</label>
 		<div class="col-xs-6">
-			<select id="v5" class="form-control" name="type">
-				<option value="">请选择供应商类型</option>
-				<option value="1">备选</option>
-				<option value="2">合格</option>
-			</select>
+			<input class="form-control" id="type" type="text" placeholder="货代类型"  name="type"  value="<#if forwarder.state==1>合格<#else>备选</#if>" readonly/>
 		</div>
     </div>
     <div class="form-group">
         <label class="col-xs-5 control-label text-right" for="v6">业务范围：</label>
         <div class="col-xs-6">
-            <input class="form-control" id="v6" type="text" placeholder="业务范围" name="scope" value="${info.supplier_field}"/>
+            <input class="form-control" id="v6" type="text" placeholder="业务范围" name="businessScope" value="${info.supplier_field}"/>
         </div>
     </div>
     <div class="form-group">
@@ -94,11 +92,11 @@
         <div class="col-xs-6">
 			<select id="v7" class="form-control" name="cooperationDuration">
 				<option value="">合作年限</option>
-				<option value="1">1年</option>
-				<option value="2">2年</option>
-				<option value="3">3年</option>
-				<option value="4">4年</option>
-				<option value="5">5年</option>
+				<option value="1" <#if info.supplier_years==1>selected</#if>>1年</option>
+				<option value="2" <#if info.supplier_years==2>selected</#if>>2年</option>
+				<option value="3" <#if info.supplier_years==3>selected</#if>>3年</option>
+				<option value="4" <#if info.supplier_years==4>selected</#if>>4年</option>
+				<option value="5" <#if info.supplier_years==5>selected</#if>>5年</option>
 			</select>
 		</div>
     </div>
@@ -111,12 +109,7 @@
     <div class="form-group">
 		<label class="col-xs-5 control-label text-right" for="v9">联系人：</label>
 		<div class="col-xs-6">
-			<select id="v9" class="form-control" name="contact">
-			<option value="">联系人</option>
-			<option value="1">丁聪华</option>
-			<option value="2">孙蝶妃</option>
-			<option value="3">陈莲眉</option>
-			</select>
+			<input id="v9" class="form-control" name="contact" value="${info.contact}">
 		</div>
     </div>
     <div class="form-group">
@@ -138,20 +131,14 @@
         </div>
     </div>
 	<#else>
-    <!-- <div class="form-group">
-		<label class="col-xs-5 control-label text-right" for="v1">注册代码：</label>
-		<div class="col-xs-6">
-            <input class="form-control" id="v1" type="text" placeholder="02316598"  name="register_no" readonly/>
-        </div>
-    </div> -->
     <div class="form-group">
-		<label class="col-xs-5 control-label text-right" for="v2">货代名称：</label>
+		<label class="col-xs-5 control-label text-right" for="forwarder">货代名称：</label>
 		<div class="col-xs-6">
-			<select id="v2" class="form-control" name="forwarder">
+			<select id="forwarder" class="form-control" name="forwarder">
 				<option value="">请选择货代</option>
 				<#if forwarderList??>
 				<#list forwarderList as forwarder>
-				<option value="${forwarder.supplier_id}" _state="${forwarder.state}">${forwarder.supplier_name}</option>
+				<option value="${forwarder.supplier_id}" _state="${forwarder.state}" _supplierId="${forwarder.supplier_id}">${forwarder.supplier_name}</option>
 				</#list>
 				</#if>
 			</select>
@@ -160,13 +147,13 @@
     <div class="form-group">
         <label class="col-xs-5 control-label text-right" for="v3">合同号：</label>
         <div class="col-xs-6">
-            <input class="form-control" id="v3" type="text" placeholder="合同号"  name="contract_no"/>
+            <input class="form-control" id="v3" type="text" placeholder="合同号"  name="contractNo"/>
         </div>
     </div>
     <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="v4">货代等级：</label>
+        <label class="col-xs-5 control-label text-right" for="level">货代等级：</label>
         <div class="col-xs-6">
-            <select id="v4" class="form-control" name="level">
+            <select id="level" class="form-control" name="level">
                 <option value="">请选择等级</option>
                 <option value="AA">AA</option>
                 <option value="A">A</option>
@@ -177,15 +164,15 @@
         </div>
     </div>
     <div class="form-group">
-		<label class="col-xs-5 control-label text-right" for="v5">货代类型：</label>
+		<label class="col-xs-5 control-label text-right" for="type">货代类型：</label>
 		<div class="col-xs-6">
-			<input class="form-control" id="v5" type="text" placeholder="供应商类型"  name="type"  value="" readonly/>
+			<input class="form-control" id="type" type="text" placeholder="供应商类型"  name="type"  value="" readonly/>
 		</div>
     </div>
     <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="v6">业务范围：</label>
+        <label class="col-xs-5 control-label text-right" for="businessScope">业务范围：</label>
         <div class="col-xs-6">
-            <input class="form-control" id="v6" type="text" placeholder="业务范围" name="scope"/>
+            <input class="form-control" id="businessScope" type="text" placeholder="业务范围" name="businessScope" value=""/>
         </div>
     </div>
     <div class="form-group">
@@ -204,30 +191,25 @@
     <div class="form-group">
         <label class="col-xs-5 control-label text-right" for="v8">保证金：</label>
         <div class="col-xs-6">
-            <input class="form-control" id="v8" type="text" placeholder="保证金（万元）" name="deposit"/>
+            <input class="form-control" id="v8" type="text" placeholder="保证金（万元）" name="deposit" value=""/>
         </div>
     </div>
     <div class="form-group">
 		<label class="col-xs-5 control-label text-right" for="v9">联系人：</label>
 		<div class="col-xs-6">
-			<select id="v9" class="form-control" name="contact">
-			<option value="">联系人</option>
-			<option value="丁聪华">丁聪华</option>
-			<option value="孙蝶妃">孙蝶妃</option>
-			<option value="陈莲眉">陈莲眉</option>
-			</select>
+			<input id="v9" class="form-control" name="contact" value="">
 		</div>
     </div>
     <div class="form-group">
         <label class="col-xs-5 control-label text-right" for="v10">联系电话：</label>
         <div class="col-xs-6">
-            <input class="form-control" id="v10" type="text" placeholder="联系电话" name="phone"/>
+            <input class="form-control" id="v10" type="text" placeholder="联系电话" name="phone" value=""/>
         </div>
     </div>
     <div class="form-group">
         <label class="col-xs-5 control-label text-right" for="v11">邮箱：</label>
         <div class="col-xs-6">
-            <input class="form-control" id="v11" type="text" placeholder="邮箱" name="email"/>
+            <input class="form-control" id="v11" type="text" placeholder="邮箱" name="email" value=""/>
         </div>
     </div>
     <div class="form-group">
@@ -257,7 +239,7 @@
 <!-- Custom Theme JavaScript -->
 <script src="../../dist/js/sb-admin-2.js"></script>
 <script src="../../resource/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
-
+<script src="../../js/common/admin.js"></script>
 <script type="text/javascript">
 $(function(){
 	// 表单校验
@@ -276,7 +258,7 @@ $(function(){
 					}
 				}
 			},
-			contract_no: {
+			contractNo: {
 				validators: {
 					notEmpty:{
 						message: '不能为空!'
@@ -289,23 +271,16 @@ $(function(){
 			},
 			level: {
 				validators: {
-					notEmpty: {
-						message: '请选择等级!'
-					}
+					
 				}
 			},
 			type: {
 				validators: {
-					notEmpty: {
-						message: '请选择类型!'
-					}
+					
 				}
 			},
-			scope: {
+			businessScope: {
 				validators: {
-					notEmpty: {
-						message: '不能为空!'
-					},
 					regexp: {
                         regexp: /^[a-zA-Z0-9_\u0391-\uFFE5]+$/,
                         message: '不能包含特殊字符'
@@ -314,9 +289,6 @@ $(function(){
 			},
 			cooperationDuration: {
 				validators: {
-					notEmpty: {
-						message: '不能为空!'
-					},
 					regexp: {
                         regexp: /^[a-zA-Z0-9_\u0391-\uFFE5]+$/,
                         message: '不能包含特殊字符'
@@ -325,9 +297,6 @@ $(function(){
 			},
 			email: {
 				validators: {
-					notEmpty: {
-						message: '不能为空!'
-					},
 					regexp: {
                         regexp: /^(\w)+(\.\w+)*@(\w)+((\.\w{2,3}){1,3})$/,
                         message: '请输入正确的邮箱'
@@ -336,9 +305,6 @@ $(function(){
 			},
 			deposit: {
 				validators: {
-					notEmpty: {
-						message: '不能为空!'
-					},
 					regexp: {
                         regexp: /^[0-9]+(\.[0-9]{1,})?$/,
                         message: '请输入正确的金额'
@@ -356,9 +322,6 @@ $(function(){
 			},
 			contact: {
 				validators: {
-					notEmpty: {
-						message: '不能为空!'
-					},
 					regexp: {
                         regexp: /^[a-zA-Z0-9_\u0391-\uFFE5]+$/,
                         message: '不能包含特殊字符'
@@ -367,28 +330,44 @@ $(function(){
 			},
 			phone: {
 				validators: {
-					notEmpty: {
-						message: '不能为空!'
-					},
 					regexp: {
                         regexp: /((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)/,
                         message: '请输入正确的电话号码'
                     }
 				}
 			},
-			email: {
-				validators: {
-					notEmpty: {
-						message: '不能为空!'
-					}
-				}
-			},
+
 		}
+	});
+})
+.on('success.form.bv', function(e) {
+	e.preventDefault();
+	$.post("/supplier/saveInfo", $('#defaultForm').serialize(), function(result) {
+		if (result) {
+			parent.layer.msg("保存成功", {time: 2000}, function(){
+				layer_close();
+				parent.parent.refresh_iframe();
+			});
+
+		} else {
+			parent.layer.msg('保存失败', {icon: 1});
+		}
+		
 	});
 });
 
-$('#v2').change(function(){
-	console.log($(this).val());
+$('#forwarder').change(function(){
+	var $obj =  $('#forwarder option:selected');
+    // 货代类型
+	var type = $obj.attr('_state');
+	if(type == 1) {
+        $('#type').val('合格');
+    } else {
+	    $('#type').val('备选');
+    }
+   // 货代 id
+   var supplierId = $obj.attr('_supplierId');
+   $('#supplierId').val(supplierId);
 });
 
 </script>

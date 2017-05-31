@@ -18,6 +18,19 @@ public class SupplierService {
 		return Db.paginate(pageNumber, 10, select, sqlExceptSelect);
 	}
 
+
+	/** 
+	* @Title: getQualityList 
+	* @Description: 获取货代资质列表
+	* @param
+	* @return List<Record>
+	* @throws 
+	*/
+	public static List<Record> getQualityList() {
+		String forwarder = "";
+		return getQualityList(forwarder);
+	}
+	
 	/** 
 	* @Title: getQualityList 
 	* @Description: 获取货代资质列表
@@ -46,6 +59,18 @@ public class SupplierService {
 	}
 	
 	/** 
+	* @Title: getQualityByParams 
+	* @Description: 根据参数获取货代资质
+	* @param params
+	* @return List<Record>
+	* @throws 
+	*/
+	public static List<Record> getQualityByParams(String params) {
+		String sql = "SELECT * FROM t_supplier_qualification WHERE " + params;
+		return Db.find(sql);
+	}
+	
+	/** 
 	* @Title: deleteQuality 
 	* @Description: 根据 id 删除供应商资质
 	* @param id
@@ -65,10 +90,27 @@ public class SupplierService {
 	* @throws 
 	*/
 	public static List<Record> getInfoList() {
-		// TODO Auto-generated method stub
-		return null;
+		String forwarder = "";
+		return getInfoList(forwarder);
 	}
 
+	/** 
+	* @Title: getInfoList 
+	* @Description: 获取供应商信息列表 
+	* @param forwarder
+	* @return List<Record>
+	* @throws 
+	*/
+	public static List<Record> getInfoList(String forwarder) {
+		String sql = " SELECT a.*,b.registration_code,b.supplier_name,b.state "
+				+ " FROM `t_supplier` AS a LEFT JOIN t_supplier_qualification AS b "
+				+ " ON a.supplier_id = b.supplier_id WHERE 1=1 ";
+		if (forwarder != ""){
+			sql += " AND b.supplier_name LIKE '%" + forwarder + "%'";
+		}
+		return Db.find(sql);
+	}
+	
 	/** 
 	* @Title: getInfoById 
 	* @Description: 根据 id 获取供应商信息
@@ -77,9 +119,26 @@ public class SupplierService {
 	* @throws 
 	*/
 	public static Record getInfoById(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+		return Db.findById("t_supplier", id);
 	}
+
+	
+	/** 
+	* @Title: deleteInfoById 
+	* @Description: 根据 id 删除货代信息记录
+	* @param id
+	* @return boolean
+	* @throws 
+	*/
+	public static boolean deleteInfoById(Integer id) {
+		return Db.deleteById("t_supplier", id);
+	}
+
+
+
+
+
+
 
 
 

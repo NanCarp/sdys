@@ -53,7 +53,7 @@
                         	<div class="container container-fluid">
 	                        	<div class="row">
 		                        	<div class="col-sm-2 col-xs-4 head_2">
-		                  				<input type="search" class="form-control" placeholder="供应商" name="forwarder" id="forwarder">
+		                  				<input type="search" class="form-control" placeholder="供应商" name="forwarder" value="${forwarder!}" id="forwarder">
 		                  			</div>
 		                  			<div class="col-sm-1 col-xs-4 head_1">
 		                       			<button class="btn btn-primary" onclick="_search()">查询</button>
@@ -86,22 +86,29 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                	<#if infoList?? && infoList gt 0>
+                                	<#if infoList?? && infoList?size gt 0>
                                 	<#list infoList as info>
                                 	<tr>
                                         <td>${info_index+1}</td>
-                                        <td>${info.registrate_code}</td>
-                                        <td>${info.supplier_name}</td>
-                                        <td>${info.contract_id}</td>
-                                        <td>${info.supplier_level}</td>
-                                        <td>${info.state}</td>
-                                        <td>${info.supplier_field}</td>
-                                        <td>${info.supplier_years}</td>
-                                        <td>${info.supplier_bail}</td>
-                                        <td>${info.contact}</td>
-                                        <td>${info.phone}</td>
-                                        <td>${info.email}</td>
-                                        <td>${info.remark}</td>
+                                        <td>${info.registration_code!}</td>
+                                        <td>${info.supplier_name!}</td>
+                                        <td>${info.contract_no!}</td>
+                                        <td>${info.supplier_level!}</td>
+                                        <td>
+                                        	<#if info.state==1>
+                                        	<p style="color:#57AE00;"><strong>合格</strong></p>
+                                        	</#if>
+                                        	<#if info.state==2>
+                                        	<p style="color:#6699FF;"><strong>备选</strong></p>
+                                        	</#if>
+                                        </td>
+                                        <td>${info.supplier_field!}</td>
+                                        <td>${info.supplier_years!}</td>
+                                        <td>${info.supplier_bail!}</td>
+                                        <td>${info.contact!}</td>
+                                        <td>${info.phone!}</td>
+                                        <td>${info.email!}</td>
+                                        <td>${info.remark!}</td>
                                         <td>
                                         	<button class="btn btn-3 btn-xs"onclick="_edit(${info.id})">编辑</button>
 			                                <button class="btn btn-4 btn-xs" onclick="_delete(${info.id})">删除</button>
@@ -196,30 +203,39 @@
     function _search(){
 		layui.use('layer',function(){
 			var layer = layui.layer;
+			var forwarder = encodeURI($.trim($('#forwarder').val()));
 			if($.trim($('#forwarder').val())!=''){
 				var reg = /^[a-zA-Z0-9_\u0391-\uFFE5 ]{1,30}$/;
 				if(!reg.test($('#forwarder').val())){
 					layer.tips('不允许有特殊字符，最多20个字符', '#forwarder', {tips: [1, '#34495E']});return;
 				}					
 			}
+			location.replace('/supplier/info/1-' + forwarder );
 		})
 	}
     // 编辑
-    function _edit(){
-    	open_window('编辑供应商信息','/supplier/getInfo', 480, 370);
+    function _edit(id){
+    	open_window('编辑供应商信息','/supplier/getInfo/'+id, 480, 370);
     }
     // 新增
     function _add(){
     	open_window('新增供应商信息','/supplier/getInfo', 480, 370);
     }
  	// 删除
-    function _delete(){
-        //询问框
+    function _delete(id){
+    	//询问框
         layer.confirm('确认删除吗？', {
         	title: ['信息', 'font-weight:600;color:#fff;background-color: #3367D6;'],
             btn: ['确认','取消'] //按钮
         }, function(){
-            layer.msg('删除成功', {icon: 1});
+        	$.post("/supplier/deleteInfo/" + id,function(result) {
+        		if (result) {
+        			layer.msg('删除成功', {time: 2000}, function(){
+        				parent.refresh_iframe();
+        			});
+        		}
+        	});
+            
         }, function(){
 
         });

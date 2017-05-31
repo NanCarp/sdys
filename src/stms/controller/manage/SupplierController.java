@@ -2,17 +2,15 @@ package stms.controller.manage;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Db;
-import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 
-import javafx.util.converter.LocalDateTimeStringConverter;
 import stms.interceptor.ManageInterceptor;
 import stms.service.manage.SupplierService;
 
@@ -88,7 +86,7 @@ public class SupplierController extends Controller{
 		String forwarder = getPara("forwarder").trim();
 		// 货代简称
 		String abbreviation = getPara("abbreviation").trim();
-		// 状态：1：合格，2：备选，3：不合格
+		// 状态：1：合格，2：备选，0：不合格
 		Integer state = getParaToInt("state");
 		// 文件
 		String file = getPara("file");
@@ -146,9 +144,18 @@ public class SupplierController extends Controller{
 	* @throws 
 	*/
 	public void info() {
+		String forwarder = getPara(1);
+		try {
+			forwarder = URLDecoder.decode(forwarder==null?"":forwarder, "utf-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		// 供应商信息列表
-		List<Record> infoList = SupplierService.getInfoList();
+		List<Record> infoList = SupplierService.getInfoList(forwarder);
 		setAttr("infoList", infoList);
+		setAttr("forwarder", forwarder);
 		render("info.html");
 	}
 	
@@ -164,16 +171,98 @@ public class SupplierController extends Controller{
 		Integer id = getParaToInt(0, null);
 		// id 不为空，即为编辑
 		if (id != null){
+			//　获取供应商信息
 			Record info = SupplierService.getInfoById(id);
 			setAttr("info", info);
+			String params = " supplier_id=" + info.getInt("supplier_id");
+			List<Record> forwarderList = SupplierService.getQualityByParams(params);
+			setAttr("forwarder", forwarderList.get(0));
+		} else{
+			// 供应商名称，id
+			String params = " state != 0 AND supplier_id NOT IN (SELECT supplier_id FROM t_supplier) ";
+			List<Record> forwarderList = SupplierService.getQualityByParams(params);
+			setAttr("forwarderList", forwarderList);
 		}
-		// 供应商名称，id
-		List<Record> forwarderList = Db.find("SELECT * FROM t_supplier_qualification WHERE state != 0");
-		setAttr("forwarderList", forwarderList);
 		
 		render("info_detail.html");
 	}
+
+	/**
+	 * @Title: saveInfo
+	 * @Description: 保存供应商信息
+	 * @param
+	 * @return void
+	 * @throws
+	 */
+	public void saveInfo() {
+		
+		// 记录 id
+		Integer id = getParaToInt("id");
+		// 货代 id
+		Integer supplierId = getParaToInt("supplierId");
+		// 合同号
+		String contractNo = getPara("contractNo") ;
+		// 货代等级
+		Integer level = getParaToInt("level");
+		// 业务范围
+		String businessScope = getPara("businessScope");
+		// 合作年限
+		Integer cooperationDuration = getParaToInt("cooperationDuration");
+		// 保证金
+		String deposit = getPara("deposit");
+		// 联系人
+		String contact = getPara("contact");
+		// 联系电话
+		String phone = getPara("phone");
+		// 邮箱
+		String email = getPara("email");
+		// 备注
+		String remark = getPara("remark");
+		// 修改时间
+		Date now = new Date();
+		
+		Record record = new Record();
+		record.set("supplier_id", supplierId);
+		record.set("contract_no", contractNo);
+		record.set("supplier_level", level);
+		record.set("supplier_field", businessScope);
+		record.set("supplier_years", cooperationDuration);
+		record.set("supplier_bail", deposit);
+		record.set("contact", contact);
+		record.set("phone", phone);
+		record.set("email", email);
+		record.set("remark", remark);
+		record.set("review_time", now);
+		// 新增货代信息
+		// 操作结果
+		boolean result = false;
+		if (id == null) {
+			// 创建时间
+			record.set("create_time", now);
+			result = Db.save("t_supplier", record);
+		} else {// 更新货代信息
+			record.set("id", id);
+			result = Db.update("t_supplier", record);
+		}
+		
+		renderJson(result);
+		
+	}
 	
+	/** 
+	* @Title: deleteInfo 
+	* @Description: 删除供应商信息
+	* @param 
+	* @return void
+	* @throws 
+	*/
+	public void deleteInfo() {
+		// 货代信息 id
+		Integer id = getParaToInt();
+		// 通过 id 删除货代信息
+		boolean result = SupplierService.deleteInfoById(id);
+		renderJson(result);
+	}
 	/*********************供应商考核标准*************************/
 	/** 
 	* @Title: level 
