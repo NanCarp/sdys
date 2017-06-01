@@ -2,9 +2,10 @@ package stms.controller.manage;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
@@ -295,6 +296,24 @@ public class SupplierController extends Controller{
 	* @throws 
 	*/
 	public void month() {
+		// 供应商名称
+		String forwarder = getPara("forwarder","");
+		// 年份
+		String year = getPara("year","");
+		// 月份
+		String month = getPara("month","");
+		
+		Map<String,Object> params = new HashMap<>();
+		params.put("forwarder", forwarder);
+		params.put("year", year);
+		params.put("month", month);
+		// 月度考核列表 
+		List<Record> monthList = SupplierService.getMonthList(params);
+		setAttr("monthList", monthList);
+		setAttr("forwarder", forwarder);
+		setAttr("year", year);
+		setAttr("month", month);
+		
 		render("month.html");
 	}
 	
@@ -310,13 +329,71 @@ public class SupplierController extends Controller{
 		Integer id = getParaToInt(0, null);
 		// id 不为空，即为编辑
 		if (id != null){
-			
+			// 根据 id 查询月度考核
+			Record month = SupplierService.getMonthById(id);
+			setAttr("month", month);
 		} else{// 新增
 			
 		}
+		
+		// 供应商名称，id
+		String params = " state != 0 ";
+		List<Record> forwarderList = SupplierService.getQualityByParams(params);
+		setAttr("forwarderList", forwarderList);
+		
 		render("month_detail.html");
 	}
 	
+	/** 
+	* @Title: saveMonth 
+	* @Description: 保存月度考核
+	* @param 
+	* @return void
+	* @throws 
+	*/
+	public void saveMonth() {
+		Map<String,Object> map = new HashMap<>();
+		// 月度考核 id
+		map.put("id", getParaToInt("id"));
+		// 供应商 supplier_id
+		map.put("supplierId", getParaToInt("supplierId"));
+		// 年份
+		map.put("year", getPara("year"));
+		// 月份
+		map.put("month", getPara("month"));
+		// 月度得分
+		map.put("score", getParaToInt("score"));
+		// 评定等级
+		map.put("level", getPara("level"));
+		// 附件
+		map.put("file", getPara("file"));
+		// 备注
+		map.put("remark", getPara("remark"));
+		// 当前时间
+		map.put("now", new Date());
+		
+		// 保存结果
+		boolean result = SupplierService.saveMonth(map);
+		
+		renderJson(result);
+	}
+	
+	/** 
+	* @Title: deleteMonth 
+	* @Description: 删除月度考核
+	* @param 
+	* @return void
+	* @throws 
+	*/
+	public void deleteMonth() {
+		// 月度考核 id
+		Integer id = getParaToInt();
+		
+		// 删除结果
+		boolean result = SupplierService.deleteMonthById(id);
+		
+		renderJson(result);
+	}
 	/*********************供应商年度考核*************************/
 	/** 
 	* @Title: year 

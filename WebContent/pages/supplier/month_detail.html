@@ -21,6 +21,7 @@
     <link href="../../dist/css/sb-admin-2.css" rel="stylesheet">
 	<link href="../../css/admin.css" rel="stylesheet">
 	<link href="../../resource/bootstrapvalidator/css/bootstrapValidator.min.css" rel="stylesheet">
+	<link href="../../resource/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
 	<style type="text/css">
 		body { margin:0 15px;}
 		form { margin-top:20px;}
@@ -40,18 +41,96 @@
 </head>
 
 <body>
-<form class="form-horizontal" role="form">
+<form class="form-horizontal" role="form" id="defaultForm">
+	<#if month??>
+	<input hidden="" name="id" value="${month.id}">
 	<div class="form-group">
-		<label class="col-xs-4 control-label text-right" for="v1">公司名称：</label>
+		<label class="col-xs-4 control-label text-right" for="forwarder">公司名称：</label>
 		<div class="col-xs-6">
-			<select id="v1" class="form-control" name="enterprise">
-                <option value="">请选择供应商</option>
-                <option value="1">圆通</option>
-                <option value="2">中通</option>
-                <option value="3">顺丰</option>
+			<select class="form-control" name="supplierId" id="supplierId" >
+                <#if forwarderList??>
+				<#list forwarderList as forwarder>
+				<option value="${forwarder.supplier_id}" <#if forwarder.supplier_id==month.supplier_id>selected<#else>style="display:none"</#if>>${forwarder.supplier_name}</option>
+				</#list>
+				</#if>
             </select>
 		</div>
 	</div>
+	<div class="form-group">
+        <label class="col-xs-4 control-label text-right" for="year">年份：</label>
+        <div class="col-xs-6">
+            <input class="form_datetime form-control" placeholder="年份" name="year" id="year" value="${month.year?string("yyyy")}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-4 control-label text-right" for="v2">月份：</label>
+        <div class="col-xs-6">
+            <input class="form_datetime form-control" placeholder="月份" name="month" id="month" value="${month.month}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-4 control-label text-right" for="v2">月度得分：</label>
+        <div class="col-xs-6">
+            <input class="form-control" id="v2" type="text" placeholder="月度得分" name="score" value="${month.month_score}"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-4 control-label text-right" for="v5">评定等级：</label>
+        <div class="col-xs-6">
+            <select id="v5" class="form-control" name="level">
+                <option value="">请选择等级</option>
+                <option value="AA" <#if month.supplier_level=="AA">selected</#if>>AA</option>
+                <option value="A" <#if month.supplier_level=="A">selected</#if>>A</option>
+                <option value="B" <#if month.supplier_level=="B">selected</#if>>B</option>
+                <option value="C" <#if month.supplier_level=="C">selected</#if>>C</option>
+                <option value="D" <#if month.supplier_level=="D">selected</#if>>D</option>
+            </select>
+        </div>
+    </div>
+    <!-- <div class="form-group">
+        <label class="col-xs-4 control-label text-right" for="v6">评分人：</label>
+        <div class="col-xs-6">
+            <input class="form-control" id="v6" type="text" placeholder="评分人" name="grager"/>
+        </div>
+    </div> -->
+    <div class="form-group">
+            <label class="col-xs-4 control-label text-right" for="v8">附件：</label>
+            <div class="col-xs-6">
+                <input type="file" id="v8" name="file">
+            </div>
+        </div>
+    <div class="form-group">
+        <label class="col-xs-4 control-label text-right" for="v7" style="padding-top:0;">备注：</label>
+        <div class="col-xs-6">
+            <textarea class="form-control" id="v7" type="text" placeholder="备注" name="remark">${month.remark!}</textarea>
+        </div>
+    </div>
+	<#else>
+	<div class="form-group">
+		<label class="col-xs-4 control-label text-right" for="forwarder">公司名称：</label>
+		<div class="col-xs-6">
+			<select class="form-control" name="supplierId" id="supplierId">
+                <option value="">请选择供应商</option>
+                <#if forwarderList??>
+				<#list forwarderList as forwarder>
+				<option value="${forwarder.supplier_id}">${forwarder.supplier_name}</option>
+				</#list>
+				</#if>
+            </select>
+		</div>
+	</div>
+	<div class="form-group">
+        <label class="col-xs-4 control-label text-right" for="year">年份：</label>
+        <div class="col-xs-6">
+            <input class="form_datetime form-control" placeholder="年份" name="year" id="year" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-4 control-label text-right" for="v2">月份：</label>
+        <div class="col-xs-6">
+            <input class="form_datetime form-control" placeholder="月份" name="month" id="month" value="">
+        </div>
+    </div>
     <div class="form-group">
         <label class="col-xs-4 control-label text-right" for="v2">月度得分：</label>
         <div class="col-xs-6">
@@ -63,20 +142,20 @@
         <div class="col-xs-6">
             <select id="v5" class="form-control" name="level">
                 <option value="">请选择等级</option>
-                <option value="1">AA</option>
-                <option value="2">A</option>
-                <option value="3">B</option>
-                <option value="4">C</option>
-                <option value="5">D</option>
+                <option value="AA">AA</option>
+                <option value="A">A</option>
+                <option value="B">B</option>
+                <option value="C">C</option>
+                <option value="D">D</option>
             </select>
         </div>
     </div>
-    <div class="form-group">
+    <!-- <div class="form-group">
         <label class="col-xs-4 control-label text-right" for="v6">评分人：</label>
         <div class="col-xs-6">
             <input class="form-control" id="v6" type="text" placeholder="评分人" name="grager"/>
         </div>
-    </div>
+    </div> -->
     <div class="form-group">
             <label class="col-xs-4 control-label text-right" for="v8">附件：</label>
             <div class="col-xs-6">
@@ -89,6 +168,7 @@
             <textarea class="form-control" id="v7" type="text" placeholder="备注" name="remark"></textarea>
         </div>
     </div>
+    </#if>
     <div class="form-group">
         <label class="col-xs-4 control-label" for="v"></label>
         <div class="col-xs-6 text-right">
@@ -109,8 +189,34 @@
 <!-- Custom Theme JavaScript -->
 <script src="../../dist/js/sb-admin-2.js"></script>
 <script src="../../resource/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
-
+<script src="../../resource/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script> 
+<script src="../../resource/bootstrap-datetimepicker/js/moment-with-locales.min.js"></script>
+<script src="../../resource/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+<script src="../../js/common/admin.js"></script>
 <script type="text/javascript">
+//日期控件
+$("#year").datetimepicker({
+	format: "yyyy",
+	autoclose: true,
+	todayBtn: true,
+	todayHighlight: true,
+	showMeridian: true,
+	pickerPosition: "bottom-right",
+	language: 'zh-CN',//中文，需要引用zh-CN.js包
+	startView: 4,//年视图
+	minView:4,
+});
+$("#month").datetimepicker({
+	format: "m",
+	autoclose: true,
+	todayBtn: true,
+	todayHighlight: true,
+	showMeridian: true,
+	pickerPosition: "bottom-right",
+	language: 'zh-CN',//中文，需要引用zh-CN.js包
+	startView: 3,//年视图
+	minView:3,
+});
 $(function(){
 	// 表单校验
 	$('form').bootstrapValidator({
@@ -121,7 +227,7 @@ $(function(){
 			validating: 'glyphicon glyphicon-refresh'
 		},
 		fields: {
-			enterprise: {
+			forwarder: {
 				validators: {
 					notEmpty: {
 						message: '请选择供应商!'
@@ -138,10 +244,6 @@ $(function(){
 						max:100,
 						message: '分数在0~100之间'
 					},
-					/* regexp: {
-                        regexp: /^(\d{1,2}|100)$/,
-                        message: '请输入正确的分数'
-                    } */
 				}
 			},
 			level: {
@@ -172,6 +274,21 @@ $(function(){
 				}
 			},
 		}
+	});
+})
+.on('success.form.bv', function(e) {
+	e.preventDefault();
+	$.post("/supplier/saveMonth", $('#defaultForm').serialize(), function(result) {
+		if (result) {
+			parent.layer.msg("保存成功", {time: 2000}, function(){
+				layer_close();
+				parent.parent.refresh_iframe();
+			});
+
+		} else {
+			parent.layer.msg('保存失败', {icon: 1});
+		}
+		
 	});
 });
 

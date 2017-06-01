@@ -41,8 +41,8 @@
 
 <body>
 <form id="defaultForm" class="form-horizontal" role="form">
-	<input hidden="" name="supplierId" value="${info.supplier_id!}" id="supplierId">
 	<#if info??>
+	<input hidden="" name="supplierId" value="${info.supplier_id}" id="supplierId">
 	<input hidden="" name="id" value="${info.id}">
 	<!-- <div class="form-group">
 		<label class="col-xs-5 control-label text-right" for="v1">注册代码：</label>
@@ -131,6 +131,7 @@
         </div>
     </div>
 	<#else>
+	<input hidden="" name="supplierId" value="" id="supplierId">
     <div class="form-group">
 		<label class="col-xs-5 control-label text-right" for="forwarder">货代名称：</label>
 		<div class="col-xs-6">
