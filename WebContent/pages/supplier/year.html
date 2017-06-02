@@ -29,6 +29,7 @@
     <link href="../../css/admin.css" rel="stylesheet">
     <link href="../../resource/bootstrapvalidator/css/bootstrapValidator.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../../resource/layui/css/layui.css" media="all" />
+	<link href="../../resource/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
 	
     <!-- Custom Fonts -->
     <link href="../../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -54,18 +55,10 @@
 	                    <div class="container container-fluid">
 		                	<div class="row">
 		                        <div class="col-sm-2 col-xs-4 head_2">
-	                        		<select class="form-control">
-	                        			<option>年份</option>
-										<option>2013</option>
-										<option>2014</option>
-										<option>2015</option>
-										<option>2016</option>
-										<option>2017</option>
-										<option>2018</option>
-	                        		</select>
+	                        		<input class="form_datetime form-control " placeholder="年份" name="year" id="year" value="${year!}">
 	                        	</div>
 	                        	<div class="col-sm-2 col-xs-4 head_2">
-                  					<input type="search" class="form-control" placeholder="供应商" name="enterprise" id="enterprise">
+                  					<input type="search" class="form-control" placeholder="供应商" name="forwarder" id="forwarder" value="${forwarder!}">
                   				</div>
                   				<div class="col-sm-1 col-xs-12 head_1">
                        				<button class="btn btn-primary" onclick="_search()">查询</button>
@@ -110,113 +103,42 @@
 		                        </tr>
 	                        </thead>
 	                        <tbody>
-		                        <tr>
+	                        	<#if yearList?? && yearList?size gt 0>
+	                        	<#list yearList as year>
+	                        	<tr>
 		                        	<td><input type="checkbox" name="sub"></td>
-		                            <td>1</td>
-		                            <td>2017</td>
-		                            <td>圆通</td>
-		                            <td>90</td>
-		                            <td>90</td>
-		                            <td>90</td>
-		                            <td>90</td>
-		                            <td>90</td>
-		                            <td>90</td>
-		                            <td>90</td>
-		                            <td>90</td>
-		                            <td>90</td>
-		                            <td>90</td>
-		                            <td>90</td>
-		                            <td>90</td>
-		                            <td>90</td>
-		                            <td>A</td>
-		                            <td>效率很高，可以加强合作。</td>
+		                            <td>${year_index+1}</td>
+		                            <td>${year.year?string("yyyy")}</td>
+		                            <td>${year.supplier_name}</td>
+		                            <td>${year.m1!}</td>
+		                            <td>${year.m2!}</td>
+		                            <td>${year.m3!}</td>
+		                            <td>${year.m4!}</td>
+		                            <td>${year.m5!}</td>
+		                            <td>${year.m6!}</td>
+		                            <td>${year.m7!}</td>
+		                            <td>${year.m8!}</td>
+		                            <td>${year.m9!}</td>
+		                            <td>${year.m10!}</td>
+		                            <td>${year.m11!}</td>
+		                            <td>${year.m12!}</td>
+		                            <td>${year.year_score}</td>
+		                            <td>${year.supplier_level}</td>
+		                            <td>${year.remark!}</td>
 		                            <td>
-		                                <button class="btn btn-3 btn-xs" onclick="_edit()">编辑</button>
-		                                <button class="btn btn-4 btn-xs" onclick="_delete()">删除</button>
+		                                <button class="btn btn-3 btn-xs" onclick="_edit(${year.id})">编辑</button>
+		                                <button class="btn btn-4 btn-xs" onclick="_delete(${year.id})">删除</button>
 		                            </td>
 		                        </tr>
-		                        <tr>
-		                        	<td><input type="checkbox" name="sub"></td>
-		                            <td>2</td>
-		                            <td>2017</td>
-		                            <td>圆通</td>
-		                            <td>90</td>
-		                            <td>90</td>
-		                            <td>90</td>
-		                            <td>90</td>
-		                            <td>90</td>
-		                            <td>90</td>
-		                            <td>90</td>
-		                            <td>90</td>
-		                            <td>90</td>
-		                            <td>90</td>
-		                            <td>90</td>
-		                            <td>90</td>
-		                            <td>90</td>
-		                            <td>A</td>
-		                            <td>效率很高，可以加强合作。</td>
-		                            <td>
-		                                <button class="btn btn-3 btn-xs" onclick="_edit()">编辑</button>
-		                                <button class="btn btn-4 btn-xs" onclick="_delete()">删除</button>
-		                            </td>
-		                        </tr>
-		                        <tr>
-		                        	<td><input type="checkbox" name="sub"></td>
-		                            <td>3</td>
-		                            <td>2017</td>
-		                            <td>圆通</td>
-		                            <td>90</td>
-		                            <td>90</td>
-		                            <td>90</td>
-		                            <td>90</td>
-		                            <td>90</td>
-		                            <td>90</td>
-		                            <td>90</td>
-		                            <td>90</td>
-		                            <td>90</td>
-		                            <td>90</td>
-		                            <td>90</td>
-		                            <td>90</td>
-		                            <td>90</td>
-		                            <td>A</td>
-		                            <td>效率很高，可以加强合作。</td>
-		                            <td>
-		                                <button class="btn btn-3 btn-xs" onclick="_edit()">编辑</button>
-		                                <button class="btn btn-4 btn-xs" onclick="_delete()">删除</button>
-		                            </td>
-		                        </tr>
-		                        <tr>
-		                        	<td><input type="checkbox" name="sub"></td>
-		                            <td>4</td>
-		                            <td>2017</td>
-		                            <td>圆通</td>
-		                            <td>90</td>
-		                            <td>90</td>
-		                            <td>90</td>
-		                            <td>90</td>
-		                            <td>90</td>
-		                            <td>90</td>
-		                            <td>90</td>
-		                            <td>90</td>
-		                            <td>90</td>
-		                            <td>90</td>
-		                            <td>90</td>
-		                            <td>90</td>
-		                            <td>90</td>
-		                            <td>A</td>
-		                            <td>效率很高，可以加强合作。</td>
-		                            <td>
-		                                <button class="btn btn-3 btn-xs" onclick="_edit()">编辑</button>
-		                                <button class="btn btn-4 btn-xs" onclick="_delete()">删除</button>
-		                            </td>
-		                        </tr>
+	                        	</#list>
+	                        	</#if>
 	                        </tbody>
 	                    </table>
                            <!-- /.table-responsive -->
                        </div>
                        <!-- /.panel-body -->
                        <!-- panel-footer -->
-	                    <div class="panel-footer container" style="width:100%;">
+	                    <!-- <div class="panel-footer container" style="width:100%;">
 	                    	<div class="col-sm-5">
 	                    		<span>显示<strong>1~10</strong>条，共有数据<strong>100</strong>条</span>
 	                    	</div>
@@ -224,8 +146,8 @@
 			                    <div id="forpage" class="forpage" style="float: right;"></div>
 			                </div>
 			                <script src="../../resource/laypage/laypage.js"></script>
-			            </div>
-			            <!-- /.panel-footer -->
+			            </div> -->
+			           <!-- /.panel-footer -->
                    </div>
                    <!-- /.panel -->
                </div>
@@ -255,14 +177,48 @@
 <script src="../../resource/layer/layer.js"></script>
 <script src="../../resource/layui/layui.js"></script>
 <script src="../../js/common/admin.js"></script>
-<script src="../../js/jquery.nicescroll.min.js"></script>
 <script src="../../resource/laypage/laypage.js"></script>
+<script src="../../resource/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script> 
+<script src="../../resource/bootstrap-datetimepicker/js/moment-with-locales.min.js"></script>
+<script src="../../resource/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
 
 <!-- Page-Level Demo Scripts - Tables - Use for reference -->
 <script>
-	//分页
 	$(function(){
-		 laypage({
+		//分页
+		$('#dataTables-example').DataTable({
+        	searching: false,// 搜索
+        	ordering: false,// 排序
+        	lengthChange: false,
+        	"scrollX": true,
+        	"scrollY": true,
+        	"scrollCollapse": true,
+        	language: {
+        		zeroRecords: "没有匹配结果",
+        		info : "显示  _START_ ~ _END_ 条，共有数据   _TOTAL_ 条",
+        		infoEmpty: "显示第 0 ~ 0 项结果，共 0 项", 
+                paginate: {
+                    first:    '第一页',
+                    previous: '上一页',
+                    next:     '下一页',
+                    last:     '最后一页'
+                },
+            },
+        
+        });
+     	// 日期控件
+       	$("#year").datetimepicker({
+       		format: "yyyy",
+       		autoclose: true,
+       		todayBtn: true,
+       		todayHighlight: true,
+       		showMeridian: true,
+       		pickerPosition: "bottom-right",
+       		language: 'zh-CN',//中文，需要引用zh-CN.js包
+       		startView: 4,//年视图
+       		minView:4,
+       	});
+		 /* laypage({
 		    cont: document.getElementById('forpage'), //容器。值支持id名、原生dom对象，jquery对象,
 		    pages: 10, //总页数
 		    skin: '#molv', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
@@ -273,7 +229,7 @@
 		    jump: function(e, first){ //触发分页后的回调
 		        
 		    }
-		});
+		}); */
 	});
 	//全选、全不选
 	$("#checkAll").click(function() {
@@ -288,10 +244,10 @@
 	function _search(){
 		layui.use('layer',function(){
 			var layer = layui.layer;
-			if($.trim($('#enterprise').val())!=''){
+			if($.trim($('#forwarder').val())!=''){
 				var reg = /^[a-zA-Z0-9_\u0391-\uFFE5 ]{1,30}$/;
-				if(!reg.test($('#enterprise').val())){
-					layer.tips('不允许有特殊字符，最多20个字符', '#enterprise', {tips: [1, '#34495E']});return;
+				if(!reg.test($('#forwarder').val())){
+					layer.tips('不允许有特殊字符，最多20个字符', '#forwarder', {tips: [1, '#34495E']});return;
 				}					
 			}
 		})
@@ -309,16 +265,22 @@
 		open_window('新增年度考核','/supplier/getYear', 480, 350);
 	}
     // 删除
-	function _delete(){
-	    //询问框
-	    layer.confirm('确认删除吗？', {
-	   	 title: ['信息', 'font-weight:600;color:#fff;background-color: #3367D6;'],
-	        btn: ['确认','取消'] //按钮
-	    }, function(){
-	        layer.msg('删除成功', {icon: 1});
-	    }, function(){
-	
-	    });
+	function _delete(id){
+	    ///询问框
+        layer.confirm('确认删除吗？', {
+        	title: ['信息', 'font-weight:600;color:#fff;background-color: #3367D6;'],
+            btn: ['确认','取消'] //按钮
+        }, function(){
+        	$.post("/supplier/deleteYear/" + id,function(result) {
+        		if (result) {
+        			layer.msg('删除成功', {time: 2000}, function(){
+        				parent.refresh_iframe();
+        			});
+        		}
+        	});
+        }, function(){
+
+        });
 	}
 	// 批量删除
     function _batchDelete(){

@@ -20,6 +20,7 @@
     <!-- Custom CSS -->
     <link href="../../dist/css/sb-admin-2.css" rel="stylesheet">
 	<link href="../../css/admin.css" rel="stylesheet">
+	<link href="../../resource/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
 	<style type="text/css">
 		body { margin:0 15px;}
 		form { margin-top:20px;}
@@ -39,35 +40,38 @@
 </head>
 
 <body>
-<form class="form-horizontal" role="form" style="margin-top:20px;">
-    <div class="form-group">
-        <label class="col-xs-4 control-label text-right" for="v1">年份：</label>
+<form class="form-horizontal" role="form" style="margin-top:20px;" id="defaultForm">
+	<#if year??>
+	<input hidden="" name="id" value="${year.id}">
+	<div class="form-group">
+        <label class="col-xs-4 control-label text-right" for="year">年份：</label>
         <div class="col-xs-6">
-            <select id="v1" class="form-control" name="year">
-				<option value="">年份</option>
-				<option value="2013">2013</option>
-				<option value="2014">2014</option>
-				<option value="2015">2015</option>
-				<option value="2016">2016</option>
-				<option value="2017">2017</option>
-			</select>
+            <input class="form_datetime form-control" placeholder="年份" name="year" id="year" value="${currentYear}">
         </div>
     </div>
     <div class="form-group">
-        <label class="col-xs-4 control-label text-right" for="v2">公司名称：</label>
-        <div class="col-xs-6">
-            <select id="v2" class="form-control" name="enterprise">
-                <option value="">请选择供应商</option>
-                <option value="1">圆通</option>
-                <option value="2">中通</option>
-                <option value="3">顺丰</option>
-            </select>
-        </div>
-    </div>
+		<label class="col-xs-4 control-label text-right" for="supplierName">公司名称：</label>
+		<div class="col-xs-6">
+            <input  class="form-control" name="supplierName" id="supplierName" value="${year.supplier_name}" readonly>
+		</div>
+	</div>
     <div class="form-group">
         <label class="col-xs-4 control-label text-right" for="v4">年度得分：</label>
         <div class="col-xs-6">
-            <input class="form-control" id="v4" type="text" placeholder="年度得分" name="year_score"/>
+            <input class="form-control" id="v4" type="text" placeholder="年度得分" name="yearScore" value="${year.year_score}"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-4 control-label text-right" for="v5">评定等级：</label>
+        <div class="col-xs-6">
+            <select id="v5" class="form-control" name="level">
+                <option value="">请选择等级</option>
+                <option value="AA">AA</option>
+                <option value="A">A</option>
+                <option value="B">B</option>
+                <option value="C">C</option>
+                <option value="D">D</option>
+            </select>
         </div>
     </div>
     <div class="form-group">
@@ -76,6 +80,52 @@
             <textarea id="v3" class="form-control" id="v7" placeholder="备注"></textarea>
         </div>
     </div>
+	<#else>
+    <div class="form-group">
+        <label class="col-xs-4 control-label text-right" for="year">年份：</label>
+        <div class="col-xs-6">
+            <input class="form_datetime form-control" placeholder="年份" name="year" id="year" value="${currentYear}">
+        </div>
+    </div>
+    <div class="form-group">
+		<label class="col-xs-4 control-label text-right" for="forwarder">公司名称：</label>
+		<div class="col-xs-6">
+			<select class="form-control" name="supplierId" id="supplierId">
+                <option value="">请选择供应商</option>
+                <#if forwarderList??>
+				<#list forwarderList as forwarder>
+				<option value="${forwarder.supplier_id}">${forwarder.supplier_name}</option>
+				</#list>
+				</#if>
+            </select>
+		</div>
+	</div>
+    <div class="form-group">
+        <label class="col-xs-4 control-label text-right" for="v4">年度得分：</label>
+        <div class="col-xs-6">
+            <input class="form-control" id="v4" type="text" placeholder="年度得分" name="yearScore"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-4 control-label text-right" for="v5">评定等级：</label>
+        <div class="col-xs-6">
+            <select id="v5" class="form-control" name="level">
+                <option value="">请选择等级</option>
+                <option value="AA">AA</option>
+                <option value="A">A</option>
+                <option value="B">B</option>
+                <option value="C">C</option>
+                <option value="D">D</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-4 control-label text-right" for="v3" style="padding-top:0;">备注：</label>
+        <div class="col-xs-6">
+            <textarea id="v3" class="form-control" id="v7" placeholder="备注"></textarea>
+        </div>
+    </div>
+    </#if>
     <div class="form-group">
         <label class="col-xs-4 control-label" for="v"></label>
         <div class="col-xs-6 text-right">
@@ -96,8 +146,24 @@
 <!-- Custom Theme JavaScript -->
 <script src="../../dist/js/sb-admin-2.js"></script>
 <script src="../../resource/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
-
+<script src="../../resource/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script> 
+<script src="../../resource/bootstrap-datetimepicker/js/moment-with-locales.min.js"></script>
+<script src="../../resource/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+<script src="../../js/common/admin.js"></script>
 <script type="text/javascript">
+//日期控件
+$("#year").datetimepicker({
+	format: "yyyy",
+	autoclose: true,
+	todayBtn: true,
+	todayHighlight: true,
+	showMeridian: true,
+	pickerPosition: "bottom-right",
+	language: 'zh-CN',//中文，需要引用zh-CN.js包
+	startView: 4,//年视图
+	minView: 4,
+	// 禁止手动输入
+});
 $(function(){
 	// 表单校验
 	$('form').bootstrapValidator({
@@ -115,7 +181,7 @@ $(function(){
 					}
 				}
 			},
-			enterprise: {
+			forwarder: {
 				validators: {
 					notEmpty: {
 						message: '请选择供应商!'
@@ -139,6 +205,21 @@ $(function(){
 				}
 			},
 		}
+	});
+})
+.on('success.form.bv', function(e) {
+	e.preventDefault();
+	$.post("/supplier/saveYear", $('#defaultForm').serialize(), function(result) {
+		if (result) {
+			parent.layer.msg("保存成功", {time: 2000}, function(){
+				layer_close();
+				parent.parent.refresh_iframe();
+			});
+
+		} else {
+			parent.layer.msg('保存失败', {icon: 1});
+		}
+		
 	});
 });
 

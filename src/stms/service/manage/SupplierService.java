@@ -1,6 +1,7 @@
 package stms.service.manage;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -196,10 +197,11 @@ public class SupplierService {
 					result = Db.update("t_supplier_month_assess", record);
 				}
 				
-				int count = Db.update("update t_supplier "
+				/*int count = Db.update("update t_supplier "
 						+ " set supplier_level = ?,review_time = ? "
 						+ " WHERE supplier_id = ?",
-						map.get("level"), map.get("now"),map.get("supplierId"));
+						map.get("level"), map.get("now"),map.get("supplierId"));*/
+				int count = 1;
 				return result && count == 1;
 			}
 			
@@ -231,10 +233,76 @@ public class SupplierService {
 		return Db.findById("t_supplier_month_assess", id);
 	}
 
+	/*********************供应商年度考核*************************/
+
+	/** 
+	* @Title: getYearList 
+	* @Description: 查询供应商年度考核列表
+	* @return List<Record>
+	* @throws 
+	*/
+	public static List<Record> getYearList() {
+		List<Record> yearList = new ArrayList<>();
+		yearList = Db.find("SELECT a.*,c.supplier_name, "
+				+ " SUM(CASE WHEN `month` = 1 THEN month_score END) m1, "
+				+ " SUM(CASE WHEN `month` = 2 THEN month_score END) m2, "
+				+ " SUM(CASE WHEN `month` = 3 THEN month_score END) m3, "
+				+ " SUM(CASE WHEN `month` = 4 THEN month_score END) m4, "
+				+ " SUM(CASE WHEN `month` = 5 THEN month_score END) m5, "
+				+ " SUM(CASE WHEN `month` = 6 THEN month_score END) m6, "
+				+ " SUM(CASE WHEN `month` = 7 THEN month_score END) m7, "
+				+ " SUM(CASE WHEN `month` = 8 THEN month_score END) m8, "
+				+ " SUM(CASE WHEN `month` = 9 THEN month_score END) m9, "
+				+ " SUM(CASE WHEN `month` = 10 THEN month_score END) m10, "
+				+ " SUM(CASE WHEN `month` = 11 THEN month_score END) m11, "
+				+ " SUM(CASE WHEN `month` = 12 THEN month_score END) m12 "
+				+ " FROM t_supplier_year_assess AS a "
+				+ " INNER JOIN t_supplier_month_assess  AS b "
+				+ " ON a.supplier_id = b.supplier_id AND a.`year` = b.`year` "
+				+ " LEFT JOIN t_supplier_qualification AS c "
+				+ " ON a.supplier_id = c.supplier_id "
+				+ " GROUP BY a.`year`,a.supplier_id "
+				+ " ORDER BY a.`year` DESC ");
+		
+		return yearList;
+	}
+	/** 
+	* @Title: saveYear 
+	* @Description: 保存供应商年度考核
+	* @param record
+	* @return boolean
+	* @throws 
+	*/
+	public static boolean saveYear(Record record) {
+		// 年度考核 id
+		Integer id = record.getInt("id");
+		// 保存结果
+		boolean result = false;
+		// 编辑
+		if (id != null) {
+			result = Db.update("t_supplier_year_assess", record);
+		} else {// 新增
+			result = Db.save("t_supplier_year_assess", record);
+		}
+		
+		return result;
+	}
 
 
-
-
+	/** 
+	* @Title: getYearById 
+	* @Description: 根据 id 查询年度考核
+	* @param id
+	* @return Record
+	* @throws 
+	*/
+	public static List<Record> getYearById(Integer id) {
+		return Db.find("SELECT a.*, b.supplier_name "
+				+ " FROM t_supplier_year_assess AS a "
+				+ " LEFT JOIN t_supplier_qualification AS b "
+				+ " ON a.supplier_id = b.supplier_id "
+				+ " WHERE a.id = ? ", id);
+	}
 
 
 

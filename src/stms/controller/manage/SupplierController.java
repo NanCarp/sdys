@@ -2,6 +2,7 @@ package stms.controller.manage;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -403,6 +404,10 @@ public class SupplierController extends Controller{
 	* @throws 
 	*/
 	public void year() {
+		// 年度考核列表
+		List<Record> yearList = SupplierService.getYearList();
+		setAttr("yearList", yearList);
+		
 		render("year.html");
 	}
 	
@@ -414,17 +419,88 @@ public class SupplierController extends Controller{
 	* @throws 
 	*/
 	public void getYear() {
+		// 年度考核 id
+		Integer id = getParaToInt("id");
+		
+		// 编辑
+		if (id != null) {
+			// 根据 id 查询年度考核
+			Record record = SupplierService.getYearById(id).get(0);
+			setAttr("year", record);
+		} else {// 新增
+			// 供应商名称，供应商 id
+			String params = " state != 0 ";
+			List<Record> forwarderList = SupplierService.getQualityByParams(params);
+			setAttr("forwarderList", forwarderList);
+		}
+		
+		// 当前年份
+		int currentYear = LocalDate.now().getYear();
+		setAttr("currentYear", currentYear);
+		
 		render("year_detail.html");
 	}
 	
 	/** 
-	* @Title: yearDetail 
-	* @Description: 供应商年度考核详细信息 
+	* @Title: saveYear 
+	* @Description: 保存供应商年度考核
 	* @param 
 	* @return void
 	* @throws 
 	*/
-	public void yearDetail() {
-		render("year_all.html");
+	public void saveYear() {
+		// 年度考核 id
+		Integer id = getParaToInt("id");
+		// 当前时间
+		Date now = new Date();
+		// 年份
+		String year = getPara("year");
+		// 供应商 id
+		String supplierId = getPara("supplierId");
+		// 年度得分
+		int yearScore = getParaToInt("yearScore");
+		// 评定等级
+		String level = getPara("level");
+		// 备注
+		String remark = getPara("remark");
+		
+		Record record = new Record();
+		record.set("year", year);
+		record.set("supplier_id", supplierId);
+		record.set("year_score", yearScore);
+		record.set("supplier_level", level);
+		record.set("remark", remark);
+		record.set("review_time", now);// 修改时间
+		// 编辑
+		if (id != null) {
+			// 年度考核 id
+			record.set("id", id);
+		} else {// 新增
+			// 创建时间
+			record.set("create_time", now);
+		}
+		// 保存结果
+		boolean result = SupplierService.saveYear(record);
+		
+		renderJson(result);
 	}
+	
+	/** 
+	* @Title: deleteYear
+	* @Description: 根据 id 删除年度考核
+	* @param 
+	* @return void
+	* @throws 
+	*/
+	public void deleteYear() {
+		// 年度考核 id
+		Integer id = getParaToInt();
+		
+		// 删除结果
+		boolean result = Db.deleteById("t_supplier_year_assess", id);
+		
+		renderJson(result);
+		
+	}
+	
 }
