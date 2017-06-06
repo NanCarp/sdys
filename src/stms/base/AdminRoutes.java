@@ -29,15 +29,15 @@ public class AdminRoutes extends Routes{
 		add("/pages",LoginController.class,"");
 		// 供应商管理控制器
 		add("/supplier", SupplierController.class, "/supplier");
-		//预报价管理控制器
+		// 预报价管理控制器
 		add("/account",AccountController.class,"/account");
-		//国内运输管理控制器
+		// 国内运输管理控制器
 		add("/homeport",HomePortController.class,"/homeportmanage");		
 		// 运费预提管理控制器
 		add("/provision", ProvisionController.class, "/provision");
 		// 国外运输管理控制器
 		add("/international_transportation", InternationalTransportationController.class, "/international_transportation");
-		//用户管理控制器
-		add("/system",SystemController.class,"systemcontrol");
+		// 系统管理控制器
+		add("/system",SystemController.class,"/systemcontrol");
 	}
 }
