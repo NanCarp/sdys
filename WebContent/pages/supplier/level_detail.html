@@ -40,17 +40,39 @@
 </head>
 
 <body>
-<form class="form-horizontal" role="form">
-    <div class="form-group">
+<form class="form-horizontal" role="form" id="defaultForm">
+	<#if level??>
+	<input hidden="" name="id" value="${level.id}">
+	<div class="form-group">
         <label class="col-xs-4 control-label text-right" for="v1">等级：</label>
         <div class="col-xs-6">
             <select id="v1" class="form-control" name="level">
                 <option value="">请选择等级</option>
-                <option value="1">AA</option>
-                <option value="2">A</option>
-                <option value="3">B</option>
-                <option value="4">C</option>
-                <option value="5">D</option>
+                <option value="AA" <#if level.supplier_level=="AA">selected</#if>>AA</option>
+                <option value="A" <#if level.supplier_level=="A">selected</#if>>A</option>
+                <option value="B" <#if level.supplier_level=="B">selected</#if>>B</option>
+                <option value="C" <#if level.supplier_level=="C">selected</#if>>C</option>
+                <option value="D" <#if level.supplier_level=="D">selected</#if>>D</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-4 control-label text-right" for="v2">得分：</label>
+        <div class="col-xs-6">
+            <input class="form-control" id="v2" type="text" placeholder="得分" name="score" value="${level.supplier_score}"/>
+        </div>
+    </div>
+	<#else>
+	<div class="form-group">
+        <label class="col-xs-4 control-label text-right" for="v1">等级：</label>
+        <div class="col-xs-6">
+            <select id="v1" class="form-control" name="level">
+                <option value="">请选择等级</option>
+                <option value="AA">AA</option>
+                <option value="A">A</option>
+                <option value="B">B</option>
+                <option value="C">C</option>
+                <option value="D">D</option>
             </select>
         </div>
     </div>
@@ -60,10 +82,11 @@
             <input class="form-control" id="v2" type="text" placeholder="得分" name="score"/>
         </div>
     </div>
+	</#if>
     <div class="form-group">
         <label class="col-xs-4 control-label text-right" for="v"></label>
         <div class="col-xs-6 text-right">
-            <button type="button" class="btn btn-10">取消</button>
+            <button type="button" class="btn btn-10" id="cancel">取消</button>
             <button id="v" type="submit" class="btn btn-11">保存</button>
         </div>
     </div>
@@ -80,7 +103,7 @@
 <!-- Custom Theme JavaScript -->
 <script src="../../dist/js/sb-admin-2.js"></script>
 <script src="../../resource/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
-
+<script src="../../js/common/admin.js"></script>
 <script type="text/javascript">
 $(function(){
 	// 表单校验
@@ -113,8 +136,27 @@ $(function(){
 			},
 		},
 	});
+})
+.on('success.form.bv', function(e) {
+	e.preventDefault();
+	$.post("/supplier/saveLevel", $('#defaultForm').serialize(), function(result) {
+		if (result) {
+			parent.layer.msg("保存成功", {time: 2000}, function(){
+				layer_close();
+				parent.parent.refresh_iframe();
+			});
+
+		} else {
+			parent.layer.msg('保存失败', {icon: 1});
+		}
+		
+	});
 });
 
+//取消
+$('#cancel').on("click",function() {
+	layer_close();
+});
 </script>
 </body>
 

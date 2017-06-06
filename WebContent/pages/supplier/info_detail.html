@@ -67,19 +67,23 @@
         <div class="col-xs-6">
             <select id="v4" class="form-control" name="level">
                 <option value="">请选择等级</option>
-                <option value="1">AA</option>
-                <option value="2">A</option>
-                <option value="3">B</option>
-                <option value="4">C</option>
-                <option value="5">D</option>
+                <option value="AA" <#if info.supplier_level=="AA">selected</#if>>AA</option>
+                <option value="A" <#if info.supplier_level=="A">selected</#if>>A</option>
+                <option value="B" <#if info.supplier_level=="B">selected</#if>>B</option>
+                <option value="C" <#if info.supplier_level=="C">selected</#if>>C</option>
+                <option value="D" <#if info.supplier_level=="D">selected</#if>>D</option>
             </select>
         </div>
     </div>
     <div class="form-group">
-		<label class="col-xs-5 control-label text-right" for="v5">货代类型：</label>
+		<label class="col-xs-5 control-label text-right" for="state">货代类型：</label>
 		<div class="col-xs-6">
-			<input class="form-control" id="type" type="text" placeholder="货代类型"  name="type"  value="<#if forwarder.state==1>合格<#else>备选</#if>" readonly/>
-		</div>
+			<select id="state" class="form-control" name="state">
+		        <option value="">请选择状态</option>
+		        <option value="1" <#if forwarder.state==1>selected="selected"</#if>>合格</option>
+		        <option value="2" <#if forwarder.state==2>selected="selected"</#if>>备选</option>
+		    </select>
+	    </div>
     </div>
     <div class="form-group">
         <label class="col-xs-5 control-label text-right" for="v6">业务范围：</label>
@@ -223,7 +227,7 @@
     <div class="form-group">
         <label class="col-xs-5 control-label" for="v"></label>
         <div class="col-xs-6 text-right">
-            <button type="button" class="btn btn-10">取消</button>
+            <button type="button" class="btn btn-10" id="cancel">取消</button>
             <button id="v" type="submit" class="btn btn-11">保存</button>
         </div>
     </div>
@@ -371,6 +375,10 @@ $('#forwarder').change(function(){
    $('#supplierId').val(supplierId);
 });
 
+// 取消
+$('#cancel').on("click",function() {
+	layer_close();
+});
 </script>
 </body>
 

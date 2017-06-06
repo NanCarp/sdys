@@ -2,7 +2,9 @@ package stms.controller.manage;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -11,6 +13,7 @@ import java.util.Map;
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Db;
+import com.jfinal.plugin.activerecord.IAtom;
 import com.jfinal.plugin.activerecord.Record;
 
 import stms.interceptor.ManageInterceptor;
@@ -132,8 +135,43 @@ public class SupplierController extends Controller{
 	* @throws 
 	*/
 	public void deleteQuality() {
+		// 供应商资质 id
 		Integer id = getParaToInt();
+		// 删除结果
 		boolean result = SupplierService.deleteQuality(id);
+		
+		renderJson(result);
+	}
+	
+	/** 
+	* @Title: verifyQuality 
+	* @Description: 审核供应商资质
+	* @param 
+	* @return void
+	* @throws 
+	*/
+	public void verifyQuality() {
+		// 供应商资质 id
+		Integer id = getParaToInt();
+		// 审核结果
+		boolean result = SupplierService.verifyQuality(id);
+		
+		renderJson(result);
+	}
+	
+	/** 
+	* @Title: cancelQuality
+	* @Description: 撤销供应商资质
+	* @param 
+	* @return void
+	* @throws 
+	*/
+	public void cancelQuality() {
+		// 供应商资质 id
+		Integer id = getParaToInt();
+		// 撤销结果
+		boolean result = SupplierService.cancelQuality(id);
+		
 		renderJson(result);
 	}
 	
@@ -205,7 +243,9 @@ public class SupplierController extends Controller{
 		// 合同号
 		String contractNo = getPara("contractNo") ;
 		// 货代等级
-		Integer level = getParaToInt("level");
+		String level = getPara("level");
+		// 货代类型
+		Integer state = getParaToInt("state");
 		// 业务范围
 		String businessScope = getPara("businessScope");
 		// 合作年限
@@ -244,7 +284,20 @@ public class SupplierController extends Controller{
 			result = Db.save("t_supplier", record);
 		} else {// 更新货代信息
 			record.set("id", id);
-			result = Db.update("t_supplier", record);
+			result = Db.tx(new IAtom() {
+
+				@Override
+				public boolean run() throws SQLException {
+					boolean result = false;
+					result = Db.update("t_supplier", record);
+					int count = Db.update("update t_supplier_qualification "
+							+ " SET state = ?,review_time = ? "
+							+ " WHERE supplier_id = ?",
+							state, now, supplierId);
+					return result && count == 1;
+				}
+				
+			});
 		}
 		
 		renderJson(result);
@@ -274,6 +327,10 @@ public class SupplierController extends Controller{
 	* @throws 
 	*/
 	public void level() {
+		// 考核标准列表
+		List<Record> levelList = SupplierService.getLevelList();
+		setAttr("levelList", levelList);
+		
 		render("level.html");
 	}
 	
@@ -285,7 +342,68 @@ public class SupplierController extends Controller{
 	* @throws 
 	*/
 	public void getLevel() {
+		// 考核标准 id
+		Integer id = getParaToInt();
+		
+		if (id != null) {//编辑
+			Record level = Db.findById("t_supplier_level", id);
+			setAttr("level", level);
+		}
+		
 		render("level_detail.html");
+	}
+	
+	/** 
+	* @Title: saveLevel 
+	* @Description: 保存考核标准 
+	* @param 
+	* @return void
+	* @throws 
+	*/
+	public void saveLevel() {
+		// 考核标准 id
+		Integer id = getParaToInt("id");
+		// 等级
+		String level = getPara("level");
+		// 得分
+		String score = getPara("score").trim();
+		// 当前时间 
+		Date now = new Date();
+		// 保存结果
+		boolean result = false;
+		Record record = new Record();
+		record.set("supplier_level", level);
+		record.set("supplier_score", score);
+		record.set("review_time", now);// 修改时间
+		if (id != null) {// 编辑
+			record.set("id", id);
+			result = Db.update("t_supplier_level", record);
+		} else {// 新增
+			record.set("create_time", now);
+			result = Db.save("t_supplier_level", record);
+		}
+		
+		renderJson(result);
+	}
+	
+	/** 
+	* @Title: deleteLevel 
+	* @Description: 删除考核标准 
+	* @param 
+	* @return void
+	* @throws 
+	*/
+	public void deleteLevel() {
+		// 考核标准 id
+		String idStr = getPara();
+		String[] ids = idStr.split(",");
+		// 删除结果
+		boolean result = SupplierService.deleteLevel(ids);
+		
+		//result = Db.deleteById("t_supplier_level", id);
+		
+		renderJson(result);
+		
 	}
 	
 	/*********************供应商月度考核*************************/
@@ -388,10 +506,12 @@ public class SupplierController extends Controller{
 	*/
 	public void deleteMonth() {
 		// 月度考核 id
-		Integer id = getParaToInt();
+		String idStr = getPara();
+		String[] ids = idStr.split(",");
 		
 		// 删除结果
-		boolean result = SupplierService.deleteMonthById(id);
+		// boolean result = SupplierService.deleteMonthById(id);
+		boolean result = SupplierService.deleteMonth(ids);
 		
 		renderJson(result);
 	}
@@ -404,9 +524,20 @@ public class SupplierController extends Controller{
 	* @throws 
 	*/
 	public void year() {
+		// 供应商名称
+		String forwarder = getPara("forwarder","");
+		// 年份
+		String year = getPara("year","");
+		
+		Map<String,Object> params = new HashMap<>();
+		params.put("forwarder", forwarder);
+		params.put("year", year);
+		
 		// 年度考核列表
-		List<Record> yearList = SupplierService.getYearList();
+		List<Record> yearList = SupplierService.getYearList(params);
 		setAttr("yearList", yearList);
+		setAttr("forwarder", forwarder);
+		setAttr("year", year);
 		
 		render("year.html");
 	}
@@ -420,7 +551,7 @@ public class SupplierController extends Controller{
 	*/
 	public void getYear() {
 		// 年度考核 id
-		Integer id = getParaToInt("id");
+		Integer id = getParaToInt();
 		
 		// 编辑
 		if (id != null) {
@@ -494,13 +625,42 @@ public class SupplierController extends Controller{
 	*/
 	public void deleteYear() {
 		// 年度考核 id
-		Integer id = getParaToInt();
-		
+		String idStr = getPara();
+		String[] ids = idStr.split(",");
 		// 删除结果
-		boolean result = Db.deleteById("t_supplier_year_assess", id);
+		// boolean result = Db.deleteById("t_supplier_year_assess", ids);
+		boolean result = SupplierService.deleteYearByIds(ids);
 		
 		renderJson(result);
 		
+	}
+	
+	/** 
+	* @Title: calculateYearAlert 
+	* @Description: 没有月度考核的列表
+	* @param 
+	* @return void
+	* @throws 
+	*/
+	public void calculateYearAlert() {
+		// 所有公司未审核月份列表
+		List<Record> forwarderList = SupplierService.calculateYearAlert();
+		setAttr("forwarderList", forwarderList);
+		render("year_alert.html");
+	}
+	
+	/** 
+	* @Title: calculateYear 
+	* @Description: 计算年度得分
+	* @param 
+	* @return void
+	* @throws 
+	*/
+	public void calculateYear() {
+		// 评分结果
+		boolean result = SupplierService.calculateYear();
+		
+		renderJson(result);
 	}
 	
 }

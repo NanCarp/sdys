@@ -1,7 +1,10 @@
 package stms.service.manage;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -85,6 +88,32 @@ public class SupplierService {
 		return Db.deleteById("t_supplier_qualification", id);
 	}
 	
+	/** 
+	* @Title: verifyQuality 
+	* @Description: 审核供应商资质
+	* @param id
+	* @return boolean
+	* @throws 
+	*/
+	public static boolean verifyQuality(Integer id) {
+		
+		int count = -1;
+		count = Db.update("UPDATE t_supplier_qualification SET state = 1 WHERE id = " + id);
+		return count == 1;
+	}
+	
+	/** 
+	* @Title: cancelQuality
+	* @Description: 撤销供应商资质
+	* @param id
+	* @return boolean
+	* @throws 
+	*/
+	public static boolean cancelQuality(Integer id) {
+		int count = -1;
+		count = Db.update("UPDATE t_supplier_qualification SET state = 2 WHERE id = " + id);
+		return count == 1;
+	}
 	/*********************供应商信息管理*************************/
 	/** 
 	* @Title: getInfoList 
@@ -138,6 +167,44 @@ public class SupplierService {
 		return Db.deleteById("t_supplier", id);
 	}
 
+	/*********************供应商考核标准*************************/
+	/** 
+	* @Title: getLevelList 
+	* @Description: 获取供应商考核标准列表 
+	* @param 
+	* @return List<Record>
+	* @throws 
+	*/
+	public static List<Record> getLevelList() {
+		
+		return Db.find("SELECT * FROM t_supplier_level");
+	}
+
+	/** 
+	* @Title: deleteLevel 
+	* @Description: 根据 id 数组删除考核标准
+	* @param ids
+	* @return boolean
+	* @throws 
+	*/
+	public static boolean deleteLevel(String[] ids) {
+		boolean succeed = Db.tx(new IAtom(){
+			boolean result = false;
+			@Override
+			public boolean run() throws SQLException {
+				for (String id: ids){
+					result = Db.deleteById("t_supplier_level", id);
+					if (!result) {
+						break;
+					}
+				}
+				return result;
+			}
+			
+		});
+		
+		return succeed;
+	}
 	
 	/*********************供应商月度考核*************************/
 
@@ -233,8 +300,33 @@ public class SupplierService {
 		return Db.findById("t_supplier_month_assess", id);
 	}
 
+	/** 
+	* @Title: deleteMonth 
+	* @Description: 根据 id 数组删除月度考核
+	* @param ids
+	* @return boolean
+	* @throws 
+	*/
+	public static boolean deleteMonth(String[] ids) {
+		boolean succeed = Db.tx(new IAtom(){
+			boolean result = false;
+			@Override
+			public boolean run() throws SQLException {
+				for (String id: ids){
+					result = Db.deleteById("t_supplier_month_assess", id);
+					if (!result) {
+						break;
+					}
+				}
+				return result;
+			}
+			
+		});
+		
+		return succeed;
+	}
+	
 	/*********************供应商年度考核*************************/
-
 	/** 
 	* @Title: getYearList 
 	* @Description: 查询供应商年度考核列表
@@ -242,8 +334,23 @@ public class SupplierService {
 	* @throws 
 	*/
 	public static List<Record> getYearList() {
-		List<Record> yearList = new ArrayList<>();
-		yearList = Db.find("SELECT a.*,c.supplier_name, "
+		Map<String, Object> params = new HashMap<>();
+		// 当前年份
+		params.put("year", LocalDate.now().getYear());
+		
+		return getYearList(params);
+	}
+	/** 
+	* @Title: getYearList 
+	* @Description: 查询供应商年度考核列表
+	* @param params
+	* @return List<Record>
+	* @throws 
+	*/
+	public static List<Record> getYearList(Map<String, Object> params) {
+		String forwarder = (String) params.getOrDefault("forwarder", "");
+		String year = (String) params.getOrDefault("year","");
+		String sql = "SELECT a.*,c.supplier_name, "
 				+ " SUM(CASE WHEN `month` = 1 THEN month_score END) m1, "
 				+ " SUM(CASE WHEN `month` = 2 THEN month_score END) m2, "
 				+ " SUM(CASE WHEN `month` = 3 THEN month_score END) m3, "
@@ -261,10 +368,17 @@ public class SupplierService {
 				+ " ON a.supplier_id = b.supplier_id AND a.`year` = b.`year` "
 				+ " LEFT JOIN t_supplier_qualification AS c "
 				+ " ON a.supplier_id = c.supplier_id "
-				+ " GROUP BY a.`year`,a.supplier_id "
-				+ " ORDER BY a.`year` DESC ");
+				+ " WHERE 1=1 ";
+		if(forwarder!=""){
+			sql += " AND c.supplier_name LIKE '%" + forwarder + "%' ";
+		}
+		if(year != ""){
+			sql += " AND a.year = " + year;
+		}
+		sql += " GROUP BY a.`year`,a.supplier_id "
+				+ "ORDER BY a.`year` DESC ";
 		
-		return yearList;
+		return Db.find(sql);
 	}
 	/** 
 	* @Title: saveYear 
@@ -303,6 +417,113 @@ public class SupplierService {
 				+ " ON a.supplier_id = b.supplier_id "
 				+ " WHERE a.id = ? ", id);
 	}
+
+
+	/** 
+	* @Title: calculateYear 
+	* @Description: 计算年度得分
+	* @return boolean
+	* @throws 
+	*/
+	public static boolean calculateYear() {
+		Date now = new Date();
+		// 当前年份
+		int year = now.getYear() + 1900;
+		String sql = "SELECT supplier_id, ROUND(AVG(month_score)) AS year_score "
+				+ " FROM t_supplier_month_assess "
+				+ " WHERE `year` = " + year
+				+ " AND supplier_id NOT IN (SELECT supplier_id FROM t_supplier_year_assess WHERE `year` = "+year+") "
+				+ " GROUP BY supplier_id ";
+		List<Record> list = Db.find(sql);
+		
+		boolean succeed = Db.tx(new IAtom() {
+
+			@Override
+			public boolean run() throws SQLException {
+				if(list.isEmpty()) {
+					return true;
+				}
+				
+				boolean result = false;
+				
+				for(Record record : list) {
+					int yearScore = record.getBigDecimal("year_score").intValue();
+					String level = "";
+					if (yearScore >= 96) {
+						level = "AA";
+					} else if (yearScore >= 90) {
+						level = "A";
+					} else if (yearScore >= 80) {
+						level = "B";
+					} else if (yearScore >= 70) {
+						level = "C";
+					} else {
+						level = "D";
+					}
+					record.set("supplier_level", level);
+					record.set("create_time", now);
+					record.set("review_time",now);
+					record.set("year", year);
+					result = Db.save("t_supplier_year_assess", record);
+					
+					if (!result) {
+						break;
+					}
+				}
+				
+				return result;
+			}
+			
+		});
+		
+		return succeed;
+	}
+
+
+	/** 
+	* @Title: deleteYearByIds 
+	* @Description: 通过 id 数组删除年度考核
+	* @param ids
+	* @return boolean
+	* @throws 
+	*/
+	public static boolean deleteYearByIds(String[] ids) {
+		boolean succeed = Db.tx(new IAtom(){
+			boolean result = false;
+			@Override
+			public boolean run() throws SQLException {
+				for (String id: ids){
+					result = Db.deleteById("t_supplier_year_assess", id);
+					if (!result) {
+						return false;
+					}
+				}
+				return true;
+			}
+			
+		});
+		
+		return succeed;
+	}
+
+
+	/** 
+	* @Title: calculateYearAlert 
+	* @Description: 所有公司未审核月份列表
+	* @return List<Record>
+	* @throws 
+	*/
+	public static List<Record> calculateYearAlert() {
+		List<Record> list = getYearList();
+		for (Record record: list) {
+			
+		}
+		
+		return list;
+	}
+
+
+
 
 
 

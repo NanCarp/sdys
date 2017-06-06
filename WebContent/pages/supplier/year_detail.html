@@ -43,10 +43,11 @@
 <form class="form-horizontal" role="form" style="margin-top:20px;" id="defaultForm">
 	<#if year??>
 	<input hidden="" name="id" value="${year.id}">
+	<input hidden="" name="supplierId" value="${year.supplier_id}">
 	<div class="form-group">
         <label class="col-xs-4 control-label text-right" for="year">年份：</label>
         <div class="col-xs-6">
-            <input class="form_datetime form-control" placeholder="年份" name="year" id="year" value="${currentYear}">
+            <input class="form-control" placeholder="年份" name="year" id="year" value="${year.year?string("yyyy")}">
         </div>
     </div>
     <div class="form-group">
@@ -66,18 +67,18 @@
         <div class="col-xs-6">
             <select id="v5" class="form-control" name="level">
                 <option value="">请选择等级</option>
-                <option value="AA">AA</option>
-                <option value="A">A</option>
-                <option value="B">B</option>
-                <option value="C">C</option>
-                <option value="D">D</option>
+                <option value="AA" <#if year.supplier_level=="AA">selected</#if>>AA</option>
+                <option value="A" <#if year.supplier_level=="A">selected</#if>>A</option>
+                <option value="B" <#if year.supplier_level=="B">selected</#if>>B</option>
+                <option value="C" <#if year.supplier_level=="C">selected</#if>>C</option>
+                <option value="D" <#if year.supplier_level=="D">selected</#if>>D</option>
             </select>
         </div>
     </div>
     <div class="form-group">
         <label class="col-xs-4 control-label text-right" for="v3" style="padding-top:0;">备注：</label>
         <div class="col-xs-6">
-            <textarea id="v3" class="form-control" id="v7" placeholder="备注"></textarea>
+            <textarea id="v3" class="form-control" id="v7" placeholder="备注">${year.remark!}</textarea>
         </div>
     </div>
 	<#else>
@@ -129,7 +130,7 @@
     <div class="form-group">
         <label class="col-xs-4 control-label" for="v"></label>
         <div class="col-xs-6 text-right">
-            <button type="button" class="btn btn-10">取消</button>
+            <button type="button" class="btn btn-10" id="cancel">取消</button>
             <button id="v" type="submit" class="btn btn-11">保存</button>
        	</div>
     </div>
@@ -223,6 +224,10 @@ $(function(){
 	});
 });
 
+//取消
+$('#cancel').on("click",function() {
+	layer_close();
+});
 </script>
 </body>
 

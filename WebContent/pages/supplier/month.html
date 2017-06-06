@@ -97,7 +97,7 @@
 		                        	<#if monthList?? && monthList?size gt 0>
 		                        	<#list monthList as month>
 		                        	<tr>
-			                        	<td><input type="checkbox" name="sub" value="${month.id}"></td>
+			                        	<td><input type="checkbox" name="sub" _id="${month.id}"></td>
 			                            <td>${month_index+1}</td>
 			                            <td>${month.year?string("yyyy")}</td>
 			                            <td>${month.month}</td>
@@ -263,15 +263,28 @@
 	});
  	// 批量删除
     function _batchDelete(){
+    	// 获取选中记录 id
+		var ids = "";
+		$(":checked[name='sub']").each(function(){
+			ids += $(this).attr('_id') + ",";
+		});
+		ids = ids.substring(0,ids.length -1);
+		
         //询问框
         layer.confirm('确认批量删除吗？', {
         	title: ['信息', 'font-weight:600;color:#fff;background-color: #3367D6;'],
             btn: ['确认','取消'] //按钮
         }, function(){
-            layer.msg('删除成功', {icon: 1});
+        	$.post("/supplier/deleteMonth/" + ids,function(result) {
+        		if (result) {
+        			layer.msg('删除成功', {time: 2000}, function(){
+        				parent.refresh_iframe();
+        			});
+        		}
+        	});
         }, function(){
 
-        }); 
+        });  
     }
  	// 查看附件
 	function _detail(){

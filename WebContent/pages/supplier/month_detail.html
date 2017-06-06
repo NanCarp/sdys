@@ -172,7 +172,7 @@
     <div class="form-group">
         <label class="col-xs-4 control-label" for="v"></label>
         <div class="col-xs-6 text-right">
-            <button type="button" class="btn btn-10">取消</button>
+            <button type="button" class="btn btn-10" id="cancel">取消</button>
             <button id="v" type="submit" class="btn btn-11">保存</button>
        	</div>
     </div>
@@ -292,6 +292,10 @@ $(function(){
 	});
 });
 
+//取消
+$('#cancel').on("click",function() {
+	layer_close();
+});
 </script>
 </body>
 

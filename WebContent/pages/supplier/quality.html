@@ -102,8 +102,8 @@
                                         </td>
                                         <td>
                                             <button class="btn btn-3 btn-xs" onclick="_edit(${quality.id})">编辑</button>
-											<button class="btn btn-2 btn-xs" onclick="_cancel(this)" value="1" <#if quality.state!=2><#else>style="display:none;"</#if>>撤销</button>
-											<button class="btn btn-5 btn-xs" onclick="_restore(this)" value="2" <#if quality.state==2><#else>style="display:none;"</#if>>审核</button>
+											<button class="btn btn-2 btn-xs" onclick="_cancel(this,${quality.id})" value="1" <#if quality.state!=2><#else>style="display:none;"</#if>>撤销</button>
+											<button class="btn btn-5 btn-xs" onclick="_verify(this,${quality.id})" value="2" <#if quality.state==2><#else>style="display:none;"</#if>>审核</button>
 											<button class="btn btn-4 btn-xs" onclick="_delete(${quality.id})">删除</button>
                                         </td>
                                     </tr>
@@ -222,29 +222,49 @@
     	open_window('新增供应商资质','/supplier/getQuality', 480, 350);
     }
  	// 撤销
-	function _cancel(obj){
+	function _cancel(obj,id){
 	    //询问框
 	    layer.confirm('确认撤销吗？', {
 	   	 title: ['信息', 'font-weight:600;color:#fff;background-color: #3367D6;'],
 	        btn: ['确认','取消'] //按钮
 	    }, function(){
-	        layer.msg('撤销成功', {icon: 1});
-	        $(obj).css('display', 'none');
-	        $(obj).next().css('display', 'inline-block');
+	    	$.post("/supplier/cancelQuality/" + id,function(result) {
+        		if (result) {
+        			layer.msg('撤销成功', {time: 2000}, function(){
+        				$(obj).css('display', 'none');
+        			    $(obj).next().css('display', 'inline-block');
+        				parent.refresh_iframe();
+        			});
+        		} else {
+        			layer.msg('撤销失败', {time: 2000});
+        		}
+        	});
+	        //layer.msg('撤销成功', {icon: 1});
+	        //$(obj).css('display', 'none');
+	        //$(obj).next().css('display', 'inline-block');
 	    }, function(){
 			return;
 	    });
 	}
     // 审核
-    function _restore(obj){
+    function _verify(obj,id){
    	    //询问框
    	    layer.confirm('确认审核吗？', {
    	   	 title: ['信息', 'font-weight:600;color:#fff;background-color: #3367D6;'],
    	        btn: ['确认','取消'] //按钮
    	    }, function(){
-   	        layer.msg('审核成功', {icon: 1});
-   	        $(obj).css('display', 'none');
-   	        $(obj).prev().css('display', 'inline-block');
+   	    	$.post("/supplier/verifyQuality/" + id,function(result) {
+        		if (result) {
+        			layer.msg('审核成功', {time: 2000}, function(){
+        				$(obj).css('display', 'none');
+                	    $(obj).prev().css('display', 'inline-block');
+        				parent.refresh_iframe();
+        			});
+        		} else {
+        			layer.msg('审核失败', {time: 2000});
+        		}
+        	});
+   	        
    	    }, function(){
    			return;
    	    });

@@ -75,66 +75,31 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr class="">
-                                    	<td><input type="checkbox" name="sub"></td>
-                                        <td>1</td>
-                                        <td>AA</td>
-                                        <td>96~100</td>
+                                	<#if levelList?? && levelList?size gt 0>
+                                	<#list levelList as level>
+                                	<tr>
+                                    	<td><input type="checkbox" name="sub" _id="${level.id}"></td>
+                                        <td>${level_index+1}</td>
+                                        <td>${level.supplier_level}</td>
+                                        <td>${level.supplier_score}</td>
                                         <td>
-                                            <button class="btn btn-3 btn-xs" onclick="_edit()">编辑</button>
-                                            <button class="btn btn-4 btn-xs"onclick="_delete()">删除</button>
+                                            <button class="btn btn-3 btn-xs" onclick="_edit(${level.id})">编辑</button>
+                                            <button class="btn btn-4 btn-xs"onclick="_delete(${level.id})">删除</button>
                                         </td>
                                     </tr>
-                                    <tr class="">
-                                        <td><input type="checkbox" name="sub"></td>
-                                        <td>2</td>
-                                        <td>A</td>
-                                        <td>90~95</td>
-                                        <td>
-                                            <button class="btn btn-3 btn-xs" onclick="_edit()">编辑</button>
-                                            <button class="btn btn-4 btn-xs"onclick="_delete()">删除</button>
-                                        </td>
-                                    </tr>
-                                    <tr class="">
-                                        <td><input type="checkbox" name="sub"></td>
-                                        <td>3</td>
-                                        <td>B</td>
-                                        <td>80~89</td>
-                                        <td>
-                                            <button class="btn btn-3 btn-xs" onclick="_edit()">编辑</button>
-                                            <button class="btn btn-4 btn-xs"onclick="_delete()">删除</button>
-                                        </td>
-                                    </tr><tr class="">
-                                        <td><input type="checkbox" name="sub"></td>
-                                        <td>4</td>
-                                        <td>C</td>
-                                        <td>70~79</td>
-                                        <td>
-                                            <button class="btn btn-3 btn-xs" onclick="_edit()">编辑</button>
-                                            <button class="btn btn-4 btn-xs"onclick="_delete()">删除</button>
-                                        </td>
-                                    </tr>
-                                    <tr class="">
-                                        <td><input type="checkbox" name="sub"></td>
-                                        <td>5</td>
-                                        <td>D</td>
-                                        <td>0~69</td>
-                                        <td>
-                                            <button class="btn btn-3 btn-xs" onclick="_edit()">编辑</button>
-                                            <button class="btn btn-4 btn-xs"onclick="_delete()">删除</button>
-                                        </td>
-                                    </tr>
+                                	</#list>
+                                	</#if>
                                 </tbody>
                             </table>
                             <!-- /.table-responsive -->
                         </div>
                         <!-- /.panel-body -->
                         <!-- 分页 -->
-	                    <div class="panel-footer container">
+	                    <!-- <div class="panel-footer container">
 	                    	<div class="col-xs-12">
 	                    		<span>显示<strong>5</strong>条，共有数据<strong>5</strong>条</span>
 	                    	</div>
-			            </div>
+			            </div> -->
 			            <!-- /.分页 -->
                     </div>
                     <!-- /.panel -->
@@ -169,6 +134,29 @@
 
     <!-- Page-Level Demo Scripts - Tables - Use for reference -->
     <script>
+    $(function(){
+	//分页
+	$('#dataTables-example').DataTable({
+       	searching: false,// 搜索
+       	ordering: false,// 排序
+       	lengthChange: false,
+       	"scrollX": true,
+       	"scrollY": true,
+       	"scrollCollapse": true,
+       	language: {
+       		zeroRecords: "没有匹配结果",
+       		info : "显示  _START_ ~ _END_ 条，共有数据   _TOTAL_ 条",
+       		infoEmpty: "显示第 0 ~ 0 项结果，共 0 项", 
+               paginate: {
+                   first:    '第一页',
+                   previous: '上一页',
+                   next:     '下一页',
+                   last:     '最后一页'
+               },
+           },
+       
+       });
+    });
     // 全选、全不选
     $("#checkAll").click(function() {
         $("input[name='sub']").prop("checked", this.checked);
@@ -178,33 +166,52 @@
         $("#checkAll").prop("checked" , $subs.length == $subs.filter(":checked").length ? true :false);
     });
     // 编辑
-    function _edit(){
-    	open_window('编辑供应商等级','/supplier/getLevel', 480, 250);
+    function _edit(id){
+    	open_window('编辑供应商等级','/supplier/getLevel/'+id, 480, 250);
     }
     // 新增
     function _add(){
     	open_window('新增供应商等级','/supplier/getLevel', 480, 250);
     }
     // 删除
-    function _delete(){
-        //询问框
+    function _delete(id){
+    	//询问框
         layer.confirm('确认删除吗？', {
         	title: ['信息', 'font-weight:600;color:#fff;background-color: #3367D6;'],
             btn: ['确认','取消'] //按钮
         }, function(){
-            layer.msg('删除成功', {icon: 1});
+        	$.post("/supplier/deleteLevel/" + id,function(result) {
+        		if (result) {
+        			layer.msg('删除成功', {time: 2000}, function(){
+        				parent.refresh_iframe();
+        			});
+        		}
+        	});
         }, function(){
 
         });
     }
  	// 批量删除
     function _batchDelete(){
+    	// 获取选中记录 id
+		var ids = "";
+		$(":checked[name='sub']").each(function(){
+			ids += $(this).attr('_id') + ",";
+		});
+		ids = ids.substring(0,ids.length -1);
+		
         //询问框
         layer.confirm('确认批量删除吗？', {
         	title: ['信息', 'font-weight:600;color:#fff;background-color: #3367D6;'],
             btn: ['确认','取消'] //按钮
         }, function(){
-            layer.msg('删除成功', {icon: 1});
+        	$.post("/supplier/deleteLevel/" + ids,function(result) {
+        		if (result) {
+        			layer.msg('删除成功', {time: 2000}, function(){
+        				parent.refresh_iframe();
+        			});
+        		}
+        	});
         }, function(){
 
         }); 
