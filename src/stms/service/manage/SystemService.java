@@ -29,7 +29,7 @@ public class SystemService {
 	* @throws 
 	*/
 	public static List<Record> getCompanyList() {
-		return Db.find(" SELECT * FROM `t_company` ");
+		return Db.find(" SELECT * FROM `t_company` WHERE state = 1 ");
 	}
 	
 	/** 
@@ -52,8 +52,40 @@ public class SystemService {
 		
 		return Db.find(sql);
 	}
+	/*********************部门管理*************************/
+	// 部门列表
+	public static List<Record> getDepartmentList() {
+		String sql = " SELECT a.*, b.company_name " +
+				" FROM t_department AS a " +
+				" LEFT JOIN t_company AS b " +
+				" ON a.company_id = b.id " +
+				" WHERE b.state = 1 ";
+		return Db.find(sql);
+	}
 
+    // 根据搜索条件查询部门列表
+    public static List<Record> getDepartmentList(Map<String, Object> params) {
+        String department = (String) params.get("department");
+        String company = (String) params.get("company");
+        String state = (String) params.get("state");
+        String sql = " SELECT a.*, b.company_name " +
+                " FROM t_department AS a " +
+                " LEFT JOIN t_company AS b " +
+                " ON a.company_id = b.id " +
+                " WHERE 1 = 1 ";
 
+        if (!"".equals(department)) {
+            sql += " AND a.department_name like '%" + department + "%' ";
+        }
+        if (!"".equals(company)) {
+            sql += " AND b.company_name like '%" + company + "%' ";
+        }
+        if (!"".equals(state)) {
+            sql += " AND a.state = " + state;
+        }
+
+        return Db.find(sql);
+    }
 	/*********************菜单管理*************************/
 	/** 
 	* @Title: getMenuList 
@@ -91,7 +123,6 @@ public class SystemService {
 		sql += params;
 		return Db.find(sql);
 	}
-	
 
 
 }

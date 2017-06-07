@@ -92,15 +92,81 @@ public class SystemController extends Controller {
 	}
 	
 	/************部门管理****************/
-	/**
-	 * @desc:部门列表
-	 */
-	public void getdepartment(){
+    /**
+     *
+     */
+	public void department() {
+	    // 部门
+	    String department = getPara("department", "").trim();
+        setAttr("department", department);
+        // 公司
+        String company = getPara("company", "");
+        setAttr("company", company);
+        // 部门状态
+	    String state = getPara("state", "");
+        setAttr("state", state);
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("department", department);
+        params.put("company", company);
+        params.put("state", state);
+
+        // 部门列表
+        List<Record> departmentList =  SystemService.getDepartmentList(params);
+        setAttr("departmentList", departmentList);
+
 		render("department.html");
+	}
+	/**
+	 * @desc:部门
+	 */
+	public void getDepartment(){
+        // 部门 id
+        Integer id = getParaToInt();
+
+        if (id != null) {//编辑
+            Record department  = Db.findById("t_department", id);
+            setAttr("department", department);
+        }
+
+		// 公司列表
+		List<Record> companyList = SystemService.getCompanyList();
+		setAttr("companyList", companyList);
+
+		render("department-detail.html");
 		
 	}
-	
-	/************角色管理****************/
+
+    public void saveDepartment() {
+        // 部门 id
+        Integer id = getParaToInt("id");
+        // 部门名称
+        String department = getPara("department").trim();
+        // 所属公司
+        Integer companyId = getParaToInt("companyId");
+        // 备注
+        String remark = getPara("remark", "");
+        // 当前时间
+        Date now = new Date();
+        // 保存结果
+        boolean result = false;
+
+        Record record = new Record();
+        record.set("department_name", department);
+        record.set("company_id", companyId);
+        record.set("remark", remark);
+        record.set("review_time", now);// 修改时间
+        if (id != null) {// 编辑
+            record.set("id", id);
+            result = Db.update("t_department", record);
+        } else {// 新增
+            record.set("create_time", now);
+            result = Db.save("t_department", record);
+        }
+
+        renderJson(result);
+    }
+    /************角色管理****************/
 	/**
 	 * @desc:角色列表
 	 */

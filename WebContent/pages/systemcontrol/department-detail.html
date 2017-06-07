@@ -9,65 +9,92 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>用户管理-部门管理-添加</title>
+    <title>系统管理-部门管理-添加</title>
 
 
     <link href="../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="../../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
-    <link href="../../dist/css/sb-admin-2.css" rel="stylesheet">
-    <link href="../../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="../../css/admin.css" rel="stylesheet" type="text/css">
-    <link href="../../resource/bootstrapValidator/css/bootstrapValidator.min.css" rel="stylesheet" />
 
+	<style>
+		label{padding-right: 0;padding-top: 6px}
+	</style>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-	<style>
-		label{padding-right: 0;padding-top: 6px}
-	</style>
+	
 </head>
 <body style="width: 90%">
-<form class="form-horizontal" role="form" style="margin-top: 20px">
+<form class="form-horizontal" role="form" style="margin-top: 20px" id="defaultForm">
+	<#if department??>
+    <input hidden="" name="id" value="${department.id}">
     <div class="form-group">
-        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="v1">部门名称：</label>
+        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="department">部门名称：</label>
         <div class="col-xs-6">
-            <input class="form-control" id="v1" type="text" placeholder="请输入公司名称" name="department" />
+            <input class="form-control" id="department" type="text" placeholder="部门名称" name="department" value="${department.department_name}"/>
         </div>
     </div>
     <div class="form-group">
-        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="v2">所属公司：</label>
+        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="companyId">所属公司：</label>
+        <div class="col-xs-6">
+            <select class="form-control" id="companyId" name="companyId">
+                <option value="">请选择公司</option>
+                <#if companyList??>
+                    <#list companyList as company>
+                        <option value="${company.id}" <#if company.id == department.company_id>selected</#if>>${company.company_name}</option>
+                    </#list>
+                </#if>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="remark" style="padding-top: 0">备注：</label>
+        <div class="col-xs-6">
+            <textarea class="form-control" id="remark" name="remark">${department.remark!}</textarea>
+        </div>
+    </div>
+    <#else>
+    <div class="form-group">
+        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="department">部门名称：</label>
+        <div class="col-xs-6">
+            <input class="form-control" id="department" type="text" placeholder="部门名称" name="department"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="companyId">所属公司：</label>
          <div class="col-xs-6">
-            <select class="form-control" id="v4" name="company">
-  				<option value="">请选择状态</option>
-  				<option value="阿里">阿里</option>
-  				<option value="百度">百度</option>
+            <select class="form-control" id="companyId" name="companyId">
+  				<option value="">请选择公司</option>
+  				<#if companyList??>
+                <#list companyList as company>
+                <option value="${company.id}">${company.company_name}</option>
+                </#list>
+                </#if>
 			</select>
         </div>
     </div>
     <div class="form-group">
-        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="v5" style="padding-top: 0">备注：</label>
+        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="remark" style="padding-top: 0">备注：</label>
         <div class="col-xs-6">
-        	<textarea class="form-control" id="v5" type="text" name="remarks"></textarea>
+        	<textarea class="form-control" id="remark" name="remark"></textarea>
         </div>
     </div>
+    </#if>
     <div class="form-group">
-        <label class="col-xs-4 col-xs-offset-1 control-label" for="v"></label>
+        <label class="col-xs-4 control-label" for="v"></label>
         <div class="col-xs-6 text-right">
-            <button type="button" class="btn btn-10">取消</button>
-            <button id="v" type="submit" class="btn btn-primary">保存</button>
+            <button type="button" class="btn btn-10" id="cancel">取消</button>
+            <button id="v" type="submit" class="btn btn-11">保存</button>
         </div>
     </div>
 </form>
 
 <script src="../../vendor/jquery/jquery.min.js"></script>
 <script src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
-<script src="../../vendor/metisMenu/metisMenu.min.js"></script>
-<script src="../../dist/js/sb-admin-2.js"></script>
-<script src="../../resource/bootstrapValidator/js/bootstrapValidator.min.js"></script>
-</body>
+<script src="../../resource/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
+<script src="../../js/common/admin.js"></script>
 <script>
 $(function () {
     $('form').bootstrapValidator({　
@@ -93,13 +120,33 @@ $(function () {
             company: {
                 validators: {
                     notEmpty: {
-                        message: '组织代码不能为空'
+                        message: '不能为空'
                     },
                 }
             }
         }
     });
+})
+.on('success.form.bv', function(e) {
+    e.preventDefault();
+    $.post("/system/saveDepartment", $('#defaultForm').serialize(), function(result) {
+        if (result) {
+            parent.layer.msg("保存成功", {time: 2000}, function(){
+                layer_close();
+                parent.parent.refresh_iframe();
+            });
+
+        } else {
+            parent.layer.msg('保存失败', {icon: 1});
+        }
+
+    });
 });
 
+//取消
+$('#cancel').on("click",function() {
+    layer_close();
+});
 </script>
+</body>
 </html>
