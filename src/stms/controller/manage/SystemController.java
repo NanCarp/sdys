@@ -167,13 +167,81 @@ public class SystemController extends Controller {
         renderJson(result);
     }
     /************角色管理****************/
+
+    public void role() {
+        // 角色列表
+        List<Record> roleList =  SystemService.getRoleList();
+        setAttr("roleList", roleList);
+
+        render("role.html");
+    }
+
 	/**
 	 * @desc:角色列表
 	 */
 	public void getRole(){
-		render("role.html");
+        // 角色 id
+        Integer id = getParaToInt();
+
+        if (id != null) {//编辑
+            Record role  = Db.findById("t_role", id);
+            setAttr("role", role);
+        }
+
+        // 公司列表
+        List<Record> companyList = SystemService.getCompanyList();
+        setAttr("companyList", companyList);
+
+		render("role-detail.html");
 	}
-	
+
+	//
+    public void saveRole() {
+        // 部门 id
+        Integer id = getParaToInt("id");
+        // 部门名称
+        String role = getPara("role").trim();
+        // 所属公司
+        Integer companyId = getParaToInt("companyId");
+        // 备注
+        String remark = getPara("remark", "");
+        // 当前时间
+        Date now = new Date();
+        // 保存结果
+        boolean result = false;
+
+        Record record = new Record();
+        record.set("role_type", role);
+        record.set("company_id", companyId);
+        record.set("remark", remark);
+        record.set("review_time", now);// 修改时间
+        if (id != null) {// 编辑
+            record.set("id", id);
+            result = Db.update("t_role", record);
+        } else {// 新增
+            record.set("create_time", now);
+            result = Db.save("t_role", record);
+        }
+
+        renderJson(result);
+    }
+
+    /**
+     * @Title: deleteRole
+     * @Description: 删除角色
+     * @param
+     * @return void
+     * @throws
+     */
+    public void deleteRole() {
+        // 角色 id
+        Integer id = getParaToInt();
+        // 删除结果
+        boolean result = SystemService.deleteRole(id);
+
+        renderJson(result);
+    }
+
 	/************用户管理****************/
 	/**
 	 * @desc:用户列表

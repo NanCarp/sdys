@@ -86,6 +86,19 @@ public class SystemService {
 
         return Db.find(sql);
     }
+    /*********************角色管理*************************/
+    public static List<Record> getRoleList() {
+        String sql = " SELECT a.*, b.company_name " +
+                " FROM t_role AS a " +
+                " LEFT JOIN t_company AS b " +
+                " ON a.company_id = b.id ";
+        return Db.find(sql);
+    }
+
+    public static boolean deleteRole(Integer id) {
+        // TODO 删除 t_role t_role_menu t_role_button 表相关数据
+        return Db.deleteById("t_role", id);
+    }
 	/*********************菜单管理*************************/
 	/** 
 	* @Title: getMenuList 
@@ -123,6 +136,7 @@ public class SystemService {
 		sql += params;
 		return Db.find(sql);
 	}
+
 
 
 }
