@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.jfinal.core.Controller;
+import com.jfinal.kit.JsonKit;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
 
@@ -351,16 +352,6 @@ public class SystemController extends Controller {
 
         renderJson(result);
     }
-	/************权限管理****************/
-    public void authority(){
-        render("authoriy.html");
-    }
-	/**
-	 * @desc:权限列表
-	 */
-	public void getAuthority(){
-		render("authoriyztree.html");
-	}
 	
 	/************菜单管理****************/
 	/** 
@@ -445,14 +436,61 @@ public class SystemController extends Controller {
 		renderJson(result);
 	}
 
-/*    *//************登陆管理****************//*
+    /************权限管理****************/
     public void authority(){
-        render("authoriy.html");
+        // 授权列表
+        List<Record> authorityList = SystemService.getAuthorityList();
+        setAttr("authorityList", authorityList);
+
+        render("authority.html");
     }
-    *//**
-     * @desc:权限列表
-     *//*
+    /**
+     * @desc:权限
+     */
     public void getAuthority(){
-        render("authoriyztree.html");
-    }*/
+
+
+        // 公司列表
+        List<Record> companyList = SystemService.getCompanyList();
+        setAttr("companyList", companyList);
+
+        /*// 角色列表
+        List<Record> roleList = SystemService.getRoleList();
+        setAttr("roleList", roleList);*/
+
+        // 菜单列表，ztree 数据源
+        List<Record> menuList = SystemService.getMenuListForZTree();
+        String menuListJson = JsonKit.toJson(menuList);
+        setAttr("menuListJson", menuListJson);
+
+        render("authority_detail.html");
+    }
+
+    // 保存权限
+    public void saveAuthority() {
+        // 角色菜单 id
+        Integer id = getParaToInt("id");
+        // 角色 id
+        Integer roleId = getParaToInt("roleId");
+        // 菜单权限 ids
+        String menuIds = getPara("menuIds");
+        // 当前时间
+        Date now = new Date();
+        // 保存结果
+        boolean result = false;
+        Record record = new Record();
+        record.set("role_id", roleId);
+        record.set("menu_ids", menuIds);
+        record.set("review_time", now);// 修改时间
+        if (id != null) {// 编辑
+            record.set("id", id);
+            result = Db.update("t_role_menu", record);
+        } else {// 新增
+            record.set("create_time", now);
+            result = Db.save("t_role_menu", record);
+        }
+
+        renderJson(result);
+
+    }
 }

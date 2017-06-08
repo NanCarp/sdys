@@ -9,20 +9,28 @@
     <meta name="author" content="">
 
     <title>用户管理-权限管理</title>
+    <!-- Bootstrap Core CSS -->
     <link href="../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="../../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+    <!-- DataTables CSS -->
     <link href="../../vendor/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet">
+
+    <!-- DataTables Responsive CSS -->
     <link href="../../vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="../../resource/bootstrapvalidator/css/bootstrapValidator.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../resource/layui/css/layui.css" media="all" />
+    <link href="../../resource/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
     <link href="../../dist/css/sb-admin-2.css" rel="stylesheet">
-    <link href="../../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="../../css/admin.css" rel="stylesheet" type="text/css">
-    <link href="../../css/supplier/month.css" rel="stylesheet">
-    <link href="../../resource/layer/skin/default/layer.css" rel="stylesheet" type="text/css">
+    <link href="../../css/common/common.css" rel="stylesheet">
+    <link href="../../css/admin.css" rel="stylesheet">
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 	
 </head>
@@ -46,115 +54,91 @@
                                 <thead>
                                     <tr>
                                         <th>序列</th>
-                                        <th>角色</th>                                     
+                                        <th>公司</th>
+                                        <th>角色</th>
 										<th>录入时间</th>
 										<th>修改时间</th>
-										<th class="col-md-2">操作</th>
+										<th>操作</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr class="odd gradeX">
-                                        <td>1</td>
-                                        <td>超级管理员</td>
-                                        <td>2017/3/16</td>
-                                        <td>2017/3/15</td>
+                                    <#if authorityList?? && authorityList?size gt 0>
+                                    <#list authorityList as authority>
+                                    <tr>
+                                        <td>${authority_index+1}</td>
+                                        <td>${authority.company_name}</td>
+                                        <td>${authority.role_type}</td>
+                                        <td>${authority.create_time}</td>
+                                        <td>${authority.review_time}</td>
                                         <td>
-                                        <button class="btn btn-3 btn-xs" onclick="_edit()">编辑</button>
-                                        <button class="btn btn-9 btn-xs" onclick="_look()">查看权限</button>
+                                            <button class="btn btn-3 btn-xs" onclick="_edit(${authority.id})">编辑</button>
+                                            <button class="btn btn-9 btn-xs" onclick="_look(${authority.id})">查看权限</button>
                                         </td>
                                     </tr>
-                                    <tr class="even gradeC">
-                                        <td>2</td>
-                                        <td>管理员</td>
-                                        <td>2017/3/10</td>
-                                        <td>2017/3/15</td>
-                                        <td>
-                                        <button class="btn btn-3 btn-xs" onclick="_edit()">编辑</button>
-                                        <button class="btn btn-9 btn-xs" onclick="_look()">查看权限</button>
-                                        </td>
-                                    </tr>
-                                    <tr class="odd gradeA">
-                                        <td>3</td>
-                                        <td>保管员</td>
-                                       	<td>2017/3/10</td>
-                                        <td>2017/3/15</td>
-                                        <td>
-                                        <button class="btn btn-3 btn-xs" onclick="_edit()">编辑</button>
-                                        <button class="btn btn-9 btn-xs" onclick="_look()">查看权限</button>
-                                        </td>
-                                    </tr>
-                                    <tr class="even gradeA">
-                                    	<td>4</td>
-                                        <td>车长</td>
-                                        <td>2017/3/10</td>
-                                        <td>2017/3/10</td>
-                                        <td>
-                                        <button class="btn btn-3 btn-xs" onclick="_edit()">编辑</button>
-                                        <button class="btn btn-9 btn-xs" onclick="_look()">查看权限</button>
-                                        </td>
-                                    </tr>                                    
-                                    <tr class="odd gradeX">
-                                        <td>5</td>
-                                        <td>理货员</td>
-                                        <td>2017/3/16</td>
-                                        <td>2017/3/15</td>
-                                        <td>
-                                        <button class="btn btn-3 btn-xs" onclick="_edit()">编辑</button>
-                                        <button class="btn btn-9 btn-xs" onclick="_look()">查看权限</button>
-                                        </td>
-                                    </tr>
-                                    <tr class="even gradeC">
-                                        <td>6</td>
-                                        <td>管理员</td>
-                                        <td>2017/3/10</td>
-                                        <td>2017/3/15</td>
-                                        <td>
-                                        <button class="btn btn-3 btn-xs" onclick="_edit()">编辑</button>
-                                        <button class="btn btn-9 btn-xs" onclick="_look()">查看权限</button>
-                                        </td>
-                                    </tr>
-                                    <tr class="odd gradeA">
-                                        <td>7</td>
-                                        <td>关务</td>
-                                       	<td>2017/3/10</td>
-                                        <td>2017/3/15</td>
-                                        <td>
-                                        <button class="btn btn-3 btn-xs" onclick="_edit()">编辑</button>
-                                        <button class="btn btn-9 btn-xs" onclick="_look()">查看权限</button>
-                                        </td>
-                                    </tr>
-                                    
+                                    </#list>
+                                    </#if>
                                 </tbody>
                             </table>
                         </div>
-                        <div class="panel-footer container" style="width: 100%">
+                        <!--<div class="panel-footer container" style="width: 100%">
 	                    	<div class="col-sm-4" style="max-width: 240px;">
 	                    		<span>显示<strong>1~10</strong>条，共有数据<strong>100</strong>条</span>
 	                    	</div>
 			                <div class="col-sm-7" style="max-width: 400px;float: right;" >
 			                    <div id="forpage" class="forpage" style="float: right;"></div>
 			                </div>
-			            </div>
+			            </div>-->
                     </div>
                 </div>
             </div>
 
     </div>
-</body>
 
-	<script src="../../vendor/jquery/jquery.min.js"></script>
+
+    <!-- jQuery -->
+    <script src="../../vendor/jquery/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
     <script src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
-    <script src="../../vendor/metisMenu/metisMenu.min.js"></script>
+
+    <!-- DataTables JavaScript -->
     <script src="../../vendor/datatables/js/jquery.dataTables.min.js"></script>
     <script src="../../vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
     <script src="../../vendor/datatables-responsive/dataTables.responsive.js"></script>
-    <script src="../../dist/js/sb-admin-2.js"></script>
+
+    <!-- Custom Theme JavaScript -->
     <script src="../../resource/layer/layer.js"></script>
-	<script src="../../js/common/admin.js"></script>
-	<script src="../../js/jquery.nicescroll.min.js"></script>
-	<script src="../../resource/laypage/laypage.js"></script>
+    <script src="../../resource/layui/layui.js"></script>
+    <script src="../../js/common/admin.js"></script>
+    <script src="../../resource/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="../../resource/bootstrap-datetimepicker/js/moment-with-locales.min.js"></script>
+    <script src="../../resource/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+
     <script>
-    $(function(){
+        $(function(){
+            //分页
+            $('#dataTables-example').DataTable({
+                searching: false,// 搜索
+                ordering: false,// 排序
+                lengthChange: false,
+                "scrollX": true,
+                "scrollY": true,
+                "scrollCollapse": true,
+                language: {
+                    zeroRecords: "没有匹配结果",
+                    info : "显示  _START_ ~ _END_ 条，共有数据   _TOTAL_ 条",
+                    infoEmpty: "显示第 0 ~ 0 项结果，共 0 项",
+                    paginate: {
+                        first:    '第一页',
+                        previous: '上一页',
+                        next:     '下一页',
+                        last:     '最后一页'
+                    },
+                },
+
+            });
+        });
+    /*$(function(){
 		 laypage({
 		    cont: document.getElementById('forpage'), //容器。值支持id名、原生dom对象，jquery对象,
 		    pages: 10, //总页数
@@ -167,21 +151,17 @@
 		        
 		    }
 		});
-	 });
+	 });*/
     function _add(){
-    	open_window('添加权限','authorztree.html',480, 370);
+    	open_window('添加权限','/system/getAuthority',480, 370);
     }
     function _edit(){
-    	open_window('编辑权限','authorztree.html',480, 370);
+    	open_window('编辑权限','/system/getAuthority',480, 370);
     }
     function _look(){
-    	open_window('查看权限','authory_look.html',480, 370);
+    	open_window('查看权限','/system/authority_look',480, 370);
     }
-	$(function(){
-		$(".dropdown-toggle").mouseenter(function(){
-			$(this).css('background','#005AB5');
-		})
-		
-	})
+
     </script>
+</body>
 </html>

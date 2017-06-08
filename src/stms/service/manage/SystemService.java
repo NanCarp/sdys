@@ -185,5 +185,20 @@ public class SystemService {
 		return Db.find(sql);
 	}
 
+	// 菜单列表，ztree 使用
+    public static List<Record> getMenuListForZTree() {
+        String sql = " SELECT id ,pid AS pId, module_name AS `name`  FROM t_menu ";
+        return Db.find(sql);
+    }
 
+    /*********************授权管理*************************/
+    public static List<Record> getAuthorityList() {
+        String sql = " SELECT a.*, b.role_type, c.company_name  " +
+                " FROM t_role_menu AS a  " +
+                " LEFT JOIN t_role AS b  " +
+                " ON a.role_id = b.id  " +
+                " LEFT JOIN t_company AS c  " +
+                " ON b.company_id = c.id";
+        return Db.find(sql);
+    }
 }
