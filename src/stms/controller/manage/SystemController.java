@@ -137,6 +137,16 @@ public class SystemController extends Controller {
 		
 	}
 
+	// 根据公司 id 获取部门列表
+	public void getDepartmentByCompanyId() {
+	    // 公司 id
+        Integer companyId = getParaToInt();
+        // 部门列表
+        List<Record> departmentList = SystemService.getDepartmentByCompanyId(companyId);
+
+        renderJson(departmentList);
+    }
+
     public void saveDepartment() {
         // 部门 id
         Integer id = getParaToInt("id");
@@ -242,20 +252,114 @@ public class SystemController extends Controller {
         renderJson(result);
     }
 
+    // 根据公司 id 获取部门列表
+    public void getRoleByCompanyId() {
+        // 公司 id
+        Integer companyId = getParaToInt();
+        // 角色列表
+        List<Record> roleList = SystemService.getRoleByCompanyId(companyId);
+
+        renderJson(roleList);
+    }
 	/************用户管理****************/
+	// TODO 用户密码加密
+	public void user() {
+	    // 公司名称
+        String company = getPara("company","").trim();
+        setAttr("company", company);
+        // 查询条件
+        Map<String,Object> params = new HashMap<>();
+        params.put("company", company);
+        // 用户列表
+        List<Record> userList =  SystemService.getUserList(params);
+        setAttr("userList", userList);
+
+        render("user.html");
+    }
 	/**
 	 * @desc:用户列表
 	 */
 	public void getUser(){
-		render("user.html");
+	    // 用户 id
+        Integer id = getParaToInt();
+
+        if (id != null) {
+            // 用户
+            Record user = SystemService.getUserById(id);
+            setAttr("user", user);
+            // 公司 id
+            Integer companyId = user.getInt("company_id");
+            // 角色列表
+            List<Record> roleList = SystemService.getRoleByCompanyId(companyId);
+            setAttr("roleList", roleList);
+        }
+
+        // 公司列表
+        List<Record> companyList = SystemService.getCompanyList();
+        setAttr("companyList", companyList);
+
+		render("user-detail.html");
 	}
-	
+
+	// 保存用户
+	public void saveUser() {
+	    // 账号 id
+        Integer id = getParaToInt("id");
+	    // 账号名
+        String account = getPara("account");
+        // 公司 id
+        String companyId = getPara("companyId");
+        // 部门 id
+        //String departmentId = getPara("departmentId");
+        // 角色 id
+        String roleId = getPara("roleId");
+        // 当前时间
+        Date now = new Date();
+        // 保存结果
+        boolean result = false;
+
+        //
+        Record record = new Record();
+        record.set("account", account);
+        record.set("company_id", companyId);
+        //record.set("department_id", departmentId);
+        record.set("role_id", roleId);
+        record.set("review_time", now);// 修改时间
+        if (id != null) {// 编辑
+            // 密码
+            Record user = Db.findById("t_user", id);
+            String password = user.getStr("password");
+            record.set("password", password);
+            record.set("id", id);
+            result = Db.update("t_user", record);
+        } else {// 新增
+            String password = "123456";
+            record.set("password", password);
+            record.set("create_time", now);
+            result = Db.save("t_user", record);
+        }
+
+        renderJson(result);
+    }
+
+    // 删除用户
+    public void deleteUser() {
+	    // 用户 id
+        Integer id = getParaToInt();
+        // 删除结果
+        boolean result = SystemService.deleteUser(id);
+
+        renderJson(result);
+    }
 	/************权限管理****************/
+    public void authority(){
+        render("authoriy.html");
+    }
 	/**
 	 * @desc:权限列表
 	 */
 	public void getAuthority(){
-		render("authoriy.html");
+		render("authoriyztree.html");
 	}
 	
 	/************菜单管理****************/
@@ -340,4 +444,15 @@ public class SystemController extends Controller {
 
 		renderJson(result);
 	}
+
+/*    *//************登陆管理****************//*
+    public void authority(){
+        render("authoriy.html");
+    }
+    *//**
+     * @desc:权限列表
+     *//*
+    public void getAuthority(){
+        render("authoriyztree.html");
+    }*/
 }

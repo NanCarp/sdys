@@ -11,11 +11,9 @@
 
     <title>用户管理-添加用户管理</title>
     <link href="../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="../../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
     <link href="../../dist/css/sb-admin-2.css" rel="stylesheet">
     <link href="../../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="../../css/admin.css" rel="stylesheet" type="text/css">
-    <link href="../../resource/bootstrapValidator/css/bootstrapValidator.min.css" rel="stylesheet" />
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -27,65 +25,105 @@
 		label{padding-right: 0;padding-top: 6px}
 	</style>
 </head>
-<body style="width: 90%">
-<form class="form-horizontal" role="form" style="margin-top: 20px">
+<body style="width: 95%">
+<form class="form-horizontal" role="form" style="margin-top: 20px" id="defaultForm">
+    <#if user??>
+        <input hidden="" name="id" value="${user.id}">
+        <div class="form-group">
+            <label class="col-xs-4 control-label text-right" for="account">账号：</label>
+            <div class="col-xs-6 ">
+                <input class="form-control text-left" id="account" type="text" placeholder="账号" name="account" value="${user.account}"/>
+            </div>
+        </div>
+<!--        <div class="form-group">
+            <label class="col-xs-4 control-label text-right" for="password">密码：</label>
+            <div class="col-xs-6">
+                <input class="form-control text-left" id="password" type="text" placeholder="默认密码：123456" readonly/>
+            </div>
+        </div>-->
+        <div class="form-group">
+            <label class="col-xs-4 control-label text-right" for="companyId">公司：</label>
+            <div class="col-xs-6">
+                <select class="form-control" id="companyId" name="companyId">
+                    <option value="">请选择公司</option>
+                    <#if companyList?? && companyList?size gt 0>
+                    <#list companyList as company>
+                    <option value="${company.id}"<#if user.company_id == company.id>selected</#if> >${company.company_name}</option>
+                    </#list>
+                    </#if>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label text-right" for="roleId">角色：</label>
+            <div class="col-xs-6">
+                <select class="form-control" id="roleId" name="roleId">
+                    <option value="">请选择角色</option>
+                    <#if roleList?? && roleList?size gt 0>
+                        <#list roleList as role>
+                            <option value="${role.id}" <#if role.id == user.role_id>selected</#if> >${role.role_type}</option>
+                        </#list>
+                    </#if>
+                </select>
+            </div>
+        </div>
+    <#else>
     <div class="form-group">
-        <label class="col-xs-4 col-md-3   col-md-offset-1   col-xs-offset-1 control-label text-right" for="v1">账号：</label>
-        <div class="col-xs-6 col-md-7 ">
-            <input class="form-control text-left" id="v1" type="text" placeholder="请输入公司名称" name="account"/>
+        <label class="col-xs-4 control-label text-right" for="account">账号：</label>
+        <div class="col-xs-6 ">
+            <input class="form-control text-left" id="account" type="text" placeholder="账号" name="account"/>
         </div>
     </div>
     <div class="form-group">
-        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="v2">密码：</label>
+        <label class="col-xs-4 control-label text-right" for="password">密码：</label>
         <div class="col-xs-6">
-            <input class="form-control text-left" id="v2" type="text" placeholder="请输入组织代码" name="pwd"/>
+            <input class="form-control text-left" id="password" type="text" placeholder="默认密码：123456" readonly/>
         </div>
     </div>
     <div class="form-group">
-        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="v3">部门：</label>
-        <div class="col-xs-6">         
-            <select class="form-control" id="v3" name="department">
-  				<option value="">请选择状态</option>
-  				<option value="开发部">开发部</option>
-  				<option value="企划部">企划部</option>
+        <label class="col-xs-4 control-label text-right" for="companyId">公司：</label>
+        <div class="col-xs-6">
+            <select class="form-control" id="companyId" name="companyId">
+                <option value="">请选择公司</option>
+                <#if companyList?? && companyList?size gt 0>
+                <#list companyList as company>
+                <option value="${company.id}">${company.company_name}</option>
+                </#list>
+                </#if>
+            </select>
+        </div>
+    </div>
+<!--    <div class="form-group">
+        <label class="col-xs-4 control-label text-right" for="departmentId">部门：</label>
+        <div class="col-xs-6">
+            <select class="form-control" id="departmentId" name="departmentId">
+  				<option value="">请选择部门</option>
+			</select>
+        </div>
+    </div>-->
+    <div class="form-group">
+        <label class="col-xs-4 control-label text-right" for="roleId">角色：</label>
+        <div class="col-xs-6">
+            <select class="form-control" id="roleId" name="roleId">
+  				<option value="">请选择角色</option>
 			</select>
         </div>
     </div>
+    </#if>
     <div class="form-group">
-        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="v4">所属公司：</label>
-        <div class="col-xs-6">         
-            <select class="form-control" id="v4" name="company">
-  				<option value="">请选择状态</option>
-  				<option value="阿里">阿里</option>
-  				<option value="百度">百度</option>
-  				<option value="腾讯">腾讯</option>
-			</select>
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="v5">角色：</label>
-        <div class="col-xs-6">         
-            <select class="form-control" id="v5" name="role">
-  				<option value="">请选择状态</option>
-  				<option value="超级管理员">超级管理员</option>
-  				<option value="管理员">管理员</option>
-			</select>
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-4 col-xs-offset-1 control-label" for="v"></label>
+        <label class="col-xs-4 control-label" for="v"></label>
         <div class="col-xs-6 text-right">
-            <button type="button" class="btn btn-10">取消</button>
+            <button type="button" class="btn btn-10" id="cancel">取消</button>
             <button id="v" type="submit" class="btn btn-primary">保存</button>
         </div>
     </div>
 </form>
-</body>
+
 <script src="../../vendor/jquery/jquery.min.js"></script>
 <script src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
-<script src="../../vendor/metisMenu/metisMenu.min.js"></script>
-<script src="../../dist/js/sb-admin-2.js"></script>
-<script src="../../resource/bootstrapValidator/js/bootstrapValidator.min.js"></script>
+<script src="../../resource/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
+<script src="../../js/common/admin.js"></script>
+
 <script>
 $(function () {
     $('form').bootstrapValidator({　
@@ -108,18 +146,7 @@ $(function () {
             		}
                 }
             },
-            pwd: {
-                validators: {
-                    notEmpty: {
-                        message: '密码不能为空'
-                    },
-            		regexp: {
-                    	regexp: /^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$/,
-                    	message: '不能有特殊字符'
-            		}
-                }
-            },
-            department: {
+            company:{
                 message: '验证失败',
                 validators: {
                     notEmpty: {
@@ -127,7 +154,7 @@ $(function () {
                     }
                 }
             },
-            company:{
+            department: {
                 message: '验证失败',
                 validators: {
                     notEmpty: {
@@ -145,7 +172,65 @@ $(function () {
             },
         }
     });
+}).on('success.form.bv', function(e) {
+    e.preventDefault();
+    $.post("/system/saveUser", $('#defaultForm').serialize(), function(result) {
+        if (result) {
+            parent.layer.msg("保存成功", {time: 2000}, function(){
+                layer_close();
+                parent.parent.refresh_iframe();
+            });
+
+        } else {
+            parent.layer.msg('保存失败', {icon: 1});
+        }
+
+    });
 });
 
+/*// 根据公司 id 获取部门列表
+$('#companyId').change(function() {
+    // console.log(this);
+    // 公司 id
+    var companyId = $(this).val();
+    // 清空部门下拉菜单
+    $('#departmentId').empty().append('<option value="">请选择部门</option>');
+    // 获取部门列表
+    if (!("" === companyId)) {
+        //console.log(departmentList);
+        $.post('/system/getDepartmentByCompanyId/'+ companyId, function (departmentList) {
+            $(departmentList).each(function () {
+                $('#departmentId').append('<option value="'+ this.id +'">'+ this.department_name +'</option>');
+            });
+        } );
+    }
+});*/
+
+// 根据公司 id 获取角色列表
+$('#companyId').change(function() {
+    // 公司 id
+    var companyId = $(this).val();
+    // 清空部门下拉菜单
+    $('#roleId').empty().append('<option value="">请选择角色</option>');
+    // 获取部门列表
+    if (!("" === companyId)) {
+        $.post('/system/getRoleByCompanyId/'+ companyId, function (roleList) {
+            $(roleList).each(function () {
+                $('#roleId').append('<option value="'+ this.id +'">'+ this.role_type +'</option>');
+            });
+        } );
+    }
+});
+
+
+
+
+
+
+//取消
+$('#cancel').on("click",function() {
+    layer_close();
+});
 </script>
+</body>
 </html>
