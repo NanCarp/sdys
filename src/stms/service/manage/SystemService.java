@@ -201,4 +201,14 @@ public class SystemService {
                 " ON b.company_id = c.id";
         return Db.find(sql);
     }
+
+	/************基础数据管理****************/
+	public static List<Record> getDictionaryList() {
+		String sql = "SELECT * FROM t_dictionary ";
+		return Db.find(sql);
+	}
+
+	public static boolean deleteDictionary(Integer id) {
+		return Db.deleteById("t_dictionary", id);
+	}
 }

@@ -493,4 +493,70 @@ public class SystemController extends Controller {
         renderJson(result);
 
     }
+
+    /************基础数据管理****************/
+    // 基础数据列表
+    public void dictionary() {
+        // 基础数据列表
+        List<Record> dictionaryList = SystemService.getDictionaryList();
+        setAttr("dictionaryList", dictionaryList);
+
+        render("dictionary.html");
+    }
+
+    // 获得基础数据
+    public void getDictionary() {
+        // 基础数据 id
+        Integer id = getParaToInt();
+
+        if (id != null) {//编辑
+            Record dictionary = Db.findById("t_dictionary", id);
+            setAttr("dictionary", dictionary);
+        }
+
+        render("dictionary_detail.html");
+    }
+
+    // 保存基础数据
+    public void saveDictionary() {
+        // 基础数据 id
+        Integer id = getParaToInt("id");
+        // 关键字
+        String keyword = getPara("keyword");
+        // 键
+        String key = getPara("key");
+        // 值
+        String value = getPara("value");
+        // 备注
+        String remark = getPara("remark");
+        // 当前时间
+        //Date now = new Date();
+        // 保存结果
+        boolean result = false;
+        Record record = new Record();
+        record.set("keyword", keyword);
+        record.set("key", key);
+        record.set("value", value);
+        record.set("remark", remark);
+        //record.set("review_time", now);// 修改时间
+        if (id != null) {// 编辑
+            record.set("id", id);
+            result = Db.update("t_dictionary", record);
+        } else {// 新增
+            //record.set("create_time", now);
+            result = Db.save("t_dictionary", record);
+        }
+
+        renderJson(result);
+    }
+
+    // 删除基础数据
+    public void deleteDictionary() {
+        // 基础数据 id
+        Integer id = getParaToInt();
+        // 删除结果
+        boolean result = SystemService.deleteDictionary(id);
+
+        renderJson(result);
+    }
 }
