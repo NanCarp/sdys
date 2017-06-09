@@ -16,6 +16,7 @@ import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.IAtom;
 import com.jfinal.plugin.activerecord.Record;
 
+import javafx.util.converter.LocalDateTimeStringConverter;
 import stms.interceptor.ManageInterceptor;
 import stms.service.manage.SupplierService;
 
@@ -73,7 +74,11 @@ public class SupplierController extends Controller{
 			Record quality = SupplierService.getQualityById(id);
 			setAttr("quality", quality);
 		}
-		
+
+		// 获取公司列表
+		List<Record> companyList = SupplierService.getCompanyList();
+		setAttr("companyList", companyList);
+
 		render("quality_detail.html");
 	}
 
@@ -88,7 +93,9 @@ public class SupplierController extends Controller{
 		// 资质 id
 		Integer id = getParaToInt("id", null);
 		// 货代名称
-		String forwarder = getPara("forwarder").trim();
+		//String forwarder = getPara("forwarder").trim();
+        // 物流公司 id
+        String supplierId = getPara("companyId");
 		// 货代简称
 		String abbreviation = getPara("abbreviation").trim();
 		// 状态：1：合格，2：备选，0：不合格
@@ -99,7 +106,8 @@ public class SupplierController extends Controller{
 		String remark = getPara("remark");
 		
 		Record record = new Record();
-		record.set("supplier_name", forwarder);
+		//record.set("supplier_name", forwarder);
+		record.set("supplier_id", supplierId);
 		record.set("short_name", abbreviation);
 		record.set("state", state);
 		record.set("review_file", file);
@@ -118,9 +126,7 @@ public class SupplierController extends Controller{
 			// 注册代码
 			String registrationCode = "123abc";
 			record.set("registration_code", registrationCode);
-			// 供应商 id
-			Integer supplierId = (int) new Date().getTime();
-			record.set("supplier_id", supplierId);
+
 			result = Db.save("t_supplier_qualification", record);
 		}
 		
@@ -214,13 +220,9 @@ public class SupplierController extends Controller{
 			//　获取供应商信息
 			Record info = SupplierService.getInfoById(id);
 			setAttr("info", info);
-			String params = " supplier_id=" + info.getInt("supplier_id");
-			List<Record> forwarderList = SupplierService.getQualityByParams(params);
-			setAttr("forwarder", forwarderList.get(0));
 		} else{
 			// 供应商名称，id
-			String params = " state != 0 AND supplier_id NOT IN (SELECT supplier_id FROM t_supplier) ";
-			List<Record> forwarderList = SupplierService.getQualityByParams(params);
+			List<Record> forwarderList = SupplierService.getCompanyListQualified();
 			setAttr("forwarderList", forwarderList);
 		}
 		
@@ -337,9 +339,9 @@ public class SupplierController extends Controller{
 	/** 
 	* @Title: getLevel 
 	* @Description: 获取供应商等级 
-	* @param 
+	* @param
 	* @return void
-	* @throws 
+	* @throws
 	*/
 	public void getLevel() {
 		// 考核标准 id
@@ -451,12 +453,10 @@ public class SupplierController extends Controller{
 			// 根据 id 查询月度考核
 			Record month = SupplierService.getMonthById(id);
 			setAttr("month", month);
-		} else{// 新增
-			
-		}
+		} 
 		
 		// 供应商名称，id
-		String params = " state != 0 ";
+		String params = " a.state != 0 ";
 		List<Record> forwarderList = SupplierService.getQualityByParams(params);
 		setAttr("forwarderList", forwarderList);
 		
@@ -560,7 +560,7 @@ public class SupplierController extends Controller{
 			setAttr("year", record);
 		} else {// 新增
 			// 供应商名称，供应商 id
-			String params = " state != 0 ";
+			String params = " a.state != 0 ";
 			List<Record> forwarderList = SupplierService.getQualityByParams(params);
 			setAttr("forwarderList", forwarderList);
 		}

@@ -51,15 +51,15 @@
         </div>
     </div> -->
     <div class="form-group">
-		<label class="col-xs-5 control-label text-right" for="forwarder">货代名称：</label>
+		<label class="col-xs-5 control-label text-right" for="supplierName">货代名称：</label>
         <div class="col-xs-6">
-			<input id="forwarder" class="form-control" name="forwarder" value="${forwarder.supplier_name}" readonly>
+			<input id="supplierName" class="form-control"  value="${info.supplier_name}" readonly>
 		</div>
     </div>
     <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="v3">合同号：</label>
+        <label class="col-xs-5 control-label text-right" for="contractNo">合同号：</label>
         <div class="col-xs-6">
-            <input class="form-control" id="v3" type="text" placeholder="合同号"  name="contractNo" value="${info.contract_no}"/>
+            <input class="form-control" id="contractNo" type="text" placeholder="合同号"  name="contractNo" value="${info.contract_no}"/>
         </div>
     </div>
     <div class="form-group">
@@ -80,8 +80,8 @@
 		<div class="col-xs-6">
 			<select id="state" class="form-control" name="state">
 		        <option value="">请选择状态</option>
-		        <option value="1" <#if forwarder.state==1>selected="selected"</#if>>合格</option>
-		        <option value="2" <#if forwarder.state==2>selected="selected"</#if>>备选</option>
+		        <option value="1" <#if info.state==1>selected="selected"</#if>>合格</option>
+		        <option value="2" <#if info.state==2>selected="selected"</#if>>备选</option>
 		    </select>
 	    </div>
     </div>

@@ -13,8 +13,15 @@ import com.jfinal.plugin.activerecord.IAtom;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 
+/**
+ * @ClassName: SupplierService.java
+ * @Description:
+ * @author: LiYu
+ * @date: 2017年6月6日上午11:13:40
+ * @version: 1.0 版本初成
+ */
 public class SupplierService {
-
+	/*********************物流公司管理*************************/
 	public static Page<Record> getQualityByPage(Integer pageNumber,String forwarder) {
 		String select = "SELECT * FROM t_supplier_qualification WHERE 1=1 ";
 		String sqlExceptSelect = "";
@@ -46,9 +53,13 @@ public class SupplierService {
 	* @throws 
 	*/
 	public static List<Record> getQualityList(String forwarder) {
-		String sql = "SELECT * FROM t_supplier_qualification WHERE 1=1 ";
+		String sql = " SELECT a.*, b.company_name AS supplier_name " +
+				" FROM t_supplier_qualification AS a " +
+				" LEFT JOIN t_company AS b " +
+				" ON a.supplier_id = b.id " +
+				" WHERE 1=1 ";
 		if (forwarder != ""){
-			sql += "AND supplier_name LIKE '%" + forwarder + "%'";
+			sql += "AND b.company_name LIKE '%" + forwarder + "%'";
 		}
 		return Db.find(sql);
 	}
@@ -62,7 +73,12 @@ public class SupplierService {
 	* @throws 
 	*/
 	public static Record getQualityById(Integer id) {
-		return Db.findById("t_supplier_qualification", id);
+	    String sql = " SELECT a.*, b.company_name AS supplier_name " +
+                " FROM t_supplier_qualification AS a " +
+                " LEFT JOIN t_company AS b " +
+                " ON a.supplier_id = b.id " +
+                " WHERE a.id = ? ";
+		return Db.find(sql, id).get(0);
 	}
 	
 	/** 
@@ -73,7 +89,11 @@ public class SupplierService {
 	* @throws 
 	*/
 	public static List<Record> getQualityByParams(String params) {
-		String sql = "SELECT * FROM t_supplier_qualification WHERE " + params;
+		String sql = "SELECT a.*, b.company_name AS supplier_name " +
+                "FROM t_supplier_qualification AS a " +
+                "LEFT JOIN t_company AS b " +
+                "ON a.supplier_id = b.id " +
+                "WHERE " + params;
 		return Db.find(sql);
 	}
 	
@@ -114,6 +134,16 @@ public class SupplierService {
 		count = Db.update("UPDATE t_supplier_qualification SET state = 2 WHERE id = " + id);
 		return count == 1;
 	}
+
+    /**
+     * @Title: getCompanyList
+     * @Description: 获取公司列表
+     * @return List<Record>
+     * @throws
+     */
+    public static List<Record> getCompanyList() {
+        return Db.find(" SELECT * FROM t_company WHERE state = 1 ");
+    }
 	/*********************供应商信息管理*************************/
 	/** 
 	* @Title: getInfoList 
@@ -135,11 +165,15 @@ public class SupplierService {
 	* @throws 
 	*/
 	public static List<Record> getInfoList(String forwarder) {
-		String sql = " SELECT a.*,b.registration_code,b.supplier_name,b.state "
-				+ " FROM `t_supplier` AS a LEFT JOIN t_supplier_qualification AS b "
-				+ " ON a.supplier_id = b.supplier_id WHERE 1=1 ";
+		String sql = " SELECT a.*,b.registration_code,b.state,c.company_name AS supplier_name " +
+                " FROM t_supplier AS a  " +
+                " LEFT JOIN t_supplier_qualification AS b  " +
+                " ON a.supplier_id = b.supplier_id " +
+                " LEFT JOIN t_company AS c " +
+                " ON a.supplier_id = c.id " +
+                " WHERE 1=1 ";
 		if (forwarder != ""){
-			sql += " AND b.supplier_name LIKE '%" + forwarder + "%'";
+			sql += " AND c.company_name LIKE '%" + forwarder + "%'";
 		}
 		return Db.find(sql);
 	}
@@ -152,7 +186,14 @@ public class SupplierService {
 	* @throws 
 	*/
 	public static Record getInfoById(Integer id) {
-		return Db.findById("t_supplier", id);
+	    String sql = "SELECT a.*,b.registration_code,b.state,c.company_name AS supplier_name " +
+                "FROM t_supplier AS a  " +
+                "LEFT JOIN t_supplier_qualification AS b  " +
+                "ON a.supplier_id = b.supplier_id " +
+                "LEFT JOIN t_company AS c " +
+                "ON a.supplier_id = c.id " +
+                "WHERE a.id = ? ";
+		return Db.find(sql, id).get(0);
 	}
 
 	
@@ -166,6 +207,17 @@ public class SupplierService {
 	public static boolean deleteInfoById(Integer id) {
 		return Db.deleteById("t_supplier", id);
 	}
+
+    // 获取合格、备选状态的物流公司列表
+    public static List<Record> getCompanyListQualified() {
+        String sql = "SELECT a.*, b.company_name AS supplier_name " +
+                "FROM t_supplier_qualification AS a " +
+                "LEFT JOIN t_company AS b " +
+                "ON a.supplier_id = b.id " +
+                "WHERE a.state != 0  " +
+                "AND a.supplier_id NOT IN (SELECT supplier_id FROM t_supplier) ";
+        return Db.find(sql);
+    }
 
 	/*********************供应商考核标准*************************/
 	/** 
@@ -212,12 +264,15 @@ public class SupplierService {
 		String forwarder = (String) params.getOrDefault("forwarder", "");
 		String year = (String) params.getOrDefault("year","");
 		String month = (String) params.getOrDefault("month","");
-		String sql = "SELECT a.*,b.supplier_name "
-				+ " FROM t_supplier_month_assess AS a "
-				+ " LEFT JOIN t_supplier_qualification AS b "
-				+ " ON a.supplier_id = b.supplier_id WHERE 1=1 ";
+		String sql = "SELECT a.*,c.company_name AS supplier_name  " +
+                "FROM t_supplier_month_assess AS a  " +
+                "LEFT JOIN t_supplier_qualification AS b " +
+                "ON a.supplier_id = b.supplier_id " +
+                "LEFT JOIN t_company AS c " +
+                "ON a.supplier_id = c.id " +
+                "WHERE 1=1 ";
 		if(forwarder!=""){
-			sql += " AND b.supplier_name LIKE '%" + forwarder + "%'";
+			sql += " AND c.company_name LIKE '%" + forwarder + "%'";
 		}
 		if(year != ""){
 			sql += " AND a.year = " + year;
@@ -225,7 +280,7 @@ public class SupplierService {
 		if(month != ""){
 			sql += " AND a.month = " + month;
 		}
-		sql += " ORDER BY a.year DESC, a.`month` DESC ";
+		sql += " ORDER BY a.`year` DESC, a.`month` DESC ";
 		
 		return Db.find(sql);
 	}
@@ -350,7 +405,7 @@ public class SupplierService {
 	public static List<Record> getYearList(Map<String, Object> params) {
 		String forwarder = (String) params.getOrDefault("forwarder", "");
 		String year = (String) params.getOrDefault("year","");
-		String sql = "SELECT a.*,c.supplier_name, "
+		String sql = "SELECT a.*,c.company_name AS supplier_name, "
 				+ " SUM(CASE WHEN `month` = 1 THEN month_score END) m1, "
 				+ " SUM(CASE WHEN `month` = 2 THEN month_score END) m2, "
 				+ " SUM(CASE WHEN `month` = 3 THEN month_score END) m3, "
@@ -366,8 +421,8 @@ public class SupplierService {
 				+ " FROM t_supplier_year_assess AS a "
 				+ " INNER JOIN t_supplier_month_assess  AS b "
 				+ " ON a.supplier_id = b.supplier_id AND a.`year` = b.`year` "
-				+ " LEFT JOIN t_supplier_qualification AS c "
-				+ " ON a.supplier_id = c.supplier_id "
+				+ " LEFT JOIN t_company AS c "
+				+ " ON a.supplier_id = c.id "
 				+ " WHERE 1=1 ";
 		if(forwarder!=""){
 			sql += " AND c.supplier_name LIKE '%" + forwarder + "%' ";
@@ -411,10 +466,10 @@ public class SupplierService {
 	* @throws 
 	*/
 	public static List<Record> getYearById(Integer id) {
-		return Db.find("SELECT a.*, b.supplier_name "
+		return Db.find("SELECT a.*, b.company_name AS supplier_name "
 				+ " FROM t_supplier_year_assess AS a "
-				+ " LEFT JOIN t_supplier_qualification AS b "
-				+ " ON a.supplier_id = b.supplier_id "
+				+ " LEFT JOIN t_company AS b "
+				+ " ON a.supplier_id = b.id "
 				+ " WHERE a.id = ? ", id);
 	}
 
@@ -521,13 +576,6 @@ public class SupplierService {
 		
 		return list;
 	}
-
-
-
-
-
-
-
 
 
 }

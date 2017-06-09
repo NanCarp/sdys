@@ -42,18 +42,32 @@
     <form id="defaultForm" class="form-horizontal" role="form">
     	<#if quality??>
     	<input hidden="" name="id" value="${quality.id}">
-    	<div class="form-group">
-			<label class="col-xs-5 control-labell text-right" for="v1">货代名称：</label>
-			<div class="col-xs-6">
-	            <input class="form-control" id="v1" type="text" placeholder="货代名称"  name="forwarder" value="${quality.supplier_name}"/>
-	        </div>
-	    </div>
         <div class="form-group">
-			<label class="col-xs-5 control-label text-right" for="v2">简称：</label>
-			<div class="col-xs-6">
-	            <input class="form-control" id="v2" type="text" placeholder="简称"  name="abbreviation" value="${quality.short_name}"/>
-	        </div>
-	    </div>
+            <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="companyId">公司：</label>
+            <div class="col-xs-6">
+                <select class="form-control" id="companyId" name="companyId">
+                    <option value="">请选择公司</option>
+                    <#if companyList??>
+                        <#list companyList as company>
+                            <option value="${company.id}" <#if company.id == quality.supplier_id>selected</#if>>${company.company_name}</option>
+                        </#list>
+                    </#if>
+                </select>
+            </div>
+        </div>
+        <<div class="form-group">
+            <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="companyId">公司：</label>
+            <div class="col-xs-6">
+                <select class="form-control" id="companyId" name="companyId">
+                    <option value="">请选择公司</option>
+                    <#if companyList??>
+                        <#list companyList as company>
+                            <option value="${company.id}">${company.company_name}</option>
+                        </#list>
+                    </#if>
+                </select>
+            </div>
+        </div>
 	    <div class="form-group">
             <label class="col-xs-5 control-label text-right" for="v3">状态：</label>
             <div class="col-xs-6">
@@ -79,10 +93,17 @@
         </div>
     	<#else>
         <div class="form-group">
-			<label class="col-xs-5 control-labell text-right" for="v1">货代名称：</label>
-			<div class="col-xs-6">
-	            <input class="form-control" id="v1" type="text" placeholder="货代名称"  name="forwarder"/>
-	        </div>
+			<label class="col-xs-5 control-labell text-right" for="companyId">货代名称：</label>
+            <div class="col-xs-6">
+                <select class="form-control" id="companyId" name="companyId">
+                    <option value="">请选择公司</option>
+                    <#if companyList??>
+                        <#list companyList as company>
+                            <option value="${company.id}">${company.company_name}</option>
+                        </#list>
+                    </#if>
+                </select>
+            </div>
 	    </div>
         <div class="form-group">
 			<label class="col-xs-5 control-label text-right" for="v2">简称：</label>
@@ -194,7 +215,7 @@ $('#defaultForm').bootstrapValidator({
 			});
 
 		} else {
-			parent.layer.msg('保存失败', {icon: 1});
+			parent.layer.msg('保存失败', {time: 2000});
 		}
 		
 	});
