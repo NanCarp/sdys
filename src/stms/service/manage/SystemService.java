@@ -52,6 +52,17 @@ public class SystemService {
 		
 		return Db.find(sql);
 	}
+
+	// 启用或冻结公司
+	public static boolean freezeOrEnableCompany(Integer id, boolean state) {
+		Record record = Db.findById("t_company", id);
+		if(state){// 冻结
+		    record.set("state", 0);
+        }else {// 启用
+		    record.set("state", 1);
+        }
+        return Db.update("t_company", record);
+    }
 	/*********************部门管理*************************/
 	// 部门列表
 	public static List<Record> getDepartmentList() {
@@ -91,6 +102,17 @@ public class SystemService {
 	public static List<Record> getDepartmentByCompanyId(Integer companyId) {
 		return Db.find(" SELECT * FROM `t_department` WHERE company_id = ?", companyId);
 	}
+
+    // 启用或冻结部门
+    public static boolean freezeOrEnableDepartment(Integer id, boolean state) {
+        Record record = Db.findById("t_department", id);
+        if(state){// 冻结
+            record.set("state", 0);
+        }else {// 启用
+            record.set("state", 1);
+        }
+        return Db.update("t_department", record);
+    }
     /*********************角色管理*************************/
     public static List<Record> getRoleList() {
         String sql = " SELECT a.*, b.company_name " +
@@ -187,9 +209,33 @@ public class SystemService {
 
 	// 菜单列表，ztree 使用
     public static List<Record> getMenuListForZTree() {
-        String sql = " SELECT id ,pid AS pId, module_name AS `name`  FROM t_menu ";
+        String sql = " SELECT id ,pid AS pId, module_name AS `name`  FROM t_menu " +
+                "UNION " +
+                "SELECT  button_id AS id, menu_id AS pId, button_name AS `name` FROM t_button " +
+                "UNION " +
+                "SELECT 0,99999, '权限列表' ";
         return Db.find(sql);
     }
+    /*********************按钮管理*************************/
+    /**
+     * @Title: getButtonList
+     * @Description: 获取按钮列表
+     * @return List<Record>
+     * @throws
+     */
+    public static List<Record> getButtonList() {
+        return Db.find("SELECT a.*,b.module_name  " +
+                "FROM t_button AS a " +
+                "LEFT JOIN t_menu AS b " +
+                "ON a.menu_id = b.id ");
+    }
+
+    // 删除按钮
+    public static boolean deleteButton(Integer id) {
+        return Db.deleteById("t_button", id);
+    }
+
+
 
     /*********************授权管理*************************/
     public static List<Record> getAuthorityList() {
@@ -211,4 +257,7 @@ public class SystemService {
 	public static boolean deleteDictionary(Integer id) {
 		return Db.deleteById("t_dictionary", id);
 	}
+
+
+
 }

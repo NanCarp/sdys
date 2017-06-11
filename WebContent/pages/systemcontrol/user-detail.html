@@ -60,9 +60,9 @@
                 <select class="form-control" id="roleId" name="roleId">
                     <option value="">请选择角色</option>
                     <#if roleList?? && roleList?size gt 0>
-                        <#list roleList as role>
-                            <option value="${role.id}" <#if role.id == user.role_id>selected</#if> >${role.role_type}</option>
-                        </#list>
+                    <#list roleList as role>
+                    <option value="${role.id}" <#if role.id == user.role_id>selected</#if> >${role.role_type}</option>
+                    </#list>
                     </#if>
                 </select>
             </div>

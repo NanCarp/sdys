@@ -91,6 +91,19 @@ public class SystemController extends Controller {
 		
 		render("companycontrol-detail.html");
 	}
+
+	// 冻结或启用公司
+	public void freezeOrEnableCompany() {
+	    // 公司 id
+        Integer id = getParaToInt("id");
+        // 公司状态，1：启用，0：冻结
+        boolean state = getParaToBoolean("state");
+
+        // 启用或冻结公司操作结果
+        boolean result = SystemService.freezeOrEnableCompany(id, state);
+
+        renderJson(result);
+    }
 	
 	/************部门管理****************/
     /**
@@ -177,6 +190,20 @@ public class SystemController extends Controller {
 
         renderJson(result);
     }
+
+    // 冻结或启用部门
+    public void freezeOrEnableDepartment() {
+        // 部门 id
+        Integer id = getParaToInt("id");
+        // 部门状态，1：启用，0：冻结
+        boolean state = getParaToBoolean("state");
+
+        // 启用或冻结部门操作结果
+        boolean result = SystemService.freezeOrEnableDepartment(id, state);
+
+        renderJson(result);
+    }
+
     /************角色管理****************/
 
     public void role() {
@@ -436,6 +463,86 @@ public class SystemController extends Controller {
 		renderJson(result);
 	}
 
+    /************按钮管理****************/
+    /**
+     * @Title: button
+     * @Description: 按钮列表
+     */
+    public void button(){
+        // 按钮列表
+        List<Record> buttonList = SystemService.getButtonList();
+        setAttr("buttonList", buttonList);
+
+        render("button.html");
+    }
+
+    /**
+     * @Title: getButton
+     * @Description: 获取单条按钮数据
+     */
+    public void getButton() {
+        // 按钮 id
+        Integer id = getParaToInt();
+
+        if (id != null) {//编辑
+            Record button = Db.findById("t_button", id);
+            setAttr("button", button);
+        }
+
+        // 父级菜单列表
+        String params = " AND pid != 0";
+        List<Record> parentMemuList = SystemService.getMenuListByParams(params);
+        setAttr("parentMenuList", parentMemuList);
+
+        render("button_detail.html");
+    }
+
+    /**
+     * @Title: saveButton
+     * @Description: 保存按钮
+     */
+    public void saveButton() {
+        // 按钮 id
+        Integer id = getParaToInt("id");
+        // 按钮 button_id
+        Integer buttonId = getParaToInt("buttonId");
+        // 按钮名称
+        String buttonName = getPara("buttonName").trim();
+        // 父级菜单 id
+        Integer pid = getParaToInt("pid", 0);
+        // 当前时间
+        Date now = new Date();
+        // 保存结果
+        boolean result = false;
+        Record record = new Record();
+        record.set("button_name", buttonName);
+        record.set("button_id", buttonId);
+        record.set("menu_id", pid);
+        record.set("review_time", now);// 修改时间
+        if (id != null) {// 编辑
+            record.set("id", id);
+            result = Db.update("t_button", record);
+        } else {// 新增
+            record.set("create_time", now);
+            result = Db.save("t_button", record);
+        }
+
+        renderJson(result);
+    }
+
+    /**
+     * @Title: deleteButton
+     * @Description: 删除按钮
+     */
+    public void deleteButton() {
+        // 按钮 id
+        Integer id = getParaToInt();
+        // 删除结果
+        boolean result = SystemService.deleteButton(id);
+
+        renderJson(result);
+    }
+
     /************权限管理****************/
     public void authority(){
         // 授权列表
@@ -492,6 +599,11 @@ public class SystemController extends Controller {
 
         renderJson(result);
 
+    }
+
+    /************登陆管理****************/
+    public void loginLog() {
+        render("login_log.html");
     }
 
     /************基础数据管理****************/

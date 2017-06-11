@@ -99,7 +99,11 @@
                                         <td>${company.review_time}</td>
                                         <td>
                                         <button class="btn btn-xs btn-3"  onclick="_edit(${company.id})">编辑</button>
-                                        <button class="btn btn-4  btn-xs" onclick="_freeze(${company.id})">冻结</button>
+                                        <#if company.state == true>
+                                        <button class="btn btn-4  btn-xs" onclick="_freezeOrEnable(${company.id},1)">冻结</button>
+                                        <#else>
+                                        <button class="btn btn-success  btn-xs" onclick="_freezeOrEnable(${company.id},0)">启用</button>
+                                        </#if>
                                         </td>
                                     </tr>
                                 	</#list>
@@ -184,16 +188,20 @@
 			location.replace('/system/company?companyName=' + companyName + '&state=' + state);
 		})
 	}
-    // 冻结
-	function _freeze(id){
+    // 冻结/启用
+	function _freezeOrEnable(id, state){
+        var info = "启用";
+        if(state){
+            info = "冻结";
+        }
 	    ///询问框
-        layer.confirm('确认冻结吗？', {
+        layer.confirm('确认' + info + '吗？', {
         	title: ['信息', 'font-weight:600;color:#fff;background-color: #3367D6;'],
             btn: ['确认','取消'] //按钮
         }, function(){
-        	$.post("/system/freezeCompany/" + id,function(result) {
+        	$.post("/system/freezeOrEnableCompany?id=" + id + "&state=" + state,function(result) {
         		if (result) {
-        			layer.msg('冻结成功', {time: 2000}, function(){
+        			layer.msg(info + '成功', {time: 2000}, function(){
         				parent.refresh_iframe();
         			});
         		}
