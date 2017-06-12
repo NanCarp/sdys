@@ -644,8 +644,8 @@ public class SupplierController extends Controller{
 	*/
 	public void calculateYearAlert() {
 		// 所有公司未审核月份列表
-		List<Record> forwarderList = SupplierService.calculateYearAlert();
-		setAttr("forwarderList", forwarderList);
+//		List<Record> forwarderList = SupplierService.calculateYearAlert();
+//		setAttr("forwarderList", forwarderList);
 		render("year_alert.html");
 	}
 	

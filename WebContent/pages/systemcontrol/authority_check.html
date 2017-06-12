@@ -16,7 +16,6 @@
 	<div>
     	<div style="width: 100%;">
     		<form class="form-horizontal" role="form" style="margin-top: 20px" id="defaultForm">
-                <#if role??>
                 <input hidden id="roleId" type="text" name="roleId" value="${role.id}"/>
                 <input hidden id="menusId" type="text" name="menusId" value="${role.menus_id}"/>
                 <input hidden id="buttonsId" type="text" name="buttonsId" value="${role.buttons_id}"/>
@@ -38,42 +37,6 @@
                         <ul id="authority" class="ztree"></ul>
                     </div>
                 </div>
-                <#else>
-                <div class="form-group">
-                    <label class="col-xs-4  control-label text-right" for="companyId" >公司：</label>
-                    <div class="col-xs-6">
-                        <select class="form-control" id="companyId" name="companyId">
-                            <option value="">请选择公司</option>
-                            <#if companyList?? && companyList?size gt 0>
-                            <#list companyList as company>
-                            <option value="${company.id}">${company.company_name}</option>
-                            </#list>
-                            </#if>
-                        </select>
-                    </div>
-                </div>
-			    <div class="form-group">
-			        <label class="col-xs-4  control-label text-right" for="roleId" >角色：</label>
-			         <div class="col-xs-6">
-			            <select class="form-control" id="roleId" name="roleId">
-			  				<option value="">请选择角色</option>
-						</select>
-			        </div>
-			    </div>
-			    <div class="form-group">
-			        <label class="col-xs-4  control-label text-right" for="authority">权限：</label>
-			        <div class="col-xs-6">
-			        	<ul id="authority" class="ztree"></ul>
-			        </div>
-			    </div>
-                </#if>
-			    <div class="form-group">
-			        <label class="col-xs-4  control-label" for="v"></label>
-			        <div class="col-xs-6 text-right">
-			            <button type="button" class="btn btn-default" id="cancel">取消</button>
-			            <button id="v" type="submit" class="btn btn-primary">保存</button>
-			        </div>
-			    </div>
 			</form>
     	</div>   		    	
 	</div>	
@@ -85,73 +48,12 @@
 	<script type="text/javascript" src="../../resource/zTree/js/jquery.ztree.core-3.5.js"></script>
 	<script type="text/javascript" src="../../resource/zTree/js/jquery.ztree.excheck-3.5.js"></script>
 	<script type="text/javascript">
-	$(function () {
-		$('form').bootstrapValidator({
-			message: 'This value is not valid',
-			feedbackIcons: {
-				valid: 'glyphicon glyphicon-ok',
-				invalid: 'glyphicon glyphicon-remove',
-				validating: 'glyphicon glyphicon-refresh'
-							},　　　
-			fields: {
-				role: {
-					message: '用户名验证失败',
-					validators: {
-						notEmpty: {
-							message: '角色不能为空'
-						},
-						regexp: {
-							regexp: /^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$/,
-							message: '不能有特殊字符'
-						}
-					}
-				},
-			}
-		});
-	}).on('success.form.bv', function(e) {
-        e.preventDefault();
-
-        // 角色 id
-        var roleId = $('#roleId').val();
-        // t_role_menu 表 id
-        var menusId = $('#menusId').val();
-        // t_role_button 表 id
-        var buttonsId = $("#buttonsId").val();
-
-        var treeObj = $.fn.zTree.getZTreeObj("authority");
-        var nodes = treeObj.getCheckedNodes(true);
-        //console.log(nodes);
-        if(nodes.length == 0){
-            layer.msg('请选择添加权限');return;
-        }
-        var myArray = new Array(nodes.length);
-        for (var a = 0; a < nodes.length; a++) {
-            myArray[a] = nodes[a].id;
-        }
-        // 权限 ids
-        var authorityIds = myArray.join();
-
-        $.post("/system/saveAuthority",{"roleId":roleId, "authorityIds": authorityIds, "menusId":menusId, "buttonsId":buttonsId}, function(result) {
-            if (result) {
-                parent.layer.msg("保存成功", {time: 2000}, function(){
-                    layer_close();
-                    parent.parent.refresh_iframe();
-                });
-
-            } else {
-                parent.layer.msg('保存失败', {icon: 1});
-            }
-
-        });
-    });
 
     // 权限树
 	var setting ={
 		enable:false,
 		check:{
-			enable:true,
-			chkStyle:"checkbox",
-
+			enable:false,
 		},
 		data:{
 			simpleData:{
@@ -167,7 +69,7 @@
 	var zTreeNodes = ${menuListJson!};
 	// 角色权限
     var authority = "${authority!}";
-    
+//    console.log(authority);
     var zNodes = [];
     var menuArray = authority.split(',');
     $(zTreeNodes).each(function(){
@@ -175,18 +77,26 @@
         str["id"] = this.id;
         str["name"] = this.name;
         str["pId"] = this.pId;
+        str["isHidden"] = true;
+        for(var o in menuArray){
+            if(menuArray[o] == this.id){
+                str["isHidden"] = false;
+            }
+        }
+        // 根节点默认打开、显示
         if(this.pId==99999){
             str["open"] = true;
+            str["isHidden"] = false;
         }
+        // 一级菜单默认打开
         if(this.pId==0){
             str["open"] = true;
         }
-        for(var o in menuArray){
-            if(menuArray[o] == this.id){
-                str["checked"] = true;
-            }
+        if(str["isHidden"] === false) {
+            zNodes.push(str);
         }
-        zNodes.push(str);
+//        console.log(str);
+
     });
 	$.fn.zTree.init($("#authority"), setting, zNodes);
 
@@ -199,7 +109,7 @@
         $('#roleId').empty().append('<option value="">请选择角色</option>');
         // 获取部门列表
         if (!("" === companyId)) {
-            $.post('/system/getRoleByCompanyIdNotAuthorized/'+ companyId, function (roleList) {
+            $.post('/system/getRoleByCompanyId/'+ companyId, function (roleList) {
                 $(roleList).each(function () {
                     $('#roleId').append('<option value="'+ this.id +'">'+ this.role_type +'</option>');
                 });

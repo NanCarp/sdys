@@ -280,12 +280,22 @@ public class SystemController extends Controller {
         renderJson(result);
     }
 
-    // 根据公司 id 获取部门列表
+    // 根据公司 id 获取角色列表
     public void getRoleByCompanyId() {
         // 公司 id
         Integer companyId = getParaToInt();
         // 角色列表
         List<Record> roleList = SystemService.getRoleByCompanyId(companyId);
+
+        renderJson(roleList);
+    }
+
+    // 根据公司 id 获取角色列表，剔除已分配权限的角色，
+    public void getRoleByCompanyIdNotAuthorized() {
+        // 公司 id
+        Integer companyId = getParaToInt();
+        // 角色列表
+        List<Record> roleList = SystemService.getRoleByCompanyIdNotAuthorized(companyId);
 
         renderJson(roleList);
     }
@@ -491,8 +501,8 @@ public class SystemController extends Controller {
 
         // 父级菜单列表
         String params = " AND pid != 0";
-        List<Record> parentMemuList = SystemService.getMenuListByParams(params);
-        setAttr("parentMenuList", parentMemuList);
+        List<Record> parentMenuList = SystemService.getMenuListByParams(params);
+        setAttr("parentMenuList", parentMenuList);
 
         render("button_detail.html");
     }
@@ -555,15 +565,19 @@ public class SystemController extends Controller {
      * @desc:权限
      */
     public void getAuthority(){
+        // 角色 role_id
+        Integer roleId = getParaToInt("roleId");
 
+        // 角色权限
+        if (roleId != null) {
+            Record role = SystemService.getMenusByRoleId(roleId);
+            setAttr("role", role);
+            setAttr("authority", role.getStr("authority"));
+        }
 
         // 公司列表
         List<Record> companyList = SystemService.getCompanyList();
         setAttr("companyList", companyList);
-
-        /*// 角色列表
-        List<Record> roleList = SystemService.getRoleList();
-        setAttr("roleList", roleList);*/
 
         // 菜单列表，ztree 数据源
         List<Record> menuList = SystemService.getMenuListForZTree();
@@ -575,32 +589,40 @@ public class SystemController extends Controller {
 
     // 保存权限
     public void saveAuthority() {
-        // 角色菜单 id
-        Integer id = getParaToInt("id");
+
         // 角色 id
         Integer roleId = getParaToInt("roleId");
-        // 菜单权限 ids
-        String menuIds = getPara("menuIds");
-        // 当前时间
-        Date now = new Date();
+        // 角色权限 ids
+        String authorityIds = getPara("authorityIds");
+        // t_role_menu 表 id
+        Integer menusId = getParaToInt("menusId");
+        // t_role_button 表 id
+        Integer buttonsId = getParaToInt("buttonsId");
+
         // 保存结果
-        boolean result = false;
-        Record record = new Record();
-        record.set("role_id", roleId);
-        record.set("menu_ids", menuIds);
-        record.set("review_time", now);// 修改时间
-        if (id != null) {// 编辑
-            record.set("id", id);
-            result = Db.update("t_role_menu", record);
-        } else {// 新增
-            record.set("create_time", now);
-            result = Db.save("t_role_menu", record);
-        }
+        boolean result = SystemService.saveAuthority(roleId, authorityIds, menusId, buttonsId);
 
         renderJson(result);
 
     }
 
+    // 查看权限
+    public void checkAuthority() {
+        // 角色 id
+        Integer roleId = getParaToInt();
+
+        // 角色权限
+        Record role = SystemService.getMenusByRoleId(roleId);
+        setAttr("role", role);
+        setAttr("authority", role.getStr("authority"));
+
+        // 菜单列表，ztree 数据源
+        List<Record> menuList = SystemService.getMenuListForZTree();
+        String menuListJson = JsonKit.toJson(menuList);
+        setAttr("menuListJson", menuListJson);
+
+        render("authority_check.html");
+    }
     /************登陆管理****************/
     public void loginLog() {
         render("login_log.html");
