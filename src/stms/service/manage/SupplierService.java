@@ -1,5 +1,8 @@
 package stms.service.manage;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -7,11 +10,17 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
+import com.jfinal.kit.PropKit;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.IAtom;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
+import stms.utils.EncodeUtil;
+
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * @ClassName: SupplierService.java
@@ -144,7 +153,35 @@ public class SupplierService {
     public static List<Record> getCompanyList() {
         return Db.find(" SELECT * FROM t_company WHERE state = 1 ");
     }
-	/*********************供应商信息管理*************************/
+
+	// 下载资质文件
+	public static void downloadQualityFIle(HttpServletResponse response, Integer id) throws IOException {
+		byte[] buffer = new byte[4096];
+		Record file = Db.findById("t_supplier_qualification", id);
+		String ZipName = file.getStr("review_file") + ".rar";
+		response.setContentType("application/octet-stream");
+		response.setHeader("Content-Disposition", "attachment; filename=" + EncodeUtil.toUtf8String(ZipName));
+		ZipOutputStream out = new ZipOutputStream(response.getOutputStream());
+		String file_url = file.getStr("review_file");
+		String[] farr = file_url.split(",");
+		File[] fs = new File[farr.length];
+		for (int i = 0; i < farr.length; i++) {
+			fs[i] = new File(PropKit.get("uploadPath")+ "temp/" + farr[i]);
+		}
+		for (int j = 0; j < fs.length; j++) {
+			FileInputStream fis = new FileInputStream(fs[j]);
+			out.putNextEntry(new ZipEntry(fs[j].getName()));
+			int len;
+			// 读入需要下载的文件的内容，打包到zip文件
+			while ((len = fis.read(buffer)) > 0) {
+				out.write(buffer, 0, len);
+			}
+			out.closeEntry();
+			fis.close();
+		}
+		out.close();
+	}
+    /*********************供应商信息管理*************************/
 	/** 
 	* @Title: getInfoList 
 	* @Description: 获取供应商信息列表

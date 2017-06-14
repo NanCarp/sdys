@@ -21,6 +21,8 @@
     <link href="../../dist/css/sb-admin-2.css" rel="stylesheet">
     <link href="../../css/admin.css" rel="stylesheet">
     <link href="../../resource/bootstrapvalidator/css/bootstrapValidator.min.css" rel="stylesheet">
+    <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="../../resource/bootstrap-fileinput/css/fileinput.css" rel="stylesheet">
 	<style type="text/css">
 		body { margin:0 15px;}
 		form { margin-top:20px;}
@@ -39,9 +41,9 @@
 </head>
 
 <body style="width:85%;">
-    <form id="defaultForm" class="form-horizontal" role="form">
+    <form id="defaultForm" class="form-horizontal" role="form" enctype="multipart/form-data">
     	<#if quality??>
-    	<input hidden="" name="id" value="${quality.id}">
+    	<input hidden="" name="id" value="${quality.id}" id="id">
         <div class="form-group">
             <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="companyId">公司：</label>
             <div class="col-xs-6">
@@ -55,7 +57,13 @@
                 </select>
             </div>
         </div>
-        <<div class="form-group">
+        <div class="form-group">
+            <label class="col-xs-5 control-label text-right" for="abbreviation">简称：</label>
+            <div class="col-xs-6">
+                <input class="form-control" id="abbreviation" type="text" placeholder="简称"  name="abbreviation" value="${quality.short_name!}"/>
+            </div>
+        </div>
+        <!--<<div class="form-group">
             <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="companyId">公司：</label>
             <div class="col-xs-6">
                 <select class="form-control" id="companyId" name="companyId">
@@ -67,11 +75,11 @@
                     </#if>
                 </select>
             </div>
-        </div>
+        </div>-->
 	    <div class="form-group">
-            <label class="col-xs-5 control-label text-right" for="v3">状态：</label>
+            <label class="col-xs-5 control-label text-right" for="state">状态：</label>
             <div class="col-xs-6">
-            	<select id="v3" class="form-control" name="state">
+            	<select id="state" class="form-control" name="state">
 	                <option value="">请选择状态</option>
 	                <option value="1" <#if quality.state==1>selected="selected"</#if>>合格</option>
 	                <option value="2" <#if quality.state==2>selected="selected"</#if>>备选</option>
@@ -80,15 +88,16 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-5 control-label text-right" for="v4" style="padding-top:0;">资质文件：</label>
+            <label class="col-xs-5 control-label text-right" for="file" style="padding-top:0;">资质文件：</label>
             <div class="col-xs-6">
-                <input type="file" id="v4" name="file">
+                <input type="file" class="file" id="file" name="file" value="${quality.review_file!}">
+                <div id="url"></div>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-5 control-label text-right" for="v5" style="padding-top:0;">备注：</label>
+            <label class="col-xs-5 control-label text-right" for="remark" style="padding-top:0;">备注：</label>
             <div class="col-xs-6">
-                <textarea class="form-control" id="v5" type="text" placeholder="备注" name="remark">${quality.remark!}</textarea>
+                <textarea class="form-control" id="remark" type="text" placeholder="备注" name="remark">${quality.remark!}</textarea>
             </div>
         </div>
     	<#else>
@@ -106,15 +115,15 @@
             </div>
 	    </div>
         <div class="form-group">
-			<label class="col-xs-5 control-label text-right" for="v2">简称：</label>
+			<label class="col-xs-5 control-label text-right" for="abbreviation">简称：</label>
 			<div class="col-xs-6">
-	            <input class="form-control" id="v2" type="text" placeholder="简称"  name="abbreviation"/>
+	            <input class="form-control" id="abbreviation" type="text" placeholder="简称"  name="abbreviation"/>
 	        </div>
 	    </div>
 	    <div class="form-group">
-            <label class="col-xs-5 control-label text-right" for="v3">状态：</label>
+            <label class="col-xs-5 control-label text-right" for="state">状态：</label>
             <div class="col-xs-6">
-            	<select id="v3" class="form-control" name="state">
+            	<select id="state" class="form-control" name="state">
 	                <option value="">请选择状态</option>
 	                <option value="1">合格</option>
 	                <option value="2">备选</option>
@@ -123,15 +132,16 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-5 control-label text-right" for="v4" style="padding-top:0;">资质文件：</label>
+            <label class="col-xs-5 control-label text-right" for="file" style="padding-top:0;">资质文件：</label>
             <div class="col-xs-6">
-                <input type="file" id="v4" name="file">
+                <input type="file" class="file" id="file" name="file" value="">
+                <div id="url"></div>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-5 control-label text-right" for="v5" style="padding-top:0;">备注：</label>
+            <label class="col-xs-5 control-label text-right" for="remark" style="padding-top:0;">备注：</label>
             <div class="col-xs-6">
-                <textarea class="form-control" id="v5" type="text" placeholder="备注" name="remark"></textarea>
+                <textarea class="form-control" id="remark" type="text" placeholder="备注" name="remark"></textarea>
             </div>
         </div>
         </#if>
@@ -144,7 +154,7 @@
         </div>
     </form>
 <!-- jQuery -->
-<script src="../../vendor/jquery/jquery.min.js"></script>
+<script src="../../resource/jquery-3.2.1/jquery-3.2.1.min.js"></script>
 
 <!-- Bootstrap Core JavaScript -->
 <script src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
@@ -153,10 +163,88 @@
 <script src="../../vendor/metisMenu/metisMenu.min.js"></script>
 
 <!-- Custom Theme JavaScript -->
+<script src="../../resource/bootstrap-fileinput/js/fileinput.js"></script>
+<script src="../../resource/bootstrap-fileinput/js/locales/zh.js"></script>
 <script src="../../dist/js/sb-admin-2.js"></script>
 <script src="../../resource/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
 <script src="../../js/common/admin.js"></script>
 <script type="text/javascript">
+// 文件上传
+// 初始化fileinput控件（第一次初始化）
+var fileList = new Array();//定义一个全局变量去接受文件名和id
+
+function initFileInput(ctrlName, uploadUrl) {
+    var control = $('#' + ctrlName);
+
+    control.fileinput({
+        language: 'zh', //设置语言
+        uploadUrl: uploadUrl, //上传的地址
+        // allowedFileExtensions : ['jpg', 'png','gif'],//接收的文件后缀
+        showUpload: false, //是否显示上传按钮
+        showCaption: false,//是否显示标题
+        showRemove: false, //
+        //showUploadedThumbs: false,//
+        browseClass: "btn btn-primary", //按钮样式
+        dropZoneEnabled: false,//是否显示拖拽区域
+        showPreview :false,//是否显示预览
+        enctype: 'multipart/form-data',
+        previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+    }).on("filebatchselected", function(event, files) {// 上传文件
+        $(this).fileinput("upload");
+    }).on("fileuploaded", function(event, data, previewId, index) {// 上传成功后的回调函数
+        if(data.response) {
+            var fileName = data.response.fileName;
+            fileList.push({fileName: fileName, keyId : previewId});
+            $('#url').empty().append('<p><span style="width: 90%;float: left;">'+fileName+'</span><a href="javascript:;" onclick="del(this)" style="width: 10%;float: left;"><i class="fa fa-times" title="删除"></i></a></br></p>');
+        }
+    }).on('filesuccessremove', function(event,id) {// 上传成功后，点击删除按钮的回调函数
+        console.log("filesuccessremove: " + id);
+    }).on('fileclear', function(event) {
+        console.log("fileclear");
+    });
+}
+
+initFileInput("file", "/supplier/uploadQualityFile");
+
+
+/*// 文件上传，显示文件名
+$('body').delegate('#file','change',function(e){
+    //console.log($(this).val())//e就是你获取的file对象
+    var file = $(this).val();
+    var strFileName=file.replace(/^.+?\\([^\\]+?)(\.[^\.\\]*?)?$/gi,"$1");  //正则表达式获取文件名，不带后缀
+    var FileExt=file.replace(/.+\./,"");   //正则表达式获取后缀
+    var fileName = strFileName + "." + FileExt;
+    //console.log(fileName);
+    if ("." !== fileName) {
+        $('#url').empty().append('<p><span style="width: 90%;float: left;">'+fileName+'</span><a href="javascript:;" onclick="del(this)" style="width: 10%;float: left;"><i class="fa fa-times" title="删除"></i></a></br></p>');
+    } else {
+        $('#url').empty();
+    }
+})*/
+// 删除选中文件
+function del(_obj){
+    var fileName = $('#url span').html();
+    //console.log(fileName);
+    $.post("/supplier/deleteQualityFile",{"fileName":fileName},function (data) {
+        if (data) {
+            parent.layer.msg("删除成功", {time: 1000});
+
+        } else {
+            parent.layer.msg('删除失败', {time: 1000});
+        }
+    });
+    $(_obj).parent('p').remove();
+    $("#file").val("");
+}
+// 回显文件
+$(function () {
+    var fileName = '${fileName!""}';
+    console.log(fileName);
+    if ("" !== fileName) {
+        $('#url').empty().append('<p><span style="width: 90%;float: left;">'+fileName+'</span><a href="javascript:;" onclick="del(this)" style="width: 10%;float: left;"><i class="fa fa-times" title="删除"></i></a></br></p>');
+    }
+});
+
 // 表单校验
 $('#defaultForm').bootstrapValidator({
 	message: 'This value is not valid',
@@ -189,7 +277,7 @@ $('#defaultForm').bootstrapValidator({
 		},
 		file: {
 			validators: {
-				
+
 			}
 		},
 		remark: {
@@ -205,10 +293,17 @@ $('#defaultForm').bootstrapValidator({
 })
 .on('success.form.bv', function(e) {
 	e.preventDefault();
-	$.post("/supplier/saveQuality", $('#defaultForm').serialize(), function(result) {
+    var id = $('#id').val();
+    var companyId = $('#companyId').val();
+    var abbreviation = $('#abbreviation').val();
+    var state = $('#state').val();
+    var file = $('#url span').html();
+    // var file = fileList[0]["fileName"];
+    var remark = $('#remark').html();
+	var postdata = {'id': id, 'companyId': companyId, 'abbreviation': abbreviation, 'state': state, 'file': file, 'remark': remark};
+
+    $.post("/supplier/saveQuality", postdata, function(result) {
 		if (result) {
-			//var iframedoc = parent.parent.$('.layui-tab-item iframe:visible').get(0);
-			//iframedoc.src = iframedoc.src;
 			parent.layer.msg("保存成功", {time: 2000}, function(){
 				layer_close();
 				parent.parent.refresh_iframe();
@@ -217,8 +312,31 @@ $('#defaultForm').bootstrapValidator({
 		} else {
 			parent.layer.msg('保存失败', {time: 2000});
 		}
-		
 	});
+
+    /*var postdata = new FormData(document.getElementById('defaultForm'));
+    $.ajax({
+        url:"/supplier/saveQuality",
+        type:"post",
+        data:postdata,
+        cache: false,
+        processData: false,
+        contentType: false,
+        success:function(result){
+            if (result) {
+                parent.layer.msg("保存成功", {time: 2000}, function(){
+                    layer_close();
+                    parent.parent.refresh_iframe();
+                });
+
+            } else {
+                parent.layer.msg('保存失败', {time: 2000});
+            }
+        },
+        error:function(e){
+            alert("网络错误，请重试！！");
+        }
+    });*/
 });
 
 // 取消

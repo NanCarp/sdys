@@ -28,11 +28,13 @@
     <link href="../../css/common/common.css" rel="stylesheet">
     <link href="../../css/admin.css" rel="stylesheet">
     <link href="../../resource/bootstrapvalidator/css/bootstrapValidator.min.css" rel="stylesheet">
+
     <link rel="stylesheet" href="../../resource/layui/css/layui.css" media="all" />
     
 
     <!-- Custom Fonts -->
     <link href="../../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <script src="../../resource/bootstrap-fileinput/js/fileinput.js"></script>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -87,7 +89,7 @@
                                     <td>${quality.registration_code}</td>
                                     <td>${quality.supplier_name}</td>
                                     <td>${quality.short_name}</td>
-                                    <td><p style="color:#6699FF;">附件01</p></td>
+                                    <td><p style="color:#6699FF;">${quality.review_file!}</p></td>
                                     <td>${quality.remark}</td>
                                     <td>
                                         <#if quality.state==1>
@@ -104,6 +106,7 @@
                                         <button class="btn btn-3 btn-xs" onclick="_edit(${quality.id})">编辑</button>
                                         <button class="btn btn-2 btn-xs" onclick="_cancel(this,${quality.id})" value="1" <#if quality.state!=2><#else>style="display:none;"</#if>>撤销</button>
                                         <button class="btn btn-5 btn-xs" onclick="_verify(this,${quality.id})" value="2" <#if quality.state==2><#else>style="display:none;"</#if>>审核</button>
+                                        <button class="btn btn-9 btn-xs" onclick="_download(${quality.id})">下载</button>
                                         <button class="btn btn-4 btn-xs" onclick="_delete(${quality.id})">删除</button>
                                     </td>
                                 </tr>
@@ -154,8 +157,10 @@
     <script src="../../js/jquery.nicescroll.min.js"></script>
     <script src="../../resource/laypage/laypage.js"></script>
 
+
     <!-- Page-Level Demo Scripts - Tables - Use for reference -->
     <script>
+    // 分页
     $(document).ready(function(){
         $('#dataTables-example').DataTable({
         	searching: false,// 搜索
@@ -213,11 +218,11 @@
 	}
     // 编辑
     function _edit(id){
-    	open_window('编辑供应商资质','/supplier/getQuality/' + id, 480, 350);
+    	open_window('编辑供应商资质','/supplier/getQuality/' + id, 520, 350);
     }
     // 新增
     function _add(){
-    	open_window('新增供应商资质','/supplier/getQuality', 480, 350);
+    	open_window('新增供应商资质','/supplier/getQuality', 520, 350);
     }
  	// 撤销
 	function _cancel(obj,id){
@@ -286,8 +291,12 @@
 
         });
     }
+
+    // 下载资质文件
+    function _download(id){
+        window.open('/supplier/downloadQualityFile/'+id, '_blank');
+    }
+
     </script>
-
 </body>
-
 </html>

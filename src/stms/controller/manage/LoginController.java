@@ -3,6 +3,7 @@ package stms.controller.manage;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
@@ -13,7 +14,11 @@ import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
 
 
+import com.jfinal.kit.JsonKit;
+import com.jfinal.plugin.activerecord.Db;
+import com.jfinal.plugin.activerecord.Record;
 import stms.interceptor.ManageInterceptor;
+import stms.service.manage.LoginService;
 import stms.utils.CountTime;
 
 /**
@@ -33,7 +38,19 @@ public class LoginController extends Controller{
 	* @throws 
 	*/
 	public void index(){
-		render("index.html");
+		//  session 获取用户
+		Record user = getSessionAttr("user");
+
+		// 测试账号
+		user = Db.find("SELECT * FROM `t_user` WHERE id = 2").get(0);
+
+		// 角色 id
+        Integer roleId = user.getInt("role_id");
+        // 角色对应菜单列表
+        List<Record> menuList = LoginService.getMenusByRoleId(roleId);
+        setAttr("menuList", menuList);
+
+        render("index.html");
 	}
 	
 	/** 

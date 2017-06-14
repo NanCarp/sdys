@@ -1,5 +1,7 @@
 package stms.controller.manage;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.sql.SQLException;
@@ -12,27 +14,29 @@ import java.util.Map;
 
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
+import com.jfinal.kit.PropKit;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.IAtom;
 import com.jfinal.plugin.activerecord.Record;
 
+import com.jfinal.upload.UploadFile;
 import javafx.util.converter.LocalDateTimeStringConverter;
 import stms.interceptor.ManageInterceptor;
 import stms.service.manage.SupplierService;
 
 /**
  * @ClassName: SupplierController
- * @Description: 供应商管理
+ * @Description: 物流公司管理
  * @author: LiYu
  * @date: 2017年5月12日下午3:40:50
  * @version: 1.0 版本初成
  */
-@Before(ManageInterceptor.class)
+// @Before(ManageInterceptor.class)
 public class SupplierController extends Controller{
-	/*********************供应商资质管理*************************/
+	/*********************物流公司资质管理*************************/
 	/** 
 	* @Title: quality 
-	* @Description: 供应商资质列表
+	* @Description: 物流公司资质列表
 	* @param 
 	* @return void
 	* @throws 
@@ -61,18 +65,20 @@ public class SupplierController extends Controller{
 	
 	/** 
 	* @Title: getQuality 
-	* @Description: 获取供应商资质
+	* @Description: 获取物流公司资质
 	* @param 
 	* @return void
 	* @throws 
 	*/
 	public void getQuality() {
-		//　获取供应商资质　id
+		//　获取物流公司资质　id
 		Integer id = getParaToInt(0, null);
 		// id 不为空，即为编辑
 		if (id != null){
 			Record quality = SupplierService.getQualityById(id);
 			setAttr("quality", quality);
+            // 文件名
+            setAttr("fileName", quality.getStr("review_file"));
 		}
 
 		// 获取公司列表
@@ -84,12 +90,20 @@ public class SupplierController extends Controller{
 
 	/** 
 	* @Title: saveQuality 
-	* @Description: 保存供应商资质
+	* @Description: 保存物流公司资质
 	* @param 
 	* @return void
 	* @throws 
 	*/
-	public void saveQuality() {
+	/*public void saveQuality() throws Exception{
+	    // 资质文件
+		UploadFile file = getFile();
+		if (file != null){
+
+        }
+        String originalName = file.getFileName();
+        String newName = PropKit.get("uploadPath")+"temp/" + originalName;
+        file.getFile().renameTo(new File(newName));
 		// 资质 id
 		Integer id = getParaToInt("id", null);
 		// 货代名称
@@ -101,21 +115,21 @@ public class SupplierController extends Controller{
 		// 状态：1：合格，2：备选，0：不合格
 		Integer state = getParaToInt("state");
 		// 文件
-		String file = getPara("file");
+		//String fileUrl = getPara("file");
 		// 备注
 		String remark = getPara("remark");
-		
+
 		Record record = new Record();
 		//record.set("supplier_name", forwarder);
 		record.set("supplier_id", supplierId);
 		record.set("short_name", abbreviation);
 		record.set("state", state);
-		record.set("review_file", file);
+		record.set("review_file", originalName);
 		record.set("remark", remark);
 		// 修改时间
 		Date now = new Date();
 		record.set("review_time", now);
-		
+
 		boolean result = false;
 		if (id != null) {
 			record.set("id", id);
@@ -129,19 +143,63 @@ public class SupplierController extends Controller{
 
 			result = Db.save("t_supplier_qualification", record);
 		}
-		
+
 		renderJson(result);
-	}
+	}*/
+    public void saveQuality() {
+        // 资质 id
+        Integer id = getParaToInt("id", null);
+        // 货代名称
+        //String forwarder = getPara("forwarder").trim();
+        // 物流公司 id
+        String supplierId = getPara("companyId");
+        // 货代简称
+        String abbreviation = getPara("abbreviation").trim();
+        // 状态：1：合格，2：备选，0：不合格
+        Integer state = getParaToInt("state");
+        // 文件
+        String fileUrl = getPara("file","");
+        // 备注
+        String remark = getPara("remark");
+
+        Record record = new Record();
+        //record.set("supplier_name", forwarder);
+        record.set("supplier_id", supplierId);
+        record.set("short_name", abbreviation);
+        record.set("state", state);
+        record.set("review_file", fileUrl);
+        record.set("remark", remark);
+        // 修改时间
+        Date now = new Date();
+        record.set("review_time", now);
+
+        boolean result = false;
+        if (id != null) {
+            //Record originalRecord = Db.findById("t_supplier_qulification", id);
+            record.set("id", id);
+            result = Db.update("t_supplier_qualification", record);
+        } else {
+            // 创建时间
+            record.set("create_time", now);
+            // 注册代码
+            String registrationCode = "123abc";
+            record.set("registration_code", registrationCode);
+
+            result = Db.save("t_supplier_qualification", record);
+        }
+
+        renderJson(result);
+    }
 	
 	/** 
 	* @Title: deleteQuality 
-	* @Description: 删除供应商资质 
+	* @Description: 删除物流公司资质 
 	* @param 
 	* @return void
 	* @throws 
 	*/
 	public void deleteQuality() {
-		// 供应商资质 id
+		// 物流公司资质 id
 		Integer id = getParaToInt();
 		// 删除结果
 		boolean result = SupplierService.deleteQuality(id);
@@ -151,13 +209,13 @@ public class SupplierController extends Controller{
 	
 	/** 
 	* @Title: verifyQuality 
-	* @Description: 审核供应商资质
+	* @Description: 审核物流公司资质
 	* @param 
 	* @return void
 	* @throws 
 	*/
 	public void verifyQuality() {
-		// 供应商资质 id
+		// 物流公司资质 id
 		Integer id = getParaToInt();
 		// 审核结果
 		boolean result = SupplierService.verifyQuality(id);
@@ -167,24 +225,61 @@ public class SupplierController extends Controller{
 	
 	/** 
 	* @Title: cancelQuality
-	* @Description: 撤销供应商资质
+	* @Description: 撤销物流公司资质
 	* @param 
 	* @return void
 	* @throws 
 	*/
 	public void cancelQuality() {
-		// 供应商资质 id
+		// 物流公司资质 id
 		Integer id = getParaToInt();
 		// 撤销结果
 		boolean result = SupplierService.cancelQuality(id);
 		
 		renderJson(result);
 	}
-	
-	/*********************供应商信息管理*************************/
+
+	// 上传资质文件
+    public void uploadQualityFile() {
+
+	    UploadFile file = getFile();
+        System.out.println("file: " + file);
+        String originalName = file.getFileName();
+        System.out.println("fileName: " + originalName);
+        String newName = PropKit.get("uploadPath")+"temp/" + originalName;
+        file.getFile().renameTo(new File(newName));
+
+        Map<String, Object> response = new HashMap();
+        response.put("fileName", originalName);
+        renderJson(response);
+    }
+
+    //  删除资质文件
+    public void deleteQualityFile() {
+	    boolean flag = false;
+	    // 文件名
+        String fileName = getPara("fileName");
+        String path = PropKit.get("uploadPath")+"temp/" + fileName;
+        File file = new File(path);
+        if (file.exists() && file.isFile()) {
+            file.delete();
+            flag = true;
+        }
+        renderJson(flag);
+    }
+
+    // 下载资质文件
+    public void downloadQualityFile() throws IOException {
+	    // 物流公司 id
+	    Integer id = getParaToInt();
+	    SupplierService.downloadQualityFIle(getResponse(), id);
+	    renderNull();
+    }
+
+	/*********************物流公司信息管理*************************/
 	/** 
 	* @Title: info 
-	* @Description: 供应商信息列表 
+	* @Description: 物流公司信息列表 
 	* @param 
 	* @return void
 	* @throws 
@@ -198,7 +293,7 @@ public class SupplierController extends Controller{
 			e.printStackTrace();
 		}
 		
-		// 供应商信息列表
+		// 物流公司信息列表
 		List<Record> infoList = SupplierService.getInfoList(forwarder);
 		setAttr("infoList", infoList);
 		setAttr("forwarder", forwarder);
@@ -207,21 +302,21 @@ public class SupplierController extends Controller{
 	
 	/** 
 	* @Title: getInfo 
-	* @Description: 获取供应商信息 
+	* @Description: 获取物流公司信息 
 	* @param 
 	* @return void
 	* @throws 
 	*/
 	public void getInfo() {
-		//　获取供应商信息　id
+		//　获取物流公司信息　id
 		Integer id = getParaToInt(0, null);
 		// id 不为空，即为编辑
 		if (id != null){
-			//　获取供应商信息
+			//　获取物流公司信息
 			Record info = SupplierService.getInfoById(id);
 			setAttr("info", info);
 		} else{
-			// 供应商名称，id
+			// 物流公司名称，id
 			List<Record> forwarderList = SupplierService.getCompanyListQualified();
 			setAttr("forwarderList", forwarderList);
 		}
@@ -231,7 +326,7 @@ public class SupplierController extends Controller{
 
 	/**
 	 * @Title: saveInfo
-	 * @Description: 保存供应商信息
+	 * @Description: 保存物流公司信息
 	 * @param
 	 * @return void
 	 * @throws
@@ -308,7 +403,7 @@ public class SupplierController extends Controller{
 	
 	/** 
 	* @Title: deleteInfo 
-	* @Description: 删除供应商信息
+	* @Description: 删除物流公司信息
 	* @param 
 	* @return void
 	* @throws 
@@ -320,10 +415,10 @@ public class SupplierController extends Controller{
 		boolean result = SupplierService.deleteInfoById(id);
 		renderJson(result);
 	}
-	/*********************供应商考核标准*************************/
+	/*********************物流公司考核标准*************************/
 	/** 
 	* @Title: level 
-	* @Description: 供应商考核标准
+	* @Description: 物流公司考核标准
 	* @param 
 	* @return void
 	* @throws 
@@ -338,7 +433,7 @@ public class SupplierController extends Controller{
 	
 	/** 
 	* @Title: getLevel 
-	* @Description: 获取供应商等级 
+	* @Description: 获取物流公司等级 
 	* @param
 	* @return void
 	* @throws
@@ -408,16 +503,16 @@ public class SupplierController extends Controller{
 		
 	}
 	
-	/*********************供应商月度考核*************************/
+	/*********************物流公司月度考核*************************/
 	/** 
 	* @Title: month 
-	* @Description: 供应商月度考核列表 
+	* @Description: 物流公司月度考核列表 
 	* @param 
 	* @return void
 	* @throws 
 	*/
 	public void month() {
-		// 供应商名称
+		// 物流公司名称
 		String forwarder = getPara("forwarder","");
 		// 年份
 		String year = getPara("year","");
@@ -440,7 +535,7 @@ public class SupplierController extends Controller{
 	
 	/** 
 	* @Title: getMonth 
-	* @Description: 获取供应商月度考核 
+	* @Description: 获取物流公司月度考核 
 	* @param 
 	* @return void
 	* @throws 
@@ -455,7 +550,7 @@ public class SupplierController extends Controller{
 			setAttr("month", month);
 		} 
 		
-		// 供应商名称，id
+		// 物流公司名称，id
 		String params = " a.state != 0 ";
 		List<Record> forwarderList = SupplierService.getQualityByParams(params);
 		setAttr("forwarderList", forwarderList);
@@ -474,7 +569,7 @@ public class SupplierController extends Controller{
 		Map<String,Object> map = new HashMap<>();
 		// 月度考核 id
 		map.put("id", getParaToInt("id"));
-		// 供应商 supplier_id
+		// 物流公司 supplier_id
 		map.put("supplierId", getParaToInt("supplierId"));
 		// 年份
 		map.put("year", getPara("year"));
@@ -515,16 +610,16 @@ public class SupplierController extends Controller{
 		
 		renderJson(result);
 	}
-	/*********************供应商年度考核*************************/
+	/*********************物流公司年度考核*************************/
 	/** 
 	* @Title: year 
-	* @Description: 供应商年度考核列表
+	* @Description: 物流公司年度考核列表
 	* @param 
 	* @return void
 	* @throws 
 	*/
 	public void year() {
-		// 供应商名称
+		// 物流公司名称
 		String forwarder = getPara("forwarder","");
 		// 年份
 		String year = getPara("year","");
@@ -544,7 +639,7 @@ public class SupplierController extends Controller{
 	
 	/** 
 	* @Title: getYear 
-	* @Description: 获取供应商年度考核
+	* @Description: 获取物流公司年度考核
 	* @param 
 	* @return void
 	* @throws 
@@ -559,7 +654,7 @@ public class SupplierController extends Controller{
 			Record record = SupplierService.getYearById(id).get(0);
 			setAttr("year", record);
 		} else {// 新增
-			// 供应商名称，供应商 id
+			// 物流公司名称，物流公司 id
 			String params = " a.state != 0 ";
 			List<Record> forwarderList = SupplierService.getQualityByParams(params);
 			setAttr("forwarderList", forwarderList);
@@ -574,7 +669,7 @@ public class SupplierController extends Controller{
 	
 	/** 
 	* @Title: saveYear 
-	* @Description: 保存供应商年度考核
+	* @Description: 保存物流公司年度考核
 	* @param 
 	* @return void
 	* @throws 
@@ -586,7 +681,7 @@ public class SupplierController extends Controller{
 		Date now = new Date();
 		// 年份
 		String year = getPara("year");
-		// 供应商 id
+		// 物流公司 id
 		String supplierId = getPara("supplierId");
 		// 年度得分
 		int yearScore = getParaToInt("yearScore");

@@ -437,6 +437,8 @@ public class SystemController extends Controller {
 		Integer pid = getParaToInt("pid", 0);
 		// 菜单路径
 		String url = getPara("url").trim();
+        // 图标
+        String icon = getPara("icon").trim();
 		// 备注
 		String remark = getPara("remark", "");
 		// 当前时间 
@@ -447,6 +449,7 @@ public class SystemController extends Controller {
 		record.set("module_name", menuName);
 		record.set("pid", pid);
 		record.set("url", url);
+		record.set("icon", icon);
 		record.set("remark", remark);
 		record.set("review_time", now);// 修改时间
 		if (id != null) {// 编辑
