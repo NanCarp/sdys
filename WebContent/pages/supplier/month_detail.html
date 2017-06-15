@@ -69,21 +69,21 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="col-xs-4 control-label text-right" for="v2">月度得分：</label>
+        <label class="col-xs-4 control-label text-right" for="score">月度得分：</label>
         <div class="col-xs-6">
-            <input class="form-control" id="v2" type="text" placeholder="月度得分" name="score" value="${month.month_score}"/>
+            <input class="form-control" id="score" type="text" placeholder="月度得分" name="score" value="${month.month_score}"/>
         </div>
     </div>
     <div class="form-group">
-        <label class="col-xs-4 control-label text-right" for="v5">评定等级：</label>
+        <label class="col-xs-4 control-label text-right" for="level">评定等级：</label>
         <div class="col-xs-6">
-            <select id="v5" class="form-control" name="level">
+            <select id="level" class="form-control" name="level">
                 <option value="">请选择等级</option>
-                <option value="AA" <#if month.supplier_level=="AA">selected</#if>>AA</option>
-                <option value="A" <#if month.supplier_level=="A">selected</#if>>A</option>
-                <option value="B" <#if month.supplier_level=="B">selected</#if>>B</option>
-                <option value="C" <#if month.supplier_level=="C">selected</#if>>C</option>
-                <option value="D" <#if month.supplier_level=="D">selected</#if>>D</option>
+                <#if criterionList?? && criterionList?size gt 0>
+                <#list criterionList as criterion>
+                <option value="${criterion.supplier_level}" <#if month.supplier_level==criterion.supplier_level>selected</#if> >${criterion.supplier_level}</option>
+                </#list>
+                </#if>
             </select>
         </div>
     </div>
@@ -132,21 +132,21 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="col-xs-4 control-label text-right" for="v2">月度得分：</label>
+        <label class="col-xs-4 control-label text-right" for="score">月度得分：</label>
         <div class="col-xs-6">
-            <input class="form-control" id="v2" type="text" placeholder="月度得分" name="score"/>
+            <input class="form-control" id="score" type="text" placeholder="月度得分" name="score"/>
         </div>
     </div>
     <div class="form-group">
-        <label class="col-xs-4 control-label text-right" for="v5">评定等级：</label>
+        <label class="col-xs-4 control-label text-right" for="level">评定等级：</label>
         <div class="col-xs-6">
-            <select id="v5" class="form-control" name="level">
+            <select id="level" class="form-control" name="level">
                 <option value="">请选择等级</option>
-                <option value="AA">AA</option>
-                <option value="A">A</option>
-                <option value="B">B</option>
-                <option value="C">C</option>
-                <option value="D">D</option>
+                <#if criterionList?? && criterionList?size gt 0>
+                <#list criterionList as criterion>
+                <option value="${criterion.supplier_level}">${criterion.supplier_level}</option>
+                </#list>
+                </#if>
             </select>
         </div>
     </div>
@@ -227,7 +227,7 @@ $(function(){
 			validating: 'glyphicon glyphicon-refresh'
 		},
 		fields: {
-			forwarder: {
+            supplierId: {
 				validators: {
 					notEmpty: {
 						message: '请选择供应商!'
@@ -296,6 +296,27 @@ $(function(){
 $('#cancel').on("click",function() {
 	layer_close();
 });
+
+// 根据分数自动选择等级
+$('#score').change(function () {
+    var criterionList = ${criterionJson!};// 考核标准列表
+    var score = $(this).val();// 月度得分
+    var level = "";// 评定等级
+    // 根据得分，结算等级
+    $(criterionList).each(function () {
+        if (score <= this.high && score>= this.low) {
+            level = this.supplier_level;
+            return false;// 退出循环
+        }
+    });
+    // 下拉菜单选择相应等级
+    $('#level option').each(function () {
+        if ($(this).val() === level) {
+            $(this).attr("selected","");
+        }
+    });
+});
+    
 </script>
 </body>
 

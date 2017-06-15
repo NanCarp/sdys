@@ -14,6 +14,7 @@ import java.util.Map;
 
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
+import com.jfinal.kit.JsonKit;
 import com.jfinal.kit.PropKit;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.IAtom;
@@ -530,9 +531,6 @@ public class SupplierController extends Controller{
 		setAttr("year", year);
 		setAttr("month", month);
 
-		// 评分标准 TODO
-         SupplierService.getCriterion();
-		
 		render("month.html");
 	}
 	
@@ -557,8 +555,14 @@ public class SupplierController extends Controller{
 		String params = " a.state != 0 ";
 		List<Record> forwarderList = SupplierService.getQualityByParams(params);
 		setAttr("forwarderList", forwarderList);
-		
-		render("month_detail.html");
+
+        // 评分标准
+        List<Record> criterionList =  SupplierService.getCriterionList();
+        setAttr("criterionList", criterionList);
+        String criterionJson = JsonKit.toJson(criterionList);
+        setAttr("criterionJson", criterionJson);
+
+        render("month_detail.html");
 	}
 	
 	/** 

@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -13,6 +12,7 @@ import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import com.jfinal.kit.JsonKit;
 import com.jfinal.kit.PropKit;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.IAtom;
@@ -283,7 +283,7 @@ public class SupplierService {
 			public boolean run() throws SQLException {
 				for (String id: ids){
 					result = Db.deleteById("t_supplier_level", id);
-					if (!result) {
+					if (result == false) {
 						break;
 					}
 				}
@@ -629,10 +629,26 @@ public class SupplierService {
 		return list;
 	}*/
 
-
-    public static void getCriterion() {
+    // 获取考核标准列表 supplier_score 拆分成 high 和 low
+    public static List<Record> getCriterionList() {
         // 等级列表
-        List<Record> levelList = getLevelList();
-        
+        List<Record> levelList =
+                Db.find("SELECT id,supplier_level,supplier_score FROM `t_supplier_level`");
+        // supplier_score 拆分成 high 和 low
+        for (Record record : levelList) {
+            Integer id = record.getInt("id");
+            String level = record.getStr("supplier_level");
+            String[] score = record.getStr("supplier_score").split("~");
+            Integer low = Integer.parseInt(score[0]);
+            Integer high = Integer.parseInt(score[1]);
+            if (low > high) {
+                high = low;
+                low = Integer.parseInt(score[1]);
+            }
+            record.set("low", low);
+            record.set("high", high);
+        }
+
+        return levelList;
     }
 }
