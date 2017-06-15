@@ -529,6 +529,9 @@ public class SupplierController extends Controller{
 		setAttr("forwarder", forwarder);
 		setAttr("year", year);
 		setAttr("month", month);
+
+		// 评分标准 TODO
+         SupplierService.getCriterion();
 		
 		render("month.html");
 	}
@@ -622,7 +625,7 @@ public class SupplierController extends Controller{
 		// 物流公司名称
 		String forwarder = getPara("forwarder","");
 		// 年份
-		String year = getPara("year","");
+		Integer year = getParaToInt("year",null);
 		
 		Map<String,Object> params = new HashMap<>();
 		params.put("forwarder", forwarder);
@@ -739,8 +742,9 @@ public class SupplierController extends Controller{
 	*/
 	public void calculateYearAlert() {
 		// 所有公司未审核月份列表
-//		List<Record> forwarderList = SupplierService.calculateYearAlert();
-//		setAttr("forwarderList", forwarderList);
+		//List<Record> forwarderList = SupplierService.calculateYearAlert();
+		List<Record> forwarderList = SupplierService.getYearList();
+		setAttr("forwarderList", forwarderList);
 		render("year_alert.html");
 	}
 	

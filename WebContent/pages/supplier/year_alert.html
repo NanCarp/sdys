@@ -45,14 +45,27 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>圆通</td>
-							<td>1月，2月，3月，4月，5月，6月，7月，8月，9月，10月，11月，12月</td>
-						</tr>
-						<tr>
-							<td>圆通</td>
-							<td>1月，2月，3月</td>
-						</tr>
+						<#if forwarderList ?? && forwarderList?size gt 0>
+                        <#list forwarderList as forwarder>
+                        <tr>
+                            <td>${forwarder.supplier_name}</td>
+                            <td>
+                                <#if forwarder.m1??><#else>1，</#if>
+                                <#if forwarder.m2??><#else>2，</#if>
+                                <#if forwarder.m3??><#else>3，</#if>
+                                <#if forwarder.m4??><#else>4，</#if>
+                                <#if forwarder.m5??><#else>5，</#if>
+                                <#if forwarder.m6??><#else>6，</#if>
+                                <#if forwarder.m7??><#else>7，</#if>
+                                <#if forwarder.m8??><#else>8，</#if>
+                                <#if forwarder.m9??><#else>9，</#if>
+                                <#if forwarder.m10??><#else>10，</#if>
+                                <#if forwarder.m11??><#else>11，</#if>
+                                <#if forwarder.m12??><#else>12月</#if>
+                            </td>
+                        </tr>
+                        </#list>
+                        </#if>
 					</tbody>
 				</table>
 			</div>
@@ -63,7 +76,7 @@
 		<label class="col-xs-6 control-label" for="v"></label>
 		<div class="col-xs-6 text-right">
 			<button type="button" class="btn btn-10" id="cancel">取消</button>
-			<button type="button" class="btn btn-11" id="confirm">确定</button>
+			<button type="button" class="btn btn-11" id="confirm">确认</button>
 		</div>
 	</div>
 

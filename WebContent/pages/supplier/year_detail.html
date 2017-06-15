@@ -57,15 +57,15 @@
 		</div>
 	</div>
     <div class="form-group">
-        <label class="col-xs-4 control-label text-right" for="v4">年度得分：</label>
+        <label class="col-xs-4 control-label text-right" for="yearScore">年度得分：</label>
         <div class="col-xs-6">
-            <input class="form-control" id="v4" type="text" placeholder="年度得分" name="yearScore" value="${year.year_score}"/>
+            <input class="form-control" id="yearScore" type="text" placeholder="年度得分" name="yearScore" value="${year.year_score}"/>
         </div>
     </div>
     <div class="form-group">
-        <label class="col-xs-4 control-label text-right" for="v5">评定等级：</label>
+        <label class="col-xs-4 control-label text-right" for="level">评定等级：</label>
         <div class="col-xs-6">
-            <select id="v5" class="form-control" name="level">
+            <select id="level" class="form-control" name="level">
                 <option value="">请选择等级</option>
                 <option value="AA" <#if year.supplier_level=="AA">selected</#if>>AA</option>
                 <option value="A" <#if year.supplier_level=="A">selected</#if>>A</option>
@@ -102,15 +102,15 @@
 		</div>
 	</div>
     <div class="form-group">
-        <label class="col-xs-4 control-label text-right" for="v4">年度得分：</label>
+        <label class="col-xs-4 control-label text-right" for="yearScore">年度得分：</label>
         <div class="col-xs-6">
-            <input class="form-control" id="v4" type="text" placeholder="年度得分" name="yearScore"/>
+            <input class="form-control" id="yearScore" type="text" placeholder="年度得分" name="yearScore"/>
         </div>
     </div>
     <div class="form-group">
-        <label class="col-xs-4 control-label text-right" for="v5">评定等级：</label>
+        <label class="col-xs-4 control-label text-right" for="level">评定等级：</label>
         <div class="col-xs-6">
-            <select id="v5" class="form-control" name="level">
+            <select id="level" class="form-control" name="level">
                 <option value="">请选择等级</option>
                 <option value="AA">AA</option>
                 <option value="A">A</option>
@@ -228,6 +228,30 @@ $(function(){
 $('#cancel').on("click",function() {
 	layer_close();
 });
+
+// 根据分数自动选择等级
+$('#yearScore').change(function () {
+    //console.log("score changed");
+    var score = $(this).val();
+    var level = "";
+    if (score >= 96) {
+        level = "AA";
+    }else if(score >= 90) {
+        level = "A";
+    }else if(score >= 80) {
+        level = "B";
+    }else if(score >= 70) {
+        level = "C";
+    }else {
+        level = "D";
+    }
+    $('#level option').each(function () {
+        //console.log($(this).val());
+        if ($(this).val() === level) {
+            $(this).attr("selected","");
+        }
+    });
+})
 </script>
 </body>
 

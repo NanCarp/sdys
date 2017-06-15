@@ -345,21 +345,16 @@ public class SupplierService {
 		}
 		
 		boolean succeed = Db.tx(new IAtom() {
-
+			boolean result = false;
 			@Override
 			public boolean run() throws SQLException {
-				boolean result = false;
+
 				if(id == null) {
 					result = Db.save("t_supplier_month_assess", record);
 				} else {
 					record.set("id", map.get("id"));
 					result = Db.update("t_supplier_month_assess", record);
 				}
-				
-				/*int count = Db.update("update t_supplier "
-						+ " set supplier_level = ?,review_time = ? "
-						+ " WHERE supplier_id = ?",
-						map.get("level"), map.get("now"),map.get("supplierId"));*/
 				int count = 1;
 				return result && count == 1;
 			}
@@ -406,7 +401,7 @@ public class SupplierService {
 			public boolean run() throws SQLException {
 				for (String id: ids){
 					result = Db.deleteById("t_supplier_month_assess", id);
-					if (!result) {
+					if (result == false) {
 						break;
 					}
 				}
@@ -441,7 +436,7 @@ public class SupplierService {
 	*/
 	public static List<Record> getYearList(Map<String, Object> params) {
 		String forwarder = (String) params.getOrDefault("forwarder", "");
-		String year = (String) params.getOrDefault("year","");
+		Integer year = (Integer) params.getOrDefault("year",null);
 		String sql = "SELECT a.*,c.company_name AS supplier_name, "
 				+ " SUM(CASE WHEN `month` = 1 THEN month_score END) m1, "
 				+ " SUM(CASE WHEN `month` = 2 THEN month_score END) m2, "
@@ -456,7 +451,7 @@ public class SupplierService {
 				+ " SUM(CASE WHEN `month` = 11 THEN month_score END) m11, "
 				+ " SUM(CASE WHEN `month` = 12 THEN month_score END) m12 "
 				+ " FROM t_supplier_year_assess AS a "
-				+ " INNER JOIN t_supplier_month_assess  AS b "
+				+ " LEFT JOIN t_supplier_month_assess  AS b "
 				+ " ON a.supplier_id = b.supplier_id AND a.`year` = b.`year` "
 				+ " LEFT JOIN t_company AS c "
 				+ " ON a.supplier_id = c.id "
@@ -464,7 +459,7 @@ public class SupplierService {
 		if(forwarder!=""){
 			sql += " AND c.supplier_name LIKE '%" + forwarder + "%' ";
 		}
-		if(year != ""){
+		if(year != null){
 			sql += " AND a.year = " + year;
 		}
 		sql += " GROUP BY a.`year`,a.supplier_id "
@@ -524,7 +519,7 @@ public class SupplierService {
 		String sql = "SELECT supplier_id, ROUND(AVG(month_score)) AS year_score "
 				+ " FROM t_supplier_month_assess "
 				+ " WHERE `year` = " + year
-				+ " AND supplier_id NOT IN (SELECT supplier_id FROM t_supplier_year_assess WHERE `year` = "+year+") "
+				//+ " AND supplier_id NOT IN (SELECT supplier_id FROM t_supplier_year_assess WHERE `year` = "+year+") "
 				+ " GROUP BY supplier_id ";
 		List<Record> list = Db.find(sql);
 		
@@ -536,9 +531,28 @@ public class SupplierService {
 					return true;
 				}
 				
-				boolean result = false;
-				
+				boolean result1 = false;
+				boolean result2 = false;
+
 				for(Record record : list) {
+					// 删除已评分的
+                    Integer supplierId = record.getInt("supplier_id");
+                    /*Integer count = Db.queryInt("SELECT COUNT(*)  " +
+                            "FROM t_supplier_year_assess  " +
+                            "WHERE supplier_id = ?  " +
+                            "GROUP BY supplier_id ", supplierId);*/
+                    List<Record> list = Db.find("SELECT * FROM t_supplier_year_assess WHERE supplier_id = ? ", supplierId);
+
+                    if (list.size() > 0) {
+                        Record originalRecord = list.get(0);
+                        result1 = Db.delete("t_supplier_year_assess", originalRecord);
+                        if (!result1) {
+                            break;
+                        }
+                    } else {
+                        result1 = true;
+                    }
+
 					int yearScore = record.getBigDecimal("year_score").intValue();
 					String level = "";
 					if (yearScore >= 96) {
@@ -556,14 +570,14 @@ public class SupplierService {
 					record.set("create_time", now);
 					record.set("review_time",now);
 					record.set("year", year);
-					result = Db.save("t_supplier_year_assess", record);
+					result2 = Db.save("t_supplier_year_assess", record);
 					
-					if (!result) {
+					if (!result2) {
 						break;
 					}
 				}
 				
-				return result;
+				return result1 && result2;
 			}
 			
 		});
@@ -599,20 +613,26 @@ public class SupplierService {
 	}
 
 
-	/** 
+	/**
 	* @Title: calculateYearAlert 
 	* @Description: 所有公司未审核月份列表
 	* @return List<Record>
 	* @throws 
 	*/
-	public static List<Record> calculateYearAlert() {
+	/*public static List<Record> calculateYearAlert() {
 		List<Record> list = getYearList();
 		for (Record record: list) {
+
 			
 		}
 		
 		return list;
-	}
+	}*/
 
 
+    public static void getCriterion() {
+        // 等级列表
+        List<Record> levelList = getLevelList();
+        
+    }
 }
