@@ -166,7 +166,7 @@
 <!-- Page-Level Demo Scripts - Tables - Use for reference -->
 <script>
 	$(function(){
-		//分页
+		// 分页
 		$('#dataTables-example').DataTable({
         	searching: false,// 搜索
         	ordering: false,// 排序
@@ -237,7 +237,7 @@
     }
 	// 删除
     function _delete(id){
-        //询问框
+        // 询问框
         layer.confirm('确认删除吗？', {
         	title: ['信息', 'font-weight:600;color:#fff;background-color: #3367D6;'],
             btn: ['确认','取消'] //按钮
@@ -269,22 +269,27 @@
 			ids += $(this).attr('_id') + ",";
 		});
 		ids = ids.substring(0,ids.length -1);
-		
-        //询问框
-        layer.confirm('确认批量删除吗？', {
-        	title: ['信息', 'font-weight:600;color:#fff;background-color: #3367D6;'],
-            btn: ['确认','取消'] //按钮
-        }, function(){
-        	$.post("/supplier/deleteMonth/" + ids,function(result) {
-        		if (result) {
-        			layer.msg('删除成功', {time: 2000}, function(){
-        				parent.refresh_iframe();
-        			});
-        		}
-        	});
-        }, function(){
+		// 如果没有选择，提示勾选至少一条数据
+		if (!ids) {
+            layer.msg('请至少选择一条记录', {time: 2000});
+		}
+		else {
+            // 询问框
+            layer.confirm('确认批量删除吗？', {
+                title: ['信息', 'font-weight:600;color:#fff;background-color: #3367D6;'],
+                btn: ['确认','取消'] //按钮
+            }, function(){
+                $.post("/supplier/deleteMonth/" + ids,function(result) {
+                    if (result) {
+                        layer.msg('删除成功', {time: 2000}, function(){
+                            parent.refresh_iframe();
+                        });
+                    }
+                });
+            }, function(){
 
-        });  
+            });
+        }
     }
  	// 查看附件
 	function _detail(){

@@ -157,14 +157,6 @@
        
        });
     });
-    // 全选、全不选
-    $("#checkAll").click(function() {
-        $("input[name='sub']").prop("checked", this.checked);
-    });
-    $("input[name='sub']").click(function() {
-        var $subs = $("input[name='sub']");
-        $("#checkAll").prop("checked" , $subs.length == $subs.filter(":checked").length ? true :false);
-    });
     // 编辑
     function _edit(id){
     	open_window('编辑供应商等级','/supplier/getLevel/'+id, 480, 250);
@@ -191,6 +183,14 @@
 
         });
     }
+    // 全选、全不选
+    $("#checkAll").click(function() {
+        $("input[name='sub']").prop("checked", this.checked);
+    });
+    $("input[name='sub']").click(function() {
+        var $subs = $("input[name='sub']");
+        $("#checkAll").prop("checked" , $subs.length == $subs.filter(":checked").length ? true :false);
+    });
  	// 批量删除
     function _batchDelete(){
     	// 获取选中记录 id
@@ -199,22 +199,27 @@
 			ids += $(this).attr('_id') + ",";
 		});
 		ids = ids.substring(0,ids.length -1);
-		
-        //询问框
-        layer.confirm('确认批量删除吗？', {
-        	title: ['信息', 'font-weight:600;color:#fff;background-color: #3367D6;'],
-            btn: ['确认','取消'] //按钮
-        }, function(){
-        	$.post("/supplier/deleteLevel/" + ids,function(result) {
-        		if (result) {
-        			layer.msg('删除成功', {time: 2000}, function(){
-        				parent.refresh_iframe();
-        			});
-        		}
-        	});
-        }, function(){
+        // 如果没有选择，提示勾选至少一条数据
+        if (!ids) {
+            layer.msg('请至少选择一条记录', {time: 2000});
+        }
+        else {
+            //询问框
+            layer.confirm('确认批量删除吗？', {
+                title: ['信息', 'font-weight:600;color:#fff;background-color: #3367D6;'],
+                btn: ['确认','取消'] //按钮
+            }, function(){
+                $.post("/supplier/deleteLevel/" + ids,function(result) {
+                    if (result) {
+                        layer.msg('删除成功', {time: 2000}, function(){
+                            parent.refresh_iframe();
+                        });
+                    }
+                });
+            }, function(){
 
-        }); 
+            });
+        }
     }
     </script>
 

@@ -39,8 +39,7 @@
 
 <body>
 
-<div id="wrapper">
-
+	<div id="wrapper">
         <div class="row">
             <div class="col-lg-12" >
                 <div class="panel panel-default">
@@ -60,11 +59,11 @@
                        			<div class="col-sm-2 col-xs-6 head_3">
 		                        	<button class="btn btn-success" onclick="_add()">新增年度考核</button>
 		                        </div>
-		                        <div class="col-sm-1 col-xs-6 head_1">
+		                        <!--<div class="col-sm-1 col-xs-6 head_1">
 		                        	<button class="btn btn-8 " onclick="_calculate()">评分</button>
-		                        </div>
-		                        <div class="col-sm-2 col-xs-6 head_4">
-		                        	<button class="btn btn-8 " onclick="_calculateYearAlert()">评分测试</button>
+		                        </div>-->
+		                        <div class="col-sm-2 col-xs-6 head_1">
+		                        	<button class="btn btn-8 " onclick="_calculateYearAlert()">评分</button>
 		                        </div>
 		                        <div class="col-sm-2 col-xs-6 head_4">
 		                        	<button class="btn btn-4 " onclick="_batchDelete()">批量删除</button>
@@ -130,29 +129,16 @@
 	                        	</#list>
 	                        	</#if>
 	                        </tbody>
-	                    </table>
-                           <!-- /.table-responsive -->
-                       </div>
-                       <!-- /.panel-body -->
-                       <!-- panel-footer -->
-	                    <!-- <div class="panel-footer container" style="width:100%;">
-	                    	<div class="col-sm-5">
-	                    		<span>显示<strong>1~10</strong>条，共有数据<strong>100</strong>条</span>
-	                    	</div>
-			                <div class="col-sm-7" style="max-width: 400px;float: right;" >
-			                    <div id="forpage" class="forpage" style="float: right;"></div>
-			                </div>
-			                <script src="../../resource/laypage/laypage.js"></script>
-			            </div> -->
-			           <!-- /.panel-footer -->
-                   </div>
-                   <!-- /.panel -->
-               </div>
-               <!-- /.col-lg-12 -->
-           </div>
-
-           <!-- /.row -->
-
+						</table>
+						<!-- /.table-responsive -->
+					</div>
+					<!-- /.panel-body -->
+				</div>
+				<!-- /.panel -->
+			</div>
+			<!-- /.col-lg-12 -->
+		</div>
+		<!-- /.row -->
 	</div>
 	<!-- /#wrapper -->
 
@@ -223,15 +209,6 @@
 		    }
 		}); */
 	});
-	//全选、全不选
-	$("#checkAll").click(function() {
-	    $("input[name='sub']").prop("checked", this.checked);
-	});
-	  
-	$("input[name='sub']").click(function() {
-	    var $subs = $("input[name='sub']");
-	    $("#checkAll").prop("checked" , $subs.length == $subs.filter(":checked").length ? true :false);
-	});
 	// 搜索
 	function _search(){
 		layui.use('layer',function(){
@@ -287,6 +264,14 @@
 
         });
 	}
+    //全选、全不选
+    $("#checkAll").click(function() {
+        $("input[name='sub']").prop("checked", this.checked);
+    });
+    $("input[name='sub']").click(function() {
+        var $subs = $("input[name='sub']");
+        $("#checkAll").prop("checked" , $subs.length == $subs.filter(":checked").length ? true :false);
+    });
 	// 批量删除
     function _batchDelete(){
 		// 获取选中记录 id
@@ -298,22 +283,27 @@
 		});
 		ids = ids.substring(0,ids.length -1);
 		//console.log(ids);
-		
-        //询问框
-        layer.confirm('确认批量删除吗？', {
-        	title: ['信息', 'font-weight:600;color:#fff;background-color: #3367D6;'],
-            btn: ['确认','取消'] //按钮
-        }, function(){
-        	$.post("/supplier/deleteYear/" + ids,function(result) {
-        		if (result) {
-        			layer.msg('删除成功', {time: 2000}, function(){
-        				parent.refresh_iframe();
-        			});
-        		}
-        	});
-        }, function(){
+        // 如果没有选择，提示勾选至少一条数据
+        if (!ids) {
+            layer.msg('请至少选择一条记录', {time: 2000});
+        }
+        else {
+            //询问框
+            layer.confirm('确认批量删除吗？', {
+                title: ['信息', 'font-weight:600;color:#fff;background-color: #3367D6;'],
+                btn: ['确认','取消'] //按钮
+            }, function(){
+                $.post("/supplier/deleteYear/" + ids,function(result) {
+                    if (result) {
+                        layer.msg('删除成功', {time: 2000}, function(){
+                            parent.refresh_iframe();
+                        });
+                    }
+                });
+            }, function(){
 
-        }); 
+            });
+        }
     }
 	// 查看明细
 	function _detail(){
