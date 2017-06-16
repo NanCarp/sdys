@@ -91,7 +91,7 @@ public class SupplierController extends Controller{
 
 	/** 
 	* @Title: saveQuality 
-	* @Description: 保存物流公司资质
+	* @Description: 保存物流公司资质，文件同步传输 TODO
 	* @param 
 	* @return void
 	* @throws 
@@ -244,36 +244,33 @@ public class SupplierController extends Controller{
     public void uploadQualityFile() {
 
 	    UploadFile file = getFile();
-        System.out.println("file: " + file);
-        String originalName = file.getFileName();
-        System.out.println("fileName: " + originalName);
-        String newName = PropKit.get("uploadPath")+"temp/" + originalName;
-        file.getFile().renameTo(new File(newName));
 
-        Map<String, Object> response = new HashMap();
-        response.put("fileName", originalName);
-        renderJson(response);
+        Map<String, Object> responseMsg = SupplierService.saveFile(file);
+
+        renderJson(responseMsg);
     }
 
-    //  删除资质文件
+    // 删除资质文件
     public void deleteQualityFile() {
-	    boolean flag = false;
 	    // 文件名
         String fileName = getPara("fileName");
-        String path = PropKit.get("uploadPath")+"temp/" + fileName;
-        File file = new File(path);
-        if (file.exists() && file.isFile()) {
-            file.delete();
-            flag = true;
-        }
-        renderJson(flag);
+        // 删除资质文件
+        Map<String, Object> responseMsg = SupplierService.deleteFile(fileName);
+
+        renderJson(responseMsg.get("result"));
     }
 
     // 下载资质文件
     public void downloadQualityFile() throws IOException {
 	    // 物流公司 id
 	    Integer id = getParaToInt();
-	    SupplierService.downloadQualityFIle(getResponse(), id);
+	    // 资质记录
+        Record record = SupplierService.getQualityById(id);
+        // 文件名
+        String fileName = record.getStr("review_file");
+        // 下载资质文件
+        SupplierService.downloadFile(getResponse(), fileName);
+
 	    renderNull();
     }
 
@@ -612,10 +609,42 @@ public class SupplierController extends Controller{
 		String[] ids = idStr.split(",");
 		
 		// 删除结果
-		// boolean result = SupplierService.deleteMonthById(id);
 		boolean result = SupplierService.deleteMonth(ids);
 		
 		renderJson(result);
+	}
+
+	// 上传备注文件，异步上传
+	public void uploadMonthFile() {
+        UploadFile file = getFile();
+        Map<String, Object> responseMsg = SupplierService.saveFile(file);
+
+		renderJson(responseMsg);
+	}
+
+	//  删除备注文件
+	public void deleteMonthFile() {
+
+		// 文件名
+		String fileName = getPara("fileName");
+        Map<String, Object> responseMsg = SupplierService.deleteFile(fileName);
+
+		renderJson(responseMsg.get("result"));
+	}
+
+	// 下载备注文件
+	public void downloadMonthFile() throws IOException {
+		// 月度考核 id
+		Integer id = getParaToInt();
+		// 根据 id 获取物流公司月度考核记录
+        Record record = SupplierService.getMonthById(id);
+        // 附件
+        String file = record.getStr("review_file");
+
+        // 下载备注文件
+        SupplierService.downloadFile(getResponse(), file);
+
+		renderNull();
 	}
 	/*********************物流公司年度考核*************************/
 	/** 
@@ -658,7 +687,7 @@ public class SupplierController extends Controller{
 		// 编辑
 		if (id != null) {
 			// 根据 id 查询年度考核
-			Record record = SupplierService.getYearById(id).get(0);
+			Record record = SupplierService.getYearById(id);
 			setAttr("year", record);
 		} else {// 新增
 			// 物流公司名称，物流公司 id
@@ -765,5 +794,5 @@ public class SupplierController extends Controller{
 		
 		renderJson(result);
 	}
-	
+
 }

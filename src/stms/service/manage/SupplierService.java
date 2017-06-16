@@ -18,8 +18,10 @@ import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.IAtom;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
+import com.jfinal.upload.UploadFile;
 import stms.utils.EncodeUtil;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
@@ -155,7 +157,7 @@ public class SupplierService {
     }
 
 	// 下载资质文件
-	public static void downloadQualityFIle(HttpServletResponse response, Integer id) throws IOException {
+	public static void downloadQualityFile(HttpServletResponse response, Integer id) throws IOException {
 		byte[] buffer = new byte[4096];
 		Record file = Db.findById("t_supplier_qualification", id);
 		String ZipName = file.getStr("review_file") + ".rar";
@@ -497,12 +499,12 @@ public class SupplierService {
 	* @return Record
 	* @throws 
 	*/
-	public static List<Record> getYearById(Integer id) {
+	public static Record getYearById(Integer id) {
 		return Db.find("SELECT a.*, b.company_name AS supplier_name "
 				+ " FROM t_supplier_year_assess AS a "
 				+ " LEFT JOIN t_company AS b "
 				+ " ON a.supplier_id = b.id "
-				+ " WHERE a.id = ? ", id);
+				+ " WHERE a.id = ? ", id).get(0);
 	}
 
 
@@ -546,7 +548,7 @@ public class SupplierService {
                     if (list.size() > 0) {
                         Record originalRecord = list.get(0);
                         result1 = Db.delete("t_supplier_year_assess", originalRecord);
-                        if (!result1) {
+                        if (result1 == false) {
                             break;
                         }
                     } else {
@@ -555,6 +557,7 @@ public class SupplierService {
 
 					int yearScore = record.getBigDecimal("year_score").intValue();
 					String level = "";
+					// TODO 修改判断方式
 					if (yearScore >= 96) {
 						level = "AA";
 					} else if (yearScore >= 90) {
@@ -612,23 +615,6 @@ public class SupplierService {
 		return succeed;
 	}
 
-
-	/**
-	* @Title: calculateYearAlert 
-	* @Description: 所有公司未审核月份列表
-	* @return List<Record>
-	* @throws 
-	*/
-	/*public static List<Record> calculateYearAlert() {
-		List<Record> list = getYearList();
-		for (Record record: list) {
-
-			
-		}
-		
-		return list;
-	}*/
-
     // 获取考核标准列表 supplier_score 拆分成 high 和 low
     public static List<Record> getCriterionList() {
         // 等级列表
@@ -650,5 +636,60 @@ public class SupplierService {
         }
 
         return levelList;
+    }
+
+	/*********************公用方法*************************/
+	// 保存文件
+	public static Map<String, Object> saveFile(UploadFile file) {
+        String originalName = file.getFileName();
+        String newName = PropKit.get("uploadPath")+"temp/" + originalName;
+        file.getFile().renameTo(new File(newName));
+
+        Map<String, Object> responseMsg = new HashMap();
+        responseMsg.put("fileName", originalName);
+
+		return responseMsg;
+	}
+    // 删除文件
+    public static Map<String,Object> deleteFile(String fileName) {
+        boolean result = false;
+        String path = PropKit.get("uploadPath")+"temp/" + fileName;
+        File file = new File(path);
+        if (file.exists() && file.isFile()) {
+            file.delete();
+            result = true;
+        }
+
+        Map<String, Object> responseMsg = new HashMap();
+        responseMsg.put("result", result);
+
+        return responseMsg;
+    }
+
+    // 下载文件
+    public static void downloadFile(HttpServletResponse response, String file) throws IOException{
+        byte[] buffer = new byte[4096];
+        String ZipName = file + ".rar";
+        response.setContentType("application/octet-stream");
+        response.setHeader("Content-Disposition", "attachment; filename=" + EncodeUtil.toUtf8String(ZipName));
+        ZipOutputStream out = new ZipOutputStream(response.getOutputStream());
+        String file_url = file;
+        String[] farr = file_url.split(",");
+        File[] fs = new File[farr.length];
+        for (int i = 0; i < farr.length; i++) {
+            fs[i] = new File(PropKit.get("uploadPath")+ "temp/" + farr[i]);
+        }
+        for (int j = 0; j < fs.length; j++) {
+            FileInputStream fis = new FileInputStream(fs[j]);
+            out.putNextEntry(new ZipEntry(fs[j].getName()));
+            int len;
+            // 读入需要下载的文件的内容，打包到zip文件
+            while ((len = fis.read(buffer)) > 0) {
+                out.write(buffer, 0, len);
+            }
+            out.closeEntry();
+            fis.close();
+        }
+        out.close();
     }
 }
