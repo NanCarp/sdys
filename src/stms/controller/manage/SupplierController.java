@@ -639,7 +639,7 @@ public class SupplierController extends Controller{
 		// 根据 id 获取物流公司月度考核记录
         Record record = SupplierService.getMonthById(id);
         // 附件
-        String file = record.getStr("review_file");
+        String file = record.getStr("file");
 
         // 下载备注文件
         SupplierService.downloadFile(getResponse(), file);

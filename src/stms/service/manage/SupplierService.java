@@ -339,7 +339,7 @@ public class SupplierService {
 		record.set("month", map.get("month"));
 		record.set("month_score", map.get("score"));
 		record.set("supplier_level", map.get("level"));
-		//record.set("file", map.get("file"));
+		record.set("file", map.get("file"));
 		record.set("remark", map.get("remark"));
 		record.set("review_time", map.get("now"));
 		if (id==null) {// 新增，创建时间
