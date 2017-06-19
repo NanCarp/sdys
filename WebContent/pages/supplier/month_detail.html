@@ -331,6 +331,13 @@ $(function(){
 	e.preventDefault();
     var postData = $('#defaultForm').serialize();
     var file = $('#url span').html();
+    console.log(typeof file);
+    console.log( file);
+    if (!file) {
+        file = "";
+    }
+    console.log(typeof file);
+    console.log( file);
     postData += '&file='+file;
     $.post("/supplier/saveMonth", postData, function(result) {
         if (result) {

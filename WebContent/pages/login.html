@@ -69,7 +69,7 @@
                             
                             <div class="checkbox">
                                 <label>
-                                    <input name="remember" type="checkbox" value="Remember Me">记住帐号？
+                                    <input name="rememberMe" type="checkbox" value="Remember Me">记住帐号？
                                 </label>
                             </div>
                             <a id="v" onclick="checklogin()" class="btn btn-lg btn-primary btn-block"><i class="fa  fa-smile-o"></i> 登陆</a>
@@ -95,6 +95,7 @@
     <script src="../dist/js/sb-admin-2.js"></script>
 
     <!-- plugin -->
+    <script type="text/javascript" src="../../js/login/jquery.cookie.js"></script>
     <script type="text/javascript" src="../js/login/jquery.mkinfinite.js"></script>
 	<script src="../../resource/idcode/jquery.idcode.js"></script>
 	<script src="../../resource/layer/layer.js"></script>
@@ -105,10 +106,13 @@
         	$('.container').css('height', innerHeight);
         	var imagesRatio = 1.9;
         	
-        	if (window.innerWidth < window.innerHeight) {
+        	if (window.innerWidth <window.innerHeight) {
         		imagesRatio = 0.39;
         	}
         	addBg (imagesRatio);
+        	
+        	
+        	
         });  
         // 加载背景图
         function addBg (imagesRatio) {

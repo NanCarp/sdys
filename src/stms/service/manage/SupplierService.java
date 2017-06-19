@@ -116,7 +116,25 @@ public class SupplierService {
 	* @throws 
 	*/
 	public static boolean deleteQuality(Integer id) {
-		return Db.deleteById("t_supplier_qualification", id);
+	    /*boolean succeed = Db.tx(new IAtom() {
+	        boolean result = false;
+            @Override
+            public boolean run() throws SQLException {
+                return false;
+            }
+        });*/
+	    // 待删除记录
+        Record record = Db.findById("t_supplier_qualification", id);
+        // 待删除文件名
+        String fileName = record.getStr("file");
+        // 删除结果
+        boolean result = Db.delete("t_supplier_qulification", record);
+        // 数据库删除成功，删除对应文件
+        if (result == true) {
+            deleteFile(fileName);
+        }
+
+		return result;
 	}
 	
 	/** 
@@ -153,7 +171,20 @@ public class SupplierService {
      * @throws
      */
     public static List<Record> getCompanyList() {
-        return Db.find(" SELECT * FROM t_company WHERE state = 1 ");
+		String sql = "SELECT *  " +
+				"FROM t_company " +
+				"WHERE state = 1 " ;
+		return Db.find(sql);
+    }
+
+    // 获取没有新增资质的公司列表
+    public static List<Record> getCompanyNotInQuality() {
+        String sql = "SELECT *  " +
+            "FROM t_company " +
+            "WHERE state = 1 " +
+            "AND id NOT IN (SELECT supplier_id FROM t_supplier) " ;
+        return Db.find(sql);
+
     }
 
 	// 下载资质文件
@@ -402,11 +433,16 @@ public class SupplierService {
 			@Override
 			public boolean run() throws SQLException {
 				for (String id: ids){
+				    // 待删除文件名
+                    String fileName = getMonthById(Integer.parseInt(id)).getStr("file");
+                    // 删除月度考核
 					result = Db.deleteById("t_supplier_month_assess", id);
 					if (result == false) {
 						break;
 					}
-				}
+					// 删除对应附件
+                    deleteFile(fileName);
+                }
 				return result;
 			}
 			
@@ -507,6 +543,32 @@ public class SupplierService {
 				+ " WHERE a.id = ? ", id).get(0);
 	}
 
+	// 本年度考核公司列表
+    public static List<Record> getYearAlert() {
+	    String sql = "SELECT a.supplier_id,b.company_name AS supplier_name, " +
+                "SUM(CASE WHEN `month` = 1 THEN month_score END) m1, " +
+                "SUM(CASE WHEN `month` = 2 THEN month_score END) m2, " +
+                "SUM(CASE WHEN `month` = 3 THEN month_score END) m3, " +
+                "SUM(CASE WHEN `month` = 4 THEN month_score END) m4, " +
+                "SUM(CASE WHEN `month` = 5 THEN month_score END) m5, " +
+                "SUM(CASE WHEN `month` = 6 THEN month_score END) m6, " +
+                "SUM(CASE WHEN `month` = 7 THEN month_score END) m7, " +
+                "SUM(CASE WHEN `month` = 8 THEN month_score END) m8, " +
+                "SUM(CASE WHEN `month` = 9 THEN month_score END) m9, " +
+                "SUM(CASE WHEN `month` = 10 THEN month_score END) m10, " +
+                "SUM(CASE WHEN `month` = 11 THEN month_score END) m11, " +
+                "SUM(CASE WHEN `month` = 12 THEN month_score END) m12 " +
+                "FROM t_supplier_month_assess  AS a " +
+                "LEFT JOIN t_company AS b " +
+                "ON a.supplier_id = b.id " +
+                "WHERE 1=1 " +
+                "AND a.`year` = ? " +
+                "AND a.supplier_id NOT IN (SELECT supplier_id FROM t_supplier_year_assess WHERE `year` = ?) " +
+                "GROUP BY a.`year`,a.supplier_id " +
+                "ORDER BY a.`year` DESC ";
+        Integer thisYear = LocalDate.now().getYear();
+        return Db.find(sql, thisYear, thisYear);
+    }
 
 	/** 
 	* @Title: calculateYear 
@@ -692,4 +754,7 @@ public class SupplierService {
         }
         out.close();
     }
+
+
+
 }

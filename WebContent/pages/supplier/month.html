@@ -70,7 +70,7 @@
 		                        </div>
 		                        <div class="col-sm-1 col-xs-4 head_1">
 		                        	<span class="btn btn-5 btn-file"> 导入excel
-        								<input type="file" name="file_exl" value="" id="file_exl"/>
+        								<input type="file" name="file_exl" value="" id="file_exl" onchange="uploadexcel()"/>
      								</span>
 		                        </div>
 	                        </div>
@@ -153,6 +153,33 @@
 
 <!-- Page-Level Demo Scripts - Tables - Use for reference -->
 <script>
+	//上传excel
+	function uploadexcel(){
+		var formData = new FormData();
+		var name = $("input").val();
+		formData.append("file",$("#file_exl")[0].files[0]);
+		$.ajax({
+			url:"/supplier/getExcel",
+			type:"POST",
+			data:formData,
+			processData:false,
+			contentType:false,			
+			success:function(result){
+				if(result){
+					layer.msg('导入成功', {time: 2000}, function(){
+        				parent.refresh_iframe();
+        			});
+				}else{
+					layer.msg('导入失败，请检查导入Excel', {time: 2000});
+				}
+			},
+			error:function(e){
+				console.log("error");
+			},
+		});
+		
+	}
+
 	$(function(){
 		// 分页
 		$('#dataTables-example').DataTable({
@@ -284,8 +311,8 @@
         var id = $(obj).attr("_id");
         var file = $(obj).attr("_file");
         // 未上传资质文件，提示并退出
-        if (file === ""){
-            layer.msg('未上传资质文件', {time: 2000});
+        if (!file || file === ""){
+            layer.msg('未上传附件', {time: 2000});
             return;
         }
         //询问框

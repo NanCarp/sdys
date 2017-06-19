@@ -75,7 +75,7 @@
     <div class="form-group">
         <label class="col-xs-4 control-label text-right" for="remark" style="padding-top: 0">备注：</label>
         <div class="col-xs-6">
-        	<textarea class="form-control" id="remark" name="remark"></textarea>       
+        	<textarea class="form-control" id="remark" name="remark" placeholder=""></textarea>
         </div>
     </div>
     </#if>
@@ -110,25 +110,16 @@ $(function(){
 			validating: 'glyphicon glyphicon-refresh'
 		},
 		fields: {
-			year: {
+            companyName: {
 				validators: {
 					notEmpty: {
-						message: '请选择年份!'
-					}
-				}
-			},
-			forwarder: {
-				validators: {
-					notEmpty: {
-						message: '请选择供应商!'
-					}
-				}
-			},
-			year_score: {
-				validators: {
-					notEmpty: {
-						message: '请输入年度得分!'
-					}
+						message: '不能为空!'
+					},
+                    stringLength: {
+                        min: 0,
+                        max: 20,
+                        message: '最多20个字符'
+                    }
 				}
 			},
 			remark: {

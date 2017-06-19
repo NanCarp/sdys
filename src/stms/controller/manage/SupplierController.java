@@ -19,11 +19,13 @@ import com.jfinal.kit.PropKit;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.IAtom;
 import com.jfinal.plugin.activerecord.Record;
+import com.jfinal.upload.UploadFile;
 
 import com.jfinal.upload.UploadFile;
 import javafx.util.converter.LocalDateTimeStringConverter;
 import stms.interceptor.ManageInterceptor;
 import stms.service.manage.SupplierService;
+import stms.utils.ExcelKit;
 
 /**
  * @ClassName: SupplierController
@@ -80,15 +82,26 @@ public class SupplierController extends Controller{
 			setAttr("quality", quality);
             // 文件名
             setAttr("fileName", quality.getStr("review_file"));
-		}
-
-		// 获取公司列表
-		List<Record> companyList = SupplierService.getCompanyList();
-		setAttr("companyList", companyList);
+            // 获取公司列表
+            List<Record> companyList = SupplierService.getCompanyList();
+            setAttr("companyList", companyList);
+		} else {
+            // 获取公司列表
+            List<Record> companyList = SupplierService.getCompanyNotInQuality();
+            setAttr("companyList", companyList);
+        }
 
 		render("quality_detail.html");
 	}
-
+	/**
+	 * @desc:上传资质文件
+	 */
+	public void uploadfile(){
+		UploadFile uf = getFile("file");
+		System.out.println(uf);
+		
+	}
+	
 	/** 
 	* @Title: saveQuality 
 	* @Description: 保存物流公司资质，文件同步传输 TODO
@@ -116,7 +129,9 @@ public class SupplierController extends Controller{
 		// 状态：1：合格，2：备选，0：不合格
 		Integer state = getParaToInt("state");
 		// 文件
+
 		//String fileUrl = getPara("file");
+
 		// 备注
 		String remark = getPara("remark");
 
@@ -125,7 +140,9 @@ public class SupplierController extends Controller{
 		record.set("supplier_id", supplierId);
 		record.set("short_name", abbreviation);
 		record.set("state", state);
+
 		record.set("review_file", originalName);
+
 		record.set("remark", remark);
 		// 修改时间
 		Date now = new Date();
@@ -143,6 +160,7 @@ public class SupplierController extends Controller{
 			record.set("registration_code", registrationCode);
 
 			result = Db.save("t_supplier_qualification", record);
+
 		}
 
 		renderJson(result);
@@ -546,7 +564,9 @@ public class SupplierController extends Controller{
 			// 根据 id 查询月度考核
 			Record month = SupplierService.getMonthById(id);
 			setAttr("month", month);
-		} 
+			// 附件名
+            setAttr("fileName", month.getStr("file"));
+        }
 		
 		// 物流公司名称，id
 		String params = " a.state != 0 ";
@@ -646,7 +666,48 @@ public class SupplierController extends Controller{
 
 		renderNull();
 	}
+
+
+	/**
+	 * @desc:导入月度考核Excel
+	 */
+	public void getExcel(){		
+		boolean flag=Db.tx(new IAtom() {			
+			@Override
+			public boolean run() throws SQLException {
+				// TODO Auto-generated method stub
+				try{
+					UploadFile up = getFile("file");
+					System.out.println(up);System.out.println(up.getFile());
+					List<String[]> list = ExcelKit.getExcelData(up.getFile());
+					for(String[] strings : list){
+						if(strings[0] != null && !"".equals(strings[0])){
+							Record record = new Record();
+							record.set("year", strings[0]);
+							if(strings[1] != null && !"".equals(strings[1])){
+								record.set("month", strings[1]);
+							}						
+							record.set("month_score", (int)Double.parseDouble(strings[3]));
+							record.set("supplier_level", strings[4]);
+							record.set("supplier_id", strings[2]);
+							record.set("remark", strings[5]);
+							Db.save("t_supplier_month_assess", record);
+						}
+					}
+					return true;	
+				}catch (Exception e){
+					e.printStackTrace();
+					return false;
+				}
+			}
+		});
+		renderJson(flag);
+	}
+	
+
+
 	/*********************物流公司年度考核*************************/
+
 	/** 
 	* @Title: year 
 	* @Description: 物流公司年度考核列表
@@ -776,7 +837,7 @@ public class SupplierController extends Controller{
 	public void calculateYearAlert() {
 		// 所有公司未审核月份列表
 		//List<Record> forwarderList = SupplierService.calculateYearAlert();
-		List<Record> forwarderList = SupplierService.getYearList();
+		List<Record> forwarderList = SupplierService.getYearAlert();
 		setAttr("forwarderList", forwarderList);
 		render("year_alert.html");
 	}

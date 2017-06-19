@@ -13,6 +13,8 @@ import com.jfinal.plugin.activerecord.IAtom;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 
+import javafx.scene.control.Pagination;
+
 /**
  * @ClassName: SystemService.java
  * @Description:
@@ -124,7 +126,13 @@ public class SystemService {
 
     public static boolean deleteRole(Integer id) {
         // TODO 删除 t_role t_role_menu t_role_button 表相关数据
-        return Db.deleteById("t_role", id);
+        boolean result = false;
+        if (id == 1) {
+            return false;
+        } else {
+            result = Db.deleteById("t_role", id);
+        }
+        return result;
     }
 
     // 根据公司 id 获取角色列表
@@ -343,7 +351,44 @@ public class SystemService {
 	public static boolean deleteDictionary(Integer id) {
 		return Db.deleteById("t_dictionary", id);
 	}
+	
+	public static Page<Record> getDictionaryPages(int pageNumber,int pageSize,String keyword,String key){
+		String sql = "from t_dictionary where 1=1";
+		if(keyword!=null&&keyword!=""){
+			sql += " and keyword Like '%" +keyword+"%'";
+		}
+		if(key!=null&&key!=""){
+			sql +=" and `key` Like ='%"+key+"%'";
+		}
+		return Db.paginate(pageNumber, pageSize, "select *", sql);
+		
+	}
 
-
+	/************************登录管理***********************/
+	/**
+	 * @desc 显示登录用户信息
+	 * @return List<Record>
+	 */
+	public static List<Record> getUserLog(){
+		String sql = "SELECT l.*,u.account from t_user_log l "
+				+ "LEFT JOIN t_user u ON l.user_id = u.id "
+				+ "order by id";
+		return Db.find(sql);
+	}
+	/**
+	 * @desc 保存用户登录信息
+	 * @param loginRecordMap
+	 * @return boolean 
+	 */
+	public static boolean saveLoginMessage(Map<String, Object> loginRecordMap){
+		Record record = new Record();
+		record.set("user_id", loginRecordMap.get("userid"));
+		record.set("ip", loginRecordMap.get("userip"));
+		record.set("agent", loginRecordMap.get("MoblieOrPc"));
+		record.set("login_time",loginRecordMap.get("loginTime"));
+		record.set("logout_time",new Date());
+		System.out.println(loginRecordMap.get("userid"));
+		return Db.save("t_user_log", record);
+	}
 
 }

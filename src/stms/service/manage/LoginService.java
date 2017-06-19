@@ -28,4 +28,12 @@ public class LoginService {
 
         return menus;
     }
+    public static Record getLoginInfo(String username){
+		return Db.findFirst("select * from t_user where account = ?",username);
+	}
+	
+	public static boolean saveuserLogin(int user_id,String ip,String agent){
+
+		return false;
+	}
 }

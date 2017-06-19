@@ -155,11 +155,11 @@
     function _add(){
     	open_window('添加权限','/system/getAuthority',480, 370);
     }
-    function _edit(){
-    	open_window('编辑权限','/system/getAuthority',480, 370);
+    function _edit(roleId){
+    	open_window('编辑权限','/system/getAuthority?roleId='+roleId,480, 370);
     }
-    function _look(){
-    	open_window('查看权限','/system/authority_look',480, 370);
+    function _look(id){
+    	open_window('查看权限','/system/checkAuthority/'+id,480, 370);
     }
 
     </script>

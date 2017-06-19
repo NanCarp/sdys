@@ -1,5 +1,7 @@
 package stms.controller.manage;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -12,6 +14,7 @@ import com.jfinal.plugin.activerecord.Record;
 
 import stms.service.manage.SupplierService;
 import stms.service.manage.SystemService;
+import stms.utils.MD5Util;
 
 /**
  * @ClassName: SystemController
@@ -275,7 +278,12 @@ public class SystemController extends Controller {
         // 角色 id
         Integer id = getParaToInt();
         // 删除结果
-        boolean result = SystemService.deleteRole(id);
+        boolean result = false;
+
+        if (id != 1) {
+            result = SystemService.deleteRole(id);
+        }
+
 
         renderJson(result);
     }
@@ -340,13 +348,15 @@ public class SystemController extends Controller {
 	}
 
 	// 保存用户
-	public void saveUser() {
+	public void saveUser() throws NoSuchAlgorithmException, UnsupportedEncodingException {
 	    // 账号 id
         Integer id = getParaToInt("id");
 	    // 账号名
         String account = getPara("account");
         // 公司 id
         String companyId = getPara("companyId");
+        //账户密码
+        String pwd = getPara("password");
         // 部门 id
         //String departmentId = getPara("departmentId");
         // 角色 id
@@ -365,14 +375,12 @@ public class SystemController extends Controller {
         record.set("review_time", now);// 修改时间
         if (id != null) {// 编辑
             // 密码
-            Record user = Db.findById("t_user", id);
-            String password = user.getStr("password");
-            record.set("password", password);
+            Record user = Db.findById("t_user", id);           
+            record.set("password", MD5Util.getEncryptedPwd(pwd));
             record.set("id", id);
             result = Db.update("t_user", record);
-        } else {// 新增
-            String password = "123456";
-            record.set("password", password);
+        } else {// 新增            
+            record.set("password", MD5Util.getEncryptedPwd(pwd));
             record.set("create_time", now);
             result = Db.save("t_user", record);
         }
@@ -389,7 +397,34 @@ public class SystemController extends Controller {
 
         renderJson(result);
     }
-	
+	/**
+	 * @desc 修改密码
+	 */
+    public void change_pwd(){
+    	render("user_changepwd.html");
+    }
+    
+    /**
+     * @throws UnsupportedEncodingException 
+     * @throws NoSuchAlgorithmException 
+     * @desc 保存修改密码
+     */
+    public void save_change_pwd() throws NoSuchAlgorithmException, UnsupportedEncodingException{
+    	boolean v = true;
+    	Record admin = (Record) getSession().getAttribute("admin");
+    	String oldpwd = getPara("oldpwd"); 
+    	Integer id = admin.getInt("id");
+    	v = MD5Util.validPassword(oldpwd,admin.getStr("password"));
+    	if(v){
+    		String comformpwd = getPara("comformpwd");   
+    		Record record = new Record();
+    		record.set("password", MD5Util.getEncryptedPwd(comformpwd));
+    		record.set("id", id);
+    		Db.update("t_user", record);
+    	}
+    	renderJson(v);
+    }
+    
 	/************菜单管理****************/
 	/** 
 	* @Title: menu 
@@ -399,7 +434,6 @@ public class SystemController extends Controller {
 		// 菜单列表
 		List<Record> menuList = SystemService.getMenuList();
 		setAttr("menuList", menuList);
-		
 		render("menu.html");
 	}
 	
@@ -485,7 +519,6 @@ public class SystemController extends Controller {
         // 按钮列表
         List<Record> buttonList = SystemService.getButtonList();
         setAttr("buttonList", buttonList);
-
         render("button.html");
     }
 
@@ -628,19 +661,39 @@ public class SystemController extends Controller {
     }
     /************登陆管理****************/
     public void loginLog() {
-        render("login_log.html");
+    	List<Record> userloginList = SystemService.getUserLog();
+    	setAttr("userloginList", userloginList);
+    	render("login_log.html");
     }
 
     /************基础数据管理****************/
     // 基础数据列表
     public void dictionary() {
-        // 基础数据列表
-        List<Record> dictionaryList = SystemService.getDictionaryList();
-        setAttr("dictionaryList", dictionaryList);
+        
 
         render("dictionary.html");
     }
-
+/**测试*/
+    
+    public void getJson(){
+    	String keyword = getPara("keyword");
+    	String key = getPara("key");
+    	System.out.println(keyword+":"+key);
+    	Integer	pageindex = 0;
+    	Integer pagelimit = getParaToInt("limit")==null? 12 :getParaToInt("limit");
+    	Integer offset = getParaToInt("offset")==null?0:getParaToInt("offset");
+    	if(offset!=0){
+    		pageindex = offset/pagelimit;
+    	}
+    	pageindex += 1;
+    	Map<String, Object> map = new HashMap<String,Object>();
+    	List<Record> dictionaryList = SystemService.getDictionaryPages(pageindex, pagelimit,keyword,key).getList();
+    	map.put("rows", dictionaryList);
+    	map.put("total",SystemService.getDictionaryPages(pageindex, pagelimit,keyword,key).getTotalRow());
+    	System.out.println(dictionaryList);
+    	renderJson(map);
+    }
+    
     // 获得基础数据
     public void getDictionary() {
         // 基础数据 id
@@ -696,4 +749,5 @@ public class SystemController extends Controller {
 
         renderJson(result);
     }
+
 }

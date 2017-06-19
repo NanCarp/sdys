@@ -2,14 +2,14 @@
 <html lang="en">
 
 <head>
-
+    <link rel="shortcut icon" href="../resource/images/suntech-logo.png" />
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>index</title>
+    <title>尚德运输管理系统</title>
   
     <!-- Bootstrap Core CSS -->
     <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -115,10 +115,10 @@
                         <i class="fa fa-user fa-fw"></i> 关务人员 <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        <li><a href="#"><i class="fa fa-user fa-fw"></i> 修改密码</a>
+                        <li><a onclick="change_pwd()"><i class="fa fa-user fa-fw"></i> 修改密码</a>
                         </li>
                         <li class="divider"></li>
-                        <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> 退出</a>
+                        <li><a href="/pages/loginOut"><i class="fa fa-sign-out fa-fw"></i> 退出</a>
                         </li>
                     </ul>
                     <!-- /.dropdown-user -->
@@ -130,136 +130,21 @@
             <div class="navbar-default sidebar" role="navigation" id='v1'>
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
-                        <!--<li>
-                            <a href="#"><i class="fa fa-briefcase fa-fw"></i> 物流公司管理<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-
-                                <li><a id="supplier1" class="site-demo-active" _href="/supplier/quality" data-title="物流公司资质管理" href="javascript:void(0)">物流公司资质管理</a></li>
-								<li><a id="supplier2" class="site-demo-active" _href="/supplier/info" data-title="物流公司信息管理" href="javascript:void(0)">物流公司信息管理</a></li>
-								<li><a id="supplier3" class="site-demo-active" _href="/supplier/level" data-title="物流公司考核标准" href="javascript:void(0)">物流公司考核标准</a></li>
-                                <li><a id="supplier4" class="site-demo-active" _href="/supplier/month" data-title="物流公司月度考核" href="javascript:void(0)">物流公司月度考核</a></li>
-                                <li><a id="supplier5" class="site-demo-active" _href="/supplier/year" data-title="物流公司年度考核" href="javascript:void(0)">物流公司年度考核</a></li>
-
-                            </ul>
-                            &lt;!&ndash; /.nav-second-level &ndash;&gt;
-                        </li>
-                        <li>
-                            <a href="#purchase"><i class="fa fa-pie-chart fa-fw"></i> 进货管理<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li><a id="intlcarrprice" class="site-demo-active" _href="account/intlcarrprice.html" data-title="国际货物运价管理" href="javascript:void(0)">国际货物运价管理</a></li>
-								<li><a id="homecarrprice" class="site-demo-active" _href="account/homecarrprice.html" data-title="国内货物运价管理" href="javascript:void(0)">国内货物运价管理</a></li>
-                            </ul>
-                            &lt;!&ndash; /.nav-second-level &ndash;&gt;
-                        </li> 
-                        <li>
-                            <a href="#"><i class="fa fa-plane fa-fw"></i> 国际运输管理<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li><a id="international_transportation1" class="site-demo-active" _href="/international_transportation/full" data-title="整柜出货管理" href="javascript:void(0)">整柜出货管理</a></li>
-								<li><a id="international_transportation2" class="site-demo-active" _href="/international_transportation/bulk" data-title="散货进程管理" href="javascript:void(0)">散货进程管理</a></li>
-								<li><a id="international_transportation3" class="site-demo-active" _href="/international_transportation/freightTracking" data-title="货物运输跟踪管理" href="javascript:void(0)">货物运输跟踪管理</a></li>
-                            </ul>
-                            &lt;!&ndash; /.nav-second-level &ndash;&gt;
-                        </li> 
-                        <li>
-                            <a href="#"><i class="fa fa-truck fa-fw"></i> 国内运输管理<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li><a id="Containship"  class="site-demo-active"   _href="homeportmanage/containship.html" data-title="整柜出货管理" href="javascript:void(0)">整柜出货管理</a></li>
-								<li><a id="bulkload" class="site-demo-active" _href="homeportmanage/bulkload.html" data-title="散货进程管理" href="javascript:void(0)">散货进程管理</a></li>
-								<li><a id="goodsfollow" class="site-demo-active" _href="homeportmanage/goodsfollow.html" data-title="货物运输跟踪管理" href="javascript:void(0)">货物运输跟踪管理</a></li>
-                            </ul>
-                            &lt;!&ndash; /.nav-second-level &ndash;&gt;
-                        </li>  
-                        <li>
-                            <a href="#"><i class="fa fa-file-text fa-fw"></i> 送货单管理<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li><a _href="#" data-title="" href="javascript:void(0)">国际出货管理</a></li>
-								<li><a _href="#" data-title="" href="javascript:void(0)">国内出货管理</a></li>
-                            </ul>
-                            &lt;!&ndash; /.nav-second-level &ndash;&gt;
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-home fa-fw"></i> 仓储管理<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li><a _href="#" data-title="" href="javascript:void(0)">仓储出入库明细表</a></li>
-								<li><a _href="#" data-title="" href="javascript:void(0)">仓储费用报表（实际）</a></li>
-                            </ul>
-                            &lt;!&ndash; /.nav-second-level &ndash;&gt;
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-book fa-fw"></i> 手册管理<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li><a _href="#" data-title="" href="javascript:void(0)">手册汇总清单</a></li>
-								<li><a _href="#" data-title="" href="javascript:void(0)">手册清单</a></li>
-								<li><a _href="#" data-title="" href="javascript:void(0)">报表</a></li>
-                            </ul>
-                            &lt;!&ndash; /.nav-second-level &ndash;&gt;
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-jpy fa-fw"></i> 运价管理<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                &lt;!&ndash; <li><a id="statement1" class="site-demo-active" _href="/provision/statementDomestic" data-title="物流公司对账表（国内）" href="javascript:void(0)">物流公司对账表（国内）</a></li>
-								<li><a id="statement2" class="site-demo-active" _href="/provision/statementInternational" data-title="物流公司对账表（国际）" href="javascript:void(0)">物流公司对账表（国际）</a></li>
-								<li><a id="statement3" class="site-demo-active" _href="/provision/provision" data-title="运费预提管理" href="javascript:void(0)">运费预提管理</a></li> &ndash;&gt;
-                            </ul>
-                            &lt;!&ndash; /.nav-second-level &ndash;&gt;
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-object-group fa-fw"></i> 共享数据库管理<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li><a _href="#" data-title="" href="javascript:void(0)">整柜出货表</a></li>
-								<li><a _href="#" data-title="" href="javascript:void(0)">出货统计表</a></li>
-								<li><a _href="#" data-title="" href="javascript:void(0)">区域出货统计表</a></li>
-								<li><a _href="#" data-title="" href="javascript:void(0)">发货报关统计表</a></li>
-								<li><a _href="#" data-title="" href="javascript:void(0)">国内货物运输跟踪表</a></li>
-								<li><a _href="#" data-title="" href="javascript:void(0)">国外货物运输跟踪表</a></li>
-								<li><a _href="#" data-title="" href="javascript:void(0)">手册额度统计表</a></li>
-								<li><a _href="#" data-title="" href="javascript:void(0)">散货进程表</a></li>
-								<li><a _href="#" data-title="" href="javascript:void(0)">每日统计瓦数表</a></li>
-								<li><a _href="#" data-title="" href="javascript:void(0)">运费预提表</a></li>
-								<li><a _href="#" data-title="" href="javascript:void(0)">销售询价及实际价格比较表</a></li>
-								<li><a _href="#" data-title="" href="javascript:void(0)">额外费用统计表</a></li>
-                            </ul>
-                            &lt;!&ndash; /.nav-second-level &ndash;&gt;
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-bar-chart fa-fw"></i> 报表中心<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li><a _href="#" data-title="" href="javascript:void(0)">报表1</a></li>
-								<li><a _href="#" data-title="" href="javascript:void(0)">报表2</a></li>
-								<li><a _href="#" data-title="" href="javascript:void(0)">报表3</a></li>
-                            </ul>
-                            &lt;!&ndash; /.nav-second-level &ndash;&gt;
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-cogs fa-fw"></i> 系统管理<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li><a id="companycontrol" class="site-demo-active" _href="/system/company" data-title="公司管理" href="javascript:void(0)">公司管理</a></li>
-								<li><a id="department" class="site-demo-active" _href="/system/department" data-title="部门管理" href="javascript:void(0)">部门管理</a></li>
-								<li><a id="role" class="site-demo-active" _href="/system/role" data-title="角色管理" href="javascript:void(0)">角色管理</a></li>
-								<li><a id="user" class="site-demo-active" _href="/system/user" data-title="用户管理" href="javascript:void(0)">用户管理</a></li>
-								<li><a id="menu" class="site-demo-active" _href="/system/menu" data-title="菜单管理" href="javascript:void(0)">菜单管理</a></li>								
-								<li><a id="button" class="site-demo-active" _href="/system/button" data-title="按钮管理" href="javascript:void(0)">按钮管理</a></li>
-								<li><a id="authority" class="site-demo-active" _href="/system/authority" data-title="权限管理" href="javascript:void(0)">权限管理</a></li>
-								<li><a id="loginrecord" class="site-demo-active" _href="/system/loginLog" data-title="登录管理" href="javascript:void(0)">登录管理</a></li>
-								<li><a id="basicData" class="site-demo-active" _href="/system/dictionary" data-title="基础数据管理" href="javascript:void(0)">基础数据管理</a></li>
-                            </ul>
-                            &lt;!&ndash; /.nav-second-level &ndash;&gt;
-                        </li>-->
                         <#if menuList??>
                         <#list menuList as menu1>
-                            <#if menu1.pid == 0>
-                                <li>
-                                    <a href="#"><i class="fa ${menu1.icon} fa-fw"></i> ${menu1.module_name}<span class="fa arrow"></span></a>
-                                    <ul class="nav nav-second-level">
-                                        <#list menuList as menu2>
-                                            <#if menu2.pid == menu1.id>
-                                                <li><a id="${menu2.id}" class="site-demo-active" _href="${menu2.url}" data-title="${menu2.module_name}" href="javascript:void(0)">${menu2.module_name}</a></li>
-                                            </#if>
-                                        </#list>
-                                    </ul>
-                                    <!-- /.nav-second-level -->
-                                </li>
-                            </#if>
+                        <#if menu1.pid == 0>
+                        <li>
+                            <a href="#"><i class="fa ${menu1.icon} fa-fw"></i> ${menu1.module_name}<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <#list menuList as menu2>
+                                <#if menu2.pid == menu1.id>
+                                <li><a id="${menu2.id}" class="site-demo-active" _href="${menu2.url}" data-title="${menu2.module_name}" href="javascript:void(0)">${menu2.module_name}</a></li>
+                                </#if>
+                                </#list>
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+                        </#if>
                         </#list>
                         </#if>
                     </ul>
@@ -310,10 +195,10 @@
 	<script src="../../js/common/admin.js"></script>
 	<script src="../resource/layui/layui.js"></script>
     <script>
-        $(function () {
+        /*$(function () {
             // 侧边栏菜单
             $('#side-menu').metisMenu();
-        });
+        });*/
 
     	// 隐藏、显示侧边栏
     	$('.admin-side-toggle').on('click', function() {
@@ -338,9 +223,10 @@
     	// 侧边栏滚动条
 	    function addScroll(){
 	    	$('.sidebar-nav').css('height', window.innerHeight - 70).niceScroll({
-				cursorcolor:"#333",
-				cursoropacitymin: 0.6,
-				cursoropacitymax:0.6
+				cursorcolor: "#333",
+				cursoropacitymin: 0,
+				cursoropacitymax: 0.6,
+                autohidemode: "scroll"
 			});
 	    }
 	    addScroll();
@@ -447,7 +333,11 @@
 		        }
 		    }
 		    return flag;
-		}	
+		}
+		 //修改密码
+		 function change_pwd(){
+			open_window('修改密码','/system/change_pwd',480, 330);
+		 }
 	</script>
 
 </body>

@@ -60,7 +60,7 @@
         <div class="form-group">
             <label class="col-xs-5 control-label text-right" for="abbreviation">简称：</label>
             <div class="col-xs-6">
-                <input class="form-control" id="abbreviation" type="text" placeholder="简称"  name="abbreviation" value="${quality.short_name!}"/>
+                <input class="form-control" id="abbreviation" type="text" placeholder=" 简称"  name="abbreviation" value="${quality.short_name!}"/>
             </div>
         </div>
         <!--<<div class="form-group">
@@ -97,7 +97,7 @@
         <div class="form-group">
             <label class="col-xs-5 control-label text-right" for="remark" style="padding-top:0;">备注：</label>
             <div class="col-xs-6">
-                <textarea class="form-control" id="remark" type="text" placeholder="备注" name="remark">${quality.remark!}</textarea>
+                <textarea class="form-control" id="remark" type="text" placeholder=" 备注" name="remark">${quality.remark!}</textarea>
             </div>
         </div>
     	<#else>
@@ -117,7 +117,7 @@
         <div class="form-group">
 			<label class="col-xs-5 control-label text-right" for="abbreviation">简称：</label>
 			<div class="col-xs-6">
-	            <input class="form-control" id="abbreviation" type="text" placeholder="简称"  name="abbreviation"/>
+	            <input class="form-control" id="abbreviation" type="text" placeholder=" 简称"  name="abbreviation"/>
 	        </div>
 	    </div>
 	    <div class="form-group">
@@ -141,7 +141,7 @@
         <div class="form-group">
             <label class="col-xs-5 control-label text-right" for="remark" style="padding-top:0;">备注：</label>
             <div class="col-xs-6">
-                <textarea class="form-control" id="remark" type="text" placeholder="备注" name="remark"></textarea>
+                <textarea class="form-control" id="remark" type="text" placeholder=" 备注" name="remark"></textarea>
             </div>
         </div>
         </#if>
@@ -161,7 +161,7 @@
 
 <!-- Metis Menu Plugin JavaScript -->
 <script src="../../vendor/metisMenu/metisMenu.min.js"></script>
-
+<script src="../../resource/layui/layui.js"></script>
 <!-- Custom Theme JavaScript -->
 <script src="../../resource/bootstrap-fileinput/js/fileinput.js"></script>
 <script src="../../resource/bootstrap-fileinput/js/locales/zh.js"></script>
@@ -169,6 +169,18 @@
 <script src="../../resource/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
 <script src="../../js/common/admin.js"></script>
 <script type="text/javascript">
+
+ layui.use('upload',function(){
+	var upload = layui.upload({
+		elem: '#v4' //指定原始元素，默认直接查找class="layui-upload-file"
+		,url: '/supplier/uploadfile'
+		,method: 'post' //上传接口的http类型
+		,success: function(data){
+		   alert("111");
+		 }
+	}); 
+});
+
 // 文件上传
 // 初始化fileinput控件（第一次初始化）
 var fileList = new Array();//定义一个全局变量去接受文件名和id
@@ -239,11 +251,11 @@ function del(_obj){
 // 回显文件
 $(function () {
     var fileName = '${fileName!""}';
-    console.log(fileName);
     if ("" !== fileName) {
         $('#url').empty().append('<p><span style="width: 90%;float: left;">'+fileName+'</span><a href="javascript:;" onclick="del(this)" style="width: 10%;float: left;"><i class="fa fa-times" title="删除"></i></a></br></p>');
     }
 });
+
 
 // 表单校验
 $('#defaultForm').bootstrapValidator({
@@ -263,9 +275,15 @@ $('#defaultForm').bootstrapValidator({
 		},
 		abbreviation: {
 			validators: {
-				notEmpty: {
-					message: '不能为空!'
-				}
+                regexp: {
+                 regexp: /^[a-zA-Z0-9_\u0391-\uFFE5]+$/,
+                 message: '不允许有特殊字符'
+                },
+                stringLength: {
+                    min: 0,
+                    max: 20,
+                    message: '最多20个字符'
+                }
 			}
 		},
 		state: {
@@ -300,9 +318,9 @@ $('#defaultForm').bootstrapValidator({
     var file = $('#url span').html();
     // var file = fileList[0]["fileName"];
     var remark = $('#remark').html();
-	var postdata = {'id': id, 'companyId': companyId, 'abbreviation': abbreviation, 'state': state, 'file': file, 'remark': remark};
+	var postData = {'id': id, 'companyId': companyId, 'abbreviation': abbreviation, 'state': state, 'file': file, 'remark': remark};
 
-    $.post("/supplier/saveQuality", postdata, function(result) {
+    $.post("/supplier/saveQuality", postData, function(result) {
 		if (result) {
 			parent.layer.msg("保存成功", {time: 2000}, function(){
 				layer_close();
@@ -314,7 +332,9 @@ $('#defaultForm').bootstrapValidator({
 		}
 	});
 
-    /*var postdata = new FormData(document.getElementById('defaultForm'));
+    /*
+    // 同步传输
+    var postdata = new FormData(document.getElementById('defaultForm'));
     $.ajax({
         url:"/supplier/saveQuality",
         type:"post",

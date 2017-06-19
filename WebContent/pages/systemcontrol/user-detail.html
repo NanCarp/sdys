@@ -35,12 +35,12 @@
                 <input class="form-control text-left" id="account" type="text" placeholder="账号" name="account" value="${user.account}"/>
             </div>
         </div>
-<!--        <div class="form-group">
+       <div class="form-group">
             <label class="col-xs-4 control-label text-right" for="password">密码：</label>
             <div class="col-xs-6">
-                <input class="form-control text-left" id="password" type="text" placeholder="默认密码：123456" readonly/>
+                <input class="form-control text-left" id="password" type="text" placeholder="123456" name="password"/>
             </div>
-        </div>-->
+        </div>
         <div class="form-group">
             <label class="col-xs-4 control-label text-right" for="companyId">公司：</label>
             <div class="col-xs-6">
@@ -77,7 +77,7 @@
     <div class="form-group">
         <label class="col-xs-4 control-label text-right" for="password">密码：</label>
         <div class="col-xs-6">
-            <input class="form-control text-left" id="password" type="text" placeholder="默认密码：123456" readonly/>
+            <input class="form-control text-left" id="password" type="text" placeholder="123456" name="password"/>
         </div>
     </div>
     <div class="form-group">
@@ -146,7 +146,15 @@ $(function () {
             		}
                 }
             },
-            company:{
+            password:{
+            	message:'验证失败',
+            	validators:{
+            		notEmpty: {
+                        message: '账户不能为空'
+                    },
+            	}
+            },            
+            companyId:{
                 message: '验证失败',
                 validators: {
                     notEmpty: {
@@ -154,15 +162,7 @@ $(function () {
                     }
                 }
             },
-            department: {
-                message: '验证失败',
-                validators: {
-                    notEmpty: {
-                        message: '部门不能为空'
-                    }
-                }
-            },
-            role:{
+            roleId:{
                 message: '验证失败',
                 validators: {
                     notEmpty: {
@@ -171,8 +171,9 @@ $(function () {
                 }
             },
         }
-    });
-}).on('success.form.bv', function(e) {
+	});
+})
+.on('success.form.bv', function(e) {
     e.preventDefault();
     $.post("/system/saveUser", $('#defaultForm').serialize(), function(result) {
         if (result) {

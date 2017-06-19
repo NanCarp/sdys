@@ -50,26 +50,29 @@
                         <tr>
                             <td>${forwarder.supplier_name}</td>
                             <td>
-                                <#if forwarder.m1??><#else>1，</#if>
-                                <#if forwarder.m2??><#else>2，</#if>
-                                <#if forwarder.m3??><#else>3，</#if>
-                                <#if forwarder.m4??><#else>4，</#if>
-                                <#if forwarder.m5??><#else>5，</#if>
-                                <#if forwarder.m6??><#else>6，</#if>
-                                <#if forwarder.m7??><#else>7，</#if>
-                                <#if forwarder.m8??><#else>8，</#if>
-                                <#if forwarder.m9??><#else>9，</#if>
-                                <#if forwarder.m10??><#else>10，</#if>
-                                <#if forwarder.m11??><#else>11，</#if>
+                                <#if forwarder.m1??><#else>1,</#if>
+                                <#if forwarder.m2??><#else>2,</#if>
+                                <#if forwarder.m3??><#else>3,</#if>
+                                <#if forwarder.m4??><#else>4,</#if>
+                                <#if forwarder.m5??><#else>5,</#if>
+                                <#if forwarder.m6??><#else>6,</#if>
+                                <#if forwarder.m7??><#else>7,</#if>
+                                <#if forwarder.m8??><#else>8,</#if>
+                                <#if forwarder.m9??><#else>9,</#if>
+                                <#if forwarder.m10??><#else>10,</#if>
+                                <#if forwarder.m11??><#else>11,</#if>
                                 <#if forwarder.m12??><#else>12月</#if>
                             </td>
                         </tr>
                         </#list>
+						<#else>
+						<tr>
+							<td colspan="2">暂无记录</td>
+						</tr>
                         </#if>
 					</tbody>
 				</table>
 			</div>
-			
 		</div>
 	</div>
 	<div class="form-group">
@@ -94,7 +97,7 @@
 		layer_close();
 	});
 	$('#confirm').on('click', function() {
-		$.post("/supplier/calculateYearAlert", function(result) {
+		$.post("/supplier/calculateYear", function(result) {
 			if (result) {
 				parent.layer.msg("评分成功", {time: 2000}, function(){
 					layer_close();

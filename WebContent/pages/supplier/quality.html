@@ -84,12 +84,12 @@
                             <tbody>
                                 <#if qualityList?? && qualityList?size gt 0>
                                 <#list qualityList as quality>
-                                <tr class="">
+                                <tr>
                                     <td>${quality_index+1}</td>
                                     <td>${quality.registration_code}</td>
                                     <td>${quality.supplier_name}</td>
                                     <td>${quality.short_name}</td>
-                                    <td><p style="color:#6699FF;">${quality.review_file!}</p></td>
+                                    <td><p style="color:#6699FF;" id="fileName_${quality.id}">${quality.review_file!}</p></td>
                                     <td>${quality.remark}</td>
                                     <td>
                                         <#if quality.state==1>
@@ -117,16 +117,6 @@
                         <!-- /.table-responsive -->
                     </div>
                     <!-- /.panel-body -->
-                    <!-- panel-footer -->
-                    <!-- <div class="panel-footer container">
-                        <div class="col-sm-5">
-                            <span>显示<strong>1~10</strong>条，共有数据<strong>${totalRow!}</strong>条</span>
-                        </div>
-                        <div class="col-sm-7" style="max-width: 400px;float: right;" >
-                            <div id="forpage" class="forpage" style="float: right;"></div>
-                        </div>
-                    </div> -->
-                    <!-- /.panel-footer -->
                 </div>
                 <!-- /.panel -->
             </div>
@@ -156,52 +146,10 @@
     <script src="../../js/common/admin.js"></script>	
     <script src="../../js/jquery.nicescroll.min.js"></script>
     <script src="../../resource/laypage/laypage.js"></script>
-
+    <script src="../../js/common/common.js"></script>
 
     <!-- Page-Level Demo Scripts - Tables - Use for reference -->
     <script>
-    // 分页
-    $(document).ready(function(){
-        $('#dataTables-example').DataTable({
-        	searching: false,// 搜索
-        	ordering: false,// 排序
-        	lengthChange: false,
-        	"scrollX": true,
-        	"scrollY": true,
-        	"scrollCollapse": true,
-        	language: {
-        		zeroRecords: "没有匹配结果",
-        		info : "显示  _START_ ~ _END_ 条，共有数据   _TOTAL_ 条",
-        		infoEmpty: "显示第 0 ~ 0 项结果，共 0 项", 
-                paginate: {
-                    first:    '第一页',
-                    previous: '上一页',
-                    next:     '下一页',
-                    last:     '最后一页'
-                },
-            },
-        
-        });
-    });
-    /* var totalPage = ${totalPage!}, pageNumber = ${pageNumber!};
-    console.log("totalPage: " + totalPage + " pageNumber: " + pageNumber); 
- 	// 分页
-    $(document).ready(function(){
-    	laypage({
-		    cont: document.getElementById('forpage'), //容器。值支持id名、原生dom对象，jquery对象,
-		    pages: ${totalPage!}, //总页数
-		    skin: '#molv', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
-		    groups: 5, //连续显示分页数
-		    curr: ${pageNumber!},
-		    first: false,
-		    last: false,
-		    jump: function(e, first){ //触发分页后的回调
-		    	if(!first){ //一定要加此判断，否则初始时会无限刷新
-		            location.replace('/supplier/quality/'+e.curr);
-		        }
-		    }
-		});
-	}); */
     // 搜索
     function _search(){
 		layui.use('layer',function(){
@@ -242,9 +190,6 @@
         			layer.msg('撤销失败', {time: 2000});
         		}
         	});
-	        //layer.msg('撤销成功', {icon: 1});
-	        //$(obj).css('display', 'none');
-	        //$(obj).next().css('display', 'inline-block');
 	    }, function(){
 			return;
 	    });
@@ -272,6 +217,7 @@
    			return;
    	    });
     }
+
  	// 删除
     function _delete(id){
         //询问框
@@ -281,7 +227,7 @@
         }, function(){
         	$.post("/supplier/deleteQuality/" + id,function(result) {
         		if (result) {
-        			layer.msg('删除成功', {time: 2000}, function(){
+        			layer.msg('删除成功', {time: 1000}, function(){
         				parent.refresh_iframe();
         			});
         		}
@@ -294,9 +240,24 @@
 
     // 下载资质文件
     function _download(id){
-        window.open('/supplier/downloadQualityFile/'+id, '_blank');
-    }
+        // 未上传资质文件，提示并退出
+        var a = $('#fileName_'+id).html();
+        if ($('#fileName_'+id).html() === ''){
+            layer.msg('未上传资质文件', {time: 2000});
+            return;
+        }
+        //询问框
+        layer.confirm('确认下载吗？', {
+            title: ['信息', 'font-weight:600;color:#fff;background-color: #3367D6;'],
+            btn: ['确认','取消'] //按钮
+        }, function(index){
+            window.open('/supplier/downloadQualityFile/'+id, '_blank');
+            layer.close(index);
+        }, function(){
 
+        });
+
+    }
     </script>
 </body>
 </html>
