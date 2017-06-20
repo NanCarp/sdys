@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jqprint</title>
+    <link href="../css/jqprint.css" rel="stylesheet" media="all">
+</head>
+<body>
+    <div id="jqprint">
+        <table>
+            <tbody class="tb0">
+                <tbody class="tb1">
+                <tr class="r1">
+                    <td colspan="2" rowspan="2">
+                        <img src="../resource/images/suntech-logo2.png">
+                    </td>
+                    <td colspan="5" rowspan="1">无锡尚德太阳能电力有限公司</td>
+                    <td colspan="2" rowspan="2"></td>
+                </tr>
+                <tr class="r2">
+                    <td colspan="5">送货单</td>
+                </tr>
+                </tbody>
+                <tbody class="tb2">
+                <tr class="r3">
+                    <td colspan="5">日期：　　年　　月　　日</td>
+                    <td colspan="4">送货单编号No：系统按顺序生成</td>
+                </tr>
+                <tr class="r4">
+                    <td rowspan="2">发货单位</td>
+                    <td>单位名称</td>
+                    <td colspan="3">无锡尚德太阳能电力有限公司</td>
+                    <td>发货人</td>
+                    <td colspan="3">销售</td>
+                </tr>
+                <tr class="r5">
+                    <td>提货地址</td>
+                    <td colspan="3">抓取提货工厂信息</td>
+                    <td>联系电话</td>
+                    <td colspan="3">0510-85318888</td>
+                </tr>
+                <tr class="r6">
+                    <td rowspan="2">客户单位</td>
+                    <td>单位名称</td>
+                    <td colspan="3"></td>
+                    <td>联系人</td>
+                    <td colspan="3"></td>
+                </tr>
+                <tr class="r7">
+                    <td>收货地址</td>
+                    <td colspan="3"></td>
+                    <td>联系电话</td>
+                    <td colspan="3"></td>
+                </tr>
+                <tr class="r8">
+                    <td>序号</td>
+                    <td>货物名称</td>
+                    <td>规格/型号 </td>
+                    <td>发货数量</td>
+                    <td>单位</td>
+                    <td>托盘数</td>
+                    <td>实际托数</td>
+                    <td>货物外观情况</td>
+                    <td>备注</td>
+                </tr>
+                <tr class="r9">
+                    <td>01</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td rowspan="4"></td>
+                    <td rowspan="4" id="state">
+                        □ 完好<br>
+                        □ 破损
+                    </td>
+                    <td></td>
+                </tr>
+                <tr class="r10">
+                    <td>02</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr class="r11">
+                    <td>03</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr class="r12">
+                    <td>合计</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr class="r13">
+                    <td rowspan="2">司机信息</td>
+                    <td>车牌号</td>
+                    <td colspan="3">根据仓库选择数据显示</td>
+                    <td>姓名</td>
+                    <td colspan="3">根据仓库选择数据显示</td>
+                </tr>
+                <tr class="r14">
+                    <td>电话</td>
+                    <td colspan="3">根据仓库选择数据显示</td>
+                    <td>货代</td>
+                    <td colspan="3">根据仓库选择数据显示(手写)</td>
+                </tr>
+                </tbody>
+                <tr class="r15">
+                    <td colspan="3">仓库（签名/盖章）</td>
+                    <td colspan="3">提货人（签名/盖章）</td>
+                    <td colspan="3">收货人（签名/盖章）</td>
+                </tr>
+                <tr class="r16">
+                    <td colspan="3">出货日期：</td>
+                    <td colspan="3">提货日期：</td>
+                    <td colspan="3">收货日期：</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <input type="button" onclick="print()" value="打印"/>
+
+    <script language="javascript" src="../resource/jqprint/jquery-1.4.4.min.js"></script>
+    <script language="javascript" src="../resource/jqprint/jquery.jqprint-0.3.js"></script>
+    <script language="javascript">
+
+        function print(){
+            $("#jqprint").jqprint();
+        }
+    </script>
+</body>
+</html>
