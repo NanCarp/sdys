@@ -36,4 +36,12 @@ public class LoginService {
 
 		return false;
 	}
+
+	// 根据用户名从 SAP 获取用户数据
+    public static Record getUserFromSAP(String username) {
+	    Record user = new Record();
+	    // TODO 从 SAP 获取数据
+
+        return null;
+    }
 }

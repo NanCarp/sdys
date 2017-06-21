@@ -336,8 +336,12 @@ public class SupplierController extends Controller{
 			List<Record> forwarderList = SupplierService.getCompanyListQualified();
 			setAttr("forwarderList", forwarderList);
 		}
-		
-		render("info_detail.html");
+
+		// 等级列表
+        List<Record> levelList = SupplierService.getLevelList();
+        setAttr("levelList", levelList);
+
+        render("info_detail.html");
 	}
 
 	/**
@@ -760,7 +764,11 @@ public class SupplierController extends Controller{
 		// 当前年份
 		int currentYear = LocalDate.now().getYear();
 		setAttr("currentYear", currentYear);
-		
+
+        // 评分标准
+        List<Record> criterionList =  SupplierService.getCriterionList();
+        setAttr("criterionList", criterionList);
+
 		render("year_detail.html");
 	}
 	

@@ -86,12 +86,20 @@ public class LoginController extends Controller{
 	public void adminLogin() throws NoSuchAlgorithmException, UnsupportedEncodingException{
 		String username = getPara("username");
 		String password = getPara("password");
+		boolean isInsider = getParaToBoolean("isInsider"); // 内部人员标识
 		
 		boolean result = false;//判定返回结果，true即验证正确
 		boolean flag= true;//判定map中是否存在该key，false即存在
 		boolean v = false;//MD5比对密码结果，true为正确
-		String msg = new String();		
-		Record admin = LoginService.getLoginInfo(username);		
+		String msg = new String();
+
+		Record admin = new Record(); // 用来存放登陆用户
+		if (isInsider) { // 判断是否是内部人员
+			admin = LoginService.getUserFromSAP(username); // 内部人员，从 SAP 获取数据
+		} else {
+			admin = LoginService.getLoginInfo(username); // 非内部人员，从数据库获取数据
+		}
+
 		Map<String, Object> responseMap = new HashMap<>();
 		if(admin!=null){
 			 v = MD5Util.validPassword(password, admin.getStr("password"));
@@ -104,7 +112,7 @@ public class LoginController extends Controller{
 					result = true;
 					msg = "登录成功";
 					getSession().setAttribute("admin", admin);
-					Cookie cookie = new Cookie("morality", ""+admin.getInt("id"));
+					Cookie cookie = new Cookie("stms", ""+admin.getInt("id"));
 					cookie.setMaxAge(60*60*24*7);
 					cookie.setPath("/login/");
 					getResponse().addCookie(cookie);
