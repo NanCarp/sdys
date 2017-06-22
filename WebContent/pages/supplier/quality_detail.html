@@ -50,9 +50,9 @@
                 <select class="form-control" id="companyId" name="companyId">
                     <option value="">请选择公司</option>
                     <#if companyList??>
-                        <#list companyList as company>
-                            <option value="${company.id}" <#if company.id == quality.supplier_id>selected</#if>>${company.company_name}</option>
-                        </#list>
+                    <#list companyList as company>
+                    <option value="${company.id}" <#if company.id == quality.supplier_id>selected</#if>>${company.company_name}</option>
+                    </#list>
                     </#if>
                 </select>
             </div>
@@ -63,19 +63,6 @@
                 <input class="form-control" id="abbreviation" type="text" placeholder=" 简称"  name="abbreviation" value="${quality.short_name!}"/>
             </div>
         </div>
-        <!--<<div class="form-group">
-            <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="companyId">公司：</label>
-            <div class="col-xs-6">
-                <select class="form-control" id="companyId" name="companyId">
-                    <option value="">请选择公司</option>
-                    <#if companyList??>
-                        <#list companyList as company>
-                            <option value="${company.id}">${company.company_name}</option>
-                        </#list>
-                    </#if>
-                </select>
-            </div>
-        </div>-->
 	    <div class="form-group">
             <label class="col-xs-5 control-label text-right" for="state">状态：</label>
             <div class="col-xs-6">
@@ -107,9 +94,9 @@
                 <select class="form-control" id="companyId" name="companyId">
                     <option value="">请选择公司</option>
                     <#if companyList??>
-                        <#list companyList as company>
-                            <option value="${company.id}">${company.company_name}</option>
-                        </#list>
+                    <#list companyList as company>
+                    <option value="${company.id}">${company.company_name}</option>
+                    </#list>
                     </#if>
                 </select>
             </div>
@@ -169,17 +156,6 @@
 <script src="../../resource/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
 <script src="../../js/common/admin.js"></script>
 <script type="text/javascript">
-
- layui.use('upload',function(){
-	var upload = layui.upload({
-		elem: '#v4' //指定原始元素，默认直接查找class="layui-upload-file"
-		,url: '/supplier/uploadfile'
-		,method: 'post' //上传接口的http类型
-		,success: function(data){
-		   alert("111");
-		 }
-	}); 
-});
 
 // 文件上传
 // 初始化fileinput控件（第一次初始化）

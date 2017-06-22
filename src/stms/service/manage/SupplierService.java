@@ -450,7 +450,14 @@ public class SupplierService {
 		
 		return succeed;
 	}
-	
+
+    // 根据物流公司 id、年份获得审核月份列表
+	public static List<Record> getMonthListChecked(Integer supplierId, Integer year) {
+        String sql = "SELECT `month` FROM t_supplier_month_assess " +
+				"WHERE supplier_id = ? " +
+				"AND `year` = ? ";
+        return Db.find(sql, supplierId, year);
+    }
 	/*********************供应商年度考核*************************/
 	/** 
 	* @Title: getYearList 

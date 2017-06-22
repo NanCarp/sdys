@@ -308,7 +308,6 @@ public class SystemController extends Controller {
         renderJson(roleList);
     }
 	/************用户管理****************/
-	// TODO 用户密码加密
 	public void user() {
 	    // 公司名称
         String company = getPara("company","").trim();
@@ -393,7 +392,10 @@ public class SystemController extends Controller {
 	    // 用户 id
         Integer id = getParaToInt();
         // 删除结果
-        boolean result = SystemService.deleteUser(id);
+        boolean result = false;
+        if (id != 1) { // admin 账号不能删除
+            result = SystemService.deleteUser(id);
+        }
 
         renderJson(result);
     }

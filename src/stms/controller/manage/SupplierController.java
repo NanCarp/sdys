@@ -22,7 +22,6 @@ import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.upload.UploadFile;
 
 import com.jfinal.upload.UploadFile;
-import javafx.util.converter.LocalDateTimeStringConverter;
 import stms.interceptor.ManageInterceptor;
 import stms.service.manage.SupplierService;
 import stms.utils.ExcelKit;
@@ -707,7 +706,19 @@ public class SupplierController extends Controller{
 		});
 		renderJson(flag);
 	}
-	
+
+	// 根据物流公司 id、年份获得未审核月份
+    public void getMonthListChecked() {
+	    //  物流公司 id
+        Integer supplierId = getParaToInt("supplierId");
+        // 年份
+        Integer year = getParaToInt("year");
+
+        // 未审核月份
+        List<Record> monthList = SupplierService.getMonthListChecked(supplierId, year);
+
+        renderJson(monthList);
+    }
 
 
 	/*********************物流公司年度考核*************************/

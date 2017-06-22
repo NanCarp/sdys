@@ -67,11 +67,11 @@
         <div class="col-xs-6">
             <select id="v4" class="form-control" name="level">
                 <option value="">请选择等级</option>
-                <option value="AA" <#if info.supplier_level=="AA">selected</#if>>AA</option>
-                <option value="A" <#if info.supplier_level=="A">selected</#if>>A</option>
-                <option value="B" <#if info.supplier_level=="B">selected</#if>>B</option>
-                <option value="C" <#if info.supplier_level=="C">selected</#if>>C</option>
-                <option value="D" <#if info.supplier_level=="D">selected</#if>>D</option>
+                <#if levelList ?? && levelList?size gt 0>
+                <#list levelList as level>
+                <option value="${level.supplier_level}" <#if level.supplier_level == info.supplier_level>selected</#if>>${level.supplier_level}</option>
+                </#list>
+                </#if>
             </select>
         </div>
     </div>
@@ -160,11 +160,11 @@
         <div class="col-xs-6">
             <select id="level" class="form-control" name="level">
                 <option value="">请选择等级</option>
-                <option value="AA">AA</option>
-                <option value="A">A</option>
-                <option value="B">B</option>
-                <option value="C">C</option>
-                <option value="D">D</option>
+                <#if levelList ?? && levelList?size gt 0>
+                <#list levelList as level>
+                <option value="${level.supplier_level}">${level.supplier_level}</option>
+                </#list>
+                </#if>
             </select>
         </div>
     </div>
@@ -380,6 +380,7 @@ $(function(){
 	});
 });
 
+// 根据公司变更货代类型
 $('#forwarder').change(function(){
 	var $obj =  $('#forwarder option:selected');
     // 货代类型

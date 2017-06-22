@@ -52,7 +52,7 @@
                 <#if forwarderList??>
 				<#list forwarderList as forwarder>
 				<option value="${forwarder.supplier_id}" <#if forwarder.supplier_id==month.supplier_id>selected<#else>style="display:none"</#if>>${forwarder.supplier_name}</option>
-				</#list>
+                </#list>
 				</#if>
             </select>
 		</div>
@@ -60,13 +60,13 @@
 	<div class="form-group">
         <label class="col-xs-4 control-label text-right" for="year">年份：</label>
         <div class="col-xs-6">
-            <input class="form_datetime form-control" placeholder="年份" name="year" id="year" value="${month.year?string("yyyy")}">
+            <input class="form-control" placeholder="年份" name="year" id="year" value="${month.year?string('yyyy')}" readonly>
         </div>
     </div>
     <div class="form-group">
         <label class="col-xs-4 control-label text-right" for="month">月份：</label>
         <div class="col-xs-6">
-            <input class="form_datetime form-control" placeholder="月份" name="month" id="month" value="${month.month}">
+            <input class="form_datetime form-control" placeholder="月份" name="month" id="month" value="${month.month}" readonly>
         </div>
     </div>
     <div class="form-group">
@@ -124,7 +124,9 @@
     <div class="form-group">
         <label class="col-xs-4 control-label text-right" for="month">月份：</label>
         <div class="col-xs-6">
-            <input class="form_datetime form-control" placeholder="月份" name="month" id="month" value="">
+            <select class="form-control" id="month" name="month">
+                <option value="">未审核月份</option>
+            </select>
         </div>
     </div>
     <div class="form-group">
@@ -215,9 +217,9 @@ function initFileInput(ctrlName, uploadUrl) {
             $('#url').empty().append('<p><span style="width: 90%;float: left;">'+fileName+'</span><a href="javascript:;" onclick="del(this)" style="width: 10%;float: left;"><i class="fa fa-times" title="删除"></i></a></br></p>');
         }
     }).on('filesuccessremove', function(event,id) {// 上传成功后，点击删除按钮的回调函数
-        console.log("filesuccessremove: " + id);
+        // console.log("filesuccessremove: " + id);
     }).on('fileclear', function(event) {
-        console.log("fileclear");
+        // console.log("fileclear");
     });
 }
 
@@ -225,7 +227,6 @@ initFileInput("file", "/supplier/uploadMonthFile");
 // 删除选中文件
 function del(_obj){
     var fileName = $('#url span').html();
-    //console.log(fileName);
     $.post("/supplier/deleteMonthFile",{"fileName":fileName},function (data) {
         if (data) {
             parent.layer.msg("删除成功", {time: 1000});
@@ -246,7 +247,7 @@ $(function () {
 });
 
 //日期控件
-$("#year").datetimepicker({
+$("#year .form_datetime").datetimepicker({
 	format: "yyyy",
 	autoclose: true,
 	todayBtn: true,
@@ -257,7 +258,7 @@ $("#year").datetimepicker({
 	startView: 4,//年视图
 	minView:4,
 });
-$("#month").datetimepicker({
+/*$("#month").datetimepicker({
 	format: "m",
 	autoclose: true,
 	todayBtn: true,
@@ -267,7 +268,7 @@ $("#month").datetimepicker({
 	language: 'zh-CN',//中文，需要引用zh-CN.js包
 	startView: 3,//年视图
 	minView:3,
-});
+});*/
 $(function(){
 	// 表单校验
 	$('form').bootstrapValidator({
@@ -285,6 +286,20 @@ $(function(){
 					}
 				}
 			},
+            year: {
+                validators: {
+                    notEmpty: {
+                        message: '请选择年份!'
+                    }
+                }
+            },
+            month: {
+                validators: {
+                    notEmpty: {
+                        message: '请选择月份!'
+                    }
+                }
+            },
 			score: {
 				validators: {
 					notEmpty: {
@@ -304,7 +319,7 @@ $(function(){
 					}
 				}
 			},
-			grager: {
+			/*grager: {
 				validators: {
 					notEmpty: {
 						message: '不能为空!'
@@ -314,7 +329,7 @@ $(function(){
                         message: '不能包含特殊字符'
                     }
 				}
-			},
+			},*/
 			remark: {
 				validators: {
 					stringLength: {
@@ -331,13 +346,9 @@ $(function(){
 	e.preventDefault();
     var postData = $('#defaultForm').serialize();
     var file = $('#url span').html();
-    console.log(typeof file);
-    console.log( file);
     if (!file) {
         file = "";
     }
-    console.log(typeof file);
-    console.log( file);
     postData += '&file='+file;
     $.post("/supplier/saveMonth", postData, function(result) {
         if (result) {
@@ -360,14 +371,14 @@ $('#cancel').on("click",function() {
 
 // 根据分数自动选择等级
 $('#score').change(function () {
-    var criterionList = ${criterionJson!};// 考核标准列表
-    var score = $(this).val();// 月度得分
-    var level = "";// 评定等级
+    var criterionList = ${criterionJson!}; // 考核标准列表
+    var score = $(this).val(); // 月度得分
+    var level = ""; // 评定等级
     // 根据得分，结算等级
     $(criterionList).each(function () {
         if (score <= this.high && score>= this.low) {
             level = this.supplier_level;
-            return false;// 退出循环
+            return false; // 退出循环
         }
     });
     // 下拉菜单选择相应等级
@@ -377,6 +388,40 @@ $('#score').change(function () {
         }
     });
 });
+
+// 根据供应商、年份，获取未评分月份
+var supplierId = "";
+var year = "";
+$('#supplierId').on('change', function () {
+    supplierId = $(this).val();
+    getMonthList();
+});
+$('#year').on('change', function () {
+    year = $(this).val();
+    getMonthList();
+});
+function getMonthList() {
+    $('#month').empty().append('<option value="">未审核月份</option>');
+    if ("" !== supplierId && "" !== year) {
+        $.post('/supplier/getMonthListChecked', {"supplierId":supplierId,"year":year}, function (monthList) {
+            if (monthList) {
+                // 存放已审核月份
+                var monthArray = [];
+                $(monthList).each(function () {
+                    monthArray.push(this.month);
+                });
+                for (var i = 1; i < 13; i++) {
+                    if (monthArray.indexOf(i) < 0) { // 未审核月份
+                        // 填充未审核月份下拉菜单
+                        $('#month').append('<option value="'+ i +'">'+ i +'月</option>');
+                    }
+                }
+            } else {
+                // 网络错误
+            }
+        });
+    }
+}
     
 </script>
 </body>

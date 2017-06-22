@@ -91,14 +91,6 @@
                             </tbody>
                         </table>
                     </div>
-                    <!--<div class="panel-footer container" style="width: 100%">
-                        <div class="col-sm-4" style="max-width: 240px;">
-                            <span>显示<strong>1~10</strong>条，共有数据<strong>100</strong>条</span>
-                        </div>
-                        <div class="col-sm-7" style="max-width: 400px;float: right;" >
-                            <div id="forpage" class="forpage" style="float: right;"></div>
-                        </div>
-                    </div>-->
                 </div>
             </div>
         </div>
@@ -148,20 +140,6 @@
 
         });
     });
-    /*$(function(){
-		 laypage({
-		    cont: document.getElementById('forpage'), //容器。值支持id名、原生dom对象，jquery对象,
-		    pages: 10, //总页数
-		    skin: '#molv', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
-		    groups: 5, //连续显示分页数
-		    curr: 2,
-		    first:false,
-		    last:false,
-		    jump: function(e, first){ //触发分页后的回调
-		        
-		    }
-		});
-	 });*/
     function _search(){
 		layui.use('layer',function(){
 			var layer = layui.layer;
@@ -186,11 +164,15 @@
         layer.confirm('确认删除吗？', {
             title: ['信息', 'font-weight:600;color:#fff;background-color: #3367D6;'],
             btn: ['确认','取消'] //按钮
-        }, function(){
+        }, function(index){
             $.post("/system/deleteUser/" + id,function(result) {
                 if (result) {
                     layer.msg('删除成功', {time: 2000}, function(){
                         parent.refresh_iframe();
+                    });
+                } else {
+                    layer.msg('删除失败', {time: 2000}, function(){
+                        layer.close(index);
                     });
                 }
             });
