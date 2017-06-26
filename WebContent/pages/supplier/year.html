@@ -221,12 +221,12 @@
 					layer.tips('不允许有特殊字符，最多20个字符', '#forwarder', {tips: [1, '#34495E']});return;
 				}					
 			}
-			location.replace('/supplier/year?'+'forwarder='+forwarder+'&year='+year);
+			location.replace('/supplier/year/year?'+'forwarder='+forwarder+'&year='+year);
 		})
 	}
 	// 评分
     function _calculate(){
-    	$.post("/supplier/calculateYear",function(result) {
+    	$.post("/supplier/year/calculateYear",function(result) {
     		if (result) {
     			layer.msg('评分成功', {time: 2000}, function(){
     				parent.refresh_iframe();
@@ -236,15 +236,23 @@
     	//layer.msg('评分成功', {icon: 1});
     }
     function _calculateYearAlert() {
-    	open_window('确认评分吗？','/supplier/calculateYearAlert',480, 350);
+    	$.post("/supplier/year/isAllSupplierCalculated", function(data){
+    		// data.result = true;
+    		if (data.result) { // 已全部评分
+    			layer.msg('已全部评分', {time: 2000});
+    		} else {
+    			open_window('信息','/supplier/year/calculateYearAlert',480, 350);
+    		}
+    	});
+    	
     }
     // 编辑
     function _edit(id){
-    	open_window('编辑年度考核','/supplier/getYear/' + id, 480, 350);
+    	open_window('编辑年度考核','/supplier/year/getYear/' + id, 480, 350);
     }
     // 新增
 	function _add(){
-		open_window('新增年度考核','/supplier/getYear', 480, 350);
+		open_window('新增年度考核','/supplier/year/getYear', 480, 350);
 	}
     // 删除
 	function _delete(id){
@@ -253,7 +261,7 @@
         	title: ['信息', 'font-weight:600;color:#fff;background-color: #3367D6;'],
             btn: ['确认','取消'] //按钮
         }, function(){
-        	$.post("/supplier/deleteYear/" + id,function(result) {
+        	$.post("/supplier/year/deleteYear/" + id,function(result) {
         		if (result) {
         			layer.msg('删除成功', {time: 2000}, function(){
         				parent.refresh_iframe();
@@ -293,7 +301,7 @@
                 title: ['信息', 'font-weight:600;color:#fff;background-color: #3367D6;'],
                 btn: ['确认','取消'] //按钮
             }, function(){
-                $.post("/supplier/deleteYear/" + ids,function(result) {
+                $.post("/supplier/year/deleteYear/" + ids,function(result) {
                     if (result) {
                         layer.msg('删除成功', {time: 2000}, function(){
                             parent.refresh_iframe();
@@ -307,7 +315,7 @@
     }
 	// 查看明细
 	function _detail(){
-		open_window('查看明细','/supplier/yearDetail', 480, 370);
+		open_window('查看明细','/supplier/year/yearDetail', 480, 370);
 	}
 </script>
 

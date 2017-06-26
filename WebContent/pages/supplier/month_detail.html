@@ -12,17 +12,17 @@
     <title>月度考核</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- MetisMenu CSS -->
-    <link href="../../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+    <link href="../../../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="../../dist/css/sb-admin-2.css" rel="stylesheet">
-	<link href="../../css/admin.css" rel="stylesheet">
-	<link href="../../resource/bootstrapvalidator/css/bootstrapValidator.min.css" rel="stylesheet">
-	<link href="../../resource/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
-    <link href="../../resource/bootstrap-fileinput/css/fileinput.css" rel="stylesheet">
+    <link href="../../../dist/css/sb-admin-2.css" rel="stylesheet">
+	<link href="../../../css/admin.css" rel="stylesheet">
+	<link href="../../../resource/bootstrapvalidator/css/bootstrapValidator.min.css" rel="stylesheet">
+	<link href="../../../resource/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <link href="../../../resource/bootstrap-fileinput/css/fileinput.css" rel="stylesheet">
     <style type="text/css">
 		body { margin:0 15px;}
 		form { margin-top:20px;}
@@ -30,7 +30,7 @@
 	</style>
 	
     <!-- Custom Fonts -->
-    <link href="../../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="../../../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -66,7 +66,7 @@
     <div class="form-group">
         <label class="col-xs-4 control-label text-right" for="month">月份：</label>
         <div class="col-xs-6">
-            <input class="form_datetime form-control" placeholder="月份" name="month" id="month" value="${month.month}" readonly>
+            <input class="form-control" placeholder="月份" name="month" id="month" value="${month.month}" readonly>
         </div>
     </div>
     <div class="form-group">
@@ -171,23 +171,23 @@
     </div>
 </form>
 <!-- jQuery -->
-<script src="../../vendor/jquery/jquery.min.js"></script>
+<script src="../../../vendor/jquery/jquery.min.js"></script>
 
 <!-- Bootstrap Core JavaScript -->
-<script src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="../../../vendor/bootstrap/js/bootstrap.min.js"></script>
 
 <!-- Metis Menu Plugin JavaScript -->
-<script src="../../vendor/metisMenu/metisMenu.min.js"></script>
+<script src="../../../vendor/metisMenu/metisMenu.min.js"></script>
 
 <!-- Custom Theme JavaScript -->
-<script src="../../dist/js/sb-admin-2.js"></script>
-<script src="../../resource/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
-<script src="../../resource/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script> 
-<script src="../../resource/bootstrap-datetimepicker/js/moment-with-locales.min.js"></script>
-<script src="../../resource/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
-<script src="../../js/common/admin.js"></script>
-<script src="../../resource/bootstrap-fileinput/js/fileinput.js"></script>
-<script src="../../resource/bootstrap-fileinput/js/locales/zh.js"></script>
+<script src="../../../dist/js/sb-admin-2.js"></script>
+<script src="../../../resource/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
+<script src="../../../resource/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script> 
+<script src="../../../resource/bootstrap-datetimepicker/js/moment-with-locales.min.js"></script>
+<script src="../../../resource/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+<script src="../../../js/common/admin.js"></script>
+<script src="../../../resource/bootstrap-fileinput/js/fileinput.js"></script>
+<script src="../../../resource/bootstrap-fileinput/js/locales/zh.js"></script>
 <script type="text/javascript">
 // 文件上传
 // 初始化fileinput控件（第一次初始化）
@@ -223,11 +223,11 @@ function initFileInput(ctrlName, uploadUrl) {
     });
 }
 
-initFileInput("file", "/supplier/uploadMonthFile");
+initFileInput("file", "/supplier/month/uploadMonthFile");
 // 删除选中文件
 function del(_obj){
     var fileName = $('#url span').html();
-    $.post("/supplier/deleteMonthFile",{"fileName":fileName},function (data) {
+    $.post("/supplier/month/deleteMonthFile",{"fileName":fileName},function (data) {
         if (data) {
             parent.layer.msg("删除成功", {time: 1000});
 
@@ -247,7 +247,7 @@ $(function () {
 });
 
 //日期控件
-$("#year .form_datetime").datetimepicker({
+$(".form_datetime").datetimepicker({
 	format: "yyyy",
 	autoclose: true,
 	todayBtn: true,
@@ -350,7 +350,7 @@ $(function(){
         file = "";
     }
     postData += '&file='+file;
-    $.post("/supplier/saveMonth", postData, function(result) {
+    $.post("/supplier/month/saveMonth", postData, function(result) {
         if (result) {
             parent.layer.msg("保存成功", {time: 2000}, function(){
                 layer_close();
@@ -403,7 +403,7 @@ $('#year').on('change', function () {
 function getMonthList() {
     $('#month').empty().append('<option value="">未审核月份</option>');
     if ("" !== supplierId && "" !== year) {
-        $.post('/supplier/getMonthListChecked', {"supplierId":supplierId,"year":year}, function (monthList) {
+        $.post('/supplier/month/getMonthListChecked', {"supplierId":supplierId,"year":year}, function (monthList) {
             if (monthList) {
                 // 存放已审核月份
                 var monthArray = [];

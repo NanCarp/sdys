@@ -97,7 +97,7 @@
 		layer_close();
 	});
 	$('#confirm').on('click', function() {
-		$.post("/supplier/calculateYear", function(result) {
+		$.post("/supplier/year/calculateYear", function(result) {
 			if (result) {
 				parent.layer.msg("评分成功", {time: 2000}, function(){
 					layer_close();

@@ -210,16 +210,16 @@
 					layer.tips('不允许有特殊字符，最多20个字符', '#forwarder', {tips: [1, '#34495E']});return;
 				}					
 			}
-			location.replace('/supplier/info/1-' + forwarder );
+			location.replace('/supplier/info/info/1-' + forwarder );
 		})
 	}
     // 编辑
     function _edit(id){
-    	open_window('编辑供应商信息','/supplier/getInfo/'+id, 480, 370);
+    	open_window('编辑供应商信息','/supplier/info/getInfo/'+id, 480, 370);
     }
     // 新增
     function _add(){
-    	open_window('新增供应商信息','/supplier/getInfo', 480, 370);
+    	open_window('新增供应商信息','/supplier/info/getInfo', 480, 370);
     }
  	// 删除
     function _delete(id){
@@ -228,7 +228,7 @@
         	title: ['信息', 'font-weight:600;color:#fff;background-color: #3367D6;'],
             btn: ['确认','取消'] //按钮
         }, function(){
-        	$.post("/supplier/deleteInfo/" + id,function(result) {
+        	$.post("/supplier/info/deleteInfo/" + id,function(result) {
         		if (result) {
         			layer.msg('删除成功', {time: 2000}, function(){
         				parent.refresh_iframe();

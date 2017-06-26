@@ -161,16 +161,16 @@
 					layer.tips('不允许有特殊字符，最多20个字符', '#forwarder', {tips: [1, '#34495E']});return;
 				}					
 			}
-			location.replace('/supplier/quality/1-' + forwarder );
+			location.replace('/supplier/quality/index/1-' + forwarder );
 		})
 	}
     // 编辑
     function _edit(id){
-    	open_window('编辑供应商资质','/supplier/getQuality/' + id, 520, 350);
+    	open_window('编辑供应商资质','/supplier/quality/getQuality/' + id, 520, 350);
     }
     // 新增
     function _add(){
-    	open_window('新增供应商资质','/supplier/getQuality', 520, 350);
+    	open_window('新增供应商资质','/supplier/quality/getQuality', 520, 350);
     }
  	// 撤销
 	function _cancel(obj,id){
@@ -179,7 +179,7 @@
 	   	 title: ['信息', 'font-weight:600;color:#fff;background-color: #3367D6;'],
 	        btn: ['确认','取消'] //按钮
 	    }, function(){
-	    	$.post("/supplier/cancelQuality/" + id, function(result) {
+	    	$.post("/supplier/quality/cancelQuality/" + id, function(result) {
         		if (result) {
         			layer.msg('撤销成功', {time: 2000}, function(){
         				$(obj).css('display', 'none');
@@ -201,7 +201,7 @@
    	   	 title: ['信息', 'font-weight:600;color:#fff;background-color: #3367D6;'],
    	        btn: ['确认','取消'] //按钮
    	    }, function(){
-   	    	$.post("/supplier/verifyQuality/" + id, function(result) {
+   	    	$.post("/supplier/quality/verifyQuality/" + id, function(result) {
         		if (result) {
         			layer.msg('审核成功', {time: 2000}, function(){
         				$(obj).css('display', 'none');
@@ -225,7 +225,7 @@
         	title: ['信息', 'font-weight:600;color:#fff;background-color: #3367D6;'],
             btn: ['确认','取消'] //按钮
         }, function(){
-        	$.post("/supplier/deleteQuality/" + id,function(result) {
+        	$.post("/supplier/quality/deleteQuality/" + id,function(result) {
         		if (result) {
         			layer.msg('删除成功', {time: 1000}, function(){
         				parent.refresh_iframe();
@@ -251,7 +251,7 @@
             title: ['信息', 'font-weight:600;color:#fff;background-color: #3367D6;'],
             btn: ['确认','取消'] //按钮
         }, function(index){
-            window.open('/supplier/downloadQualityFile/'+id, '_blank');
+            window.open('/supplier/quality/downloadQualityFile/'+id, '_blank');
             layer.close(index);
         }, function(){
 
