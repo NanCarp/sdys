@@ -237,7 +237,6 @@
     }
     function _calculateYearAlert() {
     	$.post("/supplier/year/isAllSupplierCalculated", function(data){
-    		// data.result = true;
     		if (data.result) { // 已全部评分
     			layer.msg('已全部评分', {time: 2000});
     		} else {

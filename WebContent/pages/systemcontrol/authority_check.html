@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <title>添加权限修改</title>
-    <link href="../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="../../dist/css/sb-admin-2.css" rel="stylesheet">
-    <link href="../../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="../../css/admin.css" rel="stylesheet" type="text/css">
-	<link rel="stylesheet" type="text/css" href="../../resource/zTree/css/zTreeStyle/zTreeStyle.css" />
+    <link href="../../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../../dist/css/sb-admin-2.css" rel="stylesheet">
+    <link href="../../../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="../../../css/admin.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" type="text/css" href="../../../resource/zTree/css/zTreeStyle/zTreeStyle.css" />
     <style>
         label{padding-right: 0;padding-top: 6px}
     </style>
@@ -41,12 +41,12 @@
     	</div>   		    	
 	</div>	
 
-	<script src="../../vendor/jquery/jquery.min.js"></script>
-	<script src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
-	<script src="../../resource/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
-	<script src="../../js/common/admin.js"></script>
-	<script type="text/javascript" src="../../resource/zTree/js/jquery.ztree.core-3.5.js"></script>
-	<script type="text/javascript" src="../../resource/zTree/js/jquery.ztree.excheck-3.5.js"></script>
+	<script src="../../../vendor/jquery/jquery.min.js"></script>
+	<script src="../../../vendor/bootstrap/js/bootstrap.min.js"></script>
+	<script src="../../../resource/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
+	<script src="../../../js/common/admin.js"></script>
+	<script type="text/javascript" src="../../../resource/zTree/js/jquery.ztree.core-3.5.js"></script>
+	<script type="text/javascript" src="../../../resource/zTree/js/jquery.ztree.excheck-3.5.js"></script>
 	<script type="text/javascript">
 
     // 权限树
@@ -109,7 +109,7 @@
         $('#roleId').empty().append('<option value="">请选择角色</option>');
         // 获取部门列表
         if (!("" === companyId)) {
-            $.post('/system/getRoleByCompanyId/'+ companyId, function (roleList) {
+            $.post('/system/authority/getRoleByCompanyId/'+ companyId, function (roleList) {
                 $(roleList).each(function () {
                     $('#roleId').append('<option value="'+ this.id +'">'+ this.role_type +'</option>');
                 });

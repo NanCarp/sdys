@@ -20,6 +20,13 @@ import com.jfinal.upload.UploadFile;
 
 import stms.utils.EncodeUtil;
 
+/**
+ * @ClassName: MonthService.java
+ * @Description: 物流公司月度考核 service
+ * @author: LiYu
+ * @date: 2017年6月26日下午6:11:11
+ * @version: 1.0 版本初成
+ */
 public class MonthService {
 
 	/** 

@@ -7,6 +7,13 @@ import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
 
+/**
+ * @ClassName: LevelController.java
+ * @Description: 考核标准控制器
+ * @author: LiYu
+ * @date: 2017年6月26日下午6:08:55
+ * @version: 1.0 版本初成
+ */
 public class LevelController extends Controller {
 	/** 
 	* @Title: index 

@@ -151,11 +151,11 @@ $(function(){
 });
 // 编辑
 function _edit(id){
-	open_window('编辑菜单','/system/getMenu/' + id, 480, 350);
+	open_window('编辑菜单','/system/menu/getMenu/' + id, 480, 350);
 }
 // 新增
 function _add(){
-	open_window('新增菜单','/system/getMenu', 480, 350);
+	open_window('新增菜单','/system/menu/getMenu', 480, 350);
 }
 // 删除
 function _delete(id){
@@ -164,7 +164,7 @@ function _delete(id){
 	title: ['信息', 'font-weight:600;color:#fff;background-color: #3367D6;'],
 	   btn: ['确认','取消'] //按钮
    }, function(){
-	$.post("/system/deleteMenu/" + id,function(result) {
+	$.post("/system/menu/deleteMenu/" + id,function(result) {
 		if (result) {
 			layer.msg('删除成功', {time: 2000}, function(){
 				parent.refresh_iframe();

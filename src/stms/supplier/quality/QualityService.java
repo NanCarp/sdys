@@ -21,7 +21,7 @@ import stms.utils.EncodeUtil;
 
 /**
  * @ClassName: QualityService.java
- * @Description: 
+ * @Description: 物流公司资质管理 service
  * @author: LiYu
  * @date: 2017年6月26日上午9:28:14
  * @version: 1.0 版本初成

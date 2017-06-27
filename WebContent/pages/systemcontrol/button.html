@@ -83,18 +83,6 @@
 					</table>
 					   <!-- /.table-responsive -->
 				   </div>
-				   <!-- /.panel-body -->
-				   <!-- panel-footer -->
-					<!-- <div class="panel-footer container" style="width:100%;">
-						<div class="col-sm-5">
-							<span>显示<strong>1~10</strong>条，共有数据<strong>100</strong>条</span>
-						</div>
-						<div class="col-sm-7" style="max-width: 400px;float: right;" >
-							<div id="forpage" class="forpage" style="float: right;"></div>
-						</div>
-						<script src="../../resource/laypage/laypage.js"></script>
-					</div> -->
-				   <!-- /.panel-footer -->
 			   </div>
 			   <!-- /.panel -->
 		   </div>
@@ -146,11 +134,11 @@ $(function(){
 });
 // 编辑
 function _edit(id){
-	open_window('编辑按钮','/system/getButton/' + id, 480, 350);
+	open_window('编辑按钮','/system/button/getButton/' + id, 480, 350);
 }
 // 新增
 function _add(){
-	open_window('新增按钮','/system/getButton', 480, 350);
+	open_window('新增按钮','/system/button/getButton', 480, 350);
 }
 // 删除
 function _delete(id){
@@ -159,7 +147,7 @@ function _delete(id){
 	title: ['信息', 'font-weight:600;color:#fff;background-color: #3367D6;'],
 	   btn: ['确认','取消'] //按钮
    }, function(){
-	$.post("/system/deleteButton/" + id,function(result) {
+	$.post("/system/button/deleteButton/" + id,function(result) {
 		if (result) {
 			layer.msg('删除成功', {time: 2000}, function(){
 				parent.refresh_iframe();

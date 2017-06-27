@@ -154,10 +154,10 @@
 		})
 	}
     function _add(){
-    	open_window('添加用户','/system/getUser',480, 370);
+    	open_window('添加用户','/system/user/getUser',480, 370);
     }
     function _edit(id){
-    	open_window('编辑用户','/system/getUser/' + id,480, 370);
+    	open_window('编辑用户','/system/user/getUser/' + id,480, 370);
     }
     function _delete(id){
         ///询问框
@@ -165,7 +165,7 @@
             title: ['信息', 'font-weight:600;color:#fff;background-color: #3367D6;'],
             btn: ['确认','取消'] //按钮
         }, function(index){
-            $.post("/system/deleteUser/" + id,function(result) {
+            $.post("/system/user/deleteUser/" + id,function(result) {
                 if (result) {
                     layer.msg('删除成功', {time: 2000}, function(){
                         parent.refresh_iframe();

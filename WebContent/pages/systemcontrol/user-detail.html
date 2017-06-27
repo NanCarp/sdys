@@ -10,10 +10,10 @@
     <meta name="author" content="">
 
     <title>用户管理-添加用户管理</title>
-    <link href="../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="../../dist/css/sb-admin-2.css" rel="stylesheet">
-    <link href="../../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="../../css/admin.css" rel="stylesheet" type="text/css">
+    <link href="../../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../../dist/css/sb-admin-2.css" rel="stylesheet">
+    <link href="../../../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="../../../css/admin.css" rel="stylesheet" type="text/css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -119,10 +119,10 @@
     </div>
 </form>
 
-<script src="../../vendor/jquery/jquery.min.js"></script>
-<script src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
-<script src="../../resource/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
-<script src="../../js/common/admin.js"></script>
+<script src="../../../vendor/jquery/jquery.min.js"></script>
+<script src="../../../vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="../../../resource/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
+<script src="../../../js/common/admin.js"></script>
 
 <script>
 $(function () {
@@ -175,7 +175,7 @@ $(function () {
 })
 .on('success.form.bv', function(e) {
     e.preventDefault();
-    $.post("/system/saveUser", $('#defaultForm').serialize(), function(result) {
+    $.post("/system/user/saveUser", $('#defaultForm').serialize(), function(result) {
         if (result) {
             parent.layer.msg("保存成功", {time: 2000}, function(){
                 layer_close();
@@ -189,24 +189,6 @@ $(function () {
     });
 });
 
-/*// 根据公司 id 获取部门列表
-$('#companyId').change(function() {
-    // console.log(this);
-    // 公司 id
-    var companyId = $(this).val();
-    // 清空部门下拉菜单
-    $('#departmentId').empty().append('<option value="">请选择部门</option>');
-    // 获取部门列表
-    if (!("" === companyId)) {
-        //console.log(departmentList);
-        $.post('/system/getDepartmentByCompanyId/'+ companyId, function (departmentList) {
-            $(departmentList).each(function () {
-                $('#departmentId').append('<option value="'+ this.id +'">'+ this.department_name +'</option>');
-            });
-        } );
-    }
-});*/
-
 // 根据公司 id 获取角色列表
 $('#companyId').change(function() {
     // 公司 id
@@ -215,7 +197,7 @@ $('#companyId').change(function() {
     $('#roleId').empty().append('<option value="">请选择角色</option>');
     // 获取部门列表
     if (!("" === companyId)) {
-        $.post('/system/getRoleByCompanyId/'+ companyId, function (roleList) {
+        $.post('/system/user/getRoleByCompanyId/'+ companyId, function (roleList) {
             $(roleList).each(function () {
                 $('#roleId').append('<option value="'+ this.id +'">'+ this.role_type +'</option>');
             });

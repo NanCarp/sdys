@@ -11,6 +11,13 @@ import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.IAtom;
 import com.jfinal.plugin.activerecord.Record;
 
+/**
+ * @ClassName: YearService.java
+ * @Description: 流公司年度考核 service
+ * @author: LiYu
+ * @date: 2017年6月26日下午6:14:50
+ * @version: 1.0 版本初成
+ */
 public class YearService {
 	/** 
 	* @Title: getYearList 
@@ -282,5 +289,23 @@ public class YearService {
                 "ON a.supplier_id = b.id " +
                 "WHERE " + params;
 		return Db.find(sql);
+	}
+	
+	/** 
+	* @Title: isAllSupplierCalculated 
+	* @Description: 判断是否当年所有物流公司已评分
+	* @return boolean
+	*/
+	public static boolean isAllSupplierCalculated() {
+		// 当年年份
+		Integer thisYear = LocalDate.now().getYear();
+		// 当年未评分物流公司数量
+		String sql = "SELECT COUNT(*) "
+				+ "FROM t_supplier_month_assess "
+				+ "WHERE supplier_id NOT IN "
+				+ "(SELECT supplier_id FROM t_supplier_year_assess WHERE `year` = ?) ";
+		Long count = Db.queryLong(sql, thisYear);
+		
+		return count < 1; // 小于 1，已经全部评分，返回 true，否则，返回 false
 	}
 }

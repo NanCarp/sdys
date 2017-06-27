@@ -17,7 +17,7 @@ import stms.interceptor.ManageInterceptor;
 
 /**
  * @ClassName: QualityController.java
- * @Description: 物流公司资质管理
+ * @Description: 物流公司资质管理控制器
  * @author: LiYu
  * @date: 2017年6月26日上午9:23:06
  * @version: 1.0 版本初成

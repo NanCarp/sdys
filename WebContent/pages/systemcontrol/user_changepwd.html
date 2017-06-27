@@ -92,7 +92,7 @@
     });
 		}).on('success.form.bv', function(e) {
 		    e.preventDefault();
-		    $.post("/system/save_change_pwd", $('#defaultForm').serialize(), function(result) {
+		    $.post("/system/user/save_change_pwd", $('#defaultForm').serialize(), function(result) {
 		        if (result) {
 		            parent.layer.msg("保存成功", {time: 2000}, function(){
 		                layer_close();
@@ -105,5 +105,10 @@
 		
 		    });
 		});
+	
+	//取消
+	$('#cancel').on("click", function() {
+		layer_close();
+	});
 </script>
 </html>

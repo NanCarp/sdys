@@ -11,8 +11,8 @@
     <title>系统管理-角色管理-添加</title>
 
 
-    <link href="../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="../../css/admin.css" rel="stylesheet" type="text/css">
+    <link href="../../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../../css/admin.css" rel="stylesheet" type="text/css">
 
     <style>
         label{padding-right: 0;padding-top: 6px}
@@ -91,10 +91,10 @@
     </form>
 
 
-    <script src="../../vendor/jquery/jquery.min.js"></script>
-    <script src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
-    <script src="../../resource/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
-    <script src="../../js/common/admin.js"></script>
+    <script src="../../../vendor/jquery/jquery.min.js"></script>
+    <script src="../../../vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../../../resource/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
+    <script src="../../../js/common/admin.js"></script>
     <script>
     $(function () {
         $('form').bootstrapValidator({
@@ -139,7 +139,7 @@
         });
     }).on('success.form.bv', function(e) {
         e.preventDefault();
-        $.post("/system/saveRole", $('#defaultForm').serialize(), function(result) {
+        $.post("/system/role/saveRole", $('#defaultForm').serialize(), function(result) {
             if (result) {
                 parent.layer.msg("保存成功", {time: 2000}, function(){
                     layer_close();

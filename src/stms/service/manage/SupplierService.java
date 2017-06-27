@@ -590,7 +590,7 @@ public class SupplierService {
 		String sql = "SELECT supplier_id, ROUND(AVG(month_score)) AS year_score "
 				+ " FROM t_supplier_month_assess "
 				+ " WHERE `year` = " + year
-				//+ " AND supplier_id NOT IN (SELECT supplier_id FROM t_supplier_year_assess WHERE `year` = "+year+") "
+				+ " AND supplier_id NOT IN (SELECT supplier_id FROM t_supplier_year_assess WHERE `year` = "+year+") "
 				+ " GROUP BY supplier_id ";
 		List<Record> list = Db.find(sql);
 		

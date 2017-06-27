@@ -1,13 +1,23 @@
 package stms.base;
 import com.jfinal.config.Routes;
 
-import stms.controller.manage.AccountController;
-import stms.controller.manage.HomePortController;
-import stms.controller.manage.InternationalTransportationController;
-import stms.controller.manage.LoginController;
-import stms.controller.manage.ProvisionController;
-import stms.controller.manage.SupplierController;
-import stms.controller.manage.SystemController;
+import stms.login.LoginController;
+import stms.manual.importation.ImportationController;
+import stms.manual.summary.SummaryController;
+import stms.supplier.info.InfoController;
+import stms.supplier.level.LevelController;
+import stms.supplier.month.MonthController;
+import stms.supplier.quality.QualityController;
+import stms.supplier.year.YearController;
+import stms.system.authority.AuthorityController;
+import stms.system.button.ButtonController;
+import stms.system.company.CompanyController;
+import stms.system.department.DepartmentController;
+import stms.system.dictionary.DictionaryController;
+import stms.system.login.SysLoginController;
+import stms.system.menu.MenuController;
+import stms.system.role.RoleController;
+import stms.system.user.UserController;
 
 /**
 * @ClassName: AdminRoutes
@@ -27,17 +37,41 @@ public class AdminRoutes extends Routes{
 		setBaseViewPath("/pages");
 		// 用户登录控制器
 		add("/pages",LoginController.class,"");
-		// 供应商管理控制器
-		add("/supplier", SupplierController.class, "/supplier");
-		// 预报价管理控制器
-		add("/account",AccountController.class,"/account");
-		// 国内运输管理控制器
-		add("/homeport",HomePortController.class,"/homeportmanage");		
-		// 运费预提管理控制器
-		add("/provision", ProvisionController.class, "/provision");
-		// 国外运输管理控制器
-		add("/international_transportation", InternationalTransportationController.class, "/international_transportation");
-		// 系统管理控制器
-		add("/system",SystemController.class,"/systemcontrol");
+		
+		
+		// 系统管理-公司管理控制器
+		add("/system/company",CompanyController.class,"/systemcontrol");
+		//系统管理-部门管理控制器
+		add("/system/department",DepartmentController.class,"/systemcontrol");
+		//系统管理-角色管理控制器
+		add("/system/role",RoleController.class,"/systemcontrol");
+		//系统管理-用户管理控制器
+		add("/system/user",UserController.class,"/systemcontrol");
+		//系统管理-菜单管理控制器
+		add("/system/menu",MenuController.class,"/systemcontrol");
+		//系统管理-按钮管理控制器
+		add("/system/button",ButtonController.class,"/systemcontrol");
+		//系统管理-权限管理控制器
+		add("/system/authority",AuthorityController.class,"/systemcontrol");
+		//系统管理 - 登录管理控制器
+		add("/system/systemlogin",SysLoginController.class,"/systemcontrol");
+		//系统管理 - 基础数据管理控制器
+		add("/system/dictionary",DictionaryController.class,"/systemcontrol");
+		
+		// 物流公司资质管理
+		add("/supplier/quality", QualityController.class, "/supplier");
+		// 物流公司信息管理
+		add("/supplier/info", InfoController.class, "/supplier");
+		// 物流公司考核标准
+		add("/supplier/level", LevelController.class, "/supplier");
+		// 物流公司月度考核
+		add("/supplier/month", MonthController.class, "/supplier");
+		// 物流公司年度考核
+		add("/supplier/year", YearController.class, "/supplier");
+		
+		// 手册情况汇总
+		add("/manual/summary", SummaryController.class, "/manual");
+		// 进口明细
+		add("/manual/importation", ImportationController.class, "manual");
 	}
 }

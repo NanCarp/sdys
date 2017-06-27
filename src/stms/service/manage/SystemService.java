@@ -13,6 +13,7 @@ import com.jfinal.plugin.activerecord.IAtom;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 
+import javafx.scene.control.Pagination;
 
 /**
  * @ClassName: SystemService.java

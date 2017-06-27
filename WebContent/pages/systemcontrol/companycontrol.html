@@ -12,20 +12,20 @@
     <title>菜单管理</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- DataTables CSS -->
-    <link href="../../vendor/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet">
+    <link href="../../../vendor/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet">
 
     <!-- DataTables Responsive CSS -->
-    <link href="../../vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet">
+    <link href="../../../vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="../../resource/bootstrapvalidator/css/bootstrapValidator.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../../resource/layui/css/layui.css" media="all" />
-    <link href="../../dist/css/sb-admin-2.css" rel="stylesheet">
-    <link href="../../css/common/common.css" rel="stylesheet">
-    <link href="../../css/admin.css" rel="stylesheet">
+    <link href="../../../resource/bootstrapvalidator/css/bootstrapValidator.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../../resource/layui/css/layui.css" media="all" />
+    <link href="../../../dist/css/sb-admin-2.css" rel="stylesheet">
+    <link href="../../../css/common/common.css" rel="stylesheet">
+    <link href="../../../css/admin.css" rel="stylesheet">
 	
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -110,35 +110,27 @@
                                 	</#if>
                                 </tbody>
                             </table>                           
-                        </div>
-                        <!-- <div class="panel-footer container" style="width: 100%">
-	                    	<div class="col-sm-4" style="max-width: 240px;">
-	                    		<span>显示<strong>1~10</strong>条，共有数据<strong>100</strong>条</span>
-	                    	</div>
-			                <div class="col-sm-7" style="max-width: 400px;float: right;" >
-			                   <div id="forpage" class="forpage" style="float: right;"></div>
-			                </div>        
-			            </div>  -->
+                        </div>                   
                     </div>
                 </div>
             </div>
         </div>
     </div>
 <!-- jQuery -->
-<script src="../../vendor/jquery/jquery.min.js"></script>
+<script src="../../../vendor/jquery/jquery.min.js"></script>
 
 <!-- Bootstrap Core JavaScript -->
-<script src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="../../../vendor/bootstrap/js/bootstrap.min.js"></script>
 
 <!-- DataTables JavaScript -->
-<script src="../../vendor/datatables/js/jquery.dataTables.min.js"></script>
-<script src="../../vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
-<script src="../../vendor/datatables-responsive/dataTables.responsive.js"></script>
+<script src="../../../vendor/datatables/js/jquery.dataTables.min.js"></script>
+<script src="../../../vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+<script src="../../../vendor/datatables-responsive/dataTables.responsive.js"></script>
 
 <!-- Custom Theme JavaScript -->
-<script src="../../resource/layer/layer.js"></script>
-<script src="../../resource/layui/layui.js"></script>
-<script src="../../js/common/admin.js"></script>
+<script src="../../../resource/layer/layer.js"></script>
+<script src="../../../resource/layui/layui.js"></script>
+<script src="../../../js/common/admin.js"></script>
 
 <!-- Page-Level Demo Scripts - Tables - Use for reference -->
 <script>
@@ -167,11 +159,11 @@
 	});
     // 编辑
     function _edit(id){
-    	open_window('编辑公司','/system/getCompany/' + id, 480, 250);
+    	open_window('编辑公司','/system/company/getCompany/' + id, 480, 250);
     }
     // 新增
 	function _add(){
-		open_window('新增公司','/system/getCompany', 480, 250);
+		open_window('新增公司','/system/company/getCompany', 480, 250);
 	}
 	// 查询
     function _search(){
@@ -199,7 +191,7 @@
         	title: ['信息', 'font-weight:600;color:#fff;background-color: #3367D6;'],
             btn: ['确认','取消'] //按钮
         }, function(){
-        	$.post("/system/freezeOrEnableCompany?id=" + id + "&state=" + state,function(result) {
+        	$.post("/system/company/freezeOrEnableCompany?id=" + id + "&state=" + state,function(result) {
         		if (result) {
         			layer.msg(info + '成功', {time: 2000}, function(){
         				parent.refresh_iframe();

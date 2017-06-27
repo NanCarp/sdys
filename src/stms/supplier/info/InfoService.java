@@ -5,6 +5,13 @@ import java.util.List;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
 
+/**
+ * @ClassName: InfoService.java
+ * @Description: 物流公司信息 service
+ * @author: LiYu
+ * @date: 2017年6月26日下午6:08:45
+ * @version: 1.0 版本初成
+ */
 public class InfoService {
 	/** 
 	* @Title: getInfoList 

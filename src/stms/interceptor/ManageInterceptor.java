@@ -1,8 +1,12 @@
 package stms.interceptor;
 
+import javax.servlet.http.Cookie;
+
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
 import com.jfinal.core.Controller;
+import com.jfinal.plugin.activerecord.Record;
+
 
 /**
  * @ClassName: ManageInterceptor
@@ -15,7 +19,18 @@ public class ManageInterceptor implements Interceptor {
 
 	@Override
 	public void intercept(Invocation inv) {
-		Controller c = inv.getController();
 		inv.invoke();
+		/*Controller c = inv.getController();
+		Record admin = c.getSessionAttr("admin");
+		if(admin!=null){
+			inv.invoke();
+		}else{		
+			String ck = inv.getControllerKey();
+			if("/pages".equals(ck)){
+				c.redirect("/pages/login");
+			}else{
+				c.renderHtml("<script>window.parent.window.loginOut();</script>");
+			}
+		}*/
 	}
 }

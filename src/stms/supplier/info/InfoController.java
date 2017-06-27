@@ -12,6 +12,13 @@ import com.jfinal.plugin.activerecord.IAtom;
 import com.jfinal.plugin.activerecord.Record;
 
 
+/**
+ * @ClassName: InfoController.java
+ * @Description: 物流公司信息控制器
+ * @author: LiYu
+ * @date: 2017年6月26日下午6:08:36
+ * @version: 1.0 版本初成
+ */
 public class InfoController extends Controller {
 	/** 
 	* @Title: index 

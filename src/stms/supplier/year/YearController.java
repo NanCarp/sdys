@@ -9,6 +9,13 @@ import java.util.Map;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Record;
 
+/**
+ * @ClassName: YearController.java
+ * @Description: 物流公司年度考核控制器
+ * @author: LiYu
+ * @date: 2017年6月26日下午6:14:21
+ * @version: 1.0 版本初成
+ */
 public class YearController extends Controller {
 	/** 
 	* @Title: index 
@@ -160,5 +167,19 @@ public class YearController extends Controller {
 		boolean result = YearService.calculateYear();
 		
 		renderJson(result);
+	}
+	
+	/** 
+	* @Title: isAllSupplierCalculated 
+	* @Description: 判断是否当年所有物流公司已评分
+	*/
+	public void isAllSupplierCalculated() {
+		// 判断是否当年所有物流公司已评分
+		boolean result = YearService.isAllSupplierCalculated();
+		
+		Map<String, Object> msg = new HashMap<>();
+		msg.put("result", result);
+		
+		renderJson(msg);
 	}
 }

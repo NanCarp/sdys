@@ -10,15 +10,15 @@
 
     <title>系统管理-部门管理</title>
 
-    <link href="../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="../../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
-    <link href="../../vendor/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet">
-    <link href="../../vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet">
-    <link href="../../dist/css/sb-admin-2.css" rel="stylesheet">
-    <link href="../../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-	<link href="../../css/admin.css" rel="stylesheet" type="text/css">
-	<link rel="stylesheet" href="../../resource/layui/css/layui.css" media="all" />
-	<link href="../../css/supplier/month.css" rel="stylesheet">
+    <link href="../../../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+    <link href="../../../vendor/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet">
+    <link href="../../../vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet">
+    <link href="../../../dist/css/sb-admin-2.css" rel="stylesheet">
+    <link href="../../../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+	<link href="../../../css/admin.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="../../../resource/layui/css/layui.css" media="all" />
+	<link href="../../../css/supplier/month.css" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -102,15 +102,7 @@
                                     </#if>
                                 </tbody>
                             </table>                           
-                        </div>
-                        <!--<div class="panel-footer container" style="width: 100%">
-	                    	<div class="col-sm-4" style="max-width: 240px;">
-	                    		<span>显示<strong>1~10</strong>条，共有数据<strong>100</strong>条</span>
-	                    	</div>
-			                <div class="col-sm-7" style="max-width: 400px;float: right;" >
-			                    <div id="forpage" class="forpage" style="float: right;"></div>
-			                </div>
-			            </div>-->
+                        </div>                     
                     </div>
                 </div>
             </div>
@@ -118,20 +110,20 @@
     </div>
 </body>
 <!-- jQuery -->
-<script src="../../vendor/jquery/jquery.min.js"></script>
+<script src="../../../vendor/jquery/jquery.min.js"></script>
 
 <!-- Bootstrap Core JavaScript -->
-<script src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="../../../vendor/bootstrap/js/bootstrap.min.js"></script>
 
 <!-- DataTables JavaScript -->
-<script src="../../vendor/datatables/js/jquery.dataTables.min.js"></script>
-<script src="../../vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
-<script src="../../vendor/datatables-responsive/dataTables.responsive.js"></script>
+<script src="../../../vendor/datatables/js/jquery.dataTables.min.js"></script>
+<script src="../../../vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+<script src="../../../vendor/datatables-responsive/dataTables.responsive.js"></script>
 
 <!-- Custom Theme JavaScript -->
-<script src="../../resource/layer/layer.js"></script>
-<script src="../../resource/layui/layui.js"></script>
-<script src="../../js/common/admin.js"></script>
+<script src="../../../resource/layer/layer.js"></script>
+<script src="../../../resource/layui/layui.js"></script>
+<script src="../../../js/common/admin.js"></script>
 <script>
 $(function(){
     //分页
@@ -156,20 +148,6 @@ $(function(){
 
     });
 });
-/*$(function(){
-     laypage({
-        cont: document.getElementById('forpage'), //容器。值支持id名、原生dom对象，jquery对象,
-        pages: 10, //总页数
-        skin: '#molv', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
-        groups: 5, //连续显示分页数
-        curr: 2,
-        first:false,
-        last:false,
-        jump: function(e, first){ //触发分页后的回调
-
-        }
-    });
- });*/
 function _search(){
     layui.use('layer',function(){
         var layer = layui.layer;
@@ -194,10 +172,10 @@ function _search(){
     })
 }
 function _add(){
-    open_window('添加部门','/system/getDepartment',480, 300);
+    open_window('添加部门','/system/department/getDepartment',480, 300);
 }
 function _edit(id){
-    open_window('编辑部门','/system/getDepartment/' + id,480, 300);
+    open_window('编辑部门','/system/department/getDepartment/' + id,480, 300);
 }
 // 冻结/启用
 function _freezeOrEnable(id, state){
@@ -210,7 +188,7 @@ function _freezeOrEnable(id, state){
         title: ['信息', 'font-weight:600;color:#fff;background-color: #3367D6;'],
         btn: ['确认','取消'] //按钮
     }, function(){
-        $.post("/system/freezeOrEnableDepartment?id=" + id + "&state=" + state,function(result) {
+        $.post("/system/department/freezeOrEnableDepartment?id=" + id + "&state=" + state,function(result) {
             if (result) {
                 layer.msg(info + '成功', {time: 2000}, function(){
                     parent.refresh_iframe();

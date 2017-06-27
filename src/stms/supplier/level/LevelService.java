@@ -7,6 +7,13 @@ import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.IAtom;
 import com.jfinal.plugin.activerecord.Record;
 
+/**
+ * @ClassName: LevelService.java
+ * @Description: 考核标准 service
+ * @author: LiYu
+ * @date: 2017年6月26日下午6:10:31
+ * @version: 1.0 版本初成
+ */
 public class LevelService {
 	/** 
 	* @Title: getLevelList 
