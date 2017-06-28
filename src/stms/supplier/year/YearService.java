@@ -302,9 +302,10 @@ public class YearService {
 		// 当年未评分物流公司数量
 		String sql = "SELECT COUNT(*) "
 				+ "FROM t_supplier_month_assess "
-				+ "WHERE supplier_id NOT IN "
+				+ "WHERE `year` = ? "
+				+ "AND supplier_id NOT IN "
 				+ "(SELECT supplier_id FROM t_supplier_year_assess WHERE `year` = ?) ";
-		Long count = Db.queryLong(sql, thisYear);
+		Long count = Db.queryLong(sql, thisYear, thisYear);
 		
 		return count < 1; // 小于 1，已经全部评分，返回 true，否则，返回 false
 	}

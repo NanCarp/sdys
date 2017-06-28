@@ -35,11 +35,11 @@ public class InfoService {
 	public static List<Record> getInfoList(String forwarder) {
 		String sql = " SELECT a.*,b.registration_code,b.state,c.company_name AS supplier_name " +
                 " FROM t_supplier AS a  " +
-                " LEFT JOIN t_supplier_qualification AS b  " +
+                " INNER JOIN t_supplier_qualification AS b  " +
                 " ON a.supplier_id = b.supplier_id " +
                 " LEFT JOIN t_company AS c " +
                 " ON a.supplier_id = c.id " +
-                " WHERE 1=1 ";
+                " WHERE b.state <> 0 ";
 		if (forwarder != ""){
 			sql += " AND c.company_name LIKE '%" + forwarder + "%'";
 		}

@@ -178,7 +178,7 @@ public class QualityService {
         String sql = "SELECT *  " +
             "FROM t_company " +
             "WHERE state = 1 " +
-            "AND id NOT IN (SELECT supplier_id FROM t_supplier) " ;
+            "AND id NOT IN (SELECT supplier_id FROM t_supplier_qualification) " ;
         return Db.find(sql);
 
     }

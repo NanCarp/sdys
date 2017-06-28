@@ -370,21 +370,24 @@ $('#cancel').on("click",function() {
 });
 
 // 根据分数自动选择等级
+var criterionList = ${criterionJson!}; // 考核标准列表
 $('#score').change(function () {
-    var criterionList = ${criterionJson!}; // 考核标准列表
     var score = $(this).val(); // 月度得分
     var level = ""; // 评定等级
     // 根据得分，结算等级
     $(criterionList).each(function () {
-        if (score <= this.high && score>= this.low) {
+    	//console.log("high: " +this.high +" score: " + score +" low: "+ this.low);
+        if (score < this.high + 1 && score > this.low -1) {
             level = this.supplier_level;
             return false; // 退出循环
         }
     });
     // 下拉菜单选择相应等级
     $('#level option').each(function () {
+    	$(this).prop("selected", false);
         if ($(this).val() === level) {
-            $(this).attr("selected","");
+        	$(this).prop("selected", true);
+            //$(this).attr("selected","");
         }
     });
 });

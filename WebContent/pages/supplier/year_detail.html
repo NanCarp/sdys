@@ -246,9 +246,9 @@ $('#yearScore').change(function () {
         level = "D";
     }
     $('#level option').each(function () {
-        //console.log($(this).val());
+    	$(this).prop("selected", false);
         if ($(this).val() === level) {
-            $(this).attr("selected","");
+        	$(this).prop("selected", true);
         }
     });
 })

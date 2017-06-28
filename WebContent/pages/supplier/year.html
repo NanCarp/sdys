@@ -238,7 +238,7 @@
     function _calculateYearAlert() {
     	$.post("/supplier/year/isAllSupplierCalculated", function(data){
     		if (data.result) { // 已全部评分
-    			layer.msg('已全部评分', {time: 2000});
+    			layer.msg('本年度已全部评分', {time: 2000});
     		} else {
     			open_window('信息','/supplier/year/calculateYearAlert',480, 350);
     		}
@@ -293,8 +293,7 @@
         // 如果没有选择，提示勾选至少一条数据
         if (!ids) {
             layer.msg('请至少选择一条记录', {time: 2000});
-        }
-        else {
+        } else {
             //询问框
             layer.confirm('确认批量删除吗？', {
                 title: ['信息', 'font-weight:600;color:#fff;background-color: #3367D6;'],
