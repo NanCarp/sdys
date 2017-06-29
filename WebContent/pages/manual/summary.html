@@ -48,14 +48,28 @@
 	                    <div class="container container-fluid">
 		                	<div class="row">
 	                        	<div class="col-sm-2 col-xs-4 head_2">
-                  					<input type="search" class="form-control" placeholder="手册号" name="manualNo" id="manualNo" value="">
+                  					<input type="search" class="form-control" placeholder="手册号" name="manualNo" id="manualNo" value="${manualNo!}">
                   				</div>
+                  				<div class="col-sm-2 col-xs-4 head_2">
+                                    <input type="search" class="form-control form_datetime" placeholder="手册办理日期" name="handleDate" id="handleDate" value="${handleDate!}">
+                                </div>
+                                <div class="col-sm-2 col-xs-4 head_2">
+                                    <input type="search" class="form-control" placeholder="有效期" name="expireDate" id="expireDate" value="${expireDate!}">
+                                </div>
                   				<div class="col-sm-1 col-xs-12 head_1">
                        				<button class="btn btn-primary" onclick="_search()">查询</button>
                        			</div>
-                       			<div class="col-sm-2 col-xs-6 head_3">
-		                        	<button class="btn btn-success" onclick="_add()">新增手册</button>
-		                        </div>
+                       			<div class="col-sm-2 col-xs-12 head_1">
+                                    <button class="btn btn-success" onclick="_add()">新增</button>
+                                </div>
+                                <div class="col-sm-1 col-xs-4 head_1">
+                                    <span class="btn btn-5 btn-file"> 导入
+                                        <input type="file" name="file_exl" value="" id="file_exl" onchange="uploadexcel()"/>
+                                    </span>
+                                </div>
+                                <div class="col-sm-2 col-xs-6 head_3" style="margin-right: 15px">
+                                    <button class="btn btn-4" onclick="_delete()">删除</button>
+                                </div>
 	                        </div>
 	                    </div>
 	                </div>
@@ -64,6 +78,7 @@
 	                    <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
 	                        <thead>
 		                        <tr>
+		                            <th><input type="checkbox" id="checkAll"></th>
 		                        	<th>序号</th>
 		                            <th>手册号</th>
 		                            <th>核销状态</th>
@@ -76,132 +91,47 @@
 		                            <th>实际分配率</th>
 		                            <th>手册办理日期</th>
 		                            <th>有效期</th>
+		                            <th>延期日期1</th>
+		                            <th>延期日期2</th>
 		                            <th>报核日期</th>
 		                            <th>结案日期</th>
+		                            <th>备注</th>
 		                            <th>操作</th>
 		                        </tr>
 	                        </thead>
 	                        <tbody>
-	                        	<tr>
-		                            <td>1</td>
-		                            <td>SC1234522</td>
-		                            <td>核销</td>
-		                            <td>ZJ93853</td>
-		                            <td>1000.00</td>
-		                            <td>1000.00</td>
-		                            <td>92</td>
-		                            <td>900.00</td>
-		                            <td>900.00</td>
-		                            <td>94</td>
-		                            <td>2017-02-02</td>
-		                            <td>2018-02-02</td>
-		                            <td>2017-09-10</td>
-		                            <td>2017-09-15</td>
-		                            <td>
-		                                <button class="btn btn-3 btn-xs" onclick="_edit()">编辑</button>
-		                                <button class="btn btn-4 btn-xs" onclick="_delete()">删除</button>
-		                            </td>
-		                        </tr>
-		                        <tr>
-		                            <td>2</td>
-		                            <td>SC1234511</td>
-		                            <td>正在使用</td>
-		                            <td>ZJ93853</td>
-		                            <td>1000.00</td>
-		                            <td>1000.00</td>
-		                            <td>92</td>
-		                            <td></td>
-		                            <td></td>
-		                            <td></td>
-		                            <td>2017-02-02</td>
-		                            <td>2018-02-02</td>
-		                            <td></td>
-		                            <td></td>
-		                            <td>
-		                                <button class="btn btn-3 btn-xs" onclick="_edit()">编辑</button>
-		                                <button class="btn btn-4 btn-xs" onclick="_delete()">删除</button>
-		                            </td>
-		                        </tr>
-		                        <tr>
-		                            <td>3</td>
-		                            <td>SC1234533</td>
-		                            <td>停用</td>
-		                            <td>ZJ93853</td>
-		                            <td>1000.00</td>
-		                            <td>1000.00</td>
-		                            <td>92</td>
-		                            <td></td>
-		                            <td></td>
-		                            <td></td>
-		                            <td>2017-02-02</td>
-		                            <td>2018-02-02</td>
-		                            <td></td>
-		                            <td></td>
-		                            <td>
-		                                <button class="btn btn-3 btn-xs" onclick="_edit()">编辑</button>
-		                                <button class="btn btn-4 btn-xs" onclick="_delete()">删除</button>
-		                            </td>
-		                        </tr>
-		                        <tr>
-                                    <td>4</td>
-                                    <td>SC1234522</td>
-                                    <td>核销</td>
-                                    <td>ZJ93853</td>
-                                    <td>1000.00</td>
-                                    <td>1000.00</td>
-                                    <td>92</td>
-                                    <td>900.00</td>
-                                    <td>900.00</td>
-                                    <td>94</td>
-                                    <td>2017-02-02</td>
-                                    <td>2018-02-02</td>
-                                    <td>2017-09-10</td>
-                                    <td>2017-09-15</td>
-                                    <td>
-                                        <button class="btn btn-3 btn-xs" onclick="_edit()">编辑</button>
-                                        <button class="btn btn-4 btn-xs" onclick="_delete()">删除</button>
-                                    </td>
-                                </tr>
+                                <#if summaryList?? && summaryList?size gt 0>
+                                <#list summaryList as summary>
                                 <tr>
-                                    <td>5</td>
-                                    <td>SC1234511</td>
-                                    <td>正在使用</td>
-                                    <td>ZJ93853</td>
-                                    <td>1000.00</td>
-                                    <td>1000.00</td>
-                                    <td>92</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>2017-02-02</td>
-                                    <td>2018-02-02</td>
-                                    <td></td>
-                                    <td></td>
+                                    <td><input type="checkbox" name="sub" _id="${summary.id}"></td>
+                                    <td>${summary_index+1}</td>
+                                    <td>${summary.manual_id}</td>
                                     <td>
-                                        <button class="btn btn-3 btn-xs" onclick="_edit()">编辑</button>
-                                        <button class="btn btn-4 btn-xs" onclick="_delete()">删除</button>
+                                    <#if summary.off_state == 0>停用</#if>
+                                    <#if summary.off_state == 1>正在使用</#if>
+                                    <#if summary.off_state == 2>核销</#if>
+                                    </td>
+                                    <td>${summary.module_set!}</td>
+                                    <td>${summary.pre_product_money!}</td>
+                                    <td>${summary.pre_import_money!}</td>
+                                    <td>${summary.pre_money_dis!}</td>
+                                    <td>${summary.act_export_money!}</td>
+                                    <td>${summary.act_import_money!}</td>
+                                    <td>${summary.act_money_dis!}</td>
+                                    <td>${summary.exist_date!}</td>
+                                    <td>${summary.valid_date!}</td>
+                                    <td>${summary.extension_date1!}</td>
+                                    <td>${summary.extension_date2!}</td>
+                                    <td>${summary.report_verificate_date!}</td>
+                                    <td>${summary.case_over_date!}</td>
+                                    <td>${summary.remark!}</td>
+                                    <td>
+                                        <button class="btn btn-3 btn-xs" onclick="_edit(${summary.id})">编辑</button>
+
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td>6</td>
-                                    <td>SC1234533</td>
-                                    <td>停用</td>
-                                    <td>ZJ93853</td>
-                                    <td>1000.00</td>
-                                    <td>1000.00</td>
-                                    <td>92</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>2017-02-02</td>
-                                    <td>2018-02-02</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>
-                                        <button class="btn btn-3 btn-xs" onclick="_edit()">编辑</button>
-                                        <button class="btn btn-4 btn-xs" onclick="_delete()">删除</button>
-                                    </td>
-                                </tr>
+                                </#list>
+                                </#if>
 	                        </tbody>
 						</table>
 						<!-- /.table-responsive -->
@@ -236,6 +166,18 @@
 <script src="../../resource/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
 
 <script>
+	//日期控件
+	$(".form_datetime").datetimepicker({
+	    format: "yyyy-mm-dd",
+	    autoclose: true,
+	    todayBtn: true,
+	    todayHighlight: true,
+	    showMeridian: true,
+	    pickerPosition: "bottom-right",
+	    language: 'zh-CN',//中文，需要引用zh-CN.js包
+	    startView: 2,// 日视图
+	    minView: 2,
+	});
 	$(function(){
 		//分页
 		$('#dataTables-example').DataTable({
@@ -265,40 +207,93 @@
 			var layer = layui.layer;
 			var manualNo = $.trim($('#manualNo').val());
 			if($.trim($('#manualNo').val())!=''){
-				var reg = /^[a-zA-Z0-9_\u0391-\uFFE5 ]{1,30}$/;
+				var reg = /^[a-zA-Z0-9 ]{1,20}$/;
 				if(!reg.test($('#manualNo').val())){
-					layer.tips('不允许有特殊字符，最多20个字符', '#manualNo', {tips: [1, '#34495E']});return;
+					layer.tips('字母和数字组合，最多20个字符', '#manualNo', {tips: [1, '#34495E']});return;
 				}					
 			}
-			// location.replace('/supplier/year/year?'+'forwarder='+forwarder+'&year='+year);
+			var expireDate = $.trim($('#expireDate').val());
+			if($.trim($('#expireDate').val())!=''){
+                var reg = /^[1-9]\d?$/;
+                if(!reg.test($('#expireDate').val())){
+                    layer.tips('有效期在 1~99 之间', '#expireDate', {tips: [1, '#34495E']});return;
+                }                   
+            }
+			var handleDate = $.trim($('#handleDate').val());
+			location.replace('/manual/summary?'+'manualNo='+manualNo+'&handleDate='+handleDate+'&expireDate='+expireDate);
 		});
 	}
+	//上传excel
+    function uploadexcel(){
+        var formData = new FormData();
+        var name = $("input").val();
+        formData.append("file",$("#file_exl")[0].files[0]);
+        $.ajax({
+            url:"/manual/summary/importByExcel",
+            type:"POST",
+            data:formData,
+            processData:false,
+            contentType:false,          
+            success:function(result){
+                if(result){
+                    layer.msg('导入成功', {time: 2000}, function(){
+                        parent.refresh_iframe();
+                    });
+                }else{
+                    layer.msg('导入失败，请检查导入Excel', {time: 2000});
+                }
+            },
+            error:function(e){
+                console.log("error");
+            },
+        });
+        
+    }
     // 编辑
     function _edit(id){
-    	open_window('编辑手册','/manual/summary/getSummary', 480, 350);
+    	open_window('编辑手册','/manual/summary/getSummary/'+id, 480, 350);
     }
     // 新增
 	function _add(){
 		open_window('新增手册','/manual/summary/getSummary', 480, 350);
 	}
-    // 删除
-	function _delete(id){
-	    ///询问框
-        layer.confirm('确认删除吗？', {
-        	title: ['信息', 'font-weight:600;color:#fff;background-color: #3367D6;'],
-            btn: ['确认','取消'] //按钮
-        }, function(){
-        	/* $.post("/supplier/year/deleteYear/" + id,function(result) {
-        		if (result) {
-        			layer.msg('删除成功', {time: 2000}, function(){
-        				parent.refresh_iframe();
-        			});
-        		}
-        	}); */
-        }, function(){
-			
+	//全选、全不选
+    $("#checkAll").click(function() {
+        $("input[name='sub']").prop("checked", this.checked);
+    });
+    $("input[name='sub']").click(function() {
+        var $subs = $("input[name='sub']");
+        $("#checkAll").prop("checked" , $subs.length == $subs.filter(":checked").length ? true :false);
+    });
+    // 批量删除
+    function _delete(){
+        // 获取选中记录 id
+        var ids = "";
+        $(":checked[name='sub']").each(function(){
+            ids += $(this).attr('_id') + ",";
         });
-	}
+        ids = ids.substring(0,ids.length -1);
+        // 如果没有选择，提示勾选至少一条数据
+        if (!ids) {
+            layer.msg('请至少选择一条记录', {time: 2000});
+        } else {
+            //询问框
+            layer.confirm('确认删除吗？', {
+                title: ['信息', 'font-weight:600;color:#fff;background-color: #3367D6;'],
+                btn: ['确认','取消'] //按钮
+            }, function(){
+                $.post("/manual/summary/deleteSummary/" + ids,function(result) {
+                    if (result) {
+                        layer.msg('删除成功', {time: 2000}, function(){
+                            parent.refresh_iframe();
+                        });
+                    }
+                }); 
+            }, function(){
+
+            });
+        }
+    }
 </script>
 
 </body>

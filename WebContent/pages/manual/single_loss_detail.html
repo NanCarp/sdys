@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>成品表体</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="../../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="../../dist/css/sb-admin-2.css" rel="stylesheet">
+	<link href="../../css/admin.css" rel="stylesheet">
+	<link href="../../resource/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+	<style type="text/css">
+		body { margin:0 15px;}
+		form { margin-top:20px;}
+		label { padding-top:6px;padding-right:0;}
+	</style>
+	
+    <!-- Custom Fonts -->
+    <link href="../../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+<form class="form-horizontal" role="form" style="margin-top:20px;" id="defaultForm">
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="product_no">成品序号：</label>
+        <div class="col-xs-5">
+            <input class="form-control" placeholder="成品序号" name="product_no" id="product_no" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="product_name">成品名称：</label>
+        <div class="col-xs-5">
+            <input class="form-control" placeholder="成品名称" name="product_name" id="product_name" value="">
+        </div>
+    </div> 
+     <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="product_specification">成品规格：</label>
+        <div class="col-xs-5">
+            <input class="form-control" placeholder="成品规格" name="product_specification" id="product_specification" value="">
+        </div>
+    </div>    
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="product_measurement_unit">成品计量单位：</label>
+        <div class="col-xs-5">
+            <input class="form-control" placeholder="成品计量单位" name="product_measurement_unit" id="product_measurement_unit" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="materials_no">料件序号：</label>
+        <div class="col-xs-5">
+            <input class="form-control" placeholder="料件序号" name="materials_no" id="materials_no" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="materials_name">料件名称：</label>
+        <div class="col-xs-5">
+            <input class="form-control" placeholder="料件名称" name="materials_name" id="materials_name" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="materials_specification">料件规格：</label>
+        <div class="col-xs-5">
+            <input class="form-control" placeholder="料件规格" name="materials_specification" id="materials_specification" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="materials_measurement_unit">料件计量单位：</label>
+        <div class="col-xs-5">
+            <input class="form-control" placeholder="料件计量单位" name="materials_measurement_unit" id="materials_measurement_unit" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="unit_loss">单耗/净耗：</label>
+        <div class="col-xs-5">
+            <input class="form-control" placeholder="单耗/净耗" name="unit_loss" id="unit_loss" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="loss_rate">损耗率：</label>
+        <div class="col-xs-5">
+            <input class="form-control" placeholder="损耗率" name="loss_rate" id="loss_rate" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="loss_handle_flag">处理标志：</label>
+        <div class="col-xs-5">
+            <input class="form-control" placeholder="处理标志" name="loss_handle_flag" id="loss_handle_flag" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="unbond_material_rate">非保税料件比例：</label>
+        <div class="col-xs-5">
+            <input class="form-control" placeholder="非保税料件比例" name="unbond_material_rate" id="unbond_material_rate" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="version">版本号：</label>
+        <div class="col-xs-5">
+            <input class="form-control" placeholder="版本号" name="version" id="version" value="">
+        </div>
+    </div>
+     <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="manual_no">手册号：</label>
+        <div class="col-xs-5">
+            <input class="form-control" placeholder="手册号" name="manual_no" id="manual_no" value="">
+        </div>
+    </div>
+     <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="customs_department">海关系列：</label>
+        <div class="col-xs-5">
+            <input class="form-control" placeholder="海关系列" name="customs_department" id="customs_department" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="remark">备注：</label>
+        <div class="col-xs-5">
+            <input class="form-control" placeholder="备注" name="remark" id="remark" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label" for="v"></label>
+        <div class="col-xs-5 text-right">
+            <button type="button" class="btn btn-10" id="cancel">取消</button>
+            <button id="v" type="submit" class="btn btn-11">保存</button>
+       	</div>
+    </div>
+</form>
+<!-- jQuery -->
+<script src="../../vendor/jquery/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
+
+<!-- Metis Menu Plugin JavaScript -->
+<script src="../../vendor/metisMenu/metisMenu.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="../../dist/js/sb-admin-2.js"></script>
+<script src="../../resource/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
+<script src="../../resource/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script> 
+<script src="../../resource/bootstrap-datetimepicker/js/moment-with-locales.min.js"></script>
+<script src="../../resource/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+<script src="../../js/common/admin.js"></script>
+<script type="text/javascript">
+//日期控件
+$(".form_datetime").datetimepicker({
+	format: "yyyy-mm-dd",
+	autoclose: true,
+	todayBtn: true,
+	todayHighlight: true,
+	showMeridian: true,
+	pickerPosition: "bottom-right",
+	language: 'zh-CN',//中文，需要引用zh-CN.js包
+	startView: 2,//年视图
+	minView: 2,
+	// 禁止手动输入
+});
+$(function(){
+	// 表单校验
+	$('form').bootstrapValidator({
+		message: 'This value is not valid',
+		feedbackIcons: {
+			valid: 'glyphicon glyphicon-ok',
+			invalid: 'glyphicon glyphicon-remove',
+			validating: 'glyphicon glyphicon-refresh'
+		},
+		fields: {
+			product_no: {
+				validators: {
+					notEmpty: {
+						message: '请输入成品序号!'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                }
+				}
+			},
+			product_name: {
+				validators: {
+					notEmpty: {
+						message: '请输入成品名称!'
+					}
+				}
+			},
+			product_specification: {
+				validators: {
+					notEmpty: {
+						message: '请输入成品规格!'
+					}
+				}
+			},
+			product_measurement_unit: {
+				validators: {
+					notEmpty: {
+						message: '请输入成品计量单位!'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                }
+				}
+			},
+			materials_no: {
+				validators: {
+					notEmpty: {
+						message: '请输入料件序号!'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                }
+				}
+			},
+			materials_name: {
+				validators: {
+					notEmpty: {
+						message: '请输入料件名称!'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                }
+				}
+			},
+			materials_specification: {
+				validators: {
+					notEmpty: {
+						message: '请输入料件规格!'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                }
+				}
+			},
+			materials_measurement_unit: {
+				validators: {
+					notEmpty: {
+						message: '请输入料件计量单位!'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                }
+				}
+			},
+			unit_loss: {
+				validators: {
+					notEmpty: {
+						message: '请输入料件单耗/净耗!'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                }
+				}
+			},
+			loss_rate:{
+				validators: {
+					notEmpty: {
+						message: '请输入料件损耗率!'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                }
+				}
+			},
+			loss_handle_flag:{
+				validators: {
+					notEmpty: {
+						message: '请输入处理标志!'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                }
+				}
+			},
+			unbond_material_rate:{
+				validators: {
+					notEmpty: {
+						message: '请输入非保税折料比例!'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                }
+				}
+			},
+			version:{
+				validators: {
+					notEmpty: {
+						message: '请输入版本号!'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                }
+				}
+			},
+			manual_no:{
+				validators: {
+					notEmpty: {
+						message: '请输入手册号!'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                }
+				}
+			},
+			customs_department:{
+				validators: {
+					notEmpty: {
+						message: '请输入海关系列!'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                }
+				}
+			},
+			remark:{
+				validators: {
+					stringLength: {
+	                    min: 0,
+	                    max: 100,
+	                    message: '最多100个字符'
+	                }
+				}
+			}
+		}
+	});
+})
+.on('success.form.bv', function(e) {
+	e.preventDefault();
+	/* $.post("/supplier/year/saveYear", $('#defaultForm').serialize(), function(result) {
+		if (result) {
+			parent.layer.msg("保存成功", {time: 2000}, function(){
+				layer_close();
+				parent.parent.refresh_iframe();
+			});
+
+		} else {
+			parent.layer.msg('保存失败', {icon: 1});
+		}
+		
+	}); */
+});
+
+//取消
+$('#cancel').on("click",function() {
+	layer_close();
+});
+
+</script>
+</body>
+
+</html>

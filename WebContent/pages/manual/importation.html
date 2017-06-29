@@ -47,11 +47,34 @@
 	                    <div class="container container-fluid">
 		                	<div class="row">
 	                        	<div class="col-sm-2 col-xs-4 head_2">
-                  					<input type="search" class="form-control" placeholder="手册号" name="manualNo" id="manualNo" value="">
+                  					<input type="search" class="form-control" placeholder="手册号" name="manualNo" id="manualNo" value="${manualNo!}">
+                  				</div>
+	                        	<div class="col-sm-2 col-xs-4 head_2">
+                  					<input type="search" class="form-control" placeholder="记录号" name="recordNo" id="recordNo" value="${recordNo!}">
+                  				</div>
+	                        	<div class="col-sm-2 col-xs-4 head_2">
+                  					<input type="search" class="form-control" placeholder="商品编码*附加码" name="productNo" id="productNo" value="${productNo!}">
+                  				</div>
+	                        	<div class="col-sm-2 col-xs-4 head_2">
+                  					<input type="search" class="form-control" placeholder="商品名称" name="productName" id="productName" value="${productName!}">
+                  				</div>
+	                        	<div class="col-sm-2 col-xs-4 head_2">
+                  					<input type="search" class="form-control" placeholder="主料标志" name="mainMaterial" id="mainMaterial" value="${mainMaterial!}">
                   				</div>
                   				<div class="col-sm-1 col-xs-12 head_1">
                        				<button class="btn btn-primary" onclick="_search()">查询</button>
                        			</div>
+                       			<div class="col-sm-2 col-xs-12 head_1">
+                                    <button class="btn btn-success" onclick="_add()">新增</button>
+                                </div>
+                                <div class="col-sm-1 col-xs-4 head_1">
+                                    <span class="btn btn-5 btn-file"> 导入
+                                        <input type="file" name="file_exl" value="" id="file_exl" onchange="uploadexcel()"/>
+                                    </span>
+                                </div>
+                                <div class="col-sm-2 col-xs-6 head_3" style="margin-right: 15px">
+                                    <button class="btn btn-4" onclick="_delete()">删除</button>
+                                </div>
 	                        </div>
 	                    </div>
 	                </div>
@@ -60,7 +83,9 @@
 	                    <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
 	                        <thead>
 		                        <tr>
+		                        	<th><input type="checkbox" id="checkAll"></th>
 		                        	<th>序号</th>
+		                        	<th>项号</th>
 		                            <th>记录号</th>
 		                            <th>商品编码（附加码）</th>
 		                            <th>商品名称</th>
@@ -80,97 +105,41 @@
 		                            <th>备注</th>
 		                            <th>版本号</th>
 		                            <th>手册号</th>
+		                            <th>操作</th>
 		                        </tr>
 	                        </thead>
 	                        <tbody>
-	                        	<tr>
-		                            <td>1</td>
-		                            <td>JL1231</td>
-		                            <td>FJM121</td>
-		                            <td>电子对撞机</td>
-		                            <td>GG091</td>
-		                            <td>ZLBZ2121</td>
-		                            <td>台</td>
-		                            <td>台</td>
-		                            <td>10</td>
-		                            <td>10000.00</td>
-		                            <td>100000.00</td>
-		                            <td>RMB</td>
-		                            <td>巴基斯坦</td>
-		                            <td>9.1</td>
-		                            <td>进料加工</td>
-		                            <td>CL</td>
-		                            <td>11%</td>
-		                            <td>优先级高</td>
-		                            <td>1</td>
-		                            <td>SC8931</td>
-		                        </tr>
-		                        <tr>
-		                            <td>2</td>
-		                            <td>JL1232</td>
-		                            <td>FJM122</td>
-		                            <td>盾构机</td>
-		                            <td>GG098</td>
-		                            <td>ZLBZ2122</td>
-		                            <td>台</td>
-		                            <td>台</td>
-		                            <td>10</td>
-		                            <td>10000.00</td>
-		                            <td>100000.00</td>
-		                            <td>RMB</td>
-		                            <td>卡塔尔</td>
-		                            <td>9.2</td>
-		                            <td>进料加工</td>
-		                            <td>CL</td>
-		                            <td>12%</td>
-		                            <td>优先级高</td>
-		                            <td>2</td>
-		                            <td>SC8932</td>
-		                        </tr>
-		                        <tr>
-		                            <td>3</td>
-		                            <td>JL1233</td>
-		                            <td>FJM123</td>
-		                            <td>神威超算</td>
-		                            <td>GG093</td>
-		                            <td>ZLBZ2123</td>
-		                            <td>台</td>
-		                            <td>台</td>
-		                            <td>10</td>
-		                            <td>10000.00</td>
-		                            <td>100000.00</td>
-		                            <td>RMB</td>
-		                            <td>伊朗</td>
-		                            <td>9.3</td>
-		                            <td>进料加工</td>
-		                            <td>CL</td>
-		                            <td>13%</td>
-		                            <td>优先级高</td>
-		                            <td>3</td>
-		                            <td>SC8933</td>
-		                        </tr>
-		                        <tr>
-		                            <td>4</td>
-		                            <td>JL1234</td>
-		                            <td>FJM124</td>
-		                            <td>振华龙门架</td>
-		                            <td>GG094</td>
-		                            <td>ZLBZ2124</td>
-		                            <td>台</td>
-		                            <td>台</td>
-		                            <td>10</td>
-		                            <td>10000.00</td>
-		                            <td>100000.00</td>
-		                            <td>RMB</td>
-		                            <td>美国</td>
-		                            <td>9.4</td>
-		                            <td>进料加工</td>
-		                            <td>CL</td>
-		                            <td>14%</td>
-		                            <td>优先级高</td>
-		                            <td>4</td>
-		                            <td>SC8934</td>
-		                        </tr>
+	                            <#if importationList ?? && importationList?size gt 0>
+	                            <#list importationList as importation>
+	                            <tr>
+	                               <td><input type="checkbox" name="sub" _id="${importation.id}"></td>
+	                               <td>${importation_index+1}</td>
+	                               <td>${importation.import_num!}</td>
+	                               <td>${importation.import_record_num!}</td>
+	                               <td>${importation.import_code!}</td>
+	                               <td>${importation.import_name!}</td>
+	                               <td>${importation.import_specification!}</td>
+	                               <td>${importation.main_material!}</td>
+	                               <td>${importation.import_unit!}</td>
+	                               <td>${importation.import_fixed_unit!}</td>
+	                               <td>${importation.import_report_num!}</td>
+	                               <td>${importation.import_report_unit_price!}</td>
+	                               <td>${importation.import_report_total_price!}</td>
+	                               <td>${importation.currency_system!}</td>
+	                               <td>${importation.import_pro_market!}</td>
+	                               <td>${importation.fixed_unit_ratio!}</td>
+	                               <td>${importation.import_levy_mode!}</td>
+	                               <td>${importation.import_handle_flag!}</td>
+	                               <td>${importation.tax_rate!}</td>
+	                               <td>${importation.remark!}</td>
+	                               <td>${importation.version!}</td>
+	                               <td>${importation.manual_id!}</td>
+	                               <td>
+	                                   <button class="btn btn-3 btn-xs" onclick="_edit(${importation.id})">编辑</button>
+                                   </td>
+	                            </tr>
+	                            </#list>
+	                            </#if>
 	                        </tbody>
 						</table>
 						<!-- /.table-responsive -->
@@ -229,16 +198,117 @@
 	function _search(){
 		layui.use('layer',function(){
 			var layer = layui.layer;
+			
 			var manualNo = $.trim($('#manualNo').val());
-			if($.trim($('#manualNo').val())!=''){
-				var reg = /^[a-zA-Z0-9_\u0391-\uFFE5 ]{1,30}$/;
-				if(!reg.test($('#manualNo').val())){
-					layer.tips('不允许有特殊字符，最多20个字符', '#manualNo', {tips: [1, '#34495E']});return;
-				}					
-			}
-			// location.replace('/supplier/year/year?'+'forwarder='+forwarder+'&year='+year);
+            if($.trim($('#manualNo').val())!=''){
+                var reg = /^[a-zA-Z0-9 ]{1,20}$/;
+                if(!reg.test($('#manualNo').val())){
+                    layer.tips('字母和数字组合，最多20个字符', '#manualNo', {tips: [1, '#34495E']});return;
+                }                   
+            }
+            var recordNo = $.trim($('#recordNo').val());
+            if($.trim($('#recordNo').val())!=''){
+                var reg = /^[a-zA-Z0-9 ]{1,20}$/;
+                if(!reg.test($('#recordNo').val())){
+                    layer.tips('字母和数字组合，最多20个字符', '#recordNo', {tips: [1, '#34495E']});return;
+                }                   
+            }
+            var productNo = $.trim($('#productNo').val());
+            if($.trim($('#productNo').val())!=''){
+                var reg = /^[a-zA-Z0-9 ]{1,20}$/;
+                if(!reg.test($('#productNo').val())){
+                    layer.tips('字母和数字组合，最多20个字符', '#productNo', {tips: [1, '#34495E']});return;
+                }                   
+            }
+            var productName = $.trim($('#productName').val());
+            if($.trim($('#productName').val())!=''){
+                var reg = /^[a-zA-Z0-9_\u0391-\uFFE5 ]{1,30}$/;
+                if(!reg.test($('#productName').val())){
+                    layer.tips('不允许有特殊字符，最多20个字符', '#productName', {tips: [1, '#34495E']});return;
+                }                   
+            }
+            var mainMaterial = $.trim($('#mainMaterial').val());
+            if($.trim($('#mainMaterial').val())!=''){
+                var reg = /^[a-zA-Z0-9 ]{1,20}$/;
+                if(!reg.test($('#mainMaterial').val())){
+                    layer.tips('字母和数字组合，最多20个字符', '#mainMaterial', {tips: [1, '#34495E']});return;
+                }                   
+            }
+			location.replace('/manual/importation?'+'manualNo='+manualNo+'&recordNo='+recordNo+'&productNo='+productNo+'&productName='+productName+'&mainMaterial='+mainMaterial);
 		});
 	}
+    // 编辑
+    function _edit(id){
+        open_window('编辑进口明细','/manual/importation/getImportation/'+id, 480, 350);
+    }
+    // 新增
+    function _add(){
+        open_window('新增进口明细','/manual/importation/getImportation', 480, 350);
+    }
+	//全选、全不选
+    $("#checkAll").click(function() {
+        $("input[name='sub']").prop("checked", this.checked);
+    });
+    $("input[name='sub']").click(function() {
+        var $subs = $("input[name='sub']");
+        $("#checkAll").prop("checked" , $subs.length == $subs.filter(":checked").length ? true :false);
+    });
+    // 批量删除
+    function _delete(){
+        // 获取选中记录 id
+        var ids = "";
+        $(":checked[name='sub']").each(function(){
+            ids += $(this).attr('_id') + ",";
+        });
+        ids = ids.substring(0,ids.length -1);
+        // 如果没有选择，提示勾选至少一条数据
+        if (!ids) {
+            layer.msg('请至少选择一条记录', {time: 2000});
+        } else {
+            //询问框
+            layer.confirm('确认批量删除吗？', {
+                title: ['信息', 'font-weight:600;color:#fff;background-color: #3367D6;'],
+                btn: ['确认','取消'] //按钮
+            }, function(){
+                $.post("/manual/importation/deleteImportation/" + ids,function(result) {
+                    if (result) {
+                        layer.msg('删除成功', {time: 2000}, function(){
+                            parent.refresh_iframe();
+                        });
+                    }
+                });
+            }, function(){
+
+            });
+        }
+    }
+
+    //上传excel
+    function uploadexcel(){
+        var formData = new FormData();
+        var name = $("input").val();
+        formData.append("file",$("#file_exl")[0].files[0]);
+        $.ajax({
+            url:"/manual/importation/importByExcel",
+            type:"POST",
+            data:formData,
+            processData:false,
+            contentType:false,
+            success:function(result){
+                if(result){
+                    layer.msg('导入成功', {time: 2000}, function(){
+                        parent.refresh_iframe();
+                    });
+                }else{
+                    layer.msg('导入失败，请检查导入Excel', {time: 2000});
+                }
+            },
+            error:function(e){
+                console.log("error");
+            },
+        });
+
+    }
 </script>
 
 </body>
