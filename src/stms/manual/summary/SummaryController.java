@@ -1,14 +1,12 @@
 package stms.manual.summary;
 
-import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import com.jfinal.core.Controller;
-import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.upload.UploadFile;
+
+import stms.model.ManualSum;
 
 
 /**
@@ -19,6 +17,8 @@ import com.jfinal.upload.UploadFile;
  * @version: 1.0 版本初成
  */
 public class SummaryController extends Controller{
+    static SummaryService service = new SummaryService();
+    
 	/** 
 	* @Title: index 
 	* @Description: 手册情况汇总列表
@@ -34,7 +34,7 @@ public class SummaryController extends Controller{
 	    Integer expireDate = getParaToInt("expireDate");
         setAttr("expireDate", expireDate);
         // 获取手册情况列表
-		List<Record> summaryList = SummaryService.getSummaryList(manualNo, handleDate, expireDate);
+		List<ManualSum> summaryList = service.getSummaryList(manualNo, handleDate, expireDate);
 		setAttr("summaryList", summaryList);
 		
 		render("summary.html");
@@ -48,9 +48,9 @@ public class SummaryController extends Controller{
 		// id
 		Integer id = getParaToInt();
 		
-		if (id != null) {
+		if (id != null) {// id 不为空，编辑手册
 			// 获取手册情况
-			Record summary = SummaryService.getSummary(id);
+			Record summary = service.getSummary(id);
 			setAttr("summary", summary);
 		}
 		
@@ -62,7 +62,7 @@ public class SummaryController extends Controller{
 	* @Description: 保存手册情况
 	*/
 	public void saveSummary() {
-		// id
+		/*// id
 	    Integer id = getParaToInt("id");
 	    // 手册号
         String manualNo = getPara("manualNo");
@@ -129,7 +129,15 @@ public class SummaryController extends Controller{
 	        result = Db.save("t_manual_sum", record);
 	    }
 	    
-	    renderJson(result);
+	    renderJson(result);*/
+	    // 保存结果
+	    boolean result = false;
+	    // 手册
+	    ManualSum record = getModel(ManualSum.class);
+	    // 保存
+	    result = service.saveOrUpdate(record);
+	    
+        renderJson(result);
 	    
 	}
 	
@@ -143,20 +151,20 @@ public class SummaryController extends Controller{
         String[] ids = idStr.split(",");
         
         // 删除结果
-        boolean result = SummaryService.deleteSummary(ids);
+        boolean result = service.deleteSummary(ids);
         
         renderJson(result);
 	}
 	
 	/** 
 	* @Title: importByExcel 
-	* @Description: 导入 excel中的数据
+	* @Description: 导入 excel 中的数据
 	*/
 	public void importByExcel() {
 	    // excel
 	    UploadFile uploadFile = getFile();
 	    
-	    boolean result = SummaryService.importByExcel(uploadFile);
+	    boolean result = service.importByExcel(uploadFile);
 	    
 	    renderJson(result);
 	}

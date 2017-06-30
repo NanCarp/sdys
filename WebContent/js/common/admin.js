@@ -90,6 +90,6 @@ function actconfirm(title, next){
 //登录过期
 function loginOut(){
 	layer.confirm('登录过期，重新登录？',function(index){
-		location.replace('/manage/login');
+		location.replace('/pages/login');
 	});
 }

@@ -8,9 +8,11 @@ import com.jfinal.config.Plugins;
 import com.jfinal.config.Routes;
 import com.jfinal.kit.PropKit;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
-import com.jfinal.plugin.c3p0.C3p0Plugin;
+import com.jfinal.plugin.druid.DruidPlugin;
 import com.jfinal.render.ViewType;
 import com.jfinal.template.Engine;
+
+import stms.model._MappingKit;
 
 /**
  * @ClassName: STMSConfig
@@ -41,17 +43,21 @@ public class STMSConfig extends JFinalConfig {
 	public void configEngine(Engine me) {
 	}
 
+	public static DruidPlugin createDruidPlugin() {
+        return new DruidPlugin(PropKit.get("jdbcUrl"), PropKit.get("user"), PropKit.get("password").trim());
+    }
+	
 	@Override
 	public void configPlugin(Plugins me) {
-		C3p0Plugin c3p0Plugin = new C3p0Plugin(PropKit.get("jdbcUrl"), PropKit.get("user"), PropKit.get("password"));
-		c3p0Plugin.setMinPoolSize(50);		// 连接池中保留的最小连接数
-		c3p0Plugin.setMaxPoolSize(200);		// 连接池中保留的最大连接数
-		c3p0Plugin.setInitialPoolSize(50);	// 初始链接数
-		c3p0Plugin.setMaxIdleTime(60);		// 每60秒检查所有连接池中的空闲连接。Default: 0
-		c3p0Plugin.setAcquireIncrement(10);	// 当连接池中的连接耗尽的时候c3p0一次同时获取的连接数
-		me.add(c3p0Plugin);
-		ActiveRecordPlugin arp = new ActiveRecordPlugin(c3p0Plugin);
-		me.add(arp);
+	 // 配置C3p0数据库连接池插件
+        DruidPlugin druidPlugin = createDruidPlugin();
+        me.add(druidPlugin);
+        
+        // 配置ActiveRecord插件
+        ActiveRecordPlugin arp = new ActiveRecordPlugin(druidPlugin);
+        // 所有映射在 MappingKit 中自动化搞定
+        _MappingKit.mapping(arp);
+        me.add(arp);
 	}
 
 	@Override

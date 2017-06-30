@@ -9,6 +9,7 @@ import com.jfinal.plugin.activerecord.IAtom;
 import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.upload.UploadFile;
 
+import stms.model.ManualSum;
 import stms.utils.ExcelKit;
 
 /**
@@ -19,16 +20,16 @@ import stms.utils.ExcelKit;
  * @version: 1.0 版本初成
  */
 public class SummaryService {
+    
+    private static final ManualSum dao = new ManualSum().dao();
 
 	/** 
 	* @Title: getSummaryList 
 	* @Description: 获取手册情况列表
 	* @return List<Record>
 	*/
-	public static List<Record> getSummaryList() {
-		String sql = "SELECT * FROM t_manual_sum";
-		
-		return Db.find(sql);
+	public List<Record> getSummaryList() {
+		return dao.getSummaryList();
 	}
 	
 	/** 
@@ -39,19 +40,22 @@ public class SummaryService {
     * @param expireDate
     * @return List<Record>
     */
-    public static List<Record> getSummaryList(String manualNo, String handleDate, Integer expireDate) {
+    public List<ManualSum> getSummaryList(String manualNo, String handleDate, Integer expireDate) {
         String sql = "SELECT * FROM t_manual_sum WHERE 1=1 ";
+        // 手册号不为空，增加查询条件
         if(manualNo != null && !"".equals(manualNo)) {
             sql += " AND manual_id like '%" + manualNo + "%' ";
         }
+        // 手册办理日期不为空，增加查询条件
         if(handleDate != null && !"".equals(handleDate)) {
             sql += " AND exist_date = '" + handleDate +"'";
         }
+        // 手册有效期不为空，增加查询条件
         if(expireDate != null && !"".equals(expireDate)) {
             sql += " AND valid_date = '" + expireDate +"'";
         }
-        System.out.println(sql);
-        return Db.find(sql);
+        
+        return dao.find(sql);
     }
 
 	/** 
@@ -60,7 +64,7 @@ public class SummaryService {
 	* @param id
 	* @return Record
 	*/
-	public static Record getSummary(Integer id) {
+	public Record getSummary(Integer id) {
 		return Db.findById("t_manual_sum", id);
 	}
 
@@ -70,7 +74,7 @@ public class SummaryService {
     * @param ids
     * @return boolean
     */
-    public static boolean deleteSummary(String[] ids) {
+    public boolean deleteSummary(String[] ids) {
         boolean succeed = Db.tx(new IAtom(){
             boolean result = false;
             @Override
@@ -90,23 +94,15 @@ public class SummaryService {
         return succeed;
     }
 
-    public static boolean importByExcel(UploadFile uploadFile) {
+    public boolean importByExcel(UploadFile uploadFile) {
         boolean succeed = Db.tx(new IAtom() {            
             @Override
             public boolean run() throws SQLException {
-                // TODO Auto-generated method stub
                 try{
                     System.out.println(uploadFile);System.out.println(uploadFile.getFile());
                     List<String[]> list = ExcelKit.getExcelData(uploadFile.getFile());
                     for(String[] strings : list){
                         if(strings[0] != null && !"".equals(strings[0])){
-                            
-                            // 删除重复记录
-                            List<Record> list1 = Db.find("SELECT * FROM t_manual_sum WHERE manual_id = ?", strings[0]);
-                            if(list1.size() > 0) {
-                                Db.delete("t_manual_sum", list1.get(0));
-                            }
-                            
                             // TODO 空值
                             Record record = new Record();
                             record.set("manual_id", strings[0]);
@@ -126,7 +122,16 @@ public class SummaryService {
                             record.set("case_over_date", strings[14] == "" ? null : strings[14]);
                             record.set("remark", strings[15] == "" ? null : strings[15]);
                      
-                            Db.save("t_manual_sum", record);
+                            // 存在则更新，否则新增
+                            List<Record> list1 = Db.find("SELECT * FROM t_manual_sum WHERE manual_id = ?", strings[0]);
+                            if(list1.size() > 0) {
+                                Integer id = list1.get(0).getInt("id");
+                                record.set("id", id);
+                                Db.update("t_manual_sum", record);
+                            } else {
+                                Db.save("t_manual_sum", record);
+                            }
+                            
                         }
                     }
                     return true;    
@@ -137,6 +142,25 @@ public class SummaryService {
             }
         });
         return succeed;
+    }
+
+    /** 
+    * @Title: saveOrUpdate 
+    * @Description: 新增或更新手册
+    * @param record
+    * @return boolean
+    */
+    public boolean saveOrUpdate(ManualSum record) {
+        boolean result = false;
+        // 手册 id
+        Integer id = record.getId();
+        // id 存在则更新，否则新增
+        if (id != null) {
+            result = record.update();
+        } else {
+            result = record.save();
+        }
+        return result;
     }
 
     

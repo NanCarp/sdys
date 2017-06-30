@@ -4,6 +4,8 @@ import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.IAtom;
 import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.upload.UploadFile;
+
+import stms.model.ManualImport;
 import stms.utils.ExcelKit;
 
 import java.sql.SQLException;
@@ -32,7 +34,6 @@ public class ImportationService {
         if(mainMaterial != null && !"".equals(mainMaterial)) {
             sql += " AND main_material like '%" + mainMaterial + "%' ";
         }
-        System.out.println(sql);
         return Db.find(sql);
     }
 
@@ -61,24 +62,12 @@ public class ImportationService {
         boolean succeed = Db.tx(new IAtom() {
             @Override
             public boolean run() throws SQLException {
-                // TODO Auto-generated method stub
                 try{
-                    System.out.println(uploadFile);System.out.println(uploadFile.getFile());
                     List<String[]> list = ExcelKit.getExcelData(uploadFile.getFile());
                     for(String[] strings : list){
                         if(strings[0] != null && !"".equals(strings[0])){
-
-                            // 删除重复记录
-                            String sql = "SELECT * FROM t_manual_import " +
-                                    " WHERE manual_id = ? AND import_num = ? ";
-                            List<Record> list1 = Db.find(sql, strings[18], strings[0]);
-                            if(list1.size() > 0) {
-                                Db.delete("t_manual_import", list1.get(0));
-                            }
-
                             // TODO 空值
                             Record record = new Record();
-
                             record.set("import_num", strings[0]);
                             record.set("import_record_num", strings[1]);
                             record.set("import_code", strings[2]);
@@ -100,8 +89,17 @@ public class ImportationService {
                             record.set("manual_id", strings[18]);
                             record.set("remark", strings[19]);
 
-
-                            Db.save("t_manual_import", record);
+                            // 存在则更新，否则新增
+                            String sql = "SELECT * FROM t_manual_import " +
+                                    " WHERE manual_id = ? AND import_num = ? ";
+                            List<Record> list1 = Db.find(sql, strings[18], strings[0]);
+                            if(list1.size() > 0) {
+                                Integer id = list1.get(0).getInt("id");
+                                record.set("id", id);
+                                Db.update("t_manual_import", record);
+                            } else {
+                                Db.save("t_manual_import", record);
+                            }
                         }
                     }
                     return true;
@@ -112,5 +110,24 @@ public class ImportationService {
             }
         });
         return succeed;
+    }
+
+    /** 
+    * @Title: saveOrUpdate 
+    * @Description: 新增或更新记录
+    * @param record
+    * @return boolean
+    */
+    public boolean saveOrUpdate(ManualImport record) {
+        boolean result = false;
+        // id
+        Integer id = record.getId();
+        // id 存在则更新，否则新增
+        if (id != null) {
+            result = record.update();
+        } else {
+            result = record.save();
+        }
+        return result;
     }
 }

@@ -5,9 +5,14 @@ import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.upload.UploadFile;
 
+import stms.model.ManualImport;
+import stms.model.ManualSum;
+
 import java.util.List;
 
 public class ImportationController extends Controller{
+    
+    static ImportationService service = new ImportationService();
 
 	/** 
 	* @Title: index 
@@ -51,7 +56,7 @@ public class ImportationController extends Controller{
 	}
 	
 	public void saveImportation() {
-	    // id
+	    /*// id
         String id = getPara("id");
         // 项号
         String itemNo = getPara("itemNo");
@@ -125,7 +130,16 @@ public class ImportationController extends Controller{
             result = Db.save("t_manual_import", record);
         }
         
-	    renderJson(result);
+	    renderJson(result);*/
+	    
+	    // 保存结果
+        boolean result = false;
+        // 手册
+        ManualImport record = getModel(ManualImport.class);
+        // 保存
+        result = service.saveOrUpdate(record);
+        
+        renderJson(result);
 	}
 	
 	/** 
