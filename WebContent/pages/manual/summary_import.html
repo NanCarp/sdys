@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>手册情况汇总-导入</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="../../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="../../../dist/css/sb-admin-2.css" rel="stylesheet">
+	<link href="../../../css/admin.css" rel="stylesheet">
+	<style type="text/css">
+		body { margin:0 15px;}
+		form { margin-top:20px;}
+		label { padding-top:6px;padding-right:0;}
+	</style>
+	
+    <!-- Custom Fonts -->
+    <link href="../../../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+<form class="form-horizontal" role="form" style="margin-top:20px;" id="defaultForm">
+	<div class="col-xs-6">
+	    <div class="form-group">
+	        <label class="col-xs-6 control-label text-right" for="itemNo">项号：</label>
+	        <div class="col-xs-6">
+	            <input class="form-control" placeholder="项号" name="manualImport.import_num" id="itemNo">
+	        </div>
+	    </div>
+	    <div class="form-group">
+	        <label class="col-xs-6 control-label text-right" for="recordNo">记录号：</label>
+	        <div class="col-xs-6">
+	            <input class="form-control" placeholder="记录号" name="manualImport.import_record_num" id="recordNo">
+	        </div>
+	    </div>
+	    <div class="form-group">
+	        <label class="col-xs-6 control-label text-right" for="productNo">商品编码：</label>
+	        <div class="col-xs-6">
+	            <input class="form-control" placeholder="商品编码" name="manualImport.import_code" id="productNo">
+	        </div>
+	    </div>
+	    <div class="form-group"> 
+	        <label class="col-xs-6 control-label text-right" for="productName">商品名称：</label>
+	        <div class="col-xs-6">
+	            <input class="form-control" placeholder="商品名称" name="manualImport.import_name" id="productName">
+	        </div>
+	    </div>
+	    <div class="form-group">
+	        <label class="col-xs-6 control-label text-right" for="type">规格型号：</label>
+	        <div class="col-xs-6">
+	            <input class="form-control" placeholder="规格型号" name="manualImport.import_specification" id="type">
+	        </div>
+	     </div>
+	    <div class="form-group">
+	        <label class="col-xs-6 control-label text-right" for="mainMaterial">主料标志：</label>
+	        <div class="col-xs-6">
+	            <input class="form-control" placeholder="主料标志" name="manualImport.main_material" id="mainMaterial">
+	        </div>
+	    </div>
+	    <div class="form-group">
+	        <label class="col-xs-6 control-label text-right" for="unit">计量单位：</label>
+	        <div class="col-xs-6">
+	            <input class="form-control" placeholder="计量单位" name="manualImport.import_unit" id="unit">
+	        </div>
+	     </div>
+	    <div class="form-group">
+	        <label class="col-xs-6 control-label text-right" for="legalUnit">法定计量单位：</label>
+	        <div class="col-xs-6">
+	            <input class="form-control" placeholder="法定计量单位" name="manualImport.import_fixed_unit" id="legalUnit">
+	        </div>
+	    </div>
+	    <div class="form-group">
+	        <label class="col-xs-6 control-label text-right" for="amount">申报数量：</label>
+	        <div class="col-xs-6">
+	            <input class="form-control" placeholder="申报数量" name="manualImport.import_report_num" id="amount">
+	        </div>
+	    </div>
+	    <div class="form-group">
+	        <label class="col-xs-6 control-label text-right" for="unitPrice">申报单价：</label>
+	        <div class="col-xs-6">
+	            <input class="form-control" placeholder="申报单价" name="manualImport.import_report_unit_price" id="unitPrice">
+	        </div>
+	    </div>
+	</div>
+	<div class="col-xs-6">
+	    <div class="form-group">
+	        <label class="col-xs-6 control-label text-right" for="unitPrice">申报总价：</label>
+	        <div class="col-xs-6">
+	            <input class="form-control" placeholder="申报总价" name="manualImport.import_report_total_price" id="totalPrice">
+	        </div>
+	    </div>
+	    <div class="form-group">
+	        <label class="col-xs-6 control-label text-right" for="currency">币制：</label>
+	        <div class="col-xs-6">
+	            <input class="form-control" placeholder="币制" name="manualImport.currency_system" id="currency">
+	        </div>
+	    </div>
+	    <div class="form-group">
+	        <label class="col-xs-6 control-label text-right" for="producerCountry">产销国：</label>
+	        <div class="col-xs-6">
+	            <input class="form-control" placeholder="产销国" name="manualImport.import_pro_market" id="producerCountry">
+	        </div>
+	    </div>
+	    <div class="form-group">
+	        <label class="col-xs-6 control-label text-right" for="legalUnitRatio">法定单位比例：</label>
+	        <div class="col-xs-6">
+	            <input class="form-control" placeholder="法定单位比例" name="manualImport.fixed_unit_ratio" id="legalUnitRatio">
+	        </div>
+	    </div>
+	    <div class="form-group">
+	        <label class="col-xs-6 control-label text-right" for="exemptionType">免征方式：</label>
+	        <div class="col-xs-6">
+	            <input class="form-control" placeholder="免征方式" name="manualImport.import_levy_mode" id="exemptionType">
+	        </div>
+	    </div>
+	    <div class="form-group">
+	        <label class="col-xs-6 control-label text-right" for="handleFlag">处理标志：</label>
+	        <div class="col-xs-6">
+	            <input class="form-control" placeholder="处理标志" name="manualImport.import_handle_flag" id="handleFlag">
+	        </div>
+	    </div>
+	    <div class="form-group">
+	        <label class="col-xs-6 control-label text-right" for="taxRatio">征税比例：</label>
+	        <div class="col-xs-6">
+	            <input class="form-control" placeholder="征税比例" name="manualImport.tax_rate" id="taxRatio">
+	        </div>
+	    </div>
+	    <div class="form-group">
+	        <label class="col-xs-6 control-label text-right" for="version">版本号：</label>
+	        <div class="col-xs-6">
+	            <input class="form-control" placeholder="版本号" name="manualImport.version" id="version">
+	        </div>
+	    </div>
+	    <div class="form-group">
+	        <label class="col-xs-6 control-label text-right" for="manualNo">手册号：</label>
+	        <div class="col-xs-6">
+	            <input class="form-control" placeholder="手册号" name="manualImport.manual_id" id="manualNo">
+	        </div>
+	    </div>
+	</div>
+	<div class="col-xs-12">
+	    <div class="form-group">
+	        <label class="col-xs-3 control-label text-right" for="remark" style="padding-top:0;">备注：</label>
+	        <div class="col-xs-9">
+	            <textarea class="form-control" id="remark" type="text" placeholder="备注" name="manualImport.remark"></textarea>
+	        </div>
+	    </div>
+	    <div class="form-group">
+	        <label class="col-xs-3 control-label" for="v"></label>
+	        <div class="col-xs-9">
+	            <button type="button" class="btn btn-10" id="cancel">取消</button>
+	            <button id="v" type="submit" class="btn btn-11">保存</button>
+	        </div>
+	    </div>
+	</div>
+</form>
+<!-- jQuery -->
+<script src="../../../vendor/jquery/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="../../../vendor/bootstrap/js/bootstrap.min.js"></script>
+
+<!-- Metis Menu Plugin JavaScript -->
+<script src="../../../vendor/metisMenu/metisMenu.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="../../../dist/js/sb-admin-2.js"></script>
+<script src="../../../resource/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
+<script src="../../../js/common/admin.js"></script>
+<script type="text/javascript">
+$(function(){
+	// 表单校验
+	$('form').bootstrapValidator({
+		message: 'This value is not valid',
+		feedbackIcons: {
+			valid: 'glyphicon glyphicon-ok',
+			invalid: 'glyphicon glyphicon-remove',
+			validating: 'glyphicon glyphicon-refresh'
+		},
+		fields: {
+			"manualImport.manual_id": {
+				validators: {
+					notEmpty: {
+						message: '不能为空!'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                }
+				}
+			},
+		}
+	});
+})
+.on('success.form.bv', function(e) {
+	e.preventDefault();
+	$.post("/manual/importation/saveImportation", $('#defaultForm').serialize(), function(result) {
+		if (result) {
+			parent.layer.msg("保存成功", {time: 2000}, function(){
+				layer_close();
+				parent.parent.refresh_iframe();
+			});
+
+		} else {
+			parent.layer.msg('保存失败', {icon: 1});
+		}
+		
+	});
+});
+
+//取消
+$('#cancel').on("click",function() {
+	layer_close();
+});
+
+</script>
+</body>
+
+</html>

@@ -46,25 +46,25 @@
                     <div class="panel-heading">
 	                    <div class="container container-fluid">
 		                	<div class="row">
-	                        	<div class="col-sm-2 col-xs-4 head_2">
+	                        	<div class="col-sm-1 col-xs-4 head_2">
                   					<input type="search" class="form-control" placeholder="手册号" name="manualNo" id="manualNo" value="${manualNo!}">
                   				</div>
-	                        	<div class="col-sm-2 col-xs-4 head_2">
+	                        	<div class="col-sm-1 col-xs-4 head_2">
                   					<input type="search" class="form-control" placeholder="记录号" name="recordNo" id="recordNo" value="${recordNo!}">
                   				</div>
-	                        	<div class="col-sm-2 col-xs-4 head_2">
-                  					<input type="search" class="form-control" placeholder="商品编码*附加码" name="productNo" id="productNo" value="${productNo!}">
+	                        	<div class="col-sm-1 col-xs-4 head_2">
+                  					<input type="search" class="form-control" placeholder="商品编码" name="productNo" id="productNo" value="${productNo!}">
                   				</div>
-	                        	<div class="col-sm-2 col-xs-4 head_2">
+	                        	<div class="col-sm-1 col-xs-4 head_2">
                   					<input type="search" class="form-control" placeholder="商品名称" name="productName" id="productName" value="${productName!}">
                   				</div>
-	                        	<div class="col-sm-2 col-xs-4 head_2">
+	                        	<div class="col-sm-1 col-xs-4 head_2">
                   					<input type="search" class="form-control" placeholder="主料标志" name="mainMaterial" id="mainMaterial" value="${mainMaterial!}">
                   				</div>
-                  				<div class="col-sm-1 col-xs-12 head_1">
+                  				<div class="col-sm-1 col-xs-4 head_1">
                        				<button class="btn btn-primary" onclick="_search()">查询</button>
                        			</div>
-                       			<div class="col-sm-2 col-xs-12 head_1">
+                       			<div class="col-sm-1 col-xs-4 head_1">
                                     <button class="btn btn-success" onclick="_add()">新增</button>
                                 </div>
                                 <div class="col-sm-1 col-xs-4 head_1">
@@ -72,7 +72,7 @@
                                         <input type="file" name="file_exl" value="" id="file_exl" onchange="uploadexcel()"/>
                                     </span>
                                 </div>
-                                <div class="col-sm-2 col-xs-6 head_3" style="margin-right: 15px">
+                                <div class="col-sm-1 col-xs-4 head_3" style="margin-right: 15px">
                                     <button class="btn btn-4" onclick="_delete()">删除</button>
                                 </div>
 	                        </div>
@@ -239,11 +239,11 @@
 	}
     // 编辑
     function _edit(id){
-        open_window('编辑进口明细','/manual/importation/getImportation/'+id, 480, 350);
+        open_window('编辑进口明细','/manual/importation/getImportation/'+id, 760, 680);
     }
     // 新增
     function _add(){
-        open_window('新增进口明细','/manual/importation/getImportation', 480, 350);
+        open_window('新增进口明细','/manual/importation/getImportation', 760, 680);
     }
 	//全选、全不选
     $("#checkAll").click(function() {
@@ -266,7 +266,7 @@
             layer.msg('请至少选择一条记录', {time: 2000});
         } else {
             //询问框
-            layer.confirm('确认批量删除吗？', {
+            layer.confirm('确认删除吗？', {
                 title: ['信息', 'font-weight:600;color:#fff;background-color: #3367D6;'],
                 btn: ['确认','取消'] //按钮
             }, function(){

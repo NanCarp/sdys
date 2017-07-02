@@ -47,19 +47,19 @@
                     <div class="panel-heading">
 	                    <div class="container container-fluid">
 		                	<div class="row">
-	                        	<div class="col-sm-2 col-xs-4 head_2">
+	                        	<div class="col-sm-1 col-xs-4 head_2">
                   					<input type="search" class="form-control" placeholder="手册号" name="manualNo" id="manualNo" value="${manualNo!}">
                   				</div>
-                  				<div class="col-sm-2 col-xs-4 head_2">
+                  				<div class="col-sm-1 col-xs-4 head_2">
                                     <input type="search" class="form-control form_datetime" placeholder="手册办理日期" name="handleDate" id="handleDate" value="${handleDate!}">
                                 </div>
-                                <div class="col-sm-2 col-xs-4 head_2">
+                                <div class="col-sm-1 col-xs-4 head_2">
                                     <input type="search" class="form-control" placeholder="有效期" name="expireDate" id="expireDate" value="${expireDate!}">
                                 </div>
                   				<div class="col-sm-1 col-xs-12 head_1">
                        				<button class="btn btn-primary" onclick="_search()">查询</button>
                        			</div>
-                       			<div class="col-sm-2 col-xs-12 head_1">
+                       			<div class="col-sm-1 col-xs-12 head_1">
                                     <button class="btn btn-success" onclick="_add()">新增</button>
                                 </div>
                                 <div class="col-sm-1 col-xs-4 head_1">
@@ -251,11 +251,11 @@
     }
     // 编辑
     function _edit(id){
-    	open_window('编辑手册','/manual/summary/getSummary/'+id, 480, 350);
+    	open_window('编辑手册','/manual/summary/getSummary/'+id, 760, 550);
     }
     // 新增
 	function _add(){
-		open_window('新增手册','/manual/summary/getSummary', 480, 350);
+		open_window('新增手册','/manual/summary/getSummary', 760, 550);
 	}
 	//全选、全不选
     $("#checkAll").click(function() {

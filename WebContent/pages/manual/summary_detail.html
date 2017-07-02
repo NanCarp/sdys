@@ -41,334 +41,229 @@
 
 <body>
 <form class="form-horizontal" role="form" style="margin-top:20px;" id="defaultForm">
-    <#if summary??>
-    <input type="hidden" name="manualSum.id" value="${summary.id}">
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="manualNo">手册号：</label>
-        <div class="col-xs-5">
-            <input class="form-control" placeholder="手册号" name="manualSum.manual_id" id="manualNo" value="${summary.manual_id}">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="state">核销状态：</label>
-        <div class="col-xs-5">
-            <select class="form-control" name="manualSum.off_state" id="state">
-                <option >核销状态</option>
-                <option value="0" <#if summary.off_state == 0>selected</#if>>停用</option>
-                <option value="2" <#if summary.off_state == 2>selected</#if>>核销</option>
-                <option value="1" <#if summary.off_state == 1>selected</#if>>正在使用</option>
-            </select>
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="component">组件系列：</label>
-        <div class="col-xs-5">
-            <select class="form-control" name="manualSum.module_set" id="component">
-                <option >组件系列</option>
-                <option value="ZJ93853" <#if summary.module_set == "ZJ93853">selected</#if>>ZJ93853</option>
-                <option value="ZJ93877" <#if summary.module_set == "ZJ93877">selected</#if>>ZJ93877</option>
-                <option value="ZJ93833" <#if summary.module_set == "ZJ93833">selected</#if>>ZJ93833</option>
-            </select>
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="finishedProductFilingAmount">成品备案金额：</label>
-        <div class="col-xs-5">
-            <input class="form-control" placeholder="成品备案金额" name="manualSum.pre_product_money" id="finishedProductFilingAmount" value="${summary.pre_product_money!}">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="importedMaterialFilingAmount">进口料件备案金额：</label>
-        <div class="col-xs-5">
-            <input class="form-control" placeholder="进口料件备案金额" name="manualSum.pre_import_money" id="importedMaterialFilingAmount" value="${summary.pre_import_money!}">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="filingRate">备案分配率：</label>
-        <div class="col-xs-5">
-            <input class="form-control" placeholder="备案分配率" name="manualSum.pre_money_dis" id="filingRate" value="${summary.pre_money_dis!}">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="actualExportAmount">实际出口金额：</label>
-        <div class="col-xs-5">
-            <input class="form-control" placeholder="实际出口金额" name="manualSum.act_export_money" id="actualExportAmount" value="${summary.act_export_money!}">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="actualImportAmount">实际进口金额：</label>
-        <div class="col-xs-5">
-            <input class="form-control" placeholder="实际进口金额" name="manualSum.act_import_money" id="actualImportAmount" value="${summary.act_import_money!}">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="actualRate">实际分配率：</label>
-        <div class="col-xs-5">
-            <input class="form-control" placeholder="实际分配率" name="actualRate" id="manualSum.act_money_dis" value="${summary.act_money_dis!}">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="handleDate">手册办理日期：</label>
-        <div class="col-xs-5">
-            <input class="form-control form_datetime" placeholder="手册办理日期" name="manualSum.exist_date" id="handleDate" value="${summary.exist_date!}">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="expiryDate">有效期：</label>
-        <div class="col-xs-5">
-            <input class="form-control" placeholder="有效期" name="manualSum.valid_date" id="expiryDate" value="${summary.valid_date!}">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="extensionDate1">延期日期1：</label>
-        <div class="col-xs-5">
-            <input class="form-control form_datetime" placeholder="延期日期1" name="manualSum.extension_date1" id="extensionDate1" value="${summary.extension_date1!}">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="extensionDate2">延期日期2：</label>
-        <div class="col-xs-5">
-            <input class="form-control form_datetime" placeholder="延期日期2" name="manualSum.extension_date2" id="extensionDate2" value="${summary.extension_date2!}">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="verificationDate">报核日期：</label>
-        <div class="col-xs-5">
-            <input class="form-control form_datetime" placeholder="报核日期" name="manualSum.report_verificate_date" id="verificationDate" value="${summary.report_verificate_date!}">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="closeDate">结案日期：</label>
-        <div class="col-xs-5">
-            <input class="form-control form_datetime" placeholder="结案日期" name="manualSum.case_over_date" id="closeDate" value="${summary.case_over_date!}">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="remark" style="padding-top:0;">备注：</label>
-        <div class="col-xs-6">
-            <textarea class="form-control" id="remark" type="text" placeholder="备注" name="manualSum.remark">${summary.remark!}</textarea>
-        </div>
-    </div>
-    <#else>
-    <!-- <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="manualNo">手册号：</label>
-        <div class="col-xs-5">
-            <input class="form-control" placeholder="手册号" name="manualNo" id="manualNo">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="state">核销状态：</label>
-        <div class="col-xs-5">
-            <select class="form-control" name="state" id="state">
-                <option >核销状态</option>
-				<option value="0">停用</option>
-				<option value="2">核销</option>
-				<option value="1">正在使用</option>
-            </select>
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="component">组件系列：</label>
-        <div class="col-xs-5">
-            <select class="form-control" name="component" id="component">
-                <option >组件系列</option>
-				<option value="ZJ93853">ZJ93853</option>
-				<option value="ZJ93877">ZJ93877</option>
-				<option value="ZJ93833">ZJ93833</option>
-            </select>
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="finishedProductFilingAmount">成品备案金额：</label>
-        <div class="col-xs-5">
-            <input class="form-control" placeholder="成品备案金额" name="finishedProductFilingAmount" id="finishedProductFilingAmount" >
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="importedMaterialFilingAmount">进口料件备案金额：</label>
-        <div class="col-xs-5">
-            <input class="form-control" placeholder="进口料件备案金额" name="importedMaterialFilingAmount" id="importedMaterialFilingAmount" >
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="filingRate">备案分配率：</label>
-        <div class="col-xs-5">
-            <input class="form-control" placeholder="备案分配率" name="filingRate" id="filingRate" >
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="actualExportAmount">实际出口金额：</label>
-        <div class="col-xs-5">
-            <input class="form-control" placeholder="实际出口金额" name="actualExportAmount" id="actualExportAmount" >
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="actualImportAmount">实际进口金额：</label>
-        <div class="col-xs-5">
-            <input class="form-control" placeholder="实际进口金额" name="actualImportAmount" id="actualImportAmount" >
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="actualRate">实际分配率：</label>
-        <div class="col-xs-5">
-            <input class="form-control" placeholder="实际分配率" name="actualRate" id="actualRate" >
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="handleDate">手册办理日期：</label>
-        <div class="col-xs-5">
-            <input class="form-control form_datetime" placeholder="手册办理日期" name="handleDate" id="handleDate" >
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="expiryDate">有效期：</label>
-        <div class="col-xs-5">
-            <input class="form-control" placeholder="有效期" name="expiryDate" id="expiryDate" >
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="extensionDate1">延期日期1：</label>
-        <div class="col-xs-5">
-            <input class="form-control form_datetime" placeholder="延期日期1" name="extensionDate1" id="extensionDate1" >
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="extensionDate2">延期日期2：</label>
-        <div class="col-xs-5">
-            <input class="form-control form_datetime" placeholder="延期日期2" name="extensionDate2" id="extensionDate2" >
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="verificationDate">报核日期：</label>
-        <div class="col-xs-5">
-            <input class="form-control form_datetime" placeholder="报核日期" name="verificationDate" id="verificationDate" >
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="closeDate">结案日期：</label>
-        <div class="col-xs-5">
-            <input class="form-control form_datetime" placeholder="结案日期" name="closeDate" id="closeDate" >
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="remark" style="padding-top:0;">备注：</label>
-        <div class="col-xs-6">
-            <textarea class="form-control" id="remark" type="text" placeholder="备注" name="remark"></textarea>
-        </div>
-    </div> -->
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="manualNo">手册号：</label>
-        <div class="col-xs-5">
-            <input class="form-control" placeholder="手册号" name="manualSum.manual_id" id="manualNo">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="state">核销状态：</label>
-        <div class="col-xs-5">
-            <select class="form-control" name="manualSum.off_state" id="state">
-                <option >核销状态</option>
-                <option value="0">停用</option>
-                <option value="2">核销</option>
-                <option value="1">正在使用</option>
-            </select>
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="component">组件系列：</label>
-        <div class="col-xs-5">
-            <select class="form-control" name="manualSum.module_set" id="component">
-                <option >组件系列</option>
-                <option value="ZJ93853">ZJ93853</option>
-                <option value="ZJ93877">ZJ93877</option>
-                <option value="ZJ93833">ZJ93833</option>
-            </select>
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="finishedProductFilingAmount">成品备案金额：</label>
-        <div class="col-xs-5">
-            <input class="form-control" placeholder="成品备案金额" name="manualSum.pre_product_money" id="finishedProductFilingAmount" >
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="importedMaterialFilingAmount">进口料件备案金额：</label>
-        <div class="col-xs-5">
-            <input class="form-control" placeholder="进口料件备案金额" name="manualSum.pre_import_money" id="importedMaterialFilingAmount" >
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="filingRate">备案分配率：</label>
-        <div class="col-xs-5">
-            <input class="form-control" placeholder="备案分配率" name="manualSum.pre_money_dis" id="filingRate" >
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="actualExportAmount">实际出口金额：</label>
-        <div class="col-xs-5">
-            <input class="form-control" placeholder="实际出口金额" name="manualSum.act_export_money" id="actualExportAmount" >
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="actualImportAmount">实际进口金额：</label>
-        <div class="col-xs-5">
-            <input class="form-control" placeholder="实际进口金额" name="manualSum.act_import_money" id="actualImportAmount" >
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="actualRate">实际分配率：</label>
-        <div class="col-xs-5">
-            <input class="form-control" placeholder="实际分配率" name="manualSum.act_money_dis" id="actualRate" >
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="handleDate">手册办理日期：</label>
-        <div class="col-xs-5">
-            <input class="form-control form_datetime" placeholder="手册办理日期" name="manualSum.exist_date" id="handleDate" >
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="expiryDate">有效期：</label>
-        <div class="col-xs-5">
-            <input class="form-control" placeholder="有效期" name="manualSum.valid_date" id="expiryDate" >
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="extensionDate1">延期日期1：</label>
-        <div class="col-xs-5">
-            <input class="form-control form_datetime" placeholder="延期日期1" name="manualSum.extension_date1" id="extensionDate1" >
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="extensionDate2">延期日期2：</label>
-        <div class="col-xs-5">
-            <input class="form-control form_datetime" placeholder="延期日期2" name="manualSum.extension_date2" id="extensionDate2" >
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="verificationDate">报核日期：</label>
-        <div class="col-xs-5">
-            <input class="form-control form_datetime" placeholder="报核日期" name="manualSum.report_verificate_date" id="verificationDate" >
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="closeDate">结案日期：</label>
-        <div class="col-xs-5">
-            <input class="form-control form_datetime" placeholder="结案日期" name="manualSum.case_over_date" id="closeDate" >
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="remark" style="padding-top:0;">备注：</label>
-        <div class="col-xs-6">
-            <textarea class="form-control" id="remark" type="text" placeholder="备注" name="manualSum.remark"></textarea>
-        </div>
-    </div>
-    </#if>
-    <div class="form-group">
-        <label class="col-xs-5 control-label" for="v"></label>
-        <div class="col-xs-5 text-right">
-            <button type="button" class="btn btn-10" id="cancel">取消</button>
-            <button id="v" type="submit" class="btn btn-11">保存</button>
-       	</div>
+	<div class="container">
+		<#if summary??>
+		<div class="col-xs-6">
+		    <input type="hidden" name="id" value="${summary.id}">
+		    <div class="form-group">
+		        <label class="col-xs-6 control-label text-right" for="manualNo">手册号：</label>
+		        <div class="col-xs-6">
+		            <input class="form-control" placeholder="手册号" name="manual_id" id="manualNo" value="${summary.manual_id}">
+		        </div>
+		        </div>
+		    <div class="form-group">
+		        <label class="col-xs-6 control-label text-right" for="state">核销状态：</label>
+		        <div class="col-xs-6">
+		            <select class="form-control" name="off_state" id="state">
+		                <option >核销状态</option>
+		                <option value="0" <#if summary.off_state == 0>selected</#if>>停用</option>
+		                <option value="2" <#if summary.off_state == 2>selected</#if>>核销</option>
+		                <option value="1" <#if summary.off_state == 1>selected</#if>>正在使用</option>
+		            </select>
+		        </div>
+		    </div>
+		    <div class="form-group">
+		        <label class="col-xs-6 control-label text-right" for="finishedProductFilingAmount">成品备案金额：</label>
+		        <div class="col-xs-6">
+		            <input class="form-control" placeholder="成品备案金额" name="pre_product_money" id="finishedProductFilingAmount" value="${summary.pre_product_money!}">
+		        </div>
+		    </div>
+		    <div class="form-group">
+		        <label class="col-xs-6 control-label text-right" for="importedMaterialFilingAmount">进口料件备案金额：</label>
+		        <div class="col-xs-6">
+		            <input class="form-control" placeholder="进口料件备案金额" name="pre_import_money" id="importedMaterialFilingAmount" value="${summary.pre_import_money!}">
+		        </div>
+		    </div>
+		    <div class="form-group">
+		        <label class="col-xs-6 control-label text-right" for="filingRate">备案分配率：</label>
+		        <div class="col-xs-6">
+		            <input class="form-control" placeholder="备案分配率" name="pre_money_dis" id="filingRate" value="${summary.pre_money_dis!}">
+		        </div>
+		    </div>
+		    <div class="form-group">
+		        <label class="col-xs-6 control-label text-right" for="actualExportAmount">实际出口金额：</label>
+		        <div class="col-xs-6">
+		            <input class="form-control" placeholder="实际出口金额" name="act_export_money" id="actualExportAmount" value="${summary.act_export_money!}">
+		        </div>
+		    </div>
+		    <div class="form-group">
+		        <label class="col-xs-6 control-label text-right" for="actualImportAmount">实际进口金额：</label>
+		        <div class="col-xs-6">
+		            <input class="form-control" placeholder="实际进口金额" name="act_import_money" id="actualImportAmount" value="${summary.act_import_money!}">
+		        </div>
+		    </div>
+	    </div>
+	    <div class="col-xs-6">
+		    <div class="form-group">    
+		        <label class="col-xs-6 control-label text-right" for="actualRate">实际分配率：</label>
+		        <div class="col-xs-6">
+		            <input class="form-control" placeholder="实际分配率" name="act_money_dis" id="actualRate" value="${summary.act_money_dis!}">
+		        </div>
+		    </div>
+		    <div class="form-group">
+		        <label class="col-xs-6 control-label text-right" for="handleDate">手册办理日期：</label>
+		        <div class="col-xs-6">
+		            <input class="form-control form_datetime" placeholder="手册办理日期" name="exist_date" id="handleDate" value="${summary.exist_date!}">
+		        </div>
+		    </div>
+		    <div class="form-group">
+		        <label class="col-xs-6 control-label text-right" for="expiryDate">有效期：</label>
+		        <div class="col-xs-6">
+		            <input class="form-control" placeholder="有效期" name="valid_date" id="expiryDate" value="${summary.valid_date!}">
+		        </div>
+		    </div>
+		    <div class="form-group">
+		        <label class="col-xs-6 control-label text-right" for="extensionDate1">延期日期1：</label>
+		        <div class="col-xs-6">
+		            <input class="form-control form_datetime" placeholder="延期日期1" name="extension_date1" id="extensionDate1" value="${summary.extension_date1!}">
+		        </div>
+		    </div>
+		    <div class="form-group">
+		        <label class="col-xs-6 control-label text-right" for="extensionDate2">延期日期2：</label>
+		        <div class="col-xs-6">
+		            <input class="form-control form_datetime" placeholder="延期日期2" name="extension_date2" id="extensionDate2" value="${summary.extension_date2!}">
+		        </div>
+		    </div>
+		    <div class="form-group">
+		        <label class="col-xs-6 control-label text-right" for="verificationDate">报核日期：</label>
+		        <div class="col-xs-6">
+		            <input class="form-control form_datetime" placeholder="报核日期" name="report_verificate_date" id="verificationDate" value="${summary.report_verificate_date!}">
+		        </div>
+		    </div>
+		    <div class="form-group">
+		        <label class="col-xs-6 control-label text-right" for="closeDate">结案日期：</label>
+		        <div class="col-xs-6">
+		            <input class="form-control form_datetime" placeholder="结案日期" name="case_over_date" id="closeDate" value="${summary.case_over_date!}">
+		        </div>
+		    </div>
+	    </div>
+	    <div class="col-xs-12">
+		    <div class="form-group">
+		        <label class="col-xs-3 control-label text-right" for="remark" style="padding-top:0;">备注：</label>
+		        <div class="col-xs-9">
+		            <textarea class="form-control" id="remark" type="text" placeholder="备注" name="remark">${summary.remark!}</textarea>
+		        </div>
+		    </div>
+	    </div>
+	    <div class="form-group">
+		        <label class="col-xs-3 control-label" for="v"></label>
+		        <div class="col-xs-9">
+		            <button type="button" class="btn btn-10" id="cancel">取消</button>
+		            <button id="v" type="submit" class="btn btn-11">保存</button>
+		       	</div>
+		    </div>
+	    <#else>
+	    
+	   	<div class="col-xs-6">
+	   		<div class="form-group">
+		        <label class="col-xs-6 control-label text-right" for="manualNo">手册号：</label>
+		        <div class="col-xs-6">
+		            <input class="form-control" placeholder="手册号" name="manual_id" id="manualNo">
+		        </div>
+		    </div>
+		    <div class="form-group">
+		        <label class="col-xs-6 control-label text-right" for="state">核销状态：</label>
+		        <div class="col-xs-6">
+		            <select class="form-control" name="off_state" id="state">
+		                <option >核销状态</option>
+		                <option value="0">停用</option>
+		                <option value="2">核销</option>
+		                <option value="1">正在使用</option>
+		            </select>
+		        </div>
+		    </div>
+		    <div class="form-group">
+		        <label class="col-xs-6 control-label text-right" for="finishedProductFilingAmount">成品备案金额：</label>
+		        <div class="col-xs-6">
+		            <input class="form-control" placeholder="成品备案金额" name="pre_product_money" id="finishedProductFilingAmount" >
+		        </div>
+		    </div>
+		    <div class="form-group">
+		        <label class="col-xs-6 control-label text-right" for="importedMaterialFilingAmount">进口料件备案金额：</label>
+		        <div class="col-xs-6">
+		            <input class="form-control" placeholder="备案金额" name="pre_import_money" id="importedMaterialFilingAmount" >
+		        </div>
+		    </div>
+		    <div class="form-group">
+		        <label class="col-xs-6 control-label text-right" for="filingRate">备案分配率：</label>
+		        <div class="col-xs-6">
+		            <input class="form-control" placeholder="备案分配率" name="pre_money_dis" id="filingRate" >
+		        </div>
+		    </div>
+		    <div class="form-group">
+		        <label class="col-xs-6 control-label text-right" for="actualExportAmount">实际出口金额：</label>
+		        <div class="col-xs-6">
+		            <input class="form-control" placeholder="实际出口金额" name="act_export_money" id="actualExportAmount" >
+		        </div>
+		    </div>
+		    <div class="form-group">
+		        <label class="col-xs-6 control-label text-right" for="actualImportAmount">实际进口金额：</label>
+		        <div class="col-xs-6">
+		            <input class="form-control" placeholder="实际进口金额" name="act_import_money" id="actualImportAmount" >
+		        </div>
+		    </div>
+	   	</div>
+	   	<div class="col-xs-6">
+	   		<div class="form-group">
+		        <label class="col-xs-6 control-label text-right" for="actualRate">实际分配率：</label>
+		        <div class="col-xs-6">
+		            <input class="form-control" placeholder="实际分配率" name="act_money_dis" id="actualRate" >
+		        </div>
+		    </div>
+		    <div class="form-group">
+		        <label class="col-xs-6 control-label text-right" for="handleDate">手册办理日期：</label>
+		        <div class="col-xs-6">
+		            <input class="form-control form_datetime" placeholder="手册办理日期" name="exist_date" id="handleDate" >
+		        </div>
+		    </div>
+		    <div class="form-group">
+		        <label class="col-xs-6 control-label text-right" for="expiryDate">有效期：</label>
+		        <div class="col-xs-6">
+		            <input class="form-control" placeholder="有效期" name="valid_date" id="expiryDate" >
+		        </div>
+		    </div>
+		    <div class="form-group">
+		        <label class="col-xs-6 control-label text-right" for="extensionDate1">延期日期1：</label>
+		        <div class="col-xs-6">
+		            <input class="form-control form_datetime" placeholder="延期日期1" name="extension_date1" id="extensionDate1" >
+		        </div>
+		    </div>
+		    <div class="form-group">
+		        <label class="col-xs-6 control-label text-right" for="extensionDate2">延期日期2：</label>
+		        <div class="col-xs-6">
+		            <input class="form-control form_datetime" placeholder="延期日期2" name="extension_date2" id="extensionDate2" >
+		        </div>
+		    </div>
+		    <div class="form-group">
+		        <label class="col-xs-6 control-label text-right" for="verificationDate">报核日期：</label>
+		        <div class="col-xs-6">
+		            <input class="form-control form_datetime" placeholder="报核日期" name="report_verificate_date" id="verificationDate" >
+		        </div>
+		    </div>
+		    <div class="form-group">
+		        <label class="col-xs-6 control-label text-right" for="closeDate">结案日期：</label>
+		        <div class="col-xs-6">
+		            <input class="form-control form_datetime" placeholder="结案日期" name="case_over_date" id="closeDate" >
+		        </div>
+		    </div>
+	   	</div>
+	   	<div class="col-xs-12">
+	   		<div class="form-group" >
+		        <label class="col-xs-3 control-label text-right" for="remark" style="padding-top:0;">备注：</label>
+		        <div class="col-xs-9">
+		            <textarea class="form-control" id="remark" type="text" placeholder="备注" name="remark"></textarea>
+		        </div>
+		    </div>
+		    <div class="form-group">
+		        <label class="col-xs-3 control-label" for="v"></label>
+		        <div class="col-xs-9">
+		            <button type="button" class="btn btn-10" id="cancel">取消</button>
+		            <button id="v" type="submit" class="btn btn-11">保存</button>
+		       	</div>
+		    </div>
+	   	</div>
+	   	
+	    </#if>
     </div>
 </form>
 <!-- jQuery -->
@@ -392,7 +287,7 @@
 $(".form_datetime").datetimepicker({
 	format: "yyyy-mm-dd",
 	autoclose: true,
-	todayBtn: true,
+	todayBtn: false,
 	todayHighlight: true,
 	showMeridian: true,
 	pickerPosition: "bottom-right",
@@ -410,7 +305,7 @@ $(function(){
 			validating: 'glyphicon glyphicon-refresh'
 		},
 		fields: {
-			"manualSum.manual_id": {
+			"manual_id": {
 				validators: {
 					notEmpty: {
 						message: '不能为空!'
@@ -422,21 +317,21 @@ $(function(){
 	                }
 				}
 			},
-			"manualSum.off_state": {
+			"off_state": {
 				validators: {
 					notEmpty: {
 						message: '请选择状态!'
 					}
 				}
 			},
-			"manualSum.module_set": {
+			"module_set": {
 				validators: {
 					notEmpty: {
 						message: '请选择组件!'
 					}
 				}
 			},
-			"manualSum.pre_product_money": {
+			"pre_product_money": {
 				validators: {
 					regexp: {
                         regexp: /^[0-9]+(\.[0-9]{1,})?$/,
@@ -449,7 +344,7 @@ $(function(){
 	                }
 				}
 			},
-			"manualSum.pre_import_money": {
+			"pre_import_money": {
 				validators: {
 					regexp: {
                         regexp: /^[0-9]+(\.[0-9]{1,})?$/,
@@ -462,7 +357,7 @@ $(function(){
 	                }
 				}
 			},
-			"manualSum.pre_money_dis": {
+			"pre_money_dis": {
 				validators: {
 					regexp: {
                         regexp: /^[0-9]+(\.[0-9]{1,})?$/,
@@ -480,7 +375,7 @@ $(function(){
 	                }
 				}
 			},
-			"manualSum.act_export_money": {
+			"act_export_money": {
 				validators: {
 					regexp: {
                         regexp: /^[0-9]+(\.[0-9]{1,})?$/,
@@ -493,7 +388,7 @@ $(function(){
 	                }
 				}
 			},
-			"manualSum.act_import_money": {
+			"act_import_money": {
 				validators: {
 					regexp: {
                         regexp: /^[0-9]+(\.[0-9]{1,})?$/,
@@ -506,7 +401,7 @@ $(function(){
 	                }
 				}
 			},
-			"manualSum.act_money_dis": {
+			"act_money_dis": {
 				validators: {
 					regexp: {
                         regexp: /^[0-9]+(\.[0-9]{1,})?$/,
@@ -524,7 +419,7 @@ $(function(){
 	                }
 				}
 			},
-			"manualSum.valid_date": {
+			"valid_date": {
                 validators: {
                 	between: {
                         min:1,
@@ -533,7 +428,7 @@ $(function(){
                     }
                 }
             },
-			"manualSum.remark": {
+			"remark": {
                 validators: {
                     stringLength: {
                         min: 0,

@@ -22,7 +22,7 @@
 	<link href="../../../css/admin.css" rel="stylesheet">
 	<link href="../../../resource/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
 	<style type="text/css">
-		body { margin:0 15px;}
+		body { margin:0 45px 0 0;}
 		form { margin-top:20px;}
 		label { padding-top:6px;padding-right:0;}
 	</style>
@@ -44,504 +44,529 @@
     <!-- <#if importation??>
     <input type="hidden" name="id" value="${importation.id}">
     <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="itemNo">项号：</label>
-        <div class="col-xs-5">
+        <label class="col-xs-6 control-label text-right" for="itemNo">项号：</label>
+        <div class="col-xs-6">
             <input class="form-control" placeholder="项号" name="itemNo" id="itemNo" value="${importation.import_num!}">
         </div>
     </div>
     <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="recordNo">记录号：</label>
-        <div class="col-xs-5">
+        <label class="col-xs-6 control-label text-right" for="recordNo">记录号：</label>
+        <div class="col-xs-6">
             <input class="form-control" placeholder="记录号" name="recordNo" id="recordNo" value="${importation.import_record_num!}">
         </div>
     </div>
     <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="productNo">商品编码（附加码）：</label>
-        <div class="col-xs-5">
-            <input class="form-control" placeholder="商品编码（附加码）" name="productNo" id="productNo" value="${importation.code!}">
+        <label class="col-xs-6 control-label text-right" for="productNo">商品编码：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="商品编码" name="productNo" id="productNo" value="${importation.code!}">
         </div>
     </div>
     <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="productName">商品名称：</label>
-        <div class="col-xs-5">
+        <label class="col-xs-6 control-label text-right" for="productName">商品名称：</label>
+        <div class="col-xs-6">
             <input class="form-control" placeholder="商品名称" name="productName" id="productName" value="${importation.name!}">
         </div>
     </div>
     <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="type">规格型号：</label>
-        <div class="col-xs-5">
+        <label class="col-xs-6 control-label text-right" for="type">规格型号：</label>
+        <div class="col-xs-6">
             <input class="form-control" placeholder="规格型号" name="type" id="type" value="${importation.specification!}">
         </div>
     </div>
     <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="mainMaterial">主料标志：</label>
-        <div class="col-xs-5">
+        <label class="col-xs-6 control-label text-right" for="mainMaterial">主料标志：</label>
+        <div class="col-xs-6">
             <input class="form-control" placeholder="主料标志" name="mainMaterial" id="mainMaterial" value="${importation.main_material!}">
         </div>
     </div>
     <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="unit">计量单位：</label>
-        <div class="col-xs-5">
+        <label class="col-xs-6 control-label text-right" for="unit">计量单位：</label>
+        <div class="col-xs-6">
             <input class="form-control" placeholder="计量单位" name="unit" id="unit" value="${importation.import_unit!}">
         </div>
     </div>
     <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="legalUnit">法定计量单位：</label>
-        <div class="col-xs-5">
+        <label class="col-xs-6 control-label text-right" for="legalUnit">法定计量单位：</label>
+        <div class="col-xs-6">
             <input class="form-control" placeholder="法定计量单位" name="legalUnit" id="legalUnit" value="${importation.import_fixed_unit!}">
         </div>
     </div>
     <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="amount">申报数量：</label>
-        <div class="col-xs-5">
+        <label class="col-xs-6 control-label text-right" for="amount">申报数量：</label>
+        <div class="col-xs-6">
             <input class="form-control" placeholder="申报数量" name="amount" id="amount" value="${importation.import_report_num!}">
         </div>
     </div>
     <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="unitPrice">申报单价：</label>
-        <div class="col-xs-5">
+        <label class="col-xs-6 control-label text-right" for="unitPrice">申报单价：</label>
+        <div class="col-xs-6">
             <input class="form-control" placeholder="申报单价" name="unitPrice" id="unitPrice" value="${importation.import_report_unit_price!}">
         </div>
     </div>
     <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="unitPrice">申报总价：</label>
-        <div class="col-xs-5">
+        <label class="col-xs-6 control-label text-right" for="unitPrice">申报总价：</label>
+        <div class="col-xs-6">
             <input class="form-control" placeholder="申报总价" name="totalPrice" id="totalPrice" value="${importation.import_report_total_price!}">
         </div>
     </div>
     <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="currency">币制：</label>
-        <div class="col-xs-5">
+        <label class="col-xs-6 control-label text-right" for="currency">币制：</label>
+        <div class="col-xs-6">
             <input class="form-control" placeholder="币制" name="currency" id="currency" value="${importation.currency_system!}">
         </div>
     </div>
     <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="producerCountry">产销国：</label>
-        <div class="col-xs-5">
+        <label class="col-xs-6 control-label text-right" for="producerCountry">产销国：</label>
+        <div class="col-xs-6">
             <input class="form-control" placeholder="产销国" name="producerCountry" id="producerCountry" value="${importation.import_pro_market!}">
         </div>
     </div>
     <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="legalUnitRatio">法定单位比例：</label>
-        <div class="col-xs-5">
+        <label class="col-xs-6 control-label text-right" for="legalUnitRatio">法定单位比例：</label>
+        <div class="col-xs-6">
             <input class="form-control" placeholder="法定单位比例" name="legalUnitRatio" id="legalUnitRatio" value="${importation.fixed_unit_ratio!}">
         </div>
     </div>
     <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="exemptionType">免征方式：</label>
-        <div class="col-xs-5">
+        <label class="col-xs-6 control-label text-right" for="exemptionType">免征方式：</label>
+        <div class="col-xs-6">
             <input class="form-control" placeholder="免征方式" name="exemptionType" id="exemptionType" value="${importation.import_levy_mode!}">
         </div>
     </div>
     <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="handleFlag">处理标志：</label>
-        <div class="col-xs-5">
+        <label class="col-xs-6 control-label text-right" for="handleFlag">处理标志：</label>
+        <div class="col-xs-6">
             <input class="form-control" placeholder="处理标志" name="handleFlag" id="handleFlag" value="${importation.import_handle_flag!}">
         </div>
     </div>
     <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="taxRatio">征税比例：</label>
-        <div class="col-xs-5">
+        <label class="col-xs-6 control-label text-right" for="taxRatio">征税比例：</label>
+        <div class="col-xs-6">
             <input class="form-control" placeholder="征税比例" name="taxRatio" id="taxRatio" value="${importation.tax_rate!}">
         </div>
     </div>
     <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="version">版本号：</label>
-        <div class="col-xs-5">
+        <label class="col-xs-6 control-label text-right" for="version">版本号：</label>
+        <div class="col-xs-6">
             <input class="form-control" placeholder="版本号" name="version" id="version" value="${importation.version!}">
         </div>
     </div>
     <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="manualNo">手册号：</label>
-        <div class="col-xs-5">
+        <label class="col-xs-6 control-label text-right" for="manualNo">手册号：</label>
+        <div class="col-xs-6">
             <input class="form-control" placeholder="手册号" name="manualNo" id="manualNo" value="${importation.manual_id!}">
         </div>
     </div>
     <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="remark" style="padding-top:0;">备注：</label>
+        <label class="col-xs-6 control-label text-right" for="remark" style="padding-top:0;">备注：</label>
         <div class="col-xs-6">
             <textarea class="form-control" id="remark" type="text" placeholder="备注" name="remark">${importation.import_report_unit_price!}</textarea>
         </div>
     </div>
     <#else>
     <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="itemNo">项号：</label>
-        <div class="col-xs-5">
+        <label class="col-xs-6 control-label text-right" for="itemNo">项号：</label>
+        <div class="col-xs-6">
             <input class="form-control" placeholder="项号" name="itemNo" id="itemNo">
         </div>
     </div>
     <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="recordNo">记录号：</label>
-        <div class="col-xs-5">
+        <label class="col-xs-6 control-label text-right" for="recordNo">记录号：</label>
+        <div class="col-xs-6">
             <input class="form-control" placeholder="记录号" name="recordNo" id="recordNo">
         </div>
     </div>
     <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="productNo">商品编码（附加码）：</label>
-        <div class="col-xs-5">
-            <input class="form-control" placeholder="商品编码（附加码）" name="productNo" id="productNo">
+        <label class="col-xs-6 control-label text-right" for="productNo">商品编码：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="商品编码" name="productNo" id="productNo">
         </div>
     </div>
     <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="productName">商品名称：</label>
-        <div class="col-xs-5">
+        <label class="col-xs-6 control-label text-right" for="productName">商品名称：</label>
+        <div class="col-xs-6">
             <input class="form-control" placeholder="商品名称" name="productName" id="productName">
         </div>
     </div>
     <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="type">规格型号：</label>
-        <div class="col-xs-5">
+        <label class="col-xs-6 control-label text-right" for="type">规格型号：</label>
+        <div class="col-xs-6">
             <input class="form-control" placeholder="规格型号" name="type" id="type">
         </div>
     </div>
     <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="mainMaterial">主料标志：</label>
-        <div class="col-xs-5">
+        <label class="col-xs-6 control-label text-right" for="mainMaterial">主料标志：</label>
+        <div class="col-xs-6">
             <input class="form-control" placeholder="主料标志" name="mainMaterial" id="mainMaterial">
         </div>
     </div>
     <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="unit">计量单位：</label>
-        <div class="col-xs-5">
+        <label class="col-xs-6 control-label text-right" for="unit">计量单位：</label>
+        <div class="col-xs-6">
             <input class="form-control" placeholder="计量单位" name="unit" id="unit">
         </div>
     </div>
     <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="legalUnit">法定计量单位：</label>
-        <div class="col-xs-5">
+        <label class="col-xs-6 control-label text-right" for="legalUnit">法定计量单位：</label>
+        <div class="col-xs-6">
             <input class="form-control" placeholder="法定计量单位" name="legalUnit" id="legalUnit">
         </div>
     </div>
     <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="amount">申报数量：</label>
-        <div class="col-xs-5">
+        <label class="col-xs-6 control-label text-right" for="amount">申报数量：</label>
+        <div class="col-xs-6">
             <input class="form-control" placeholder="申报数量" name="amount" id="amount">
         </div>
     </div>
     <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="unitPrice">申报单价：</label>
-        <div class="col-xs-5">
+        <label class="col-xs-6 control-label text-right" for="unitPrice">申报单价：</label>
+        <div class="col-xs-6">
             <input class="form-control" placeholder="申报单价" name="unitPrice" id="unitPrice">
         </div>
     </div>
     <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="unitPrice">申报总价：</label>
-        <div class="col-xs-5">
+        <label class="col-xs-6 control-label text-right" for="unitPrice">申报总价：</label>
+        <div class="col-xs-6">
             <input class="form-control" placeholder="申报总价" name="totalPrice" id="totalPrice">
         </div>
     </div>
     <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="currency">币制：</label>
-        <div class="col-xs-5">
+        <label class="col-xs-6 control-label text-right" for="currency">币制：</label>
+        <div class="col-xs-6">
             <input class="form-control" placeholder="币制" name="currency" id="currency">
         </div>
     </div>
     <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="producerCountry">产销国：</label>
-        <div class="col-xs-5">
+        <label class="col-xs-6 control-label text-right" for="producerCountry">产销国：</label>
+        <div class="col-xs-6">
             <input class="form-control" placeholder="产销国" name="producerCountry" id="producerCountry">
         </div>
     </div>
     <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="legalUnitRatio">法定单位比例：</label>
-        <div class="col-xs-5">
+        <label class="col-xs-6 control-label text-right" for="legalUnitRatio">法定单位比例：</label>
+        <div class="col-xs-6">
             <input class="form-control" placeholder="法定单位比例" name="legalUnitRatio" id="legalUnitRatio">
         </div>
     </div>
     <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="exemptionType">免征方式：</label>
-        <div class="col-xs-5">
+        <label class="col-xs-6 control-label text-right" for="exemptionType">免征方式：</label>
+        <div class="col-xs-6">
             <input class="form-control" placeholder="免征方式" name="exemptionType" id="exemptionType">
         </div>
     </div>
     <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="handleFlag">处理标志：</label>
-        <div class="col-xs-5">
+        <label class="col-xs-6 control-label text-right" for="handleFlag">处理标志：</label>
+        <div class="col-xs-6">
             <input class="form-control" placeholder="处理标志" name="handleFlag" id="handleFlag">
         </div>
     </div>
     <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="taxRatio">征税比例：</label>
-        <div class="col-xs-5">
+        <label class="col-xs-6 control-label text-right" for="taxRatio">征税比例：</label>
+        <div class="col-xs-6">
             <input class="form-control" placeholder="征税比例" name="taxRatio" id="taxRatio">
         </div>
     </div>
     <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="version">版本号：</label>
-        <div class="col-xs-5">
+        <label class="col-xs-6 control-label text-right" for="version">版本号：</label>
+        <div class="col-xs-6">
             <input class="form-control" placeholder="版本号" name="version" id="version">
         </div>
     </div>
     <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="manualNo">手册号：</label>
-        <div class="col-xs-5">
+        <label class="col-xs-6 control-label text-right" for="manualNo">手册号：</label>
+        <div class="col-xs-6">
             <input class="form-control" placeholder="手册号" name="manualNo" id="manualNo">
         </div>
     </div>
     <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="remark" style="padding-top:0;">备注：</label>
+        <label class="col-xs-6 control-label text-right" for="remark" style="padding-top:0;">备注：</label>
         <div class="col-xs-6">
             <textarea class="form-control" id="remark" type="text" placeholder="备注" name="remark"></textarea>
         </div>
     </div>
     </#if>
     <div class="form-group">
-        <label class="col-xs-5 control-label" for="v"></label>
-        <div class="col-xs-5 text-right">
+        <label class="col-xs-6 control-label" for="v"></label>
+        <div class="col-xs-6 text-right">
             <button type="button" class="btn btn-10" id="cancel">取消</button>
             <button id="v" type="submit" class="btn btn-11">保存</button>
        	</div>
     </div> -->
-    <#if importation??>
-    <input type="hidden" name="manualImport.id" value="${importation.id}">
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="itemNo">项号：</label>
-        <div class="col-xs-5">
-            <input class="form-control" placeholder="项号" name="manualImport.import_num" id="itemNo" value="${importation.import_num!}">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="recordNo">记录号：</label>
-        <div class="col-xs-5">
-            <input class="form-control" placeholder="记录号" name="manualImport.import_record_num" id="recordNo" value="${importation.import_record_num!}">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="productNo">商品编码（附加码）：</label>
-        <div class="col-xs-5">
-            <input class="form-control" placeholder="商品编码（附加码）" name="manualImport.import_code" id="productNo" value="${importation.code!}">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="productName">商品名称：</label>
-        <div class="col-xs-5">
-            <input class="form-control" placeholder="商品名称" name="manualImport.import_name" id="productName" value="${importation.name!}">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="type">规格型号：</label>
-        <div class="col-xs-5">
-            <input class="form-control" placeholder="规格型号" name="manualImport.import_specification" id="type" value="${importation.specification!}">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="mainMaterial">主料标志：</label>
-        <div class="col-xs-5">
-            <input class="form-control" placeholder="主料标志" name="manualImport.main_material" id="mainMaterial" value="${importation.main_material!}">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="unit">计量单位：</label>
-        <div class="col-xs-5">
-            <input class="form-control" placeholder="计量单位" name="manualImport.import_unit" id="unit" value="${importation.import_unit!}">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="legalUnit">法定计量单位：</label>
-        <div class="col-xs-5">
-            <input class="form-control" placeholder="法定计量单位" name="manualImport.import_fixed_unit" id="legalUnit" value="${importation.import_fixed_unit!}">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="amount">申报数量：</label>
-        <div class="col-xs-5">
-            <input class="form-control" placeholder="申报数量" name="manualImport.import_report_num" id="amount" value="${importation.import_report_num!}">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="unitPrice">申报单价：</label>
-        <div class="col-xs-5">
-            <input class="form-control" placeholder="申报单价" name="manualImport.import_report_unit_price" id="unitPrice" value="${importation.import_report_unit_price!}">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="unitPrice">申报总价：</label>
-        <div class="col-xs-5">
-            <input class="form-control" placeholder="申报总价" name="manualImport.import_report_total_price" id="totalPrice" value="${importation.import_report_total_price!}">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="currency">币制：</label>
-        <div class="col-xs-5">
-            <input class="form-control" placeholder="币制" name="manualImport.currency_system" id="currency" value="${importation.currency_system!}">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="producerCountry">产销国：</label>
-        <div class="col-xs-5">
-            <input class="form-control" placeholder="产销国" name="manualImport.import_pro_market" id="producerCountry" value="${importation.import_pro_market!}">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="legalUnitRatio">法定单位比例：</label>
-        <div class="col-xs-5">
-            <input class="form-control" placeholder="法定单位比例" name="manualImport.fixed_unit_ratio" id="legalUnitRatio" value="${importation.fixed_unit_ratio!}">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="exemptionType">免征方式：</label>
-        <div class="col-xs-5">
-            <input class="form-control" placeholder="免征方式" name="manualImport.import_levy_mode" id="exemptionType" value="${importation.import_levy_mode!}">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="handleFlag">处理标志：</label>
-        <div class="col-xs-5">
-            <input class="form-control" placeholder="处理标志" name="manualImport.import_handle_flag" id="handleFlag" value="${importation.import_handle_flag!}">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="taxRatio">征税比例：</label>
-        <div class="col-xs-5">
-            <input class="form-control" placeholder="征税比例" name="manualImport.tax_rate" id="taxRatio" value="${importation.tax_rate!}">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="version">版本号：</label>
-        <div class="col-xs-5">
-            <input class="form-control" placeholder="版本号" name="manualImport.version" id="version" value="${importation.version!}">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="manualNo">手册号：</label>
-        <div class="col-xs-5">
-            <input class="form-control" placeholder="手册号" name="manualImport.manual_id" id="manualNo" value="${importation.manual_id!}">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="remark" style="padding-top:0;">备注：</label>
-        <div class="col-xs-6">
-            <textarea class="form-control" id="remark" type="text" placeholder="备注" name="manualImport.remark">${importation.import_report_unit_price!}</textarea>
-        </div>
-    </div>
-    <#else>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="itemNo">项号：</label>
-        <div class="col-xs-5">
-            <input class="form-control" placeholder="项号" name="manualImport.import_num" id="itemNo">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="recordNo">记录号：</label>
-        <div class="col-xs-5">
-            <input class="form-control" placeholder="记录号" name="manualImport.import_record_num" id="recordNo">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="productNo">商品编码（附加码）：</label>
-        <div class="col-xs-5">
-            <input class="form-control" placeholder="商品编码（附加码）" name="manualImport.import_code" id="productNo">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="productName">商品名称：</label>
-        <div class="col-xs-5">
-            <input class="form-control" placeholder="商品名称" name="manualImport.import_name" id="productName">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="type">规格型号：</label>
-        <div class="col-xs-5">
-            <input class="form-control" placeholder="规格型号" name="manualImport.import_specification" id="type">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="mainMaterial">主料标志：</label>
-        <div class="col-xs-5">
-            <input class="form-control" placeholder="主料标志" name="manualImport.main_material" id="mainMaterial">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="unit">计量单位：</label>
-        <div class="col-xs-5">
-            <input class="form-control" placeholder="计量单位" name="manualImport.import_unit" id="unit">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="legalUnit">法定计量单位：</label>
-        <div class="col-xs-5">
-            <input class="form-control" placeholder="法定计量单位" name="manualImport.import_fixed_unit" id="legalUnit">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="amount">申报数量：</label>
-        <div class="col-xs-5">
-            <input class="form-control" placeholder="申报数量" name="manualImport.import_report_num" id="amount">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="unitPrice">申报单价：</label>
-        <div class="col-xs-5">
-            <input class="form-control" placeholder="申报单价" name="manualImport.import_report_unit_price" id="unitPrice">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="unitPrice">申报总价：</label>
-        <div class="col-xs-5">
-            <input class="form-control" placeholder="申报总价" name="manualImport.import_report_total_price" id="totalPrice">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="currency">币制：</label>
-        <div class="col-xs-5">
-            <input class="form-control" placeholder="币制" name="manualImport.currency_system" id="currency">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="producerCountry">产销国：</label>
-        <div class="col-xs-5">
-            <input class="form-control" placeholder="产销国" name="manualImport.import_pro_market" id="producerCountry">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="legalUnitRatio">法定单位比例：</label>
-        <div class="col-xs-5">
-            <input class="form-control" placeholder="法定单位比例" name="manualImport.fixed_unit_ratio" id="legalUnitRatio">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="exemptionType">免征方式：</label>
-        <div class="col-xs-5">
-            <input class="form-control" placeholder="免征方式" name="manualImport.import_levy_mode" id="exemptionType">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="handleFlag">处理标志：</label>
-        <div class="col-xs-5">
-            <input class="form-control" placeholder="处理标志" name="manualImport.import_handle_flag" id="handleFlag">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="taxRatio">征税比例：</label>
-        <div class="col-xs-5">
-            <input class="form-control" placeholder="征税比例" name="manualImport.tax_rate" id="taxRatio">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="version">版本号：</label>
-        <div class="col-xs-5">
-            <input class="form-control" placeholder="版本号" name="manualImport.version" id="version">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="manualNo">手册号：</label>
-        <div class="col-xs-5">
-            <input class="form-control" placeholder="手册号" name="manualImport.manual_id" id="manualNo">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="remark" style="padding-top:0;">备注：</label>
-        <div class="col-xs-6">
-            <textarea class="form-control" id="remark" type="text" placeholder="备注" name="manualImport.remark"></textarea>
-        </div>
-    </div>
-    </#if>
-    <div class="form-group">
-        <label class="col-xs-5 control-label" for="v"></label>
-        <div class="col-xs-5 text-right">
-            <button type="button" class="btn btn-10" id="cancel">取消</button>
-            <button id="v" type="submit" class="btn btn-11">保存</button>
-        </div>
+    <div class="container">
+    	
+    	
+    	
+    
+    	<#if importation??>
+    	<div class="col-xs-6">
+		    <input type="hidden" name="manualImport.id" value="${importation.id}">
+		    <div class="form-group">
+		        <label class="col-xs-6 control-label text-right" for="itemNo">项号：</label>
+		        <div class="col-xs-6">
+		            <input class="form-control" placeholder="项号" name="manualImport.import_num" id="itemNo" value="${importation.import_num!}">
+		        </div>
+		    </div>
+		    <div class="form-group">
+		        <label class="col-xs-6 control-label text-right" for="recordNo">记录号：</label>
+		        <div class="col-xs-6">
+		            <input class="form-control" placeholder="记录号" name="manualImport.import_record_num" id="recordNo" value="${importation.import_record_num!}">
+		        </div>
+		    </div>
+		    <div class="form-group">
+		        <label class="col-xs-6 control-label text-right" for="productNo">商品编码：</label>
+		        <div class="col-xs-6">
+		            <input class="form-control" placeholder="商品编码" name="manualImport.import_code" id="productNo" value="${importation.code!}">
+		        </div>
+		    </div>
+		    <div class="form-group">
+		        <label class="col-xs-6 control-label text-right" for="productName">商品名称：</label>
+		        <div class="col-xs-6">
+		            <input class="form-control" placeholder="商品名称" name="manualImport.import_name" id="productName" value="${importation.name!}">
+		        </div>
+		    </div>
+		    <div class="form-group">
+		        <label class="col-xs-6 control-label text-right" for="type">规格型号：</label>
+		        <div class="col-xs-6">
+		            <input class="form-control" placeholder="规格型号" name="manualImport.import_specification" id="type" value="${importation.specification!}">
+		        </div>
+		    </div>
+		    <div class="form-group">
+		        <label class="col-xs-6 control-label text-right" for="mainMaterial">主料标志：</label>
+		        <div class="col-xs-6">
+		            <input class="form-control" placeholder="主料标志" name="manualImport.main_material" id="mainMaterial" value="${importation.main_material!}">
+		        </div>
+		    </div>
+		    <div class="form-group">
+		        <label class="col-xs-6 control-label text-right" for="unit">计量单位：</label>
+		        <div class="col-xs-6">
+		            <input class="form-control" placeholder="计量单位" name="manualImport.import_unit" id="unit" value="${importation.import_unit!}">
+		        </div>
+		    </div>
+		    <div class="form-group">
+		        <label class="col-xs-6 control-label text-right" for="legalUnit">法定计量单位：</label>
+		        <div class="col-xs-6">
+		            <input class="form-control" placeholder="法定计量单位" name="manualImport.import_fixed_unit" id="legalUnit" value="${importation.import_fixed_unit!}">
+		        </div>
+		    </div>
+		    <div class="form-group">
+		        <label class="col-xs-6 control-label text-right" for="amount">申报数量：</label>
+		        <div class="col-xs-6">
+		            <input class="form-control" placeholder="申报数量" name="manualImport.import_report_num" id="amount" value="${importation.import_report_num!}">
+		        </div>
+		    </div>
+		    <div class="form-group">
+		        <label class="col-xs-6 control-label text-right" for="unitPrice">申报单价：</label>
+		        <div class="col-xs-6">
+		            <input class="form-control" placeholder="申报单价" name="manualImport.import_report_unit_price" id="unitPrice" value="${importation.import_report_unit_price!}">
+		        </div>
+		    </div>
+		</div>
+		<div class="col-xs-6">
+		    <div class="form-group">
+		        <label class="col-xs-6 control-label text-right" for="unitPrice">申报总价：</label>
+		        <div class="col-xs-6">
+		            <input class="form-control" placeholder="申报总价" name="manualImport.import_report_total_price" id="totalPrice" value="${importation.import_report_total_price!}">
+		        </div>
+		    </div>
+		    <div class="form-group">
+		        <label class="col-xs-6 control-label text-right" for="currency">币制：</label>
+		        <div class="col-xs-6">
+		            <input class="form-control" placeholder="币制" name="manualImport.currency_system" id="currency" value="${importation.currency_system!}">
+		        </div>
+		    </div>
+		    <div class="form-group">
+		        <label class="col-xs-6 control-label text-right" for="producerCountry">产销国：</label>
+		        <div class="col-xs-6">
+		            <input class="form-control" placeholder="产销国" name="manualImport.import_pro_market" id="producerCountry" value="${importation.import_pro_market!}">
+		        </div>
+		    </div>
+		    <div class="form-group">
+		        <label class="col-xs-6 control-label text-right" for="legalUnitRatio">法定单位比例：</label>
+		        <div class="col-xs-6">
+		            <input class="form-control" placeholder="法定单位比例" name="manualImport.fixed_unit_ratio" id="legalUnitRatio" value="${importation.fixed_unit_ratio!}">
+		        </div>
+		    </div>
+		    <div class="form-group">
+		        <label class="col-xs-6 control-label text-right" for="exemptionType">免征方式：</label>
+		        <div class="col-xs-6">
+		            <input class="form-control" placeholder="免征方式" name="manualImport.import_levy_mode" id="exemptionType" value="${importation.import_levy_mode!}">
+		        </div>
+		    </div>
+		    <div class="form-group">
+		        <label class="col-xs-6 control-label text-right" for="handleFlag">处理标志：</label>
+		        <div class="col-xs-6">
+		            <input class="form-control" placeholder="处理标志" name="manualImport.import_handle_flag" id="handleFlag" value="${importation.import_handle_flag!}">
+		        </div>
+		    </div>
+		    <div class="form-group">
+		        <label class="col-xs-6 control-label text-right" for="taxRatio">征税比例：</label>
+		        <div class="col-xs-6">
+		            <input class="form-control" placeholder="征税比例" name="manualImport.tax_rate" id="taxRatio" value="${importation.tax_rate!}">
+		        </div>
+		    </div>
+		    <div class="form-group">
+		        <label class="col-xs-6 control-label text-right" for="version">版本号：</label>
+		        <div class="col-xs-6">
+		            <input class="form-control" placeholder="版本号" name="manualImport.version" id="version" value="${importation.version!}">
+		        </div>
+		    </div>
+		    <div class="form-group">
+		        <label class="col-xs-6 control-label text-right" for="manualNo">手册号：</label>
+		        <div class="col-xs-6">
+		            <input class="form-control" placeholder="手册号" name="manualImport.manual_id" id="manualNo" value="${importation.manual_id!}">
+		        </div>
+		    </div>
+		</div>
+		<div class="col-xs-12">
+		    <div class="form-group">
+		        <label class="col-xs-3 control-label text-right" for="remark" style="padding-top:0;">备注：</label>
+		        <div class="col-xs-9">
+		            <textarea class="form-control" id="remark" type="text" placeholder="备注" name="manualImport.remark">${importation.import_report_unit_price!}</textarea>
+		        </div>
+		    </div>
+		    <div class="form-group">
+		        <label class="col-xs-3 control-label" for="v"></label>
+		        <div class="col-xs-9">
+		            <button type="button" class="btn btn-10" id="cancel">取消</button>
+		            <button id="v" type="submit" class="btn btn-11">保存</button>
+		        </div>
+		    </div>
+		</div>
+		<#else>
+		<div class="col-xs-6">
+		    <div class="form-group">
+		        <label class="col-xs-6 control-label text-right" for="itemNo">项号：</label>
+		        <div class="col-xs-6">
+		            <input class="form-control" placeholder="项号" name="manualImport.import_num" id="itemNo">
+		        </div>
+		    </div>
+		    <div class="form-group">
+		        <label class="col-xs-6 control-label text-right" for="recordNo">记录号：</label>
+		        <div class="col-xs-6">
+		            <input class="form-control" placeholder="记录号" name="manualImport.import_record_num" id="recordNo">
+		        </div>
+		    </div>
+		    <div class="form-group">
+		        <label class="col-xs-6 control-label text-right" for="productNo">商品编码：</label>
+		        <div class="col-xs-6">
+		            <input class="form-control" placeholder="商品编码" name="manualImport.import_code" id="productNo">
+		        </div>
+		    </div>
+		    <div class="form-group"> 
+		        <label class="col-xs-6 control-label text-right" for="productName">商品名称：</label>
+		        <div class="col-xs-6">
+		            <input class="form-control" placeholder="商品名称" name="manualImport.import_name" id="productName">
+		        </div>
+		    </div>
+		    <div class="form-group">
+		        <label class="col-xs-6 control-label text-right" for="type">规格型号：</label>
+		        <div class="col-xs-6">
+		            <input class="form-control" placeholder="规格型号" name="manualImport.import_specification" id="type">
+		        </div>
+		     </div>
+		    <div class="form-group">
+		        <label class="col-xs-6 control-label text-right" for="mainMaterial">主料标志：</label>
+		        <div class="col-xs-6">
+		            <input class="form-control" placeholder="主料标志" name="manualImport.main_material" id="mainMaterial">
+		        </div>
+		    </div>
+		    <div class="form-group">
+		        <label class="col-xs-6 control-label text-right" for="unit">计量单位：</label>
+		        <div class="col-xs-6">
+		            <input class="form-control" placeholder="计量单位" name="manualImport.import_unit" id="unit">
+		        </div>
+		     </div>
+		    <div class="form-group">
+		        <label class="col-xs-6 control-label text-right" for="legalUnit">法定计量单位：</label>
+		        <div class="col-xs-6">
+		            <input class="form-control" placeholder="法定计量单位" name="manualImport.import_fixed_unit" id="legalUnit">
+		        </div>
+		    </div>
+		    <div class="form-group">
+		        <label class="col-xs-6 control-label text-right" for="amount">申报数量：</label>
+		        <div class="col-xs-6">
+		            <input class="form-control" placeholder="申报数量" name="manualImport.import_report_num" id="amount">
+		        </div>
+		    </div>
+		    <div class="form-group">
+		        <label class="col-xs-6 control-label text-right" for="unitPrice">申报单价：</label>
+		        <div class="col-xs-6">
+		            <input class="form-control" placeholder="申报单价" name="manualImport.import_report_unit_price" id="unitPrice">
+		        </div>
+		    </div>
+		</div>
+		<div class="col-xs-6">
+		    <div class="form-group">
+		        <label class="col-xs-6 control-label text-right" for="unitPrice">申报总价：</label>
+		        <div class="col-xs-6">
+		            <input class="form-control" placeholder="申报总价" name="manualImport.import_report_total_price" id="totalPrice">
+		        </div>
+		    </div>
+		    <div class="form-group">
+		        <label class="col-xs-6 control-label text-right" for="currency">币制：</label>
+		        <div class="col-xs-6">
+		            <input class="form-control" placeholder="币制" name="manualImport.currency_system" id="currency">
+		        </div>
+		    </div>
+		    <div class="form-group">
+		        <label class="col-xs-6 control-label text-right" for="producerCountry">产销国：</label>
+		        <div class="col-xs-6">
+		            <input class="form-control" placeholder="产销国" name="manualImport.import_pro_market" id="producerCountry">
+		        </div>
+		    </div>
+		    <div class="form-group">
+		        <label class="col-xs-6 control-label text-right" for="legalUnitRatio">法定单位比例：</label>
+		        <div class="col-xs-6">
+		            <input class="form-control" placeholder="法定单位比例" name="manualImport.fixed_unit_ratio" id="legalUnitRatio">
+		        </div>
+		    </div>
+		    <div class="form-group">
+		        <label class="col-xs-6 control-label text-right" for="exemptionType">免征方式：</label>
+		        <div class="col-xs-6">
+		            <input class="form-control" placeholder="免征方式" name="manualImport.import_levy_mode" id="exemptionType">
+		        </div>
+		    </div>
+		    <div class="form-group">
+		        <label class="col-xs-6 control-label text-right" for="handleFlag">处理标志：</label>
+		        <div class="col-xs-6">
+		            <input class="form-control" placeholder="处理标志" name="manualImport.import_handle_flag" id="handleFlag">
+		        </div>
+		    </div>
+		    <div class="form-group">
+		        <label class="col-xs-6 control-label text-right" for="taxRatio">征税比例：</label>
+		        <div class="col-xs-6">
+		            <input class="form-control" placeholder="征税比例" name="manualImport.tax_rate" id="taxRatio">
+		        </div>
+		    </div>
+		    <div class="form-group">
+		        <label class="col-xs-6 control-label text-right" for="version">版本号：</label>
+		        <div class="col-xs-6">
+		            <input class="form-control" placeholder="版本号" name="manualImport.version" id="version">
+		        </div>
+		    </div>
+		    <div class="form-group">
+		        <label class="col-xs-6 control-label text-right" for="manualNo">手册号：</label>
+		        <div class="col-xs-6">
+		            <input class="form-control" placeholder="手册号" name="manualImport.manual_id" id="manualNo">
+		        </div>
+		    </div>
+		</div>
+		<div class="col-xs-12">
+		    <div class="form-group">
+		        <label class="col-xs-3 control-label text-right" for="remark" style="padding-top:0;">备注：</label>
+		        <div class="col-xs-9">
+		            <textarea class="form-control" id="remark" type="text" placeholder="备注" name="manualImport.remark"></textarea>
+		        </div>
+		    </div>
+		    <div class="form-group">
+		        <label class="col-xs-3 control-label" for="v"></label>
+		        <div class="col-xs-9">
+		            <button type="button" class="btn btn-10" id="cancel">取消</button>
+		            <button id="v" type="submit" class="btn btn-11">保存</button>
+		        </div>
+		    </div>
+		</div>
+		</#if>
     </div>
 </form>
 <!-- jQuery -->
@@ -675,6 +700,10 @@ $(function(){
             },
             "manualImport.import_report_num": {
                 validators: {
+                	regexp: {
+                        regexp: /^[0-9]+(\.[0-9]{1,})?$/,
+                        message: '请输入正确的数量'
+                    },
                     stringLength: {
                         min: 0,
                         max: 20,
