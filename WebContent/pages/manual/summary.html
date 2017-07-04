@@ -59,14 +59,17 @@
                   				<div class="col-sm-1 col-xs-12 head_1">
                        				<button class="btn btn-primary" onclick="_search()">查询</button>
                        			</div>
-                       			<div class="col-sm-1 col-xs-12 head_1">
+                                <div class="col-sm-1 col-xs-12 head_1">
                                     <button class="btn btn-success" onclick="_add()">新增</button>
                                 </div>
-                                <div class="col-sm-1 col-xs-4 head_1">
+                       			<div class="col-sm-1 col-xs-12 head_1">
+                                    <button class="btn btn-5" onclick="_import()">导入</button>
+                                </div>
+                                <!-- <div class="col-sm-1 col-xs-4 head_1">
                                     <span class="btn btn-5 btn-file"> 导入
                                         <input type="file" name="file_exl" value="" id="file_exl" onchange="uploadexcel()"/>
                                     </span>
-                                </div>
+                                </div> -->
                                 <div class="col-sm-2 col-xs-6 head_3" style="margin-right: 15px">
                                     <button class="btn btn-4" onclick="_delete()">删除</button>
                                 </div>
@@ -82,7 +85,7 @@
 		                        	<th>序号</th>
 		                            <th>手册号</th>
 		                            <th>核销状态</th>
-		                            <th>组件系列</th>
+		                            <!-- <th>组件系列</th> -->
 		                            <th>成品备案金额</th>
 		                            <th>进口料件备案金额</th>
 		                            <th>备案分配率</th>
@@ -111,7 +114,7 @@
                                     <#if summary.off_state == 1>正在使用</#if>
                                     <#if summary.off_state == 2>核销</#if>
                                     </td>
-                                    <td>${summary.module_set!}</td>
+                                    <!-- <td>${summary.module_set!}</td> -->
                                     <td>${summary.pre_product_money!}</td>
                                     <td>${summary.pre_import_money!}</td>
                                     <td>${summary.pre_money_dis!}</td>
@@ -293,6 +296,10 @@
 
             });
         }
+    }
+    // 导入
+    function _import() {
+    	open_window('新增进口明细','/manual/summary/importUI', 480, 200);
     }
 </script>
 

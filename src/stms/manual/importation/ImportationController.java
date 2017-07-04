@@ -37,16 +37,20 @@ public class ImportationController extends Controller{
 
 
         // 进口明细列表
-        List<Record> importationList = ImportationService.getImportationList(manualNo, recordNo, productNo, productName, mainMaterial);
+        List<ManualImport> importationList = ImportationService.getImportationList(manualNo, recordNo, productNo, productName, mainMaterial);
         setAttr("importationList", importationList);
 
         render("importation.html");
 	}
 	
+	/** 
+	* @Title: getImportation 
+	* @Description: 获取进口明细
+	*/
 	public void getImportation() {
 		// id
 		String id = getPara();
-		
+		// id 不为空，获取数据
         if (id != null) {
             Record importation = Db.findById("t_manual_import", id);
             setAttr("importation", importation);
@@ -55,6 +59,10 @@ public class ImportationController extends Controller{
         render("importation_detail.html");
 	}
 	
+	/** 
+	* @Title: saveImportation 
+	* @Description: 保存进口明细
+	*/
 	public void saveImportation() {
 	    /*// id
         String id = getPara("id");
@@ -163,7 +171,7 @@ public class ImportationController extends Controller{
     public void importByExcel() {
         // excel
         UploadFile uploadFile = getFile();
-
+        // 导入结果
         boolean result = ImportationService.importByExcel(uploadFile);
 
         renderJson(result);

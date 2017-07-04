@@ -12,15 +12,15 @@
     <title>成品表体</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- MetisMenu CSS -->
-    <link href="../../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+    <link href="../../../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="../../dist/css/sb-admin-2.css" rel="stylesheet">
-	<link href="../../css/admin.css" rel="stylesheet">
-	<link href="../../resource/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <link href="../../../dist/css/sb-admin-2.css" rel="stylesheet">
+	<link href="../../../css/admin.css" rel="stylesheet">
+	<link href="../../../resource/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
 	<style type="text/css">
 		body { margin:0 15px;}
 		form { margin-top:20px;}
@@ -28,7 +28,7 @@
 	</style>
 	
     <!-- Custom Fonts -->
-    <link href="../../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="../../../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -41,6 +41,111 @@
 
 <body>
 <form class="form-horizontal" role="form" style="margin-top:20px;" id="defaultForm">
+	<#if singleloss??>
+<div style="display: inline-block;">
+	<input id="id" name="id" type="hidden" value="${singleloss.id}">
+	<div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="product_no">成品序号：</label>
+        <div class="col-xs-5">
+            <input class="form-control" placeholder="成品序号" name="product_no" id="product_no" value="${singleloss.product_no}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="product_name">成品名称：</label>
+        <div class="col-xs-5">
+            <input class="form-control" placeholder="成品名称" name="product_name" id="product_name" value="${singleloss.product_name}">
+        </div>
+    </div> 
+     <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="product_specification">成品规格：</label>
+        <div class="col-xs-5">
+            <input class="form-control" placeholder="成品规格" name="product_specification" id="product_specification" value="${singleloss.product_specification}">
+        </div>
+    </div>    
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="product_measurement_unit">成品计量单位：</label>
+        <div class="col-xs-5">
+            <input class="form-control" placeholder="成品计量单位" name="product_measurement_unit" id="product_measurement_unit" value="${singleloss.product_measurement_unit}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="materials_no">料件序号：</label>
+        <div class="col-xs-5">
+            <input class="form-control" placeholder="料件序号" name="materials_no" id="materials_no" value="${singleloss.materials_no}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="materials_name">料件名称：</label>
+        <div class="col-xs-5">
+            <input class="form-control" placeholder="料件名称" name="materials_name" id="materials_name" value="${singleloss.materials_name}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="materials_specification">料件规格：</label>
+        <div class="col-xs-5">
+            <input class="form-control" placeholder="料件规格" name="materials_specification" id="materials_specification" value="${singleloss.materials_specification}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="materials_measurement_unit">料件计量单位：</label>
+        <div class="col-xs-5">
+            <input class="form-control" placeholder="料件计量单位" name="materials_measurement_unit" id="materials_measurement_unit" value="${singleloss.materials_measurement_unit}">
+        </div>
+    </div> 
+    <div class="form-group">
+        <label class="col-xs-5 control-label" for="v"></label>
+        <div class="col-xs-5 text-right">
+            <button type="button" class="btn btn-10" id="cancel">取消</button>
+            <button id="v" type="submit" class="btn btn-11">保存</button>
+       	</div>
+    </div>
+</div>
+<div style="display: inline-block;margin-bottom: 100px">         
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="loss_rate">损耗率：</label>
+        <div class="col-xs-5">
+            <input class="form-control" placeholder="损耗率" name="loss_rate" id="loss_rate" value="${singleloss.loss_rate}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="loss_handle_flag">处理标志：</label>
+        <div class="col-xs-5">
+            <input class="form-control" placeholder="处理标志" name="loss_handle_flag" id="loss_handle_flag" value="${singleloss.loss_handle_flag}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="unbond_material_rate">非保税料件比例：</label>
+        <div class="col-xs-5">
+            <input class="form-control" placeholder="非保税料件比例" name="unbond_material_rate" id="unbond_material_rate" value="${singleloss.unbond_material_rate}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="version">版本号：</label>
+        <div class="col-xs-5">
+            <input class="form-control" placeholder="版本号" name="version" id="version" value="${singleloss.version}">
+        </div>
+    </div>
+     <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="manual_no">手册号：</label>
+        <div class="col-xs-5">
+            <input class="form-control" placeholder="手册号" name="manual_no" id="manual_no" value="${singleloss.manual_no}">
+        </div>
+    </div>
+     <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="customs_department">海关系列：</label>
+        <div class="col-xs-5">
+            <input class="form-control" placeholder="海关系列" name="customs_department" id="customs_department" value="${singleloss.customs_department}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="remark">备注：</label>
+        <div class="col-xs-5">
+            <input class="form-control" placeholder="备注" name="remark" id="remark" value="${singleloss.remark}">
+        </div>
+    </div>    
+</div>
+	<#else>
+<div style="display: inline-block">
     <div class="form-group">
         <label class="col-xs-5 control-label text-right" for="product_no">成品序号：</label>
         <div class="col-xs-5">
@@ -90,6 +195,15 @@
         </div>
     </div>
     <div class="form-group">
+        <label class="col-xs-5 control-label" for="v"></label>
+        <div class="col-xs-5 text-right">
+            <button type="button" class="btn btn-10" id="cancel">取消</button>
+            <button id="v" type="submit" class="btn btn-11">保存</button>
+       	</div>
+    </div>
+</div>
+<div style="display: inline-block;margin-bottom: 48px">
+    <div class="form-group">
         <label class="col-xs-5 control-label text-right" for="unit_loss">单耗/净耗：</label>
         <div class="col-xs-5">
             <input class="form-control" placeholder="单耗/净耗" name="unit_loss" id="unit_loss" value="">
@@ -136,31 +250,25 @@
         <div class="col-xs-5">
             <input class="form-control" placeholder="备注" name="remark" id="remark" value="">
         </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label" for="v"></label>
-        <div class="col-xs-5 text-right">
-            <button type="button" class="btn btn-10" id="cancel">取消</button>
-            <button id="v" type="submit" class="btn btn-11">保存</button>
-       	</div>
-    </div>
+    </div>  
+    </#if>   
 </form>
 <!-- jQuery -->
-<script src="../../vendor/jquery/jquery.min.js"></script>
+<script src="../../../vendor/jquery/jquery.min.js"></script>
 
 <!-- Bootstrap Core JavaScript -->
-<script src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="../../../vendor/bootstrap/js/bootstrap.min.js"></script>
 
 <!-- Metis Menu Plugin JavaScript -->
-<script src="../../vendor/metisMenu/metisMenu.min.js"></script>
+<script src="../../../vendor/metisMenu/metisMenu.min.js"></script>
 
 <!-- Custom Theme JavaScript -->
-<script src="../../dist/js/sb-admin-2.js"></script>
-<script src="../../resource/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
-<script src="../../resource/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script> 
-<script src="../../resource/bootstrap-datetimepicker/js/moment-with-locales.min.js"></script>
-<script src="../../resource/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
-<script src="../../js/common/admin.js"></script>
+<script src="../../../dist/js/sb-admin-2.js"></script>
+<script src="../../../resource/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
+<script src="../../../resource/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script> 
+<script src="../../../resource/bootstrap-datetimepicker/js/moment-with-locales.min.js"></script>
+<script src="../../../resource/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+<script src="../../../js/common/admin.js"></script>
 <script type="text/javascript">
 //日期控件
 $(".form_datetime").datetimepicker({
@@ -369,7 +477,7 @@ $(function(){
 })
 .on('success.form.bv', function(e) {
 	e.preventDefault();
-	/* $.post("/supplier/year/saveYear", $('#defaultForm').serialize(), function(result) {
+	 $.post("/manual/singleloss/saveSingleLoss", $('#defaultForm').serialize(), function(result) {
 		if (result) {
 			parent.layer.msg("保存成功", {time: 2000}, function(){
 				layer_close();
@@ -380,7 +488,7 @@ $(function(){
 			parent.layer.msg('保存失败', {icon: 1});
 		}
 		
-	}); */
+	}); 
 });
 
 //取消

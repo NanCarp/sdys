@@ -6,18 +6,31 @@ import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.upload.UploadFile;
 
 import stms.model.ManualImport;
+import stms.model.ManualSum;
 import stms.utils.ExcelKit;
 
 import java.sql.SQLException;
 import java.util.List;
 
 public class ImportationService {
+    
+    private static final ManualImport dao = new ManualImport().dao();
 
     public static List<Record> getImportationList() {
         return Db.find("SELECT * FROM t_manual_import");
     }
 
-    public static List<Record> getImportationList(String manualNo, String recordNo, String productNo, String productName, String mainMaterial) {
+    /** 
+    * @Title: getImportationList 
+    * @Description: 进口明细列表
+    * @param manualNo
+    * @param recordNo
+    * @param productNo
+    * @param productName
+    * @param mainMaterial
+    * @return List<ManualImport>
+    */
+    public static List<ManualImport> getImportationList(String manualNo, String recordNo, String productNo, String productName, String mainMaterial) {
         String sql = "SELECT * FROM t_manual_import WHERE 1=1 ";
         if(manualNo != null && !"".equals(manualNo)) {
             sql += " AND manual_id like '%" + manualNo + "%' ";
@@ -34,9 +47,15 @@ public class ImportationService {
         if(mainMaterial != null && !"".equals(mainMaterial)) {
             sql += " AND main_material like '%" + mainMaterial + "%' ";
         }
-        return Db.find(sql);
+        return dao.find(sql);
     }
 
+    /** 
+    * @Title: deleteImportation 
+    * @Description: 删除进口明细
+    * @param ids
+    * @return boolean
+    */
     public static boolean deleteImportation(String[] ids) {
         boolean succeed = Db.tx(new IAtom(){
             boolean result = false;
@@ -44,7 +63,7 @@ public class ImportationService {
             public boolean run() throws SQLException {
                 for (String id: ids){
                     // 删除
-                    result = Db.deleteById("t_manual_import", id);
+                    result = dao.deleteById(id);
                     if (result == false) {
                         break;
                     }
@@ -58,6 +77,12 @@ public class ImportationService {
     }
 
 
+    /** 
+    * @Title: importByExcel 
+    * @Description: 从 excel 导入数据
+    * @param uploadFile
+    * @return boolean
+    */
     public static boolean importByExcel(UploadFile uploadFile) {
         boolean succeed = Db.tx(new IAtom() {
             @Override
@@ -67,7 +92,7 @@ public class ImportationService {
                     for(String[] strings : list){
                         if(strings[0] != null && !"".equals(strings[0])){
                             // TODO 空值
-                            Record record = new Record();
+                            ManualImport record = new ManualImport();
                             record.set("import_num", strings[0]);
                             record.set("import_record_num", strings[1]);
                             record.set("import_code", strings[2]);
@@ -89,7 +114,7 @@ public class ImportationService {
                             record.set("manual_id", strings[18]);
                             record.set("remark", strings[19]);
 
-                            // 存在则更新，否则新增
+                            /*// 存在则更新，否则新增
                             String sql = "SELECT * FROM t_manual_import " +
                                     " WHERE manual_id = ? AND import_num = ? ";
                             List<Record> list1 = Db.find(sql, strings[18], strings[0]);
@@ -99,7 +124,19 @@ public class ImportationService {
                                 Db.update("t_manual_import", record);
                             } else {
                                 Db.save("t_manual_import", record);
+                            }*/
+                            
+                            // 存在则更新，否则新增
+                            String sql = "SELECT * FROM t_manual_import " +
+                                    " WHERE manual_id = ? AND import_num = ? ";
+                            ManualImport recordDB = dao.findFirst(sql, strings[18], strings[0]);
+                            if (recordDB != null) { // 更新
+                                record.setId(recordDB.getId());
+                                record.update();
+                            } else { // 新增
+                                record.save();
                             }
+                            
                         }
                     }
                     return true;

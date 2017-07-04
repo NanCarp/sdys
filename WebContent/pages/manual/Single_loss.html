@@ -60,10 +60,8 @@
                        			<div class="col-sm-2 col-xs-12 head_1">
 		                        	<button class="btn btn-success" onclick="_add()">新增</button>
 		                        </div>
-		                        <div class="col-sm-1 col-xs-4 head_1">
-		                        	<span class="btn btn-5 btn-file"> 导入
-        								<input type="file" name="file_exl" value="" id="file_exl" onchange="uploadexcel()"/>
-     								</span>
+		                        <div class="col-sm-2 col-xs-12 head_1">
+		                        	<button class="btn btn-success" onclick="uploadexcel()">导入</button>
 		                        </div>
 		                        <div class="col-sm-2 col-xs-6 head_3" style="margin-right: 15px">
 		                        	<button class="btn btn-4" onclick="_delete()">删除</button>
@@ -103,24 +101,24 @@
 		                        <tr>
 		                        	<td><input type="checkbox" name="sub" value="${singleLoss.id}"></td>
 		                        	<td>${singleLoss_index+1}</td>
-		                            <td>${singleLoss.product_no}</td>
-		                            <td>${singleLoss.product_name}</td>
-		                            <td>${singleLoss.product_specification}</td>
-		                            <td>${singleLoss.product_measurement_unit}</td>
-		                            <td>${singleLoss.materials_no}</td>
-		                            <td>${singleLoss.materials_name}</td>
-		                            <td>${singleLoss.materials_specification}</td>
-		                            <td>${singleLoss.materials_measurement_unit}</td>
-		                            <td>${singleLoss.unit_loss}</td>
-		                            <td>${singleLoss.loss_rate}</td>
-		                            <td>${singleLoss.loss_handle_flag}</td>
-		                            <td>${singleLoss.unbond_material_rate}</td>
-		                            <td>${singleLoss.version}</td>
-		                            <td>${singleLoss.manual_no}</td>
-		                            <td>${singleLoss.customs_department}</td>
-		                            <td>${singleLoss.remark}</td>
+		                            <td>${singleLoss.product_no!}</td>
+		                            <td>${singleLoss.product_name!}</td>
+		                            <td>${singleLoss.product_specification!}</td>
+		                            <td>${singleLoss.product_measurement_unit!}</td>
+		                            <td>${singleLoss.materials_no!}</td>
+		                            <td>${singleLoss.materials_name!}</td>
+		                            <td>${singleLoss.materials_specification!}</td>
+		                            <td>${singleLoss.materials_measurement_unit!}</td>
+		                            <td>${singleLoss.unit_loss!}</td>
+		                            <td>${singleLoss.loss_rate!}</td>
+		                            <td>${singleLoss.loss_handle_flag!}</td>
+		                            <td>${singleLoss.unbond_material_rate!}</td>
+		                            <td>${singleLoss.version!}</td>
+		                            <td>${singleLoss.manual_no!}</td>
+		                            <td>${singleLoss.customs_department!}</td>
+		                            <td>${singleLoss.remark!}</td>
 		                            <td>
-                                       <button class="btn btn-3 btn-xs"onclick="_edit()">编辑</button> 
+                                       <button class="btn btn-3 btn-xs"onclick="_edit(${singleLoss.id})">编辑</button> 
                                     </td> 
                                  </tr>
                                 </#list>
@@ -189,31 +187,9 @@
 		    var subs = $("input[name='sub']");
 		    $("#checkAll").prop("checked" , subs.length == subs.filter(":checked").length ? true :false);
 		});
-	});
-	//导入excel
+	});	
 	function uploadexcel(){
-		var formData = new FormData();
-		formData.append("file",$("#file_exl")[0].files[0]);
-		$.ajax({
-			url:"/manual/singleloss/importExcel",
-			type:"POST",
-			data:formData,
-			processData:false, //序列化data,如果true,不序列化
-			contentType:false,			
-			success:function(result){
-				if(result){
-					layer.msg('导入成功', {time: 2000}, function(){
-        				parent.refresh_iframe();
-        			});
-				}else{
-					layer.msg('导入失败，请检查导入Excel', {time: 2000});
-				}
-			},
-			error:function(e){
-				console.log("error");
-			},
-		});
-		
+		open_window('导入Excel','/manual/singleloss/showimportdesk', 500, 220);
 	}
 	// 搜索
 	function _search(){
@@ -237,12 +213,12 @@
 		});
 	}
     // 编辑
-    function _edit(){
-    	open_window('编辑手册','/manual/singleloss/getSingleLoss', 480, 350);
+    function _edit(id){
+    	open_window('编辑手册','/manual/singleloss/getSingleLoss/'+id, 780, 500);
     }
     // 新增
 	function _add(){
-		open_window('新增手册','/manual/singleloss/getSingleLoss', 480, 350);
+		open_window('新增手册','/manual/singleloss/getSingleLoss', 780, 500);
 	}
 	  // 删除以及批量删除
 	function _delete(){
@@ -260,8 +236,7 @@
 			   $.post("/manual/singleloss/delete/"+ids,function(result){
 				   layer.msg('删除成功',{time:2000},function(){
 					   parent.refresh_iframe();
-				   });
-				   
+				   });   
 			   })
 		   },function(){
 			   //取消后操作

@@ -108,25 +108,25 @@
 		                       <tr>	
 		                       		<td><input type="checkbox" name="sub" value="${endProduct.id}"></td>
 		                       		<td>${endProduct_index+1}</td>
-		                       		<td>${endProduct.product_record_num}</td>
-		                       		<td>${endProduct.product_code_and_extra}</td>
-		                       		<td>${endProduct.product_name}</td>
-		                       		<td>${endProduct.product_specification}</td>
-		                       		<td>${endProduct.product_unit}</td>
-		                       		<td>${endProduct.product_fixed_unit}</td>
-		                       		<td>${endProduct.product_report_num}</td>
-		                       		<td>${endProduct.product_report_unit_price}</td>
-		                       		<td>${endProduct.product_report_total_price}</td>
-		                       		<td>${endProduct.currency_system}</td>
-		                       		<td>${endProduct.product_pro_marker}</td>
-		                       		<td>${endProduct.fix_unit_ratio}</td>
-		                       		<td>${endProduct.product_levy_mode}</td>
-		                       		<td>${endProduct.product_handle_flag}</td>
-		                       		<td>${endProduct.product_report_state}</td>
-		                       		<td>${endProduct.remark}</td>
-		                       		<td>${endProduct.version}</td>
-		                       		<td>${endProduct.manual_no}</td>
-		                       		<td>${endProduct.customs_department}</td>
+		                       		<td>${endProduct.product_record_num!}</td>
+		                       		<td>${endProduct.product_code_and_extra!}</td>
+		                       		<td>${endProduct.product_name!}</td>
+		                       		<td>${endProduct.product_specification!}</td>
+		                       		<td>${endProduct.product_unit!}</td>
+		                       		<td>${endProduct.product_fixed_unit!}</td>
+		                       		<td>${endProduct.product_report_num!}</td>
+		                       		<td>${endProduct.product_report_unit_price!}</td>
+		                       		<td>${endProduct.product_report_total_price!}</td>
+		                       		<td>${endProduct.currency_system!}</td>
+		                       		<td>${endProduct.product_pro_marker!}</td>
+		                       		<td>${endProduct.fix_unit_ratio!}</td>
+		                       		<td>${endProduct.product_levy_mode!}</td>
+		                       		<td>${endProduct.product_handle_flag!}</td>
+		                       		<td>${endProduct.product_report_state!}</td>
+		                       		<td>${endProduct.remark!}</td>
+		                       		<td>${endProduct.version!}</td>
+		                       		<td>${endProduct.manual_no!}</td>
+		                       		<td>${endProduct.customs_department!}</td>
 		                       		<td><button class="btn btn-3 btn-xs"onclick="_edit(${endProduct.id})">编辑</button></td>		                       		
 		                       </tr>
 		                       </#list>
@@ -211,7 +211,8 @@
 						parent.refresh_iframe();
 					})
 				}else{
-					layer.msg('导入失败，检查导入Excel',{time:2000});
+					layer.msg('导入失败，检查导入Excel',{time:2000},function(){
+					});
 				}
 			},
 			error:function(e){
@@ -252,11 +253,11 @@
 	}
     // 编辑
     function _edit(id){
-    	open_window('编辑手册','/manual/endproduct/getEndProduct/'+id, 480, 350);
+    	open_window('编辑手册','/manual/endproduct/getEndProduct/'+id, 790, 600);
     }
     // 新增
 	function _add(){
-		open_window('新增手册','/manual/endproduct/getEndProduct', 480, 350);
+		open_window('新增手册','/manual/endproduct/getEndProduct', 790, 600);
 	}
     // 删除以及批量删除
 	function _delete(){

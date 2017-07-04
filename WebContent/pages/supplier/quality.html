@@ -55,13 +55,30 @@
                         <div class="container container-fluid">
                             <div class="row">
                                 <div class="col-sm-2 col-xs-4 head_2">
-                                    <input type="search" class="form-control" placeholder="供应商" name="forwarder" id="forwarder" value="${forwarder!}">
+                                    <input type="search" class="form-control" placeholder="公司名称" name="forwarder" id="forwarder" value="${forwarder!}">
+                                </div>
+                                <div class="col-sm-2 col-xs-4 head_2">
+                                    <input type="search" class="form-control" placeholder="简称" name="abbreviation" id="abbreviation" value="${abbreviation!}">
+                                </div>
+                                <div class="col-sm-2 col-xs-4 head_2">
+                                    <select id="state" class="form-control" name="state">
+					                    <option value="">请选择状态</option>
+					                    <option value="1" <#if (state!"9")=="1">selected="selected"</#if>>合格</option>
+					                    <option value="2" <#if (state!"9")=="2">selected="selected"</#if>>备选</option>
+					                    <option value="0" <#if (state!"9")=="0">selected="selected"</#if>>不合格</option>
+					                </select>
                                 </div>
                                 <div class="col-sm-1 col-xs-4 head_1">
                                     <button class="btn btn-primary" onclick="_search()">查询</button>
                                 </div>
-                                <div class="col-sm-2 col-xs-4 head_3">
-                                    <button class="btn btn-success" onclick="_add()">新增供应商资质</button>
+                                <div class="col-sm-1 col-xs-4 head_1">
+                                    <button class="btn btn-success" onclick="_add()">新增</button>
+                                </div>
+                                <div class="col-sm-1 col-xs-4 head_1">
+                                    <button class="btn btn-4 " onclick="_batchDelete()">删除</button>
+                                </div>
+                                <div class="col-sm-1 col-xs-4 head_1">
+                                    <button class="btn btn-9 " onclick="_refresh()"><i class="fa fa-refresh"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -71,6 +88,7 @@
                         <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
                             <thead>
                                 <tr>
+                                    <th><input type="checkbox" id="checkAll"></th>
                                     <th>序号</th>
                                     <th>注册代码</th>
                                     <th>货代名称</th>
@@ -85,11 +103,13 @@
                                 <#if qualityList?? && qualityList?size gt 0>
                                 <#list qualityList as quality>
                                 <tr>
+                                    <td><input type="checkbox" name="sub" _id="${quality.id}"></td>
                                     <td>${quality_index+1}</td>
                                     <td>${quality.registration_code}</td>
                                     <td>${quality.supplier_name}</td>
                                     <td>${quality.short_name}</td>
-                                    <td><p style="color:#6699FF;" id="fileName_${quality.id}">${quality.review_file!}</p></td>
+                                    <!-- <td><p style="color:#6699FF;" id="fileName_${quality.id}">${quality.review_file!}</p></td> -->
+                                    <td><a href="javascript:void(0)" style="color:#6699FF;" onclick="_getFileList(${quality.id})">查看</a></td>
                                     <td>${quality.remark}</td>
                                     <td>
                                         <#if quality.state==1>
@@ -104,10 +124,8 @@
                                     </td>
                                     <td>
                                         <button class="btn btn-3 btn-xs" onclick="_edit(${quality.id})">编辑</button>
-                                        <button class="btn btn-2 btn-xs" onclick="_cancel(this,${quality.id})" value="1" <#if quality.state!=2><#else>style="display:none;"</#if>>撤销</button>
-                                        <button class="btn btn-5 btn-xs" onclick="_verify(this,${quality.id})" value="2" <#if quality.state==2><#else>style="display:none;"</#if>>审核</button>
-                                        <button class="btn btn-9 btn-xs" onclick="_download(${quality.id})">下载</button>
-                                        <button class="btn btn-4 btn-xs" onclick="_delete(${quality.id})">删除</button>
+                                        <button class="btn btn-2 btn-xs" onclick="_cancel(this,${quality.id})" value="1" <#if quality.state==1><#else>style="display:none;"</#if>>冻结</button>
+                                        <button class="btn btn-5 btn-xs" onclick="_verify(this,${quality.id})" value="2" <#if quality.state==2><#else>style="display:none;"</#if>>恢复</button>
                                     </td>
                                 </tr>
                                 </#list>
@@ -156,12 +174,20 @@
 			var layer = layui.layer;
 			var forwarder = encodeURI($.trim($('#forwarder').val()));
 			if($.trim($('#forwarder').val())!=''){
-				var reg = /^[a-zA-Z0-9_\u0391-\uFFE5 ]{1,30}$/;
+				var reg = /^[a-zA-Z0-9_\u0391-\uFFE5\S]{1,30}$/;
 				if(!reg.test($('#forwarder').val())){
-					layer.tips('不允许有特殊字符，最多20个字符', '#forwarder', {tips: [1, '#34495E']});return;
+					layer.tips('不能包含空格、美元符号等特殊字符，最多 30 个字符', '#forwarder', {tips: [1, '#34495E']});return;
 				}					
 			}
-			location.replace('/supplier/quality/index/1-' + forwarder );
+			var abbreviation = $.trim($('#abbreviation').val());
+			if(abbreviation !== '') {
+				var reg = /^[a-zA-Z0-9_\u0391-\uFFE5\S]{1,15}$/;
+				if(!reg.test($('#abbreviation').val())){
+                    layer.tips('不能包含空格、美元符号等特殊字符，最多 15 个字符', '#abbreviation', {tips: [1, '#34495E']});return;
+                }
+			}
+			var state =$.trim($('#state').val());
+			location.replace('/supplier/quality?forwarder=' + forwarder + '&abbreviation=' + abbreviation + '&state=' + state);
 		})
 	}
     // 编辑
@@ -218,7 +244,7 @@
    	    });
     }
 
- 	// 删除
+ 	/* // 删除
     function _delete(id){
         //询问框
         layer.confirm('确认删除吗？', {
@@ -236,8 +262,45 @@
         }, function(){
 
         });
-    }
+    } */
+    //全选、全不选
+    $("#checkAll").click(function() {
+        $("input[name='sub']").prop("checked", this.checked);
+    });
+    $("input[name='sub']").click(function() {
+        var $subs = $("input[name='sub']");
+        $("#checkAll").prop("checked" , $subs.length == $subs.filter(":checked").length ? true :false);
+    });
+    // 删除
+    function _batchDelete(){
+        // 获取选中记录 id
+        var ids = "";
+        $(":checked[name='sub']").each(function(){
+            ids += $(this).attr('_id') + ",";
+        });
+        ids = ids.substring(0,ids.length -1);
+        // 如果没有选择，提示勾选至少一条数据
+        if (!ids) {
+            layer.msg('请至少选择一条记录', {time: 2000});
+        }
+        else {
+            // 询问框
+            layer.confirm('确认删除吗？', {
+                title: ['信息', 'font-weight:600;color:#fff;background-color: #3367D6;'],
+                btn: ['确认','取消'] //按钮
+            }, function(){
+                $.post("/supplier/quality/deleteQuality/" + ids,function(result) {
+                    if (result) {
+                        layer.msg('删除成功', {time: 2000}, function(){
+                            parent.refresh_iframe();
+                        });
+                    }
+                });
+            }, function(){
 
+            });
+        }
+    }
     // 下载资质文件
     function _download(id){
         // 未上传资质文件，提示并退出
@@ -258,6 +321,16 @@
         });
 
     }
+    // 刷新
+    function _refresh() {
+    	location = '/supplier/quality';
+    }
+    // 查看文件列表
+    function _getFileList(id) {
+    	open_window('附件明细','/supplier/quality/getFileList/'+id, 480, 350);
+    }
+    
+    
     </script>
 </body>
 </html>

@@ -50,4 +50,44 @@ public class SingleLossService {
 		});
 		return flag;
 	}
+	
+	/**
+	 * @author xuhui
+	 * @desc 保存以及修改单损耗表数据
+	 */
+	public static boolean saveSingleLoss(Map<String,Object> map){
+		Record record = new Record();
+		record.set("product_no", map.get("product_no"));
+		record.set("product_name", map.get("product_name"));
+		record.set("product_specification", map.get("product_specification"));
+		record.set("product_measurement_unit", map.get("product_measurement_unit"));
+		record.set("materials_no", map.get("materials_no"));
+		record.set("materials_name", map.get("materials_name"));
+		record.set("materials_specification", map.get("materials_specification"));
+		record.set("materials_measurement_unit", map.get("materials_measurement_unit"));
+		record.set("unit_loss", map.get("unit_loss"));
+		record.set("loss_rate", map.get("loss_rate"));
+		record.set("loss_handle_flag", map.get("loss_handle_flag"));
+		record.set("loss_handle_flag", map.get("loss_handle_flag"));
+		record.set("unbond_material_rate", map.get("unbond_material_rate"));
+		record.set("version", map.get("version"));
+		record.set("manual_no", map.get("manual_no"));
+		record.set("manual_no", map.get("manual_no"));
+		record.set("customs_department", map.get("customs_department"));
+		record.set("remark", map.get("remark"));
+		if(map.get("id")!=null&&map.get("id")!=""){
+			record.set("id", map.get("id"));
+			return Db.update("t_manual_loss", record);
+		}else{
+			return Db.save("t_manual_loss", record);
+		}
+	}
+	
+	/**
+	 * @author xuhui
+	 * @desc 根据id查询单挑数据
+	 */
+	public static Record getSingle(int id){
+		return	Db.findById("t_manual_loss", id);
+	}
 }

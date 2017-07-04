@@ -3,7 +3,9 @@ package stms.supplier.quality;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +16,7 @@ import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.upload.UploadFile;
 
 import stms.interceptor.ManageInterceptor;
+import stms.supplier.month.MonthService;
 
 /**
  * @ClassName: QualityController.java
@@ -32,22 +35,21 @@ public class QualityController extends Controller {
 	* @throws 
 	*/
 	public void index() {
-		Integer pageNumber = getParaToInt(0) == null ? 1 : getParaToInt(0);
-		String forwarder = getPara(1);
+	    // 公司名称
+		String forwarder = getPara("forwarder");
+		// 简称
+		String abbreviation = getPara("abbreviation");
+		setAttr("abbreviation", abbreviation);
+		// 状态
+		String state = getPara("state");
+		setAttr("state", state);
 		try {
 			forwarder = URLDecoder.decode(forwarder==null?"":forwarder, "utf-8");
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		/*Page<Record> qualityPage = QualityService.getQualityByPage(pageNumber,forwarder);
-		setAttr("qualityList", qualityPage.getList());
-		setAttr("pageNumber", qualityPage.getPageNumber());
-		setAttr("totalPage", qualityPage.getTotalPage());
-		setAttr("totalRow", qualityPage.getTotalRow());
-		setAttr("forwarder", forwarder);*/
 		
-		List<Record> list = QualityService.getQualityList(forwarder);
+		List<Record> list = QualityService.getQualityList(forwarder, abbreviation, state);
 		setAttr("qualityList", list);
 		setAttr("forwarder", forwarder);
 		render("quality.html");
@@ -206,11 +208,12 @@ public class QualityController extends Controller {
 	*/
 	public void deleteQuality() {
 		// 物流公司资质 id
-		Integer id = getParaToInt();
+	    String idStr = getPara();
+        String[] ids = idStr.split(",");
 		// 删除结果
-		boolean result = QualityService.deleteQuality(id);
-		
-		renderJson(result);
+		boolean result = QualityService.deleteQuality(ids);
+        
+        renderJson(result);
 	}
 	
 	/** 
@@ -278,5 +281,33 @@ public class QualityController extends Controller {
 
 	    renderNull();
     }
+    
+    // 查看资质文件列表
+    public void getFileList() {
+        // 资质 id
+        Integer id = getParaToInt();
+        // 物流公司资质
+        Record record = QualityService.getQualityById(id);
+        // 文件列表 TODO service
+        String[] fileStr = record.getStr("review_file").split(",");
+        List<Record> fileList = new ArrayList<>();
+        Record file = new Record();
+        if (!"".equals(fileStr[0])) {
+            for(int i = 0; i < fileStr.length; i++) {
+                file.set("fullName", fileStr[i]); // 文件全名：文件名 + 日期
+                String[] temp = fileStr[i].split("&");
+                file.set("name", temp[0]); // 文件名
+                file.set("uploadDate", temp[1]); // 日期
+                fileList.add(file);
+            }
+        }
+        
+        System.out.println(fileList);
+        setAttr("fileList", fileList);
+        
+        render("quality_file_list.html");
+    }
+    
+    
 
 }

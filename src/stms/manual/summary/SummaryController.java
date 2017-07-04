@@ -1,9 +1,9 @@
 package stms.manual.summary;
 
 import java.util.List;
+import java.util.Map;
 
 import com.jfinal.core.Controller;
-import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.upload.UploadFile;
 
 import stms.model.ManualSum;
@@ -50,7 +50,7 @@ public class SummaryController extends Controller{
 		
 		if (id != null) {// id 不为空，编辑手册
 			// 获取手册情况
-			Record summary = service.getSummary(id);
+			ManualSum summary = service.getSummary(id);
 			setAttr("summary", summary);
 		}
 		
@@ -133,7 +133,7 @@ public class SummaryController extends Controller{
 	    // 保存结果
 	    boolean result = false;
 	    // 手册
-	    ManualSum record = getModel(ManualSum.class);
+	    ManualSum record = getModel(ManualSum.class, "");
 	    // 保存
 	    result = service.saveOrUpdate(record);
 	    
@@ -156,6 +156,11 @@ public class SummaryController extends Controller{
         renderJson(result);
 	}
 	
+	public void importUI() {
+	    // 导入页面
+	    render("summary_import.html");
+	}
+	
 	/** 
 	* @Title: importByExcel 
 	* @Description: 导入 excel 中的数据
@@ -164,8 +169,21 @@ public class SummaryController extends Controller{
 	    // excel
 	    UploadFile uploadFile = getFile();
 	    
-	    boolean result = service.importByExcel(uploadFile);
+	    Map<String, Object> msgMap = service.importByExcel(uploadFile, getSession());
 	    
-	    renderJson(result);
+	    renderJson(msgMap);
 	}
+	
+	
+    /** 
+    * @Title: showErrorExcelMessage 
+    * @Description: 显示错误信息
+    */
+    public void showErrorExcelMessage(){
+        List<Integer> countlist = getSessionAttr("countWrongList");
+        boolean ErrorFile = getSessionAttr("ErrorFile");
+        setAttr("countlist", countlist);
+        setAttr("ErrorFile", ErrorFile);
+        render("wrong_message.html");
+    }
 }

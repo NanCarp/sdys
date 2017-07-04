@@ -3,6 +3,7 @@ package stms.supplier.quality;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.jfinal.kit.PropKit;
 import com.jfinal.plugin.activerecord.Db;
+import com.jfinal.plugin.activerecord.IAtom;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.upload.UploadFile;
@@ -46,7 +48,9 @@ public class QualityService {
 	*/
 	public static List<Record> getQualityList() {
 		String forwarder = "";
-		return getQualityList(forwarder);
+		String abbreviation = "";
+		String state = "";
+		return getQualityList(forwarder, abbreviation, state);
 	}
 	
 	/** 
@@ -55,7 +59,7 @@ public class QualityService {
 	* @return List<Record>
 	* @throws 
 	*/
-	public static List<Record> getQualityList(String forwarder) {
+	public static List<Record> getQualityList(String forwarder, String abbreviation, String state) {
 		String sql = " SELECT a.*, b.company_name AS supplier_name " +
 				" FROM t_supplier_qualification AS a " +
 				" LEFT JOIN t_company AS b " +
@@ -64,6 +68,14 @@ public class QualityService {
 		if (forwarder != ""){
 			sql += "AND b.company_name LIKE '%" + forwarder + "%'";
 		}
+		if (abbreviation != null && !"".equals(abbreviation)) {
+		    sql += "AND a.short_name LIKE '%" + abbreviation + "%'";
+		}
+		if (state != null && !"".equals(state)) {
+            sql += "AND a.state = " + state;
+        }
+		
+		// System.out.println(sql);
 		return Db.find(sql);
 	}
 
@@ -101,7 +113,7 @@ public class QualityService {
 	
 	/** 
 	* @Title: deleteQuality 
-	* @Description: 根据 id 删除供应商资质 TODO 同时删除信息管理记录
+	* @Description: 根据 id 删除供应商资质 
 	* @param id
 	* @return boolean
 	* @throws 
@@ -127,6 +139,39 @@ public class QualityService {
 
 		return result;
 	}
+	
+	/** 
+    * @Title: deleteMonth 
+    * @Description: 根据 id 数组删除供应商资质 
+    * @param ids
+    * @return boolean
+    * @throws 
+    */
+    public static boolean deleteQuality(String[] ids) {
+        boolean succeed = Db.tx(new IAtom(){
+            boolean result = false;
+            @Override
+            public boolean run() throws SQLException {
+                for (String id: ids){
+                    /*// 待删除文件名
+                    String fileName = getQualityById(Integer.parseInt(id)).getStr("file");
+                    // 删除资质 
+                    result = Db.deleteById("t_supplier_qualification", id);
+                    if (result == false) {
+                        break;
+                    }
+                    // 删除对应附件
+                    deleteFile(fileName);*/
+                    result = deleteQuality(Integer.parseInt(id));
+                    
+                }
+                return result;
+            }
+            
+        });
+        
+        return succeed;
+    }
 	
 	/** 
 	* @Title: verifyQuality 
@@ -256,5 +301,18 @@ public class QualityService {
         }
         out.close();
     }
+
+
+    /** 
+    * @Title: getFileList 
+    * @Description: 获取物流公司附件列表 
+    * @param id void
+     * @return 
+    */
+    /*public static String getFileList(Integer id) {
+        Record record = Db.findById("t_supplier_qualification", id);
+        String fileList = record.get("review_file");
+        return fileList;
+    }*/
 
 }

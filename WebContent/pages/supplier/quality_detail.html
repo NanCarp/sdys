@@ -242,23 +242,26 @@ $('#defaultForm').bootstrapValidator({
 		validating: 'glyphicon glyphicon-refresh'
 	},
 	fields: {
-		forwarder: {
+		companyId: {
 			validators: {
 				notEmpty: {
 					message: '请选择供应商!'
 				}
-			}
+			},
 		},
 		abbreviation: {
 			validators: {
-                regexp: {
-                 regexp: /^[a-zA-Z0-9_\u0391-\uFFE5]+$/,
-                 message: '不允许有特殊字符'
+				notEmpty: {
+                    message: '不能为空!'
                 },
+			    regexp: {
+					regexp: /^[a-zA-Z0-9_\u0391-\uFFE5\S]+$/,
+					message: '不能包含空格、美元符号等特殊字符'
+				},
                 stringLength: {
-                    min: 0,
+                    min: 2,
                     max: 20,
-                    message: '最多20个字符'
+                    message: '2~15个字符'
                 }
 			}
 		},
@@ -278,8 +281,8 @@ $('#defaultForm').bootstrapValidator({
 			validators: {
 				stringLength: {
                     min: 0,
-                    max: 200,
-                    message: '最多200个字符'
+                    max: 100,
+                    message: '最多100个字符'
                 }
 			}
 		}
@@ -287,7 +290,11 @@ $('#defaultForm').bootstrapValidator({
 })
 .on('success.form.bv', function(e) {
 	e.preventDefault();
-    var id = $('#id').val();
+    var id = $('#id').val();// 资质 id
+    var msg = "新增物流公司资质成功！";// 提示信息
+    if (id != null) {
+    	msg = "编辑物流公司资质成功！";
+    }
     var companyId = $('#companyId').val();
     var abbreviation = $('#abbreviation').val();
     var state = $('#state').val();
@@ -298,13 +305,13 @@ $('#defaultForm').bootstrapValidator({
 
     $.post("/supplier/quality/saveQuality", postData, function(result) {
 		if (result) {
-			parent.layer.msg("保存成功", {time: 2000}, function(){
+			parent.layer.msg(msg, {time: 2000}, function(){
 				layer_close();
 				parent.parent.refresh_iframe();
 			});
 
 		} else {
-			parent.layer.msg('保存失败', {time: 2000});
+			parent.layer.msg('系统异常，请稍后再试！', {time: 2000});
 		}
 	});
 
