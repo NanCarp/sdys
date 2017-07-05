@@ -2,7 +2,11 @@ package stms.base;
 import com.jfinal.config.Routes;
 
 import stms.login.LoginController;
+
+import stms.manual.endproduct.EndProductController;
+import stms.manual.singleloss.SingleLossController;
 import stms.manual.importation.ImportationController;
+
 import stms.manual.summary.SummaryController;
 import stms.supplier.info.InfoController;
 import stms.supplier.level.LevelController;
@@ -73,7 +77,14 @@ public class AdminRoutes extends Routes{
 		
 		// 手册情况汇总
 		add("/manual/summary", SummaryController.class, "/manual");
+
+		//手册管理-成品表体
+		add("/manual/endproduct",EndProductController.class,"/manual");
+		//手册管理-单损耗表
+		add("/manual/singleloss",SingleLossController.class,"/manual");
+
 		// 进口明细
 		add("/manual/importation", ImportationController.class, "manual");
+
 	}
 }

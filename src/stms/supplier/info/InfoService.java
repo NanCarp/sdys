@@ -103,4 +103,8 @@ public class InfoService {
 		return Db.find("SELECT * FROM t_supplier_level");
 	}
 
+	// 联系人
+    public static List<Record> getContactList(Integer id) {
+		return Db.find("SELECT * FROM t_supplier_contacts WHERE supplier_id = ? ", id);
+    }
 }

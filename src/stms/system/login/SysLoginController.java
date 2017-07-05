@@ -19,16 +19,12 @@ public class SysLoginController extends Controller {
 	 public void index() {
 		 	String accountnum = getPara("accountnum");
 		 	String beginyear = getPara("beginyear");
-		 	String lastyear = getPara("lastyear");
-		 	
-		 	System.out.println(accountnum+beginyear+lastyear);
-		 	
+		 	String lastyear = getPara("lastyear");	 		 	
 	    	List<Record> userloginList = LoginService.getUserLog(accountnum,beginyear,lastyear);
 	    	setAttr("userloginList", userloginList);
 	    	setAttr("accountnum", accountnum);
 	    	setAttr("beginyear", beginyear);
-	    	setAttr("lastyear", lastyear);
-	    	
+	    	setAttr("lastyear", lastyear);	
 	    	render("login_log.html");
 	    }
 	 

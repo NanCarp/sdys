@@ -75,7 +75,6 @@
 <script src="../../../dist/js/sb-admin-2.js"></script>
 <script src="../../../resource/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
 <script src="../../../js/common/admin.js"></script>
-<script src="../../../resource/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
 <script src="../../../resource/bootstrap-fileinput/js/fileinput.js"></script>
 <script src="../../../resource/bootstrap-fileinput/js/locales/zh.js"></script>
 <script type="text/javascript">
@@ -116,7 +115,7 @@ $(function(){
 	var formData = new FormData();
 	formData.append("file",$("#file")[0].files[0]);	
 	$.ajax({
-		url:"/manual/singleloss/importExcel",
+		url:"/manual/endproduct/importExcel",
 		type:"POST",
 		data:formData,
 		processData:false,

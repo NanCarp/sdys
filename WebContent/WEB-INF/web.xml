@@ -15,4 +15,8 @@
 		<filter-name>stms</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+	
+	<listener>
+	<listener-class>stms.utils.SessionListener</listener-class>
+	</listener>
 </web-app>

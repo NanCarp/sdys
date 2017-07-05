@@ -92,4 +92,11 @@ function loginOut(){
 	layer.confirm('登录过期，重新登录？',function(index){
 		location.replace('/pages/login');
 	});
+}	
+
+//多账号登录退出
+function conflictOut(){
+	layer.confirm('您的账号在别处登录，请重新登录？',function(index){
+		location.replace('/pages/login');
+	});
 }

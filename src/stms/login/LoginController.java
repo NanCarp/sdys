@@ -2,25 +2,29 @@ package stms.login;
 
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import com.jfinal.aop.Before;
 import com.jfinal.aop.Clear;
 import com.jfinal.core.Controller;
+import com.jfinal.core.JFinal;
 import com.jfinal.plugin.activerecord.Record;
-
 import com.jfinal.plugin.activerecord.Db;
 import stms.interceptor.ManageInterceptor;
 
 import stms.utils.CountTime;
 import stms.utils.MD5Util;
+import stms.utils.MySessionContext;
 
 
 /**
@@ -38,7 +42,7 @@ public class LoginController extends Controller{
 	* @param 
 	* @return void
 	* @throws 
-	*/
+	*/	
 	public void index(){
 		//  session 获取用户
 		Record user = getSessionAttr("user");
@@ -70,7 +74,7 @@ public class LoginController extends Controller{
 	
 	/**
 	 * @Title:amdinLogin
-	 * @desc 判定用户名以及密码，同一个账户密码连续输错三次限制登录时间；
+	 * @desc 判定用户名以及密码，同一个账户密码连续输错三次限制登录时间,单点登录
 	 * @return void 
 	 * @throws UnsupportedEncodingException 
 	 * @throws NoSuchAlgorithmException 
@@ -80,7 +84,7 @@ public class LoginController extends Controller{
 		String username = getPara("username");
 		String password = getPara("password");
 		boolean isInsider = getParaToBoolean("isInsider"); // 内部人员标识
-		
+
 		boolean result = false;//判定返回结果，true即验证正确
 		boolean flag= true;//判定map中是否存在该key，false即存在
 		boolean v = false;//MD5比对密码结果，true为正确
@@ -104,6 +108,39 @@ public class LoginController extends Controller{
 				if(v&&count<3){
 					result = true;
 					msg = "登录成功";
+					
+			/**********单点登录************/	
+					//获取全局application对象
+					ServletContext application = JFinal.me().getServletContext();
+					//判断sessionMap是否存在
+					if(application.getAttribute("sessionMap")!=null){
+						boolean kkit = true;
+						Map sessionMap = (Map) application.getAttribute("sessionMap");
+						Set<String> keys = sessionMap.keySet();
+						for(String key:keys){
+							System.out.println(key);
+							if(key.equals(username)){
+								if(!getSession().getId().equals(sessionMap.get(key))){
+									MySessionContext myc = MySessionContext.getInstance();
+									HttpSession sess = myc.getSession((String)sessionMap.get(key));
+									sess.invalidate();
+									sessionMap.put(username, getSession().getId());
+									application.setAttribute("sessionMap", sessionMap);
+									kkit = false;
+								}
+							}
+						}
+						if(kkit){
+							sessionMap.put(username, getSession().getId());
+							application.setAttribute("sessionMap", sessionMap);
+						}				
+					}else{
+						Map<String,String> sessionMap = new HashMap<String,String>();
+						sessionMap.put(username, getSession().getId());
+						application.setAttribute("sessionMap", sessionMap);	
+					}					
+			/***********************/	
+					
 					getSession().setAttribute("admin", admin);
 					Cookie cookie = new Cookie("stms", ""+admin.getInt("id"));
 					cookie.setMaxAge(60*60*24*7);
@@ -129,12 +166,12 @@ public class LoginController extends Controller{
 										k++;
 										map.put(username, k);
 										getSession().setAttribute("countMap", map);
-										msg="信息错误三次或以上,稍后再试";
+										msg="错误次数已达上限,十分钟之后再试";
 									}else{
 										k++;
 										map.put(username, k);
 										getSession().setAttribute("countMap", map);
-										msg="信息错误三次或以上,稍后再试";
+										msg="错误次数已达上限,十分钟之后再试";
 									}
 									result = false;
 									flag = false;
@@ -144,21 +181,108 @@ public class LoginController extends Controller{
 								Integer countt = 1;
 								map.put(username, countt);
 								getSession().setAttribute("countMap", map);
-								msg="用户名和密码错了啦";
+								msg="用户名或密码错误";
 								result = false;
 							}
 					}
 				}
 			}else{
-				int count = 1;
-				map.put(username, count);
-				getSession().setAttribute("countMap", map);
-				msg="用户名或密码错误";
+				admin = LoginService.getLoginInfo(username); 
+				if(admin!=null){
+					 v = MD5Util.validPassword(password, admin.getStr("password"));
+					 if(v){
+						 result = true;
+						 msg = "登录成功";
+						 
+							//单点登录
+							ServletContext application = JFinal.me().getServletContext();			
+							if(application.getAttribute("sessionMap")!=null){
+								boolean kkit = true;
+								Map sessionMap = (Map) application.getAttribute("sessionMap");
+								Set<String> keys = sessionMap.keySet();
+								for(String key:keys){
+									System.out.println(key);
+									if(key.equals(username)){
+										if(!getSession().getId().equals(sessionMap.get(key))){
+											MySessionContext myc = MySessionContext.getInstance();
+											HttpSession sess = myc.getSession((String)sessionMap.get(key));
+											sess.invalidate();
+											sessionMap.put(username, getSession().getId());
+											application.setAttribute("sessionMap", sessionMap);
+											kkit = false;
+										}
+									}
+								}
+								if(kkit){
+									sessionMap.put(username, getSession().getId());
+									application.setAttribute("sessionMap", sessionMap);
+								}				
+							}else{
+								Map<String,String> sessionMap = new HashMap<String,String>();
+								sessionMap.put(username, getSession().getId());
+								application.setAttribute("sessionMap", sessionMap);	
+							}
+							
+						 getSession().setAttribute("admin", admin);
+						 Cookie cookie = new Cookie("stms", ""+admin.getInt("id"));
+						 
+						 JFinal.me().getServletContext().setAttribute("sessionid", getSession().getId());; 
+						 System.out.println("#########"+JFinal.me().getServletContext().getAttributeNames());
+						 
+						 cookie.setMaxAge(60*60*24*7);
+						 cookie.setPath("/login/");
+						 getResponse().addCookie(cookie);
+					 }else{
+						 int count = 1;
+						 map.put(username, count);
+						 getSession().setAttribute("countMap", map);
+						 result = false;
+						 msg = "用户名或密码错误";
+					 }
+				}else{
+					int count = 1;
+					map.put(username, count);
+					getSession().setAttribute("countMap", map);
+					msg="用户名或密码错误";
+					result = false;
+				}
+				
 			}
 		}else{
 			if(v){
 				result = true;
 				msg = "登录成功";
+				
+				//单点登录
+				ServletContext application = JFinal.me().getServletContext();			
+				if(application.getAttribute("sessionMap")!=null){
+					boolean kkit = true;
+					Map sessionMap = (Map) application.getAttribute("sessionMap");
+					Set<String> keys = sessionMap.keySet();
+					for(String key:keys){
+						System.out.println(key);
+						if(key.equals(username)){
+							if(!getSession().getId().equals(sessionMap.get(key))){
+								MySessionContext myc = MySessionContext.getInstance();
+								HttpSession sess = myc.getSession((String)sessionMap.get(key));
+								System.out.println("1111####"+(String)sessionMap.get(key));
+								sess.invalidate();
+								sessionMap.put(username, getSession().getId());
+								application.setAttribute("sessionMap", sessionMap);
+								kkit = false;
+							}
+						}
+					}
+					if(kkit){
+						sessionMap.put(username, getSession().getId());
+						application.setAttribute("sessionMap", sessionMap);
+					}				
+				}else{
+					Map<String,String> sessionMap = new HashMap<String,String>();
+					sessionMap.put(username, getSession().getId());
+					application.setAttribute("sessionMap", sessionMap);	
+				}
+				
 				getSession().setAttribute("admin", admin);
 				Cookie cookie = new Cookie("morality", ""+admin.getInt("id"));
 				cookie.setMaxAge(60*60*24*7);
@@ -187,6 +311,7 @@ public class LoginController extends Controller{
 				result = false;	
 			}
 		}
+		System.out.println("末尾数字"+getSession().getId());
 		responseMap.put("result", result);	
 		responseMap.put("msg", msg);
 		renderJson(responseMap);
@@ -260,15 +385,19 @@ public class LoginController extends Controller{
 	/**
 	 * @desc:退出登录
 	 */
-	@Clear
-	public void loginOut(){
-		
+	public void loginOut(){		
+		ServletContext application = JFinal.me().getServletContext();
+		Map sessionMap = (Map) application.getAttribute("sessionMap");
+		Record admin = getSessionAttr("admin");
+		String username = admin.getStr("account");
+		sessionMap.remove(username);
+		application.setAttribute("sessionMap", sessionMap);
 		Map<String, Object> loginRecordMap = (Map<String, Object>) getSession().getAttribute("loginRecordMap");
 		if(loginRecordMap!=null){
 			System.out.println(loginRecordMap);
 			boolean b = LoginService.saveLoginMessage(loginRecordMap);
 		}
 		getSession().invalidate();
-		render("login.html");
+		redirect("/pages/login");
 	}
 }

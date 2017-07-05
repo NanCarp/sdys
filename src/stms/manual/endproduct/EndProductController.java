@@ -1,9 +1,12 @@
 package stms.manual.endproduct;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Db;
@@ -20,15 +23,17 @@ import stms.utils.ExcelKit;
  * @version: 1.0 版本初成
  */
 public class EndProductController extends Controller {
-
+	
+	/**
+	 * @author xuhui
+	 * @desc 展示成品表体页面
+	 */
 	public void index(){
 		String manualno = getPara("manualno");
 		String recordno = getPara("recordno");
 		String productname = getPara("productname");
-		
-		System.out.println(manualno+recordno+productname);
-
 		List endProductList = EndProductService.getEndProductList(manualno,recordno,productname);
+		
 		setAttr("endProductList", endProductList);
 		setAttr("manualno", manualno);
 		setAttr("recordno", recordno);
@@ -37,33 +42,67 @@ public class EndProductController extends Controller {
 	}
 	
 	/**
-	 * @desc:导入excel
-	 * @author:xuhui
+	 * @desc 显示导入界面
+	 * @author xuhui
+	 */
+	public void showimportdesk(){
+		render("end_product_import.html");
+	}
+	
+	/**
+	 * @author xuhui
+	 * @desc 导入Excel
 	 */
 	public void importExcel(){
-		boolean flag = Db.tx(new IAtom() {		
+		Map<String,Object> map = new HashMap<String,Object>();
+		List countWrongList = new ArrayList();
+		boolean flag = Db.tx(new IAtom() {	
 			@Override
 			public boolean run() throws SQLException {
 				// TODO Auto-generated method stub
-				try{
-					UploadFile up = getFile("file");
-					List<String[]> list = ExcelKit.getExcelData(up.getFile());
-					System.out.println(list);
-					for(String[] strings :list){
-						if(strings[0]!=null&&!"".equals(strings[0])){
-							Record record = new Record();
+				UploadFile file = getFile("file");
+				List<String[]> list=ExcelKit.getExcelData(file.getFile());	
+				System.out.println(list);
+				//导入excel返回结果，true导入正确，false导入错误
+				boolean result = true;
+				//该Excel导入列数应为16列，不符合16列即为错误导入excel文件
+				if(list.get(0).length!=19){
+					getSession().setAttribute("ErrorFile",true);
+					result = false;
+				}else{
+					getSession().setAttribute("ErrorFile",false);
+					//检测所有被导入的excel数据是否含有特殊字符
+					for(int i=0;i<=list.size()-1;i++){
+						String[] strings = list.get(i);	
+						for(int k=0;k<=strings.length-1;k++){
+							if(match(strings[k])){
+								countWrongList.add(i+2+"排"+(k+1)+"列");
+								result = false;
+							}
+						}
+						try{
+							Record record = new Record();						
 							record.set("product_record_num", strings[0]);
 							record.set("product_code_and_extra",strings[1] );
 							record.set("product_name", strings[2]);
+							int kk =3;
 							record.set("product_specification", strings[3]);
 							record.set("product_unit", strings[4]);
-							record.set("product_fixed_unit", strings[5]);
-							record.set("product_report_num",strings[6] );
-							record.set("product_report_unit_price", strings[7]);
-							record.set("product_report_total_price", strings[8]);
+							record.set("product_fixed_unit", strings[5]);	
+							if(strings[6] != null && !"".equals(strings[6])){
+								record.set("product_report_num",strings[6]);
+							}	
+							if(strings[7]!=null&&!"".equals(strings[6])){
+								record.set("product_report_unit_price", strings[7]);
+							}
+							if(strings[8]!=null && !"".equals(strings[8])){
+								record.set("product_report_total_price", strings[8]);
+							}							
 							record.set("currency_system", strings[9]);
 							record.set("product_pro_marker", strings[10]);
-							record.set("fix_unit_ratio", strings[11]);
+							if(strings[11]!=null&&!"".equals(strings[11])){
+								record.set("fix_unit_ratio", strings[11]);
+							}
 							record.set("product_levy_mode", strings[12]);
 							record.set("product_handle_flag",strings[13] );
 							record.set("product_report_state", strings[14]);
@@ -72,24 +111,40 @@ public class EndProductController extends Controller {
 							record.set("manual_no", strings[17]);
 							record.set("customs_department", strings[18]);
 							Db.save("t_manual_product", record);
+						}catch(Exception e){
+							//countWrongList记录错误行数，不重复显示错误行数；
+							//指定一个判定对象，如果countWrongList已有该行数则返回false，否则返回true；
+							countWrongList.add(i+2+"行"+"存在数据异常，请校验");
+							result = false;
 						}
 					}
-					
-				}catch(Exception e){
-					e.printStackTrace();
-					return false;	
 				}
-				return false;
+				return result;
 			}
-		});
-		renderJson(flag);
+		});		
+		map.put("flag", flag);
+		getSession().setAttribute("countWrongList", countWrongList);
+		renderJson(map);
 	}
 	
+	/**
+	 * @desc 将错误行数或者文件错误显示在页面上
+	 * @author xuhui
+	 */
+	public void showErrorExcelMessage(){
+	List<Integer> countlist = getSessionAttr("countWrongList");
+	boolean ErrorFile = getSessionAttr("ErrorFile");
+	setAttr("countlist", countlist);
+	setAttr("ErrorFile", ErrorFile);
+	render("wrong_message.html");
+	}
+
 	/**
 	 * @desc:打开成品表体修改以及新增表
 	 * @author:xuhui
 	 */
 	public void getEndProduct(){
+		//如果参数getParaToInt(0)不为空即前台传参id不为空，即表示修改成品表体单挑数据
 		if(getParaToInt(0)!=null){
 			int id = getParaToInt(0);
 			Record endpro = EndProductService.getProduct(id);
@@ -97,6 +152,7 @@ public class EndProductController extends Controller {
 		} 
 		render("end_product_detail.html");
 	}
+	
 	/**
 	 * @desc:成品表体保存
 	 * @author:xuhui
@@ -127,16 +183,23 @@ public class EndProductController extends Controller {
 		renderJson(result);
 	}
 	
-	
 	/**
 	 * @desc:批量删除
 	 * @author xuhui
 	 */
-	
 	public void delete(){
 		String ids = getPara(0);
 		boolean result = EndProductService.delete(ids);
-		System.out.println(ids);
 		renderJson(result);
+	}
+	
+	/**
+	 * @desc 验证导入excel输入的正则验证
+	 * @author xuhui
+	 */
+	public boolean match(String str){
+		Pattern pattern = Pattern.compile("[`~!@#$%^&*()+=|{}':;',\\[\\]<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]");
+		Matcher matcher = pattern.matcher(str);
+		return matcher.find(); 
 	}
 }

@@ -40,12 +40,12 @@
 			_commSetting(option);
 			var inputV;
 			if(settings.inputID){
-				inputV=$('#' + settings.inputID).val();
+				inputV=$('#' + settings.inputID).val().toLowerCase();
 			}else{
-				inputV=$(_set.store).val();
+				inputV=$(_set.store).val().toLowerCase();
 			}
-			
-			if(inputV == _storeData(_set.storeLable, null)){
+
+			if(inputV == _storeData(_set.storeLable, null).toLowerCase()){
 				return true;
 			}else{
 				_setCodeStyle("#"+settings.e, settings.codeType.name, settings.codeType.len);				

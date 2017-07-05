@@ -281,7 +281,18 @@ public class QualityController extends Controller {
 
 	    renderNull();
     }
-    
+
+    // 根据文件名下载文件
+	public void downloadByFileName() throws IOException {
+		// 文件名
+		String fileName = getPara("fullName");
+		// 下载资质文件
+		QualityService.downloadFile(getResponse(), fileName);
+
+		renderNull();
+	}
+
+
     // 查看资质文件列表
     public void getFileList() {
         // 资质 id
@@ -295,7 +306,7 @@ public class QualityController extends Controller {
         if (!"".equals(fileStr[0])) {
             for(int i = 0; i < fileStr.length; i++) {
                 file.set("fullName", fileStr[i]); // 文件全名：文件名 + 日期
-                String[] temp = fileStr[i].split("&");
+                String[] temp = fileStr[i].split("@");
                 file.set("name", temp[0]); // 文件名
                 file.set("uploadDate", temp[1]); // 日期
                 fileList.add(file);

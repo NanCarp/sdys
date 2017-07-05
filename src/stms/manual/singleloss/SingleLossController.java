@@ -44,47 +44,57 @@ public class SingleLossController extends Controller {
 	 * @desc:导入excel
 	 * @author:xuhui
 	 */
-	/*
 	public void importExcel(){
-		boolean flag = Db.tx(new IAtom() {		
+		Map<String,Object> map = new HashMap<String,Object>();
+		List countWrongList = new ArrayList();
+		boolean flag = Db.tx(new IAtom() {	
 			@Override
-			public boolean run() throws SQLException {
+			public boolean run() throws SQLException {				
 				// TODO Auto-generated method stub
-				try{
-					UploadFile file = getFile("file");
-					List<String[]> list=ExcelKit.getExcelData(file.getFile());
-					boolean result = true;
-					
-					lable:
-					for(String[] string:list){
-						//验证excel表格是否有特殊字符！
-						for(int i=0;i<=14;i++){
-							if(match(string[i])){//匹配正则表达式，如果存在特殊字符则返回true；								
-								result = false;
-								break lable;
+				UploadFile file = getFile("file");
+				List<String[]> list=ExcelKit.getExcelData(file.getFile());	
+				System.out.println(list);
+				//导入excel返回结果，true导入正确，false导入错误
+				boolean result = true;
+				//该Excel导入列数应为16列，不符合16列即为错误导入excel文件
+				if(list.get(0).length!=16){
+					getSession().setAttribute("ErrorFile",true);
+					result = false;
+				}else{
+					getSession().setAttribute("ErrorFile",false);
+					//检测所有被导入的excel数据是否含有特殊字符
+					for(int i=0;i<=list.size()-1;i++){
+						String[] string = list.get(i);	
+						for(int k=0;k<=string.length-1;k++){
+							if(match(string[k])){
+								countWrongList.add(i+2+"排"+(k+1)+"列");
 							}
 						}
-						//以excel表格每行第一列做判断是否为空，为空值则表示excel已经结束即循环到达最下面一行
-						if(string[0]!=null&&!"".equals(string[0])){
+						try{
 							Record record = new Record();
 							record.set("product_no", string[0]);
-							record.set("product_name", string[1]);
+							record.set("product_name", string[1]);							
 							record.set("product_specification", string[2]);
 							record.set("product_measurement_unit", string[3]);
 							if(string[4]!=null&&!"".equals(string[4])){
 								record.set("materials_no", string[4]);
 							}							
 							record.set("materials_name", string[5]);
-							record.set("materials_specification", string[6]);
+							if(string[4]!=null&&!"".equals(string[4])){
+								record.set("materials_no", string[4]);
+							}	
+							if(string[6]!=null&&!"".equals(string[6])){
+								record.set("materials_specification", string[6]);
+							}
 							record.set("materials_measurement_unit", string[7]);
 							if(string[8]!=null&&!"".equals(string[8])){
 								record.set("unit_loss", string[8]);
 							}
-							if(string[9]!=null&&"".equals(string[9])){
+							if(string[9]!=null&&!"".equals(string[9])){
 								record.set("loss_rate", string[9]);
 							}
 							record.set("loss_handle_flag", string[10]);
-							if(string[11]!=null&&"".equals(string[11])){
+							if(string[11]!=null&&!"".equals(string[11])){
 								record.set("unbond_material_rate", string[11]);
 							}
 							record.set("version", string[12]);
@@ -92,102 +102,22 @@ public class SingleLossController extends Controller {
 							record.set("customs_department", string[14]);
 							record.set("remark", string[15]);
 							Db.save("t_manual_loss", record);
+						}catch(Exception e){				
+							countWrongList.add(i+2+"行"+"存在数据异常，请校验");
+							result = false;
 						}
 					}
-						return result;
-					}catch(Exception e){
-						e.printStackTrace();
-						return false;	
-					}
-			}
-		});
-		renderJson(flag);
-	}
-	*/
-	public void importExcel(){
-		Map<String,Object> map = new HashMap<String,Object>();
-		List<Integer> countWrongList = new ArrayList<Integer>();
-		boolean flag = Db.tx(new IAtom() {	
-			@Override
-			public boolean run() throws SQLException {
-				// TODO Auto-generated method stub
-				UploadFile file = getFile("file");
-				List<String[]> list=ExcelKit.getExcelData(file.getFile());	
-				System.out.println(list);
-				//导入excel返回结果，true导入正确，false导入错误
-				boolean result = true;
-				System.out.println(list.get(0).length);
-				if(list.get(0).length!=16){
-					getSession().setAttribute("ErrorFile",true);
-					result = false;
-				}else{
-					getSession().setAttribute("ErrorFile",false);
-					//检测所有被导入的excel数据是否含有特殊字符
-				for(int i=0;i<=list.size()-1;i++){
-					String[] string = list.get(i);	
-					for(int k=0;k<=string.length-1;k++){
-						if(match(string[k])){
-							countWrongList.add(i+2);
-						}
-					}
-					try{
-						Record record = new Record();
-						record.set("product_no", string[0]);
-						record.set("product_name", string[1]);
-						record.set("product_specification", string[2]);
-						record.set("product_measurement_unit", string[3]);
-						if(string[4]!=null&&!"".equals(string[4])){
-							record.set("materials_no", string[4]);
-						}							
-						record.set("materials_name", string[5]);
-						if(string[4]!=null&&!"".equals(string[4])){
-							record.set("materials_no", string[4]);
-						}	
-						if(string[6]!=null&&!"".equals(string[6])){
-							record.set("materials_specification", string[6]);
-						}
-						record.set("materials_measurement_unit", string[7]);
-						if(string[8]!=null&&!"".equals(string[8])){
-							record.set("unit_loss", string[8]);
-						}
-						if(string[9]!=null&&"".equals(string[9])){
-							record.set("loss_rate", string[9]);
-						}
-						record.set("loss_handle_flag", string[10]);
-						if(string[11]!=null&&"".equals(string[11])){
-							record.set("unbond_material_rate", string[11]);
-						}
-						record.set("version", string[12]);
-						record.set("manual_no", string[13]);
-						record.set("customs_department", string[14]);
-						record.set("remark", string[15]);
-						Db.save("t_manual_loss", record);
-					}catch(Exception e){
-						//指定一个判定对象，如果countWrongList已有该行数则返回false，否则返回true；
-						boolean countflag = true;
-						for(Integer column:countWrongList){
-							if(column==i){
-								countflag = false;
-							}
-						}
-						if(!countflag){
-							countWrongList.add(i+2);
-						}
-						result = false;
-					}
-				}
 				}
 				return result;
 			}
-		});		
-		System.out.println(flag);
+		});
 		map.put("flag", flag);
 		getSession().setAttribute("countWrongList", countWrongList);
 		renderJson(map);
 	}
 	
 	/**
-	 * @desc 显示错误信息
+	 * @desc 将错误行数或者文件错误显示在页面上
 	 * @author xuhui
 	 */
 	public void showErrorExcelMessage(){

@@ -22,7 +22,7 @@
 <body>
 <div style="padding: 0 20px">
 <#if ErrorFile>
-	<div style="font-weight: 700;font-size: 16px;margin-left: 16px;color: red;margin-top: 100px;margin-left: 40px">您导入的Excel可能存在错误，请校验后重新导入！</div>
+	<div style="font-weight: 700;font-size: 16px;margin-left: 16px;color: red;margin-top: 80px;margin-left: 40px">您可能导入了错误的Excel文件，请校验后重新导入！</div>
 <#else>
 <table width="50%" class="table table-striped table-bordered table-hover" >
 <span style="font-weight: 700;font-size: 16px;color: red">您导入的Excel存在数据错误，请检查如下行数信息:</span>
@@ -32,7 +32,7 @@
 			序号
 		</th>
 		<th style="max-width: 2px">
-			错误行数
+			错误提示
 		</th>
 	</tr>
 </thead>
@@ -41,7 +41,7 @@
 		<#list countlist as count>
 			<tr>
 				<th>${count_index+1}</th>
-				<th>${count}行</th>
+				<th>${count}</th>
 			</tr>
 		</#list>
 	</#if>

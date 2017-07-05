@@ -126,6 +126,7 @@
                                         <button class="btn btn-3 btn-xs" onclick="_edit(${quality.id})">编辑</button>
                                         <button class="btn btn-2 btn-xs" onclick="_cancel(this,${quality.id})" value="1" <#if quality.state==1><#else>style="display:none;"</#if>>冻结</button>
                                         <button class="btn btn-5 btn-xs" onclick="_verify(this,${quality.id})" value="2" <#if quality.state==2><#else>style="display:none;"</#if>>恢复</button>
+                                        <button class="btn btn-5 btn-xs" <#if quality.state==0>style="visibility:hidden;"<#else>style="display:none;"</#if>>隐藏</button>
                                     </td>
                                 </tr>
                                 </#list>
