@@ -55,18 +55,128 @@
 <div id="myTabContent" class="tab-content">
     <div class="tab-pane fade in active" id="tab1">
         <form id="defaultForm" class="form-horizontal" role="form">
-            
+            <#if info??>
+                <input hidden="" name="id" value="${info.id!}" id="id">
+                <input hidden="" name="supplierId" value="${info.supplier_id!}" id="supplierId">
+                <input hidden="" name="contacts" value="" id="contacts">
+                <div class="container">
+                    <div class="col-xs-4">
+                        <div class="form-group form-group-sm">
+                            <label class="col-xs-6 control-label text-right" for="year">年份：</label>
+                            <div class="col-xs-6">
+                                <input class="form_year form-control" id="year" type="text" placeholder="年份"  name="year" value="${info.year!}"/>
+                            </div>
+                        </div>
+                        <div class="form-group form-group-sm">
+                            <label class="col-xs-6 control-label text-right" for="level">等级：</label>
+                            <div class="col-xs-6">
+                                <select id="level" class="form-control" name="level">
+                                    <option value="">等级</option>
+                                    <#if levelList ?? && levelList?size gt 0>
+                                        <#list levelList as level>
+                                            <option value="${level.supplier_level}" <#if info.supplier_level == level.supplier_level>selected</#if> >${level.supplier_level}</option>
+                                        </#list>
+                                    </#if>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group form-group-sm">
+                            <label class="col-xs-6 control-label text-right" for="cooperationDuration">年限：</label>
+                            <div class="col-xs-6">
+                                <select id="cooperationDuration" class="form-control" name="cooperationDuration">
+                                    <option value="">年限</option>
+                                    <option value="1" <#if info.supplier_years == 1 >selected</#if> >1年</option>
+                                    <option value="2" <#if info.supplier_years == 2 >selected</#if> >2年</option>
+                                    <option value="3" <#if info.supplier_years == 3 >selected</#if> >3年</option>
+                                    <option value="4" <#if info.supplier_years == 4 >selected</#if> >4年</option>
+                                    <option value="5" <#if info.supplier_years == 5 >selected</#if> >5年</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group form-group-sm">
+                            <label class="col-xs-6 control-label text-right" for="withdrawDate">退保时间：</label>
+                            <div class="col-xs-6">
+                                <input class="form-control form_datetime" placeholder="退保时间" name="withdrawDate" id="withdrawDate" ${info.withdraw_date!}>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-4">
+                        <div class="form-group form-group-sm">
+                            <label class="col-xs-6 control-label text-right" for="forwarder">名称：</label>
+                            <div class="col-xs-6">
+                                <!--<select id="forwarder" class="form-control" name="forwarder">
+                                    <option value="">货代</option>
+                                    <#if forwarderList??>
+                                        <#list forwarderList as forwarder>
+                                            <option value="${forwarder.supplier_id}" _state="${forwarder.state}" _supplierId="${forwarder.supplier_id}">${forwarder.supplier_name}</option>
+                                        </#list>
+                                    </#if>
+                                </select>-->
+                                <input class="form-control" value="${info.supplier_name!}" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group form-group-sm">
+                            <label class="col-xs-6 control-label text-right" for="type">类型：</label>
+                            <div class="col-xs-6">
+                                <input class="form-control" id="type" type="text" placeholder=" 类型"  name="type" readonly/>
+                            </div>
+                        </div>
+                        <div class="form-group form-group-sm">
+                            <label class="col-xs-6 control-label text-right" for="v8">保证金：</label>
+                            <div class="col-xs-6">
+                                <input class="form-control" id="v8" type="text" placeholder=" 保证金" name="deposit" value="${info.supplier_bail!}"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-4">
+                        <div class="form-group form-group-sm">
+                            <label class="col-xs-6 control-label text-right" for="v3">合同号：</label>
+                            <div class="col-xs-6">
+                                <input class="form-control" id="v3" type="text" placeholder=" 合同号"  name="contractNo" value="${info.contract_no!}"/>
+                            </div>
+                        </div>
+                        <div class="form-group form-group-sm">
+                            <label class="col-xs-6 control-label text-right" for="businessScope">业务范围：</label>
+                            <div class="col-xs-6">
+                                <input class="form-control" id="businessScope" type="text" placeholder=" 业务范围" name="businessScope" value="${info.supplier_field!}"/>
+                            </div>
+                        </div>
+                        <div class="form-group form-group-sm">
+                            <label class="col-xs-6 control-label text-right" for="payDate">缴纳时间：</label>
+                            <div class="col-xs-6">
+                                <input class="form-control form_datetime" placeholder="缴纳时间" name="payDate" id="payDate" value="${info.pay_date!}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12">
+                        <div class="form-group form-group-sm">
+                            <label class="col-xs-2 control-label text-right" for="remark" style="padding-top:0;">备注：</label>
+                            <div class="col-xs-10">
+                                <textarea class="form-control" id="remark" placeholder=" 备注" name="remark">${info.remark!}</textarea>
+                            </div>
+                        </div>
+                        <div class="form-group form-group-sm">
+                            <label class="col-xs-2 control-label" for="v"></label>
+                            <div class="col-xs-10 text-left">
+                                <button type="button" class="btn btn-10" id="cancel">取消</button>
+                                <button id="v" type="submit" class="btn btn-11">保存</button>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- contianer -->
+            <#else>
+
             <input hidden="" name="supplierId" value="" id="supplierId">
             <input hidden="" name="contacts" value="" id="contacts">
             <div class="container">
                 <div class="col-xs-4">
-                    <div class="form-group">
+                    <div class="form-group form-group-sm">
                         <label class="col-xs-6 control-label text-right" for="year">年份：</label>
                         <div class="col-xs-6">
                             <input class="form_year form-control" id="year" type="text" placeholder="年份"  name="year"/>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group form-group-sm">
                         <label class="col-xs-6 control-label text-right" for="level">等级：</label>
                         <div class="col-xs-6">
                             <select id="level" class="form-control" name="level">
@@ -79,7 +189,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group form-group-sm">
                         <label class="col-xs-6 control-label text-right" for="cooperationDuration">年限：</label>
                         <div class="col-xs-6">
                             <select id="cooperationDuration" class="form-control" name="cooperationDuration">
@@ -92,7 +202,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group form-group-sm">
                         <label class="col-xs-6 control-label text-right" for="withdrawDate">退保时间：</label>
                         <div class="col-xs-6">
                             <input class="form-control form_datetime" placeholder="退保时间" name="withdrawDate" id="withdrawDate">
@@ -100,7 +210,7 @@
                     </div>
                 </div>
                 <div class="col-xs-4">
-                    <div class="form-group">
+                    <div class="form-group form-group-sm">
                         <label class="col-xs-6 control-label text-right" for="forwarder">名称：</label>
                         <div class="col-xs-6">
                             <select id="forwarder" class="form-control" name="forwarder">
@@ -113,13 +223,13 @@
                             </select>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group form-group-sm">
                         <label class="col-xs-6 control-label text-right" for="type">类型：</label>
                         <div class="col-xs-6">
                             <input class="form-control" id="type" type="text" placeholder=" 类型"  name="type" readonly/>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group form-group-sm">
                         <label class="col-xs-6 control-label text-right" for="v8">保证金：</label>
                         <div class="col-xs-6">
                             <input class="form-control" id="v8" type="text" placeholder=" 保证金" name="deposit"/>
@@ -127,19 +237,19 @@
                     </div>
                 </div>
                 <div class="col-xs-4">
-                    <div class="form-group">
+                    <div class="form-group form-group-sm">
                         <label class="col-xs-6 control-label text-right" for="v3">合同号：</label>
                         <div class="col-xs-6">
                             <input class="form-control" id="v3" type="text" placeholder=" 合同号"  name="contractNo"/>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group form-group-sm">
                         <label class="col-xs-6 control-label text-right" for="businessScope">业务范围：</label>
                         <div class="col-xs-6">
                             <input class="form-control" id="businessScope" type="text" placeholder=" 业务范围" name="businessScope"/>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group form-group-sm">
                         <label class="col-xs-6 control-label text-right" for="payDate">缴纳时间：</label>
                         <div class="col-xs-6">
                             <input class="form-control form_datetime" placeholder="缴纳时间" name="payDate" id="payDate">
@@ -147,13 +257,13 @@
                     </div>
                 </div>
                 <div class="col-xs-12">
-                    <div class="form-group">
+                    <div class="form-group form-group-sm">
                         <label class="col-xs-2 control-label text-right" for="remark" style="padding-top:0;">备注：</label>
                         <div class="col-xs-10">
                             <textarea class="form-control" id="remark" placeholder=" 备注" name="remark"></textarea>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group form-group-sm">
                         <label class="col-xs-2 control-label" for="v"></label>
                         <div class="col-xs-10 text-left">
                             <button type="button" class="btn btn-10" id="cancel">取消</button>
@@ -162,6 +272,7 @@
                     </div>
                 </div>
             </div><!-- contianer -->
+            </#if>
         </form>
     </div><!-- tab1 -->
     <div class="tab-pane fade" id="tab2">
@@ -220,6 +331,17 @@
                                     <td>18936939393</td>
                                     <td>zs@qq.com</td>
                                 </tr>-->
+                                <#if contactsList?? && contactsList?size gt 0>
+                                <#list contactsList as contacts>
+                                <tr>
+                                    <td><input type="checkbox" name="sub" _id="2"></td>
+                                    <td>${contacts_index+1}</td>
+                                    <td>${contacts.name!}</td>
+                                    <td>${contacts.phone!}</td>
+                                    <td>${contacts.email!}</td>
+                                </tr>
+                                </#list>
+                                </#if>
                             </tbody>
                         </table><!-- /.table-responsive -->
                         </form>
@@ -519,7 +641,7 @@ function _editRow() {
 		var row = 
 		        '<td><input type="checkbox" name="sub" _id=""></td>'+
 		        '<td name="count">'+ index +'</td>'+
-		        '<td><input class="form-control" type="text" name="contacts" value=""/></td>'+
+		        '<td><input class="form-control " type="text" name="contacts" value=""/></td>'+
 		        '<td><input class="form-control" type="text" name="phone" value=""/></td>'+
 		        '<td><input class="form-control" type="text" name="email" value=""/></td>';
 		$tr.empty().append(row);
@@ -574,7 +696,7 @@ function _saveRow() {
     //console.log(postData);
     console.log(JSON.stringify(postData));*/
     var supplierId = $('#supplierId').val();
-    console.log("add: " + supplierId);
+    console.log("supplierId: " + supplierId);
     if(!supplierId) {
         parent.layer.msg('请先新增物流公司', {time: 2000});
     } else {

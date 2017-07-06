@@ -28,9 +28,7 @@
     <link href="../../css/common/common.css" rel="stylesheet">
     <link href="../../css/admin.css" rel="stylesheet">
     <link href="../../resource/bootstrapvalidator/css/bootstrapValidator.min.css" rel="stylesheet">
-
     <link rel="stylesheet" href="../../resource/layui/css/layui.css" media="all" />
-    
 
     <!-- Custom Fonts -->
     <link href="../../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -199,44 +197,44 @@
     function _add(){
     	open_window('新增供应商资质','/supplier/quality/getQuality', 520, 350);
     }
- 	// 撤销
+ 	// 冻结
 	function _cancel(obj,id){
 	    //询问框
-	    layer.confirm('确认撤销吗？', {
+	    layer.confirm('确认冻结吗？', {
 	   	 title: ['信息', 'font-weight:600;color:#fff;background-color: #3367D6;'],
 	        btn: ['确认','取消'] //按钮
 	    }, function(){
 	    	$.post("/supplier/quality/cancelQuality/" + id, function(result) {
         		if (result) {
-        			layer.msg('撤销成功', {time: 2000}, function(){
+        			layer.msg('冻结成功', {time: 2000}, function(){
         				$(obj).css('display', 'none');
         			    $(obj).next().css('display', 'inline-block');
         				parent.refresh_iframe();
         			});
         		} else {
-        			layer.msg('撤销失败', {time: 2000});
+        			layer.msg('冻结失败', {time: 2000});
         		}
         	});
 	    }, function(){
 			return;
 	    });
 	}
-    // 审核
+    // 恢复
     function _verify(obj,id){
    	    //询问框
-   	    layer.confirm('确认审核吗？', {
+   	    layer.confirm('确认恢复吗？', {
    	   	 title: ['信息', 'font-weight:600;color:#fff;background-color: #3367D6;'],
    	        btn: ['确认','取消'] //按钮
    	    }, function(){
    	    	$.post("/supplier/quality/verifyQuality/" + id, function(result) {
         		if (result) {
-        			layer.msg('审核成功', {time: 2000}, function(){
+        			layer.msg('恢复成功', {time: 2000}, function(){
         				$(obj).css('display', 'none');
                 	    $(obj).prev().css('display', 'inline-block');
         				parent.refresh_iframe();
         			});
         		} else {
-        			layer.msg('审核失败', {time: 2000});
+        			layer.msg('恢复失败', {time: 2000});
         		}
         	});
    	        

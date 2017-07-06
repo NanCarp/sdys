@@ -53,12 +53,18 @@
                     <div class="panel-heading">
 	                    <div class="container container-fluid">
 		                	<div class="row">
-		                        <div class="col-sm-3 col-xs-6 head_7">
-		                        	<button class="btn btn-success " onclick="_add()">新增供应商等级</button>
+		                        <div class="col-sm-3 col-xs-6 head_1">
+		                        	<button class="btn btn-success " onclick="_add()">新增</button>
 		                        </div>
-		                        <div class="col-sm-2 col-xs-6 head_4">
-		                        	<button class="btn btn-4 " onclick="_batchDelete()">批量删除</button>
+                                <div class="col-sm-2 col-xs-6 head_1">
+                                    <button class="btn btn-3" onclick="_edit()">编辑</button>
+                                </div>
+		                        <div class="col-sm-2 col-xs-6 head_1">
+		                        	<button class="btn btn-4 " onclick="_batchDelete()">删除</button>
 		                        </div>
+                                <div class="col-sm-1 col-xs-4 head_1">
+                                    <button class="btn btn-9 " onclick="_refresh()"><i class="fa fa-refresh"></i></button>
+                                </div>
 	                        </div>
 	                    </div>
 	                </div>
@@ -71,7 +77,9 @@
                                         <th>序号</th>
                                         <th>等级</th>
                                         <th>得分</th>
-                                        <th>操作</th>
+                                        <th>录入人</th>
+                                        <th>录入时间</th>
+                                        <th>备注</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -82,10 +90,9 @@
                                         <td>${level_index+1}</td>
                                         <td>${level.supplier_level}</td>
                                         <td>${level.supplier_score}</td>
-                                        <td>
-                                            <button class="btn btn-3 btn-xs" onclick="_edit(${level.id})">编辑</button>
-                                            <button class="btn btn-4 btn-xs"onclick="_delete(${level.id})">删除</button>
-                                        </td>
+                                        <td>${level.person}</td>
+                                        <td>${level.review_time?string("yyyy-MM-dd")}</td>
+                                        <td>${level.remark!}</td>
                                     </tr>
                                 	</#list>
                                 	</#if>
@@ -157,8 +164,18 @@
         });
     }); */
     // 编辑
-    function _edit(id){
-    	open_window('编辑供应商等级','/supplier/level/getLevel/'+id, 480, 250);
+    function _edit(){
+        // 获取选中记录 id
+        var amount = $(":checked[name='sub']").length;
+        // 如果没有选择，提示勾选至少一条数据
+        if (amount == 0) {
+            layer.msg('请选择一条记录', {time: 2000});
+        } else if (amount > 1){
+            layer.msg('只能选择一条记录', {time: 2000});
+        } else {
+            var id = $(":checked[name='sub']").eq(0).attr("_id");
+            open_window('编辑供应商等级', '/supplier/level/getLevel/' + id, 480, 250);
+        }
     }
     // 新增
     function _add(){
@@ -204,7 +221,7 @@
         }
         else {
             //询问框
-            layer.confirm('确认批量删除吗？', {
+            layer.confirm('确认删除吗？', {
                 title: ['信息', 'font-weight:600;color:#fff;background-color: #3367D6;'],
                 btn: ['确认','取消'] //按钮
             }, function(){
@@ -219,6 +236,10 @@
 
             });
         }
+    }
+    // 刷新
+    function _refresh() {
+        location = '/supplier/level';
     }
     </script>
 

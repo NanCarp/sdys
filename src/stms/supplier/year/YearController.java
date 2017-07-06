@@ -27,18 +27,25 @@ public class YearController extends Controller {
 	public void index() {
 		// 物流公司名称
 		String forwarder = getPara("forwarder","");
+        setAttr("forwarder", forwarder);
 		// 年份
 		Integer year = getParaToInt("year",null);
+        setAttr("year", year);
+		// 等级
+        String level = getPara("level", "");
+        setAttr("level", level);
 		
 		Map<String,Object> params = new HashMap<>();
 		params.put("forwarder", forwarder);
 		params.put("year", year);
-		
-		// 年度考核列表
+        params.put("level", level);
+
+        // 年度考核列表
 		List<Record> yearList = YearService.getYearList(params);
 		setAttr("yearList", yearList);
-		setAttr("forwarder", forwarder);
-		setAttr("year", year);
+		// 评分标准
+		List<Record> criterionList =  YearService.getCriterionList();
+		setAttr("criterionList", criterionList);
 		
 		render("year.html");
 	}

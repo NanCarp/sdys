@@ -28,6 +28,9 @@
     <link href="../../css/common/common.css" rel="stylesheet">
     <link href="../../css/admin.css" rel="stylesheet">
 
+    <!-- Custom Fonts -->
+    <link href="../../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -47,27 +50,40 @@
                     <div class="panel-heading">
 	                    <div class="container container-fluid">
 		                	<div class="row">
-		                        <div class="col-sm-2 col-xs-4 head_2">
+		                        <div class="col-sm-2 col-xs-3 head_2">
 	                        		<input class="form_datetime form-control " placeholder="年份" name="year" id="year" value="${year!}">
 	                        	</div>
-	                        	<div class="col-sm-2 col-xs-4 head_2">
+                                <div class="col-sm-2 col-xs-3 head_2">
+                                    <select id="level" class="form-control" name="level">
+                                        <option value="">请选择等级</option>
+                                        <#if criterionList?? && criterionList?size gt 0>
+                                            <#list criterionList as criterion>
+                                                <option value="${criterion.supplier_level}" <#if level == criterion.supplier_level>selected</#if> >${criterion.supplier_level}</option>
+                                            </#list>
+                                        </#if>
+                                    </select>
+                                </div>
+	                        	<div class="col-sm-2 col-xs-3 head_2">
                   					<input type="search" class="form-control" placeholder="供应商" name="forwarder" id="forwarder" value="${forwarder!}">
                   				</div>
-                  				<div class="col-sm-1 col-xs-12 head_1">
+                  				<div class="col-sm-1 col-xs-3 head_1">
                        				<button class="btn btn-primary" onclick="_search()">查询</button>
                        			</div>
-                       			<div class="col-sm-2 col-xs-6 head_3">
-		                        	<button class="btn btn-success" onclick="_add()">新增年度考核</button>
+                       			<div class="col-sm-1 col-xs-3 head_1">
+		                        	<button class="btn btn-success" onclick="_add()">新增</button>
 		                        </div>
 		                        <!--<div class="col-sm-1 col-xs-6 head_1">
 		                        	<button class="btn btn-8 " onclick="_calculate()">评分</button>
 		                        </div>-->
-		                        <div class="col-sm-2 col-xs-6 head_1">
+		                        <div class="col-sm-1 col-xs-3 head_1">
 		                        	<button class="btn btn-8 " onclick="_calculateYearAlert()">评分</button>
 		                        </div>
-		                        <div class="col-sm-2 col-xs-6 head_4">
-		                        	<button class="btn btn-4 " onclick="_batchDelete()">批量删除</button>
+		                        <div class="col-sm-1 col-xs-3 head_1">
+		                        	<button class="btn btn-4 " onclick="_batchDelete()">删除</button>
 		                        </div>
+								<div class="col-sm-1 col-xs-4 head_1">
+									<button class="btn btn-9 " onclick="_refresh()"><i class="glyphicon glyphicon-refresh"></i></button>
+								</div>
 	                        </div>
 	                    </div>
 	                </div>
@@ -123,7 +139,6 @@
 		                            <td>${year.remark!}</td>
 		                            <td>
 		                                <button class="btn btn-3 btn-xs" onclick="_edit(${year.id})">编辑</button>
-		                                <button class="btn btn-4 btn-xs" onclick="_delete(${year.id})">删除</button>
 		                            </td>
 		                        </tr>
 	                        	</#list>
@@ -196,24 +211,13 @@
        		startView: 4,//年视图
        		minView:4,
        	});
-		 /* laypage({
-		    cont: document.getElementById('forpage'), //容器。值支持id名、原生dom对象，jquery对象,
-		    pages: 10, //总页数
-		    skin: '#molv', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
-		    groups: 5, //连续显示分页数
-		    curr: 2,
-		    first:false,
-		    last:false,
-		    jump: function(e, first){ //触发分页后的回调
-		        
-		    }
-		}); */
 	});
 	// 搜索
 	function _search(){
 		layui.use('layer',function(){
 			var layer = layui.layer;
 			var year = $.trim($('#year').val());
+            var level = $('#level').val();
 			var forwarder = encodeURI($.trim($('#forwarder').val()));
 			if($.trim($('#forwarder').val())!=''){
 				var reg = /^[a-zA-Z0-9_\u0391-\uFFE5 ]{1,30}$/;
@@ -221,7 +225,7 @@
 					layer.tips('不允许有特殊字符，最多20个字符', '#forwarder', {tips: [1, '#34495E']});return;
 				}					
 			}
-			location.replace('/supplier/year/year?'+'forwarder='+forwarder+'&year='+year);
+			location.replace('/supplier/year?'+'forwarder='+forwarder+'&year='+year+'&level='+level);
 		})
 	}
 	// 评分
@@ -253,7 +257,7 @@
 	function _add(){
 		open_window('新增年度考核','/supplier/year/getYear', 480, 350);
 	}
-    // 删除
+    /*// 删除
 	function _delete(id){
 	    ///询问框
         layer.confirm('确认删除吗？', {
@@ -270,7 +274,7 @@
         }, function(){
 
         });
-	}
+	}*/
     //全选、全不选
     $("#checkAll").click(function() {
         $("input[name='sub']").prop("checked", this.checked);
@@ -279,7 +283,7 @@
         var $subs = $("input[name='sub']");
         $("#checkAll").prop("checked" , $subs.length == $subs.filter(":checked").length ? true :false);
     });
-	// 批量删除
+	// 删除
     function _batchDelete(){
 		// 获取选中记录 id
 		var ids = "";
@@ -315,6 +319,10 @@
 	function _detail(){
 		open_window('查看明细','/supplier/year/yearDetail', 480, 370);
 	}
+    // 刷新
+    function _refresh() {
+        location = '/supplier/year';
+    }
 </script>
 
 </body>

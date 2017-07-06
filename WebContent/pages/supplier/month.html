@@ -57,22 +57,25 @@
 	                        		<input class="form_datetime form-control " placeholder="月份" name="month" id="month" value="${month!}">
 	                        	</div>
 	                        	<div class="col-sm-2 col-xs-3 head_2">
-                  					<input type="search" class="form-control" placeholder="供应商" name="forwarder" id="forwarder" value="${forwarder!}">
+                  					<input type="search" class="form-control" placeholder="公司名称" name="forwarder" id="forwarder" value="${forwarder!}">
                   				</div>
-                  				<div class="col-sm-1 col-xs-12 head_1">
+                  				<div class="col-sm-1 col-xs-3 head_1">
                        				<button class="btn btn-primary" onclick="_search()">查询</button>
                        			</div>
-                       			<div class="col-sm-2 col-xs-5 head_6">
-		                        	<button class="btn btn-success " onclick="_add()">新增月度考核</button>
+                       			<div class="col-sm-1 col-xs-3 head_1">
+		                        	<button class="btn btn-success " onclick="_add()">新增</button>
 		                        </div>
-		                        <div class="col-sm-2 col-xs-4 head_4">
-		                        	<button class="btn btn-4 " onclick="_batchDelete()">批量删除</button>
+		                        <div class="col-sm-1 col-xs-3 head_1">
+		                        	<button class="btn btn-4 " onclick="_batchDelete()">删除</button>
 		                        </div>
-		                        <div class="col-sm-1 col-xs-4 head_1">
+                                <div class="col-sm-1 col-xs-4 head_1">
+                                    <button class="btn btn-9 " onclick="_refresh()"><i class="fa fa-refresh"></i></button>
+                                </div>
+		                        <!--<div class="col-sm-1 col-xs-4 head_1">
 		                        	<span class="btn btn-5 btn-file"> 导入excel
         								<input type="file" name="file_exl" value="" id="file_exl" onchange="uploadexcel()"/>
      								</span>
-		                        </div>
+		                        </div>-->
 	                        </div>
 	                    </div>
                     </div>
@@ -89,6 +92,7 @@
                                 <th>月度得分</th>
                                 <th>评定等级</th>
                                 <th>备注</th>
+                                <th>附件</th>
                                 <th>操作</th>
                             </tr>
                             </thead>
@@ -105,9 +109,17 @@
                                     <td>${month.supplier_level}</td>
                                     <td>${month.remark!}</td>
                                     <td>
+                                        <#if month.file?? && month.file != "">
+                                        <!--<button class="btn btn-9 btn-xs"onclick="_detail(this)" _id="${month.id}" _file="${month.file!}">下载</button>-->
+                                        <a href="javascript:void(0)" style="color:#6699FF;" onclick="_detail(this)" _id="${month.id}" _file="${month.file!}">下载</a>
+                                        <#else>
+                                        <!--<button class="btn btn-9 btn-xs">未上传附件</button>-->
+                                        <a href="javascript:void(0)" style="color:#6699FF;">未上传附件</a>
+                                        </#if>
+
+                                    </td>
+                                    <td>
                                         <button class="btn btn-3 btn-xs"onclick="_edit(${month.id})">编辑</button>
-                                        <button class="btn btn-9 btn-xs"onclick="_detail(this)" _id="${month.id}" _file="${month.file!}">查看附件</button>
-                                        <button class="btn btn-4 btn-xs" onclick="_delete(${month.id})">删除</button>
                                     </td>
                                 </tr>
                                 </#list>
@@ -289,7 +301,7 @@
 		}
 		else {
             // 询问框
-            layer.confirm('确认批量删除吗？', {
+            layer.confirm('确认删除吗？', {
                 title: ['信息', 'font-weight:600;color:#fff;background-color: #3367D6;'],
                 btn: ['确认','取消'] //按钮
             }, function(){
@@ -305,7 +317,7 @@
             });
         }
     }
- 	// 查看附件
+ 	// 下载
 	function _detail(obj){
         var id = $(obj).attr("_id");
         var file = $(obj).attr("_file");
@@ -325,6 +337,10 @@
 
         });
 
+    }
+    // 刷新
+    function _refresh() {
+        location = '/supplier/month';
     }
 	
 </script>

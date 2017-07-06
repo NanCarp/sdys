@@ -61,7 +61,7 @@ public class InfoController extends Controller {
 			Record info = InfoService.getInfoById(id);
 			setAttr("info", info);
 			// 联系人信息
-            List<Record> contactsList = InfoService.getContactList(id);
+            List<Record> contactsList = InfoService.getContactList(info.getInt("supplier_id"));
             setAttr("contactsList", contactsList);
 		} else{
 			// 物流公司名称，id
@@ -143,7 +143,7 @@ public class InfoController extends Controller {
 			id = record.getLong("id");// 新增记录 id
 		} else {// 更新货代信息
 			record.set("id", id);
-			/*result = Db.tx(new IAtom() {
+			result = Db.tx(new IAtom() {
 
 				@Override
 				public boolean run() throws SQLException {
@@ -156,8 +156,8 @@ public class InfoController extends Controller {
 					return result && count == 1;
 				}
 				
-			});*/
-            result = Db.update("t_supplier", record);
+			});
+            // result = Db.update("t_supplier", record);
         }
 
         // 返回消息
@@ -199,8 +199,13 @@ public class InfoController extends Controller {
         System.out.println(list);
 
         // 删除原联系人
-        Db.find("DELETE FROM t_supplier_contacts WHERE supplier_id = ?", supplierId);
-        // 保存联系人
+		List<Record> originalContacts = Db.find("SELECT * FROM t_supplier_contacts WHERE supplier_id = ?", supplierId);
+		if (originalContacts.size() > 0) {
+			for (Record r : originalContacts) {
+				Db.delete("t_supplier_contacts", r);
+			}
+		}
+		// 保存联系人
         for (JSONObject contacts : list) {
             String name = contacts.getString("name");
             String phone = contacts.getString("phone");

@@ -42,6 +42,7 @@ public class YearService {
 	public static List<Record> getYearList(Map<String, Object> params) {
 		String forwarder = (String) params.getOrDefault("forwarder", "");
 		Integer year = (Integer) params.getOrDefault("year",null);
+		String level = (String) params.getOrDefault("level", "");
 		String sql = "SELECT a.*,c.company_name AS supplier_name, "
 				+ " SUM(CASE WHEN `month` = 1 THEN month_score END) m1, "
 				+ " SUM(CASE WHEN `month` = 2 THEN month_score END) m2, "
@@ -67,6 +68,9 @@ public class YearService {
 		if(year != null){
 			sql += " AND a.year = " + year;
 		}
+		if(level != "") {
+		    sql += " AND a.supplier_level = '" + level + "'";
+        }
 		sql += " GROUP BY a.`year`,a.supplier_id "
 				+ "ORDER BY a.`year` DESC ";
 		

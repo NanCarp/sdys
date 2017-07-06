@@ -142,13 +142,18 @@ $(function(){
 	e.preventDefault();
 	$.post("/supplier/level/saveLevel", $('#defaultForm').serialize(), function(result) {
 		if (result) {
-			parent.layer.msg("保存成功", {time: 2000}, function(){
+            var tip = "保存成功";
+            var id = $('#id').val();
+            if(id) {
+                tip = "新增考核标准成功";
+            }
+			parent.layer.msg(tip, {time: 2000}, function(){
 				layer_close();
 				parent.parent.refresh_iframe();
 			});
 
 		} else {
-			parent.layer.msg('保存失败', {icon: 1});
+			parent.layer.msg('系统异常，请稍后再试！', {time: 2000});
 		}
 		
 	});
