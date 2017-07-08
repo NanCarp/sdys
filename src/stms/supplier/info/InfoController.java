@@ -30,18 +30,32 @@ public class InfoController extends Controller {
 	* @throws 
 	*/
 	public void index() {
-		String forwarder = getPara(1);
-		try {
+		// 供应商
+		String forwarder = getPara("forwarder");
+        setAttr("forwarder", forwarder);
+		// 年份
+		String year = getPara("year");
+        setAttr("year", year);
+        // 合同号
+		String contractNo = getPara("contractNo");
+        setAttr("contractNo", contractNo);
+        // 类型
+		Integer state = getParaToInt("state");
+        setAttr("state", state);
+        // 业务范围
+		String businessScope = getPara("businessScope");
+        setAttr("businessScope", businessScope);
+        /*try {
 			forwarder = URLDecoder.decode(forwarder==null?"":forwarder, "utf-8");
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 		
 		// 物流公司信息列表
-		List<Record> infoList = InfoService.getInfoList(forwarder);
+		List<Record> infoList = InfoService.getInfoList(forwarder, year, contractNo, state, businessScope);
 		setAttr("infoList", infoList);
-		setAttr("forwarder", forwarder);
+
 		render("info.html");
 	}
 	
@@ -95,8 +109,8 @@ public class InfoController extends Controller {
 		String contractNo = getPara("contractNo") ;
 		// 货代等级
 		String level = getPara("level");
-		// 货代类型
-		Integer state = getParaToInt("state");
+		/*// 货代类型
+		Integer state = getParaToInt("state");*/
 		// 业务范围
 		String businessScope = getPara("businessScope");
 		// 合作年限
@@ -143,7 +157,7 @@ public class InfoController extends Controller {
 			id = record.getLong("id");// 新增记录 id
 		} else {// 更新货代信息
 			record.set("id", id);
-			result = Db.tx(new IAtom() {
+			/*result = Db.tx(new IAtom() {
 
 				@Override
 				public boolean run() throws SQLException {
@@ -156,8 +170,8 @@ public class InfoController extends Controller {
 					return result && count == 1;
 				}
 				
-			});
-            // result = Db.update("t_supplier", record);
+			});*/
+            result = Db.update("t_supplier", record);
         }
 
         // 返回消息
@@ -224,5 +238,19 @@ public class InfoController extends Controller {
         message.put("isSuccess", true);
 
         renderJson(message);
+    }
+
+    // 明细
+    public void getInfoDetail() {
+        //　获取物流公司信息　id
+        Integer id = getParaToInt();
+        //　获取物流公司信息
+        Record info = InfoService.getInfoById(id);
+        setAttr("info", info);
+        // 联系人信息
+        List<Record> contactsList = InfoService.getContactList(info.getInt("supplier_id"));
+        setAttr("contactsList", contactsList);
+
+        render("info_all.html");
     }
 }

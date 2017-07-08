@@ -90,7 +90,7 @@
                                         <td>${level_index+1}</td>
                                         <td>${level.supplier_level}</td>
                                         <td>${level.supplier_score}</td>
-                                        <td>${level.person}</td>
+                                        <td>${level.enter_staff}</td>
                                         <td>${level.review_time?string("yyyy-MM-dd")}</td>
                                         <td>${level.remark!}</td>
                                     </tr>
@@ -165,7 +165,7 @@
     }); */
     // 编辑
     function _edit(){
-        // 获取选中记录 id
+        // 获取选中记录数量
         var amount = $(":checked[name='sub']").length;
         // 如果没有选择，提示勾选至少一条数据
         if (amount == 0) {

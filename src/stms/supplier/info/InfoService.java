@@ -16,13 +16,17 @@ public class InfoService {
 	/** 
 	* @Title: getInfoList 
 	* @Description: 获取供应商信息列表
-	* @param 
+	* @param
 	* @return List<Record>
 	* @throws 
 	*/
 	public static List<Record> getInfoList() {
 		String forwarder = "";
-		return getInfoList(forwarder);
+		String year = "";
+		String contractNo = "";
+		Integer state = null;
+		String businessScope = "";
+		return getInfoList(forwarder, year, contractNo, state, businessScope);
 	}
 
 	/** 
@@ -32,7 +36,7 @@ public class InfoService {
 	* @return List<Record>
 	* @throws 
 	*/
-	public static List<Record> getInfoList(String forwarder) {
+	public static List<Record> getInfoList(String forwarder, String year, String contractNo, Integer state, String businessScope) {
 		String sql = " SELECT a.*,b.registration_code,b.state,c.company_name AS supplier_name " +
                 " FROM t_supplier AS a  " +
                 " INNER JOIN t_supplier_qualification AS b  " +
@@ -40,10 +44,23 @@ public class InfoService {
                 " LEFT JOIN t_company AS c " +
                 " ON a.supplier_id = c.id " +
                 " WHERE b.state <> 0 ";
-		if (forwarder != ""){
+		if (forwarder != null && !"".equals(forwarder)){
 			sql += " AND c.company_name LIKE '%" + forwarder + "%'";
 		}
-		return Db.find(sql);
+        if (year != null && !"".equals(year)){
+            sql += " AND a.year ='" + year + "'";
+        }
+        if (contractNo != null && !"".equals(contractNo)){
+            sql += " AND a.contract_no LIKE '%" + contractNo + "%'";
+        }
+        if (state != null){
+            sql += " AND b.state =" + state ;
+        }
+        if (businessScope != null && !"".equals(businessScope)){
+            sql += " AND a.supplier_field LIKE '%" + businessScope + "%'";
+        }
+        System.out.println(sql);
+        return Db.find(sql);
 	}
 	
 	/** 
@@ -107,4 +124,5 @@ public class InfoService {
     public static List<Record> getContactList(Integer id) {
 		return Db.find("SELECT * FROM t_supplier_contacts WHERE supplier_id = ? ", id);
     }
+
 }

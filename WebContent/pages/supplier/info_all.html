@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>物流公司信息明细</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="../../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="../../../dist/css/sb-admin-2.css" rel="stylesheet">
+    <link href="../../../css/common/common.css" rel="stylesheet">
+    <link href="../../../css/admin.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+<div class="panel-body">
+    <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+            <!--<tr>
+                <td>名称</td>
+                <td>${info.supplier_name!}</td>
+            </tr>
+            <tr>
+                <td>合同号</td>
+                <td>${info.contract_no!}</td>
+            </tr>
+            <tr>
+                <td>等级</td>
+                <td>${info.supplier_level!}</td>
+            </tr>
+            <tr>
+                <td>类型</td>
+                <td>
+                    <#if info.state==1>
+                        <p style="color:#57AE00;"><strong>合格</strong></p>
+                    </#if>
+                    <#if info.state==2>
+                        <p style="color:#6699FF;"><strong>备选</strong></p>
+                    </#if>
+                </td>
+            </tr>
+            <tr>
+                <td>业务范围</td>
+                <td>${info.supplier_field!}</td>
+            </tr>
+            <tr>
+                <td>合作年限</td>
+                <td>${info.supplier_years!}</td>
+            </tr>
+            <tr>
+                <td>保证金</td>
+                <td>${info.supplier_bail!}</td>
+            </tr>
+            <tr>
+                <td>缴纳时间</td>
+                <td>${info.pay_date!}</td>
+            </tr>
+            <tr>
+                <td>退保时间</td>
+                <td>${info.withdraw_date!}</td>
+            </tr>
+            <tr>
+                <td>备注</td>
+                <td>${info.remark!}</td>
+            </tr>
+            <tr>
+                <td>联系人</td>
+                <td>
+                <#if contactsList?? && contactsList?size gt 0>
+                <#list contactsList as contacts>
+                    姓名：${contacts.name} 联系方式：${contacts.phone} 邮箱：${contacts.email}<br>
+                </#list>
+                </#if>
+                </td>
+            </tr>-->
+        <thead>
+            <tr>
+                <th>序号</th>
+                <th>联系人</th>
+                <th>联系电话</th>
+                <th>邮箱</th>
+            </tr>
+        </thead>
+        <tbody>
+            <#if contactsList?? && contactsList?size gt 0>
+            <#list contactsList as contacts>
+            <tr>
+                <td>${contacts_index+1}</td>
+                <td>${contacts.name}</td>
+                <td>${contacts.phone}</td>
+                <td>${contacts.email}</td>
+            </tr>
+            </#list>
+            <#else>
+            <td colspan="4">暂无联系人</td>
+            </#if>
+        </tbody>
+
+    </table>
+    <!-- /.table-responsive -->
+</div>
+<!-- /.panel-body -->
+
+<!-- jQuery -->
+<script src="../../../vendor/jquery/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="../../../vendor/bootstrap/js/bootstrap.min.js"></script>
+
+
+<!-- Custom Theme JavaScript -->
+
+<!-- Page-Level Demo Scripts - Tables - Use for reference -->
+<script>
+
+
+</script>
+</body>
+</html>

@@ -70,7 +70,7 @@
                         <div class="form-group form-group-sm">
                             <label class="col-xs-6 control-label text-right" for="level">等级：</label>
                             <div class="col-xs-6">
-                                <select id="level" class="form-control" name="level">
+                                <select id="level" class="form-control " name="level">
                                     <option value="">等级</option>
                                     <#if levelList ?? && levelList?size gt 0>
                                         <#list levelList as level>
@@ -96,7 +96,7 @@
                         <div class="form-group form-group-sm">
                             <label class="col-xs-6 control-label text-right" for="withdrawDate">退保时间：</label>
                             <div class="col-xs-6">
-                                <input class="form-control form_datetime" placeholder="退保时间" name="withdrawDate" id="withdrawDate" ${info.withdraw_date!}>
+                                <input class="form-control form_datetime" placeholder="退保时间" name="withdrawDate" id="withdrawDate" value="${(info.withdraw_date?string('yyyy-MM-dd'))!}">
                             </div>
                         </div>
                     </div>
@@ -108,7 +108,7 @@
                                     <option value="">货代</option>
                                     <#if forwarderList??>
                                         <#list forwarderList as forwarder>
-                                            <option value="${forwarder.supplier_id}" _state="${forwarder.state}" _supplierId="${forwarder.supplier_id}">${forwarder.supplier_name}</option>
+                                            <option value="${forwarder.supplier_id}" _state="${forwarder.state}" _supplierId="${forwarder.supplier_id}"  <#if forwarder.supplier_id == info.supplier_id >selected<#else>style="display:none;"</#if>  >${forwarder.supplier_name}</option>
                                         </#list>
                                     </#if>
                                 </select>-->
@@ -118,33 +118,37 @@
                         <div class="form-group form-group-sm">
                             <label class="col-xs-6 control-label text-right" for="type">类型：</label>
                             <div class="col-xs-6">
-                                <input class="form-control" id="type" type="text" placeholder=" 类型"  name="type" readonly/>
+                                <input class="form-control" id="type" type="text" placeholder=" 类型"  name="type" <#if info.state == 1>value="合格"<#else>value="备选"</#if> readonly/>
                             </div>
                         </div>
                         <div class="form-group form-group-sm">
-                            <label class="col-xs-6 control-label text-right" for="v8">保证金：</label>
+                            <label class="col-xs-6 control-label text-right" for="deposit">保证金：</label>
                             <div class="col-xs-6">
-                                <input class="form-control" id="v8" type="text" placeholder=" 保证金" name="deposit" value="${info.supplier_bail!}"/>
+                                <input class="form-control" id="deposit" type="text" placeholder=" 保证金" name="deposit" value="${info.supplier_bail!}"/>
                             </div>
                         </div>
                     </div>
                     <div class="col-xs-4">
                         <div class="form-group form-group-sm">
-                            <label class="col-xs-6 control-label text-right" for="v3">合同号：</label>
+                            <label class="col-xs-6 control-label text-right" for="contractNo">合同号：</label>
                             <div class="col-xs-6">
-                                <input class="form-control" id="v3" type="text" placeholder=" 合同号"  name="contractNo" value="${info.contract_no!}"/>
+                                <input class="form-control" id="contractNo" type="text" placeholder=" 合同号"  name="contractNo" value="${info.contract_no!}"/>
                             </div>
                         </div>
                         <div class="form-group form-group-sm">
                             <label class="col-xs-6 control-label text-right" for="businessScope">业务范围：</label>
                             <div class="col-xs-6">
-                                <input class="form-control" id="businessScope" type="text" placeholder=" 业务范围" name="businessScope" value="${info.supplier_field!}"/>
+                                <select id="businessScope" class="form-control" name="businessScope">
+                                    <option value="">国内/国际</option>
+                                    <option value="国内" <#if info.supplier_field == "国内" >selected</#if>  >国内</option>
+                                    <option value="国际" <#if info.supplier_field == "国际" >selected</#if>  >国际</option>
+                                </select>
                             </div>
                         </div>
                         <div class="form-group form-group-sm">
                             <label class="col-xs-6 control-label text-right" for="payDate">缴纳时间：</label>
                             <div class="col-xs-6">
-                                <input class="form-control form_datetime" placeholder="缴纳时间" name="payDate" id="payDate" value="${info.pay_date!}">
+                                <input class="form-control form_datetime" placeholder="缴纳时间" name="payDate" id="payDate" value="${(info.pay_date?string('yyyy-MM-dd'))!}">
                             </div>
                         </div>
                     </div>
@@ -217,7 +221,7 @@
                                 <option value="">货代</option>
                                 <#if forwarderList??>
                                 <#list forwarderList as forwarder>
-                                <option value="${forwarder.supplier_id}" _state="${forwarder.state}" _supplierId="${forwarder.supplier_id}">${forwarder.supplier_name}</option>
+                                    <option value="${forwarder.supplier_id}" _state="${forwarder.state}" _supplierId="${forwarder.supplier_id}">${forwarder.supplier_name}</option>
                                 </#list>
                                 </#if>
                             </select>
@@ -230,23 +234,27 @@
                         </div>
                     </div>
                     <div class="form-group form-group-sm">
-                        <label class="col-xs-6 control-label text-right" for="v8">保证金：</label>
+                        <label class="col-xs-6 control-label text-right" for="deposit">保证金：</label>
                         <div class="col-xs-6">
-                            <input class="form-control" id="v8" type="text" placeholder=" 保证金" name="deposit"/>
+                            <input class="form-control" id="deposit" type="text" placeholder=" 保证金" name="deposit"/>
                         </div>
                     </div>
                 </div>
                 <div class="col-xs-4">
                     <div class="form-group form-group-sm">
-                        <label class="col-xs-6 control-label text-right" for="v3">合同号：</label>
+                        <label class="col-xs-6 control-label text-right" for="contractNo">合同号：</label>
                         <div class="col-xs-6">
-                            <input class="form-control" id="v3" type="text" placeholder=" 合同号"  name="contractNo"/>
+                            <input class="form-control" id="contractNo" type="text" placeholder=" 合同号"  name="contractNo"/>
                         </div>
                     </div>
                     <div class="form-group form-group-sm">
                         <label class="col-xs-6 control-label text-right" for="businessScope">业务范围：</label>
                         <div class="col-xs-6">
-                            <input class="form-control" id="businessScope" type="text" placeholder=" 业务范围" name="businessScope"/>
+                            <select id="businessScope" class="form-control" name="businessScope">
+                                <option value="">国内/国际</option>
+                                <option value="国内">国内</option>
+                                <option value="国际">国际</option>
+                            </select>
                         </div>
                     </div>
                     <div class="form-group form-group-sm">
@@ -310,31 +318,10 @@
                                 </tr>
                             </thead>
                             <tbody id="tbody">
-                                <!--<tr>
-                                    <td><input type="checkbox" name="sub" _id="1"></td>
-                                    <td>1</td>
-                                    <td> 张三</td>
-                                    <td>18936939393</td>
-                                    <td>zs@qq.com</td>
-                                </tr>
-                                <tr>
-                                    <td><input type="checkbox" name="sub" _id="2"></td>
-                                    <td>2</td>
-                                    <td> 张三</td>
-                                    <td>18936939393</td>
-                                    <td>zs@qq.com</td>
-                                </tr>
-                                <tr>
-                                    <td><input type="checkbox" name="sub" _id="3"></td>
-                                    <td>3</td>
-                                    <td> 张三</td>
-                                    <td>18936939393</td>
-                                    <td>zs@qq.com</td>
-                                </tr>-->
                                 <#if contactsList?? && contactsList?size gt 0>
                                 <#list contactsList as contacts>
                                 <tr>
-                                    <td><input type="checkbox" name="sub" _id="2"></td>
+                                    <td><input type="checkbox" name="sub" _id="${contacts.id}"></td>
                                     <td>${contacts_index+1}</td>
                                     <td>${contacts.name!}</td>
                                     <td>${contacts.phone!}</td>
@@ -366,6 +353,8 @@
 
 <!-- Custom Theme JavaScript -->
 <!-- <script src="../../../dist/js/sb-admin-2.js"></script> -->
+<script src="../../../resource/layer/layer.js"></script>
+<script src="../../../resource/layui/layui.js"></script>
 <script src="../../../resource/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
 <script src="../../../resource/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script> 
 <script src="../../../resource/bootstrap-datetimepicker/js/moment-with-locales.min.js"></script>
@@ -445,6 +434,9 @@ $(function(){
                         regexp: /^[a-zA-Z0-9_\u0391-\uFFE5]+$/,
                         message: '不能包含特殊字符'
                     }，*/
+                    notEmpty:{
+                     message: '不能为空!'
+                     },
                     stringLength: {
                         min: 0,
                         max: 50,
@@ -594,6 +586,10 @@ var t = $('#dataTables-example').DataTable({
 
 // 表操作
 var count = $('#tbody tr').length; // 当前记录条数
+// 记录为零时，新增一行
+if (count === 0) {
+    _newRow();
+}
 // 新增行
 function _newRow() {
 	var $tbody = $('#tbody');
@@ -609,21 +605,42 @@ function _newRow() {
 }
 // 删除行
 function _deleteRow() {
+    // 获取选中记录数量
+    var amount = $(":checked[name='sub']").length;
+    // 如果没有选择，提示勾选至少一条数据
+    if (amount === 0) {
+        layer.msg('请至少选择一条记录', {time: 2000});
+        return;
+    }
+    // 移除勾选记录
 	$(":checked[name='sub']").each(function(){
-        // ids += $(this).attr('_id') + ",";
-        //console.log($(this));
         $(this).parent().parent().remove();
     });
+    // 更新序号
 	var i = 0;
 	$('#tbody tr').each(function() {
 		i++;
-		console.log(i);
-		console.log($(this).find('td').eq(1).html(i));
-	}); 
+		$(this).find('td').eq(1).html(i);
+	});
+    // 更新当前记录数
 	count = i;
+    // 记录为零时，新增一行
+    if (count === 0) {
+        _newRow();
+    }
+    // 清除勾选
+    $("#checkAll").prop("checked" , false);
 }
 // 编辑
 function _editRow() {
+    // 获取选中记录数量
+    var amount = $(":checked[name='sub']").length;
+    // 如果没有选择，提示勾选至少一条数据
+    if (amount === 0) {
+        layer.msg('请至少选择一条记录', {time: 2000});
+        return;
+    }
+    // 内容改为 input
 	$(":checked[name='sub']").each(function(){
 		console.log(this);
 		var $tr = $(this).parent().parent();
@@ -650,33 +667,36 @@ function _editRow() {
         $inputList.eq(2).val(phone);
         $inputList.eq(3).val(email);
         $tr.attr('class','edit'); // 编辑状态
-		
     });
+    // 清除勾选
+    $("input[name='sub']").prop("checked", false);
+    $("#checkAll").prop("checked" , false);
 }
 // 保存联系人信息
 function _saveRow() {
-    var postData = {"contactsList":"", "supplierId":""};// 提交的数据
     var contactsList = []; // 联系人数组
     // 联系人信息单独提交
     // 
     $('#tbody tr').each(function() {
         var $tr = $(this);
-
         var type = $tr.attr("class");
         var name;
         var phone;
         var email;
-
         if ("edit" === type) {
             var $inputList = $tr.find('input');
-            name = $inputList.eq(1).val();
-            phone = $inputList.eq(2).val();
-            email = $inputList.eq(3).val();
+            name = $.trim($inputList.eq(1).val());
+            phone = $.trim($inputList.eq(2).val());
+            email = $.trim($inputList.eq(3).val());
         } else {
             var $tdList = $tr.find("td");
-            name = $tdList.eq(2).html();
-            phone = $tdList.eq(3).html();
-            email = $tdList.eq(4).html();
+            name = $.trim($tdList.eq(2).html());
+            phone = $.trim($tdList.eq(3).html());
+            email = $.trim($tdList.eq(4).html());
+        }
+        // 去除空记录
+        if (!name && !phone && !email) {
+            return true;
         }
         // console.log("name: "+name+" phone: "+phone+" email: "+email);
         // 联系人对象
@@ -687,16 +707,8 @@ function _saveRow() {
         //console.log(contacts);
         contactsList.push(contacts);
     });
-    /*//console.log(contactsList);
-    console.log(JSON.stringify(contactsList));
-    // 联系人列表
-    postData.contactsList = contactsList;
     // 物流公司 id
-    postData.supplierId = $('#supplierId').val();
-    //console.log(postData);
-    console.log(JSON.stringify(postData));*/
     var supplierId = $('#supplierId').val();
-    console.log("supplierId: " + supplierId);
     if(!supplierId) {
         parent.layer.msg('请先新增物流公司', {time: 2000});
     } else {
@@ -711,8 +723,6 @@ function _saveRow() {
             }
         });
     }
-
-
 }
 
 // 取消

@@ -29,7 +29,12 @@
     <link href="../../css/admin.css" rel="stylesheet">
 	<link href="../../resource/bootstrapvalidator/css/bootstrapValidator.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="../../resource/layui/css/layui.css" media="all" />
-
+    <link href="../../resource/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <style>
+        .container {
+            width: 100%;
+        }
+    </style>
     <!-- Custom Fonts -->
     <link href="../../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
@@ -52,19 +57,39 @@
                         <div class="panel-heading">
                         	<div class="container container-fluid">
 	                        	<div class="row">
-		                        	<div class="col-sm-2 col-xs-4 head_2">
-		                  				<input type="search" class="form-control" placeholder="供应商" name="forwarder" value="${forwarder!}" id="forwarder">
+		                        	<div class="col-sm-1 col-xs-3 head_2">
+		                  				<input type="search" class="form-control" placeholder="名称" name="forwarder" value="${forwarder!}" id="forwarder">
 		                  			</div>
-		                  			<div class="col-sm-1 col-xs-4 head_1">
+                                    <div class="col-sm-1 col-xs-3 head_2">
+                                        <input type="search" class="form_year form-control" placeholder="年份" name="year" value="${year!}" id="year">
+                                    </div>
+                                    <div class="col-sm-1 col-xs-3 head_2">
+                                        <input type="search" class="form-control" placeholder="合同号" name="contractNo" value="${contractNo!}" id="contractNo">
+                                    </div>
+                                    <div class="col-sm-1 col-xs-3 head_2">
+                                        <select id="state" class="form-control" name="state">
+                                            <option value="">类型</option>
+                                            <option value="1" <#if (state!9)==1>selected="selected"</#if>>合格</option>
+                                            <option value="2" <#if (state!9)==2>selected="selected"</#if>>备选</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-1 col-xs-3 head_2">
+                                        <select id="businessScope" class="form-control" name="businessScope">
+                                            <option value="">业务范围</option>
+                                            <option value="国内" <#if (businessScope!"")=="国内">selected="selected"</#if>>国内</option>
+                                            <option value="国际" <#if (businessScope!"")=="国际">selected="selected"</#if>>国际</option>
+                                        </select>
+                                    </div>
+		                  			<div class="col-sm-1 col-xs-3 head_1">
 		                       			<button class="btn btn-primary" onclick="_search()">查询</button>
 		                       		</div>
-		                       		<div class="col-sm-2 col-xs-4 head_1">
+		                       		<div class="col-sm-1 col-xs-3 head_1">
 			                        	<button class="btn btn-success" onclick="_add()">新增</button>
 			                        </div>
-			                        <div class="col-sm-1 col-xs-4 head_1">
+			                        <div class="col-sm-1 col-xs-3 head_1">
 	                                    <button class="btn btn-4 " onclick="_batchDelete()">删除</button>
 	                                </div>
-	                                <div class="col-sm-1 col-xs-4 head_1">
+	                                <div class="col-sm-1 col-xs-3 head_1">
 	                                    <button class="btn btn-9 " onclick="_refresh()"><i class="fa fa-refresh"></i></button>
 	                                </div>
 	                       		</div>
@@ -77,17 +102,17 @@
                                     <tr>
                                         <th><input type="checkbox" id="checkAll"></th>
                                         <th>序号</th>
-                                        <th>注册代码</th>
-                                        <th>货代名称</th>
+                                        <!--<th>注册代码</th>-->
+                                        <th>年份</th>
+                                        <th>名称</th>
                                         <th>合同号</th>
-                                        <th>货代等级</th>
-                                        <th>货代类型</th>
+                                        <th>等级</th>
+                                        <th>类型</th>
                                         <th>业务范围</th>
                                         <th>合作年限</th>
                                         <th>保证金</th>
-                                        <!--<th>联系人</th>
-                                        <th>联系电话</th>
-                                        <th>邮箱</th>-->
+                                        <th>缴纳时间</th>
+                                        <th>退保时间</th>
                                         <th>备注</th>
                                         <th>操作</th>
                                     </tr>
@@ -98,7 +123,8 @@
                                 	<tr>
                                 	    <td><input type="checkbox" name="sub" _id="${info.id}"></td>
                                         <td>${info_index+1}</td>
-                                        <td>${info.registration_code!}</td>
+                                        <!--<td>${info.registration_code!}</td>-->
+                                        <td>${(info.year?string("yyyy"))!}</td>
                                         <td>${info.supplier_name!}</td>
                                         <td>${info.contract_no!}</td>
                                         <td>${info.supplier_level!}</td>
@@ -113,9 +139,8 @@
                                         <td>${info.supplier_field!}</td>
                                         <td>${info.supplier_years!}</td>
                                         <td>${info.supplier_bail!}</td>
-                                        <!--<td>${info.contact!}</td>
-                                        <td>${info.phone!}</td>
-                                        <td>${info.email!}</td>-->
+                                        <td>${(info.pay_date?string('yyyy-MM-dd'))!}</td>
+                                        <td>${(info.withdraw_date?string('yyyy-MM-dd'))!}</td>
                                         <td>${info.remark!}</td>
                                         <td>
                                         	<button class="btn btn-3 btn-xs"onclick="_edit(${info.id})">编辑</button>
@@ -153,6 +178,9 @@
     <script src="../../vendor/datatables-responsive/dataTables.responsive.js"></script>
 
     <!-- Custom Theme JavaScript -->
+    <script src="../../resource/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="../../../resource/bootstrap-datetimepicker/js/moment-with-locales.min.js"></script>
+    <script src="../../resource/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
     <script src="../../resource/layer/layer.js"></script>
     <script src="../../resource/layui/layui.js"></script>
     <script src="../../js/common/admin.js"></script>
@@ -187,14 +215,29 @@
     function _search(){
 		layui.use('layer',function(){
 			var layer = layui.layer;
-			var forwarder = encodeURI($.trim($('#forwarder').val()));
+
+			var forwarder = $.trim($('#forwarder').val()); // 名称
+            var year = $.trim($('#year').val()); // 年份
+            var contractNo = $.trim($('#contractNo').val()); // 合同号
+            var state = $.trim($('#state').val()); // 类型
+            var businessScope = $.trim($('#businessScope').val()); // 业务范围
+
 			if($.trim($('#forwarder').val())!=''){
 				var reg = /^[a-zA-Z0-9_\u0391-\uFFE5 ]{1,30}$/;
 				if(!reg.test($('#forwarder').val())){
-					layer.tips('不允许有特殊字符，最多20个字符', '#forwarder', {tips: [1, '#34495E']});return;
+					layer.tips('不允许有特殊字符，最多20个字符', '#forwarder', {tips: [1, '#34495E']});
+					return;
 				}					
 			}
-			location.replace('/supplier/info/info/1-' + forwarder );
+            if($.trim($('#contractNo').val())!=''){
+                var reg = /^[a-zA-Z0-9_ ]{1,30}$/;
+                if(!reg.test($('#contractNo').val())){
+                    layer.tips('不允许有特殊字符，最多20个字符', '#contractNo', {tips: [1, '#34495E']});
+                    return;
+                }
+            }
+
+			location.replace('/supplier/info?'+'forwarder=' + forwarder + '&year=' + year + '&contractNo=' +contractNo+ '&state=' +state  +'&businessScope='+businessScope);
 		})
 	}
     // 编辑
@@ -266,6 +309,22 @@
             });
         }
     }
+    // 明细
+    function _detail(id) {
+        open_window('明细','/supplier/info/getInfoDetail/'+id, 550, 350);
+    }
+    //日期控件
+    $(".form_year").datetimepicker({
+        format: "yyyy",
+        autoclose: true,
+        todayBtn: false,
+        todayHighlight: true,
+        showMeridian: true,
+        pickerPosition: "bottom-right",
+        language: 'zh-CN',//中文，需要引用zh-CN.js包
+        startView: 4,// 年视图
+        minView: 4,
+    });
     </script>
 
 </body>

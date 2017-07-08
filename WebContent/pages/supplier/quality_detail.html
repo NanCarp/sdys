@@ -48,10 +48,9 @@
             <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="companyId">公司：</label>
             <div class="col-xs-6">
                 <select class="form-control" id="companyId" name="companyId">
-                    <option value="">请选择公司</option>
                     <#if companyList??>
                     <#list companyList as company>
-                    <option value="${company.id}" <#if company.id == quality.supplier_id>selected</#if>>${company.company_name}</option>
+                    <option value="${company.id}" <#if company.id == quality.supplier_id>selected<#else>style="display:none;"</#if>>${company.company_name}</option>
                     </#list>
                     </#if>
                 </select>

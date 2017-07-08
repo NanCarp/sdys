@@ -52,30 +52,30 @@
                     <div class="panel-heading">
                         <div class="container container-fluid">
                             <div class="row">
-                                <div class="col-sm-2 col-xs-4 head_2">
+                                <div class="col-sm-2 col-xs-3 head_2">
                                     <input type="search" class="form-control" placeholder="公司名称" name="forwarder" id="forwarder" value="${forwarder!}">
                                 </div>
-                                <div class="col-sm-2 col-xs-4 head_2">
+                                <div class="col-sm-2 col-xs-3 head_2">
                                     <input type="search" class="form-control" placeholder="简称" name="abbreviation" id="abbreviation" value="${abbreviation!}">
                                 </div>
-                                <div class="col-sm-2 col-xs-4 head_2">
+                                <div class="col-sm-2 col-xs-3 head_2">
                                     <select id="state" class="form-control" name="state">
-					                    <option value="">请选择状态</option>
+					                    <option value="">状态</option>
 					                    <option value="1" <#if (state!"9")=="1">selected="selected"</#if>>合格</option>
 					                    <option value="2" <#if (state!"9")=="2">selected="selected"</#if>>备选</option>
 					                    <option value="0" <#if (state!"9")=="0">selected="selected"</#if>>不合格</option>
 					                </select>
                                 </div>
-                                <div class="col-sm-1 col-xs-4 head_1">
+                                <div class="col-sm-1 col-xs-3 head_1">
                                     <button class="btn btn-primary" onclick="_search()">查询</button>
                                 </div>
-                                <div class="col-sm-1 col-xs-4 head_1">
+                                <div class="col-sm-1 col-xs-3 head_1">
                                     <button class="btn btn-success" onclick="_add()">新增</button>
                                 </div>
-                                <div class="col-sm-1 col-xs-4 head_1">
+                                <div class="col-sm-1 col-xs-3 head_1">
                                     <button class="btn btn-4 " onclick="_batchDelete()">删除</button>
                                 </div>
-                                <div class="col-sm-1 col-xs-4 head_1">
+                                <div class="col-sm-1 col-xs-3 head_1">
                                     <button class="btn btn-9 " onclick="_refresh()"><i class="fa fa-refresh"></i></button>
                                 </div>
                             </div>
@@ -88,12 +88,14 @@
                                 <tr>
                                     <th><input type="checkbox" id="checkAll"></th>
                                     <th>序号</th>
-                                    <th>注册代码</th>
+                                    <!--<th>注册代码</th>-->
                                     <th>货代名称</th>
                                     <th>简称</th>
+                                    <th>状态</th>
                                     <th>资质审核文件</th>
                                     <th>备注</th>
-                                    <th>状态</th>
+                                    <th>录入人</th>
+                                    <th>录入时间</th>
                                     <th>操作</th>
                                 </tr>
                             </thead>
@@ -103,23 +105,25 @@
                                 <tr>
                                     <td><input type="checkbox" name="sub" _id="${quality.id}"></td>
                                     <td>${quality_index+1}</td>
-                                    <td>${quality.registration_code}</td>
+                                    <!--<td>${quality.registration_code}</td>-->
                                     <td>${quality.supplier_name}</td>
                                     <td>${quality.short_name}</td>
-                                    <!-- <td><p style="color:#6699FF;" id="fileName_${quality.id}">${quality.review_file!}</p></td> -->
-                                    <td><a href="javascript:void(0)" style="color:#6699FF;" onclick="_getFileList(${quality.id})">查看</a></td>
-                                    <td>${quality.remark}</td>
                                     <td>
                                         <#if quality.state==1>
-                                        <p style="color:#57AE00;"><strong>合格</strong></p>
+                                            <p style="color:#57AE00;"><strong>合格</strong></p>
                                         </#if>
                                         <#if quality.state==2>
-                                        <p style="color:#6699FF;"><strong>备选</strong></p>
+                                            <p style="color:#6699FF;"><strong>备选</strong></p>
                                         </#if>
                                         <#if quality.state==0>
-                                        <p style="color:#FF3300;"><strong>不合格</strong></p>
+                                            <p style="color:#FF3300;"><strong>不合格</strong></p>
                                         </#if>
                                     </td>
+                                    <!-- <td><p style="color:#6699FF;" id="fileName_${quality.id}">${quality.review_file!}</p></td> -->
+                                    <td><a href="javascript:void(0)" style="color:#6699FF;" onclick="_getFileList(${quality.id})">查看</a></td>
+                                    <td>${quality.remark!}</td>
+                                    <td>${quality.person!}</td>
+                                    <td>${(quality.review_time?string('yyyy-MM-dd'))!}</td>
                                     <td>
                                         <button class="btn btn-3 btn-xs" onclick="_edit(${quality.id})">编辑</button>
                                         <button class="btn btn-2 btn-xs" onclick="_cancel(this,${quality.id})" value="1" <#if quality.state==1><#else>style="display:none;"</#if>>冻结</button>
