@@ -67,13 +67,19 @@
                        			<div class="col-sm-1 col-xs-4 head_1">
                                     <button class="btn btn-success" onclick="_add()">新增</button>
                                 </div>
-                                <div class="col-sm-1 col-xs-4 head_1">
+                                <div class="col-sm-1 col-xs-12 head_1">
+                                    <button class="btn btn-5" onclick="_import()">导入</button>
+                                </div>
+                                <!-- <div class="col-sm-1 col-xs-4 head_1">
                                     <span class="btn btn-5 btn-file"> 导入
                                         <input type="file" name="file_exl" value="" id="file_exl" onchange="uploadexcel()"/>
                                     </span>
-                                </div>
-                                <div class="col-sm-1 col-xs-4 head_3" style="margin-right: 15px">
+                                </div> -->
+                                <div class="col-sm-1 col-xs-4 head_1">
                                     <button class="btn btn-4" onclick="_delete()">删除</button>
+                                </div>
+                                <div class="col-sm-1 col-xs-4 head_1">
+                                    <button class="btn btn-9 " onclick="_refresh()"><i class="glyphicon glyphicon-refresh"></i></button>
                                 </div>
 	                        </div>
 	                    </div>
@@ -308,6 +314,16 @@
             },
         });
 
+    }
+    
+    // 导入
+    function _import() {
+        open_window('新增进口明细','/manual/importation/importUI', 480, 200);
+    }
+    
+    // 刷新
+    function _refresh() {
+        location = '/manual/importation';
     }
 </script>
 

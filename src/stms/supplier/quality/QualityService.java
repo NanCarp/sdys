@@ -130,12 +130,14 @@ public class QualityService {
 	    // 待删除记录
         Record record = Db.findById("t_supplier_qualification", id);
         // 待删除文件名
-        String fileName = record.getStr("file");
+		String[] fileList = record.getStr("review_file").split(",");
         // 删除结果
         boolean result = Db.delete("t_supplier_qualification", record);
         // 数据库删除成功，删除对应文件
         if (result == true) {
-            deleteFile(fileName);
+			for (String fileName : fileList) {
+				deleteFile(fileName);
+			}
         }
 
 		return result;
@@ -283,7 +285,7 @@ public class QualityService {
     */
     public static void downloadFile(HttpServletResponse response, String file) throws IOException{
         byte[] buffer = new byte[4096];
-        String ZipName = file + ".rar";
+        String ZipName = file.split("@")[0] + ".rar";
         response.setContentType("application/octet-stream");
         response.setHeader("Content-Disposition", "attachment; filename=" + EncodeUtil.toUtf8String(ZipName));
         ZipOutputStream out = new ZipOutputStream(response.getOutputStream());
@@ -295,7 +297,7 @@ public class QualityService {
         }
         for (int j = 0; j < fs.length; j++) {
             FileInputStream fis = new FileInputStream(fs[j]);
-            out.putNextEntry(new ZipEntry(fs[j].getName()));
+            out.putNextEntry(new ZipEntry(fs[j].getName().split("@")[0]));
             int len;
             // 读入需要下载的文件的内容，打包到zip文件
             while ((len = fis.read(buffer)) > 0) {
@@ -308,11 +310,11 @@ public class QualityService {
     }
 
 
-    /** 
-    * @Title: getFileList 
-    * @Description: 获取物流公司附件列表 
+    /**
+    * @Title: getFileList
+    * @Description: 获取物流公司附件列表
     * @param id void
-     * @return 
+     * @return
     */
     /*public static String getFileList(Integer id) {
         Record record = Db.findById("t_supplier_qualification", id);

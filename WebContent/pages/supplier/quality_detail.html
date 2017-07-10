@@ -133,9 +133,9 @@
         </#if>
         <div class="form-group">
             <label class="col-xs-5 control-label" for="v5"></label>
-            <div class="col-xs-6 text-right">
-	            <button type="button" class="btn btn-10" onclick="_close()">取消</button>
-	            <button type="submit" class="btn btn-11" id="save">保存</button>
+            <div class="col-xs-6 ">
+	            <!-- <button type="button" class="btn btn-10" onclick="_close()">取消</button> -->
+	            <button type="submit" class="btn btn-11" id="save">　保存　</button>
         	</div>
         </div>
     </form>
@@ -158,7 +158,7 @@
 
 // 文件上传
 // 初始化fileinput控件（第一次初始化）
-var fileList = new Array();//定义一个全局变量去接受文件名和id
+//var fileList = new Array();//定义一个全局变量去接受文件名和id
 
 function initFileInput(ctrlName, uploadUrl) {
     var control = $('#' + ctrlName);
@@ -181,8 +181,11 @@ function initFileInput(ctrlName, uploadUrl) {
     }).on("fileuploaded", function(event, data, previewId, index) {// 上传成功后的回调函数
         if(data.response) {
             var fileName = data.response.fileName;
-            fileList.push({fileName: fileName, keyId : previewId});
-            $('#url').empty().append('<p><span style="width: 90%;float: left;">'+fileName+'</span><a href="javascript:;" onclick="del(this)" style="width: 10%;float: left;"><i class="fa fa-times" title="删除"></i></a></br></p>');
+            //var fullName = fileName;
+            console.log("fileName: " + fileName);
+            var file = fileName.substring(0, fileName.indexOf("@"));
+            //fileList.push({fileName: fileName, keyId : previewId});
+            $('#url').append('<p><span _url="'+fileName+'" style="width: 90%;float: left;">'+file+'</span><a _url="'+fileName+'" href="javascript:;" onclick="del(this)" style="width: 10%;float: left;"><i class="fa fa-times" title="删除"></i></a></br></p>');
         }
     }).on('filesuccessremove', function(event,id) {// 上传成功后，点击删除按钮的回调函数
         console.log("filesuccessremove: " + id);
@@ -210,7 +213,7 @@ $('body').delegate('#file','change',function(e){
 })*/
 // 删除选中文件
 function del(_obj){
-    var fileName = $('#url span').html();
+    var fileName = $(_obj).attr('_url');
     //console.log(fileName);
     $.post("/supplier/quality/deleteQualityFile",{"fileName":fileName},function (data) {
         if (data) {
@@ -225,9 +228,14 @@ function del(_obj){
 }
 // 回显文件
 $(function () {
-    var fileName = '${fileName!""}';
-    if ("" !== fileName) {
-        $('#url').empty().append('<p><span style="width: 90%;float: left;">'+fileName+'</span><a href="javascript:;" onclick="del(this)" style="width: 10%;float: left;"><i class="fa fa-times" title="删除"></i></a></br></p>');
+    var fileName = '${fileName!""}'.split(",");
+    if (fileName.length > 0) {
+        for(var i in fileName){
+            if(fileName[i] != ''){
+                var file = fileName[i].substring(0, fileName[i].indexOf("@"));
+                $('#url').append('<p><span _url="'+fileName[i]+'" style="width: 90%;float: left;">'+file+'</span><a _url="'+fileName[i]+'" href="javascript:;" onclick="del(this)" style="width: 10%;float: left;"><i class="fa fa-times" title="删除"></i></a></br></p>');
+            }
+        }
     }
 });
 
@@ -297,10 +305,16 @@ $('#defaultForm').bootstrapValidator({
     var companyId = $('#companyId').val();
     var abbreviation = $('#abbreviation').val();
     var state = $('#state').val();
-    var file = $('#url span').html();
+    var fileName = "";
+    $('#url span').each(function () {
+    	console.log($(this).attr('_url'));
+        fileName += $(this).attr('_url') + ",";
+    });
+    fileName = fileName.substring(0, fileName.length - 1);
+    console.log(fileName);
     // var file = fileList[0]["fileName"];
     var remark = $('#remark').html();
-	var postData = {'id': id, 'companyId': companyId, 'abbreviation': abbreviation, 'state': state, 'file': file, 'remark': remark};
+	var postData = {'id': id, 'companyId': companyId, 'abbreviation': abbreviation, 'state': state, 'file': fileName, 'remark': remark};
 
     $.post("/supplier/quality/saveQuality", postData, function(result) {
 		if (result) {

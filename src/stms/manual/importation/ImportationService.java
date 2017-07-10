@@ -10,7 +10,14 @@ import stms.model.ManualSum;
 import stms.utils.ExcelKit;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.servlet.http.HttpSession;
 
 public class ImportationService {
     
@@ -83,15 +90,30 @@ public class ImportationService {
     * @param uploadFile
     * @return boolean
     */
-    public static boolean importByExcel(UploadFile uploadFile) {
-        boolean succeed = Db.tx(new IAtom() {
+    public static Map<String, Object> importByExcel(UploadFile uploadFile, HttpSession session) {
+        Map<String,Object> map = new HashMap<String,Object>();
+        List<Object> countWrongList = new ArrayList<>();
+        boolean flag = Db.tx(new IAtom() {            
             @Override
             public boolean run() throws SQLException {
-                try{
-                    List<String[]> list = ExcelKit.getExcelData(uploadFile.getFile());
-                    for(String[] strings : list){
-                        if(strings[0] != null && !"".equals(strings[0])){
-                            // TODO 空值
+                List<String[]> list = ExcelKit.getExcelData(uploadFile.getFile());
+                //导入excel返回结果，true导入正确，false导入错误
+                boolean result = true;
+                System.out.println(list.get(0).length);
+                if(list.get(0).length!=20){
+                    session.setAttribute("ErrorFile",true);
+                    result = false;
+                } else {
+                    session.setAttribute("ErrorFile",false);
+                    for(int i = 0; i < list.size(); i++){
+                        String[] strings = list.get(i);
+                        for(int k=0;k<=strings.length-1;k++){
+                            if(match(strings[k])){
+                                countWrongList.add(i+2+"排"+(k+1)+"列");
+                                result = false;
+                            }
+                        }
+                        try {
                             ManualImport record = new ManualImport();
                             record.set("import_num", strings[0]);
                             record.set("import_record_num", strings[1]);
@@ -113,19 +135,7 @@ public class ImportationService {
                             record.set("version", strings[17]);
                             record.set("manual_id", strings[18]);
                             record.set("remark", strings[19]);
-
-                            /*// 存在则更新，否则新增
-                            String sql = "SELECT * FROM t_manual_import " +
-                                    " WHERE manual_id = ? AND import_num = ? ";
-                            List<Record> list1 = Db.find(sql, strings[18], strings[0]);
-                            if(list1.size() > 0) {
-                                Integer id = list1.get(0).getInt("id");
-                                record.set("id", id);
-                                Db.update("t_manual_import", record);
-                            } else {
-                                Db.save("t_manual_import", record);
-                            }*/
-                            
+                     
                             // 存在则更新，否则新增
                             String sql = "SELECT * FROM t_manual_import " +
                                     " WHERE manual_id = ? AND import_num = ? ";
@@ -136,17 +146,22 @@ public class ImportationService {
                             } else { // 新增
                                 record.save();
                             }
-                            
+                        } catch(Exception e) {
+                            //指定一个判定对象，如果countWrongList已有该行数则返回false，否则返回true；
+                            countWrongList.add(i+2+"行"+"存在数据异常，请校验");
+                            result = false;
                         }
+                            
+                            
                     }
-                    return true;
-                }catch (Exception e){
-                    e.printStackTrace();
-                    return false;
                 }
+                return result;  
             }
         });
-        return succeed;
+        map.put("flag", flag);
+        session.setAttribute("countWrongList", countWrongList);
+        return map;
+        
     }
 
     /** 
@@ -166,5 +181,15 @@ public class ImportationService {
             result = record.save();
         }
         return result;
+    }
+    
+    /**
+     * @desc 验证导入excel输入的正则验证
+     * @author xuhui
+     */
+    private static boolean match(String str){
+        Pattern pattern = Pattern.compile("[`~!@#$%^&*()+=|{}':;',\\[\\]<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]");
+        Matcher matcher = pattern.matcher(str);
+        return matcher.find();
     }
 }

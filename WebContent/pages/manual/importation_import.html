@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>手册情况汇总-导入</title>
+    <title>进口明细-导入</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="../../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -115,7 +115,7 @@ $(function(){
     var formData = new FormData();
     formData.append("file",$("#file")[0].files[0]);
     $.ajax({
-        url:"/manual/summary/importByExcel",
+        url:"/manual/importation/importByExcel",
         type:"POST",
         data:formData,
         processData:false,
@@ -126,7 +126,7 @@ $(function(){
                     parent.parent.refresh_iframe();
                 });
             }else{
-                parent.open_window('导入错误!','/manual/summary/showErrorExcelMessage', 500, 268);
+                parent.open_window('导入错误!','/manual/importation/showErrorExcelMessage', 500, 268);
                 layer_close();
             }
         },

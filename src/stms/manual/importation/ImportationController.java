@@ -9,6 +9,7 @@ import stms.model.ManualImport;
 import stms.model.ManualSum;
 
 import java.util.List;
+import java.util.Map;
 
 public class ImportationController extends Controller{
     
@@ -164,6 +165,12 @@ public class ImportationController extends Controller{
         
         renderJson(result);
     }
+    
+    public void importUI() {
+        // 导入页面
+        render("importation_import.html");
+    }
+    
     /**
      * @Title: importByExcel
      * @Description: 导入 excel中的数据
@@ -172,9 +179,21 @@ public class ImportationController extends Controller{
         // excel
         UploadFile uploadFile = getFile();
         // 导入结果
-        boolean result = ImportationService.importByExcel(uploadFile);
+        Map<String, Object> msgMap = ImportationService.importByExcel(uploadFile, getSession());
 
-        renderJson(result);
+        renderJson(msgMap);
     }
+    
+    /** 
+     * @Title: showErrorExcelMessage 
+     * @Description: 显示错误信息
+     */
+     public void showErrorExcelMessage(){
+         List<Integer> countlist = getSessionAttr("countWrongList");
+         boolean ErrorFile = getSessionAttr("ErrorFile");
+         setAttr("countlist", countlist);
+         setAttr("ErrorFile", ErrorFile);
+         render("wrong_message.html");
+     }
 
 }

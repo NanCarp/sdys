@@ -1,16 +1,10 @@
 package stms.supplier.info;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.sql.SQLException;
 import java.util.*;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jfinal.core.Controller;
-import com.jfinal.json.Json;
-import com.jfinal.kit.JsonKit;
 import com.jfinal.plugin.activerecord.Db;
-import com.jfinal.plugin.activerecord.IAtom;
 import com.jfinal.plugin.activerecord.Record;
 
 
@@ -134,6 +128,7 @@ public class InfoController extends Controller {
 
 
         Record record = new Record();
+		record.set("year", year);
 		record.set("supplier_id", supplierId);
 		record.set("contract_no", contractNo);
 		record.set("supplier_level", level);
@@ -177,7 +172,8 @@ public class InfoController extends Controller {
         // 返回消息
         Map<String, Object> message = new HashMap<>();
         message.put("isSuccess", result);
-        message.put("supplierId", id);
+        message.put("supplierId", supplierId);
+        message.put("id", id);
 
 		renderJson(message);
 		

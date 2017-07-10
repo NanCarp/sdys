@@ -101,7 +101,7 @@ public class SummaryService {
 
     public Map<String, Object> importByExcel(UploadFile uploadFile, HttpSession session) {
         Map<String,Object> map = new HashMap<String,Object>();
-        List<Integer> countWrongList = new ArrayList<Integer>();
+        List<Object> countWrongList = new ArrayList<>();
         boolean flag = Db.tx(new IAtom() {            
             @Override
             public boolean run() throws SQLException {
@@ -118,7 +118,8 @@ public class SummaryService {
                         String[] strings = list.get(i);
                         for(int k=0;k<=strings.length-1;k++){
                             if(match(strings[k])){
-                                countWrongList.add(i+2);
+                                countWrongList.add(i+2+"排"+(k+1)+"列");
+                                result = false;
                             }
                         }
                         try {
@@ -174,7 +175,7 @@ public class SummaryService {
                             }
                         } catch(Exception e) {
                             //指定一个判定对象，如果countWrongList已有该行数则返回false，否则返回true；
-                            boolean countflag = true;
+                            /*boolean countflag = true;
                             for(Integer column:countWrongList){
                                 if(column==i){
                                     countflag = false;
@@ -182,7 +183,8 @@ public class SummaryService {
                             }
                             if(!countflag){
                                 countWrongList.add(i+2);
-                            }
+                            }*/
+                            countWrongList.add(i+2+"行"+"存在数据异常，请校验");
                             result = false;
                         }
                             
@@ -220,10 +222,10 @@ public class SummaryService {
      * @desc 验证导入excel输入的正则验证
      * @author xuhui
      */
-    public boolean match(String str){
+    private boolean match(String str){
         Pattern pattern = Pattern.compile("[`~!@#$%^&*()+=|{}':;',\\[\\]<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]");
         Matcher matcher = pattern.matcher(str);
-        return matcher.find(); 
+        return matcher.find();
     }
 
 }

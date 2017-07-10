@@ -22,7 +22,7 @@
 	<link href="../../../css/admin.css" rel="stylesheet">
 	<link href="../../../resource/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
 	<style type="text/css">
-		body { margin:0 15px;}
+		body { margin:0 95px 0 0;}
 		form { margin-top:20px;}
 		label { padding-top:6px;padding-right:0;}
 	</style>
@@ -41,99 +41,122 @@
 
 <body>
 <form class="form-horizontal" role="form" style="margin-top:20px;" id="defaultForm">
-	<#if year??>
-	<input hidden="" name="id" value="${year.id}">
-	<input hidden="" name="supplierId" value="${year.supplier_id}">
-	<div class="form-group">
-        <label class="col-xs-4 control-label text-right" for="year">年份：</label>
+    <div class="container">
+        <#if year??>
+        <input hidden="" name="id" value="${year.id}">
+        <input hidden="" name="supplierId" value="${year.supplier_id}">
         <div class="col-xs-6">
-            <input class="form-control" placeholder="年份" name="year" id="year" value="${year.year?string('yyyy')}" readonly>
+            <div class="form-group">
+                <label class="col-xs-6 control-label text-right" for="year">年　　份：</label>
+                <div class="col-xs-6">
+                    <input class="form-control" placeholder="年份" name="year" id="year" value="${year.year?string('yyyy')}" readonly>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-6 control-label text-right" for="yearScore">年度得分：</label>
+                <div class="col-xs-6">
+                    <input class="form-control" id="yearScore" type="text" placeholder="年度得分" name="yearScore" value="${year.year_score}"/>
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-		<label class="col-xs-4 control-label text-right" for="supplierName">公司名称：</label>
-		<div class="col-xs-6">
-            <input  class="form-control" name="supplierName" id="supplierName" value="${year.supplier_name}" readonly>
-		</div>
-	</div>
-    <div class="form-group">
-        <label class="col-xs-4 control-label text-right" for="yearScore">年度得分：</label>
         <div class="col-xs-6">
-            <input class="form-control" id="yearScore" type="text" placeholder="年度得分" name="yearScore" value="${year.year_score}"/>
+            <div class="form-group">
+                <label class="col-xs-6 control-label text-right" for="supplierName">公司名称：</label>
+                <div class="col-xs-6">
+                    <input  class="form-control" name="supplierName" id="supplierName" value="${year.supplier_name}" readonly>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-6 control-label text-right" for="level">评定等级：</label>
+                <div class="col-xs-6">
+                    <select id="level" class="form-control" name="level">
+                        <option value="">请选择等级</option>
+                        <#if criterionList?? && criterionList?size gt 0>
+                            <#list criterionList as criterion>
+                                <option value="${criterion.supplier_level}" <#if year.supplier_level == criterion.supplier_level>selected</#if> >${criterion.supplier_level}</option>
+                            </#list>
+                        </#if>
+                    </select>
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-4 control-label text-right" for="level">评定等级：</label>
+        <div class="col-xs-12">
+            <div class="form-group">
+                <label class="col-xs-3 control-label text-right" for="remark" style="padding-top:0;">备　　注：</label>
+                <div class="col-xs-9">
+                    <textarea id="remark" class="form-control" id="remark" placeholder="备注">${year.remark!}</textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label" for="v"></label>
+                <div class="col-xs-9 ">
+                    <!--<button type="button" class="btn btn-10" id="cancel">取消</button>-->
+                    <button id="v" type="submit" class="btn btn-11">　保存　</button>
+                </div>
+            </div>
+        </div>
+        <#else>
         <div class="col-xs-6">
-            <select id="level" class="form-control" name="level">
-                <option value="">请选择等级</option>
-                <#if criterionList?? && criterionList?size gt 0>
-                    <#list criterionList as criterion>
-                        <option value="${criterion.supplier_level}" <#if year.supplier_level == criterion.supplier_level>selected</#if> >${criterion.supplier_level}</option>
-                    </#list>
-                </#if>
-            </select>
+            <div class="form-group">
+                <label class="col-xs-6 control-label text-right" for="year">年　　份：</label>
+                <div class="col-xs-6">
+                    <input class="form_datetime form-control" placeholder="年份" name="year" id="year" value="${currentYear}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-6 control-label text-right" for="yearScore">年度得分：</label>
+                <div class="col-xs-6">
+                    <input class="form-control" id="yearScore" type="text" placeholder="年度得分" name="yearScore"/>
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-4 control-label text-right" for="remark" style="padding-top:0;">备注：</label>
         <div class="col-xs-6">
-            <textarea id="remark" class="form-control" id="remark" placeholder="备注">${year.remark!}</textarea>
+            <div class="form-group">
+                <label class="col-xs-6 control-label text-right" for="supplierId">公司名称：</label>
+                <div class="col-xs-6">
+                    <select class="form-control" name="supplierId" id="supplierId">
+                        <option value="">请选择供应商</option>
+                        <#if forwarderList??>
+                        <#list forwarderList as forwarder>
+                        <option value="${forwarder.supplier_id}">${forwarder.supplier_name}</option>
+                        </#list>
+                        </#if>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-6 control-label text-right" for="level">评定等级：</label>
+                <div class="col-xs-6">
+                    <select id="level" class="form-control" name="level" disabled="disabled">
+                        <option value="">请选择等级</option>
+                        <#if criterionList?? && criterionList?size gt 0>
+                            <#list criterionList as criterion>
+                                <option value="${criterion.supplier_level}">${criterion.supplier_level}</option>
+                            </#list>
+                        </#if>
+                    </select>
+                </div>
+            </div>
         </div>
-    </div>
-	<#else>
-    <div class="form-group">
-        <label class="col-xs-4 control-label text-right" for="year">年份：</label>
-        <div class="col-xs-6">
-            <input class="form_datetime form-control" placeholder="年份" name="year" id="year" value="${currentYear}">
+        <div class="col-xs-12">
+            <div class="form-group">
+                <label class="col-xs-3 control-label text-right" for="remark" style="padding-top:0;">备　　注：</label>
+                <div class="col-xs-9">
+                    <textarea id="remark" class="form-control" id="remark" placeholder="备注"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label" for="v"></label>
+                <div class="col-xs-9 ">
+                    <!--<button type="button" class="btn btn-10" id="cancel">取消</button>-->
+                    <button id="v" type="submit" class="btn btn-11">　保存　</button>
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-		<label class="col-xs-4 control-label text-right" for="supplierId">公司名称：</label>
-		<div class="col-xs-6">
-			<select class="form-control" name="supplierId" id="supplierId">
-                <option value="">请选择供应商</option>
-                <#if forwarderList??>
-				<#list forwarderList as forwarder>
-				<option value="${forwarder.supplier_id}">${forwarder.supplier_name}</option>
-				</#list>
-				</#if>
-            </select>
-		</div>
-	</div>
-    <div class="form-group">
-        <label class="col-xs-4 control-label text-right" for="yearScore">年度得分：</label>
-        <div class="col-xs-6">
-            <input class="form-control" id="yearScore" type="text" placeholder="年度得分" name="yearScore"/>
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-4 control-label text-right" for="level">评定等级：</label>
-        <div class="col-xs-6">
-            <select id="level" class="form-control" name="level" disabled="disabled">
-                <option value="">请选择等级</option>
-                <#if criterionList?? && criterionList?size gt 0>
-                    <#list criterionList as criterion>
-                        <option value="${criterion.supplier_level}">${criterion.supplier_level}</option>
-                    </#list>
-                </#if>
-            </select>
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-4 control-label text-right" for="remark" style="padding-top:0;">备注：</label>
-        <div class="col-xs-6">
-            <textarea id="remark" class="form-control" id="remark" placeholder="备注"></textarea>
-        </div>
-    </div>
-    </#if>
-    <div class="form-group">
-        <label class="col-xs-4 control-label" for="v"></label>
-        <div class="col-xs-6 text-right">
-            <button type="button" class="btn btn-10" id="cancel">取消</button>
-            <button id="v" type="submit" class="btn btn-11">保存</button>
-       	</div>
-    </div>
+
+        </#if>
+
+    </div><!-- container -->
 </form>
 <!-- jQuery -->
 <script src="../../../vendor/jquery/jquery.min.js"></script>

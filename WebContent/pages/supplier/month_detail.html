@@ -24,7 +24,7 @@
 	<link href="../../../resource/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
     <link href="../../../resource/bootstrap-fileinput/css/fileinput.css" rel="stylesheet">
     <style type="text/css">
-		body { margin:0 15px;}
+		body { margin:0 75px 0 0;}
 		form { margin-top:20px;}
 		label { padding-top:6px;padding-right:0;}
 	</style>
@@ -43,10 +43,12 @@
 
 <body>
 <form class="form-horizontal" role="form" id="defaultForm">
+    <div class="container">
 	<#if month??>
 	<input hidden="" name="id" value="${month.id}">
+    <div class="col-xs-6">
 	<div class="form-group">
-		<label class="col-xs-4 control-label text-right" for="supplierId">公司名称：</label>
+		<label class="col-xs-6 control-label text-right" for="supplierId">公司名称：</label>
 		<div class="col-xs-6">
 			<select class="form-control" name="supplierId" id="supplierId" >
                 <#if forwarderList??>
@@ -58,25 +60,27 @@
 		</div>
 	</div>
 	<div class="form-group">
-        <label class="col-xs-4 control-label text-right" for="year">年份：</label>
+        <label class="col-xs-6 control-label text-right" for="year">年份：</label>
         <div class="col-xs-6">
             <input class="form-control" placeholder="年份" name="year" id="year" value="${month.year?string('yyyy')}" readonly>
         </div>
     </div>
     <div class="form-group">
-        <label class="col-xs-4 control-label text-right" for="month">月份：</label>
+        <label class="col-xs-6 control-label text-right" for="month">月份：</label>
         <div class="col-xs-6">
             <input class="form-control" placeholder="月份" name="month" id="month" value="${month.month}" readonly>
         </div>
     </div>
+    </div>
+    <div class="col-xs-6">
     <div class="form-group">
-        <label class="col-xs-4 control-label text-right" for="score">月度得分：</label>
+        <label class="col-xs-6 control-label text-right" for="score">月度得分：</label>
         <div class="col-xs-6">
             <input class="form-control" id="score" type="text" placeholder="月度得分" name="score" value="${month.month_score}"/>
         </div>
     </div>
     <div class="form-group">
-        <label class="col-xs-4 control-label text-right" for="level">评定等级：</label>
+        <label class="col-xs-6 control-label text-right" for="level">评定等级：</label>
         <div class="col-xs-6">
             <select id="level" class="form-control" name="level">
                 <option value="">请选择等级</option>
@@ -89,24 +93,41 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="col-xs-4 control-label text-right" for="file">附件：</label>
+        <label class="col-xs-6 control-label text-right" for="file">附件：</label>
         <div class="col-xs-6">
             <input type="file" id="file" name="file">
             <div id="url"></div>
         </div>
     </div>
+    </div>
+    <div class="col-xs-12">
     <div class="form-group">
-        <label class="col-xs-4 control-label text-right" for="v7" style="padding-top:0;">备注：</label>
-        <div class="col-xs-6">
+        <label class="col-xs-3 control-label text-right" for="v7" style="padding-top:0;">备注：</label>
+        <div class="col-xs-9">
             <textarea class="form-control" id="v7" type="text" placeholder="备注" name="remark">${month.remark!}</textarea>
         </div>
     </div>
+    <div class="form-group">
+        <label class="col-xs-3 control-label" for="v"></label>
+        <div class="col-xs-9">
+            <!--<button type="button" class="btn btn-10" id="cancel">取消</button>-->
+            <button id="v" type="submit" class="btn btn-11">　保存　</button>
+        </div>
+    </div>
+    </div>
 	<#else>
+    <div class="col-xs-6">
+    <div class="form-group">
+        <label class="col-xs-6 control-label text-right" for="year">年　　份：</label>
+        <div class="col-xs-6">
+            <input class="form_datetime form-control" placeholder="年份" name="year" id="year" value="">
+        </div>
+    </div>
 	<div class="form-group">
-		<label class="col-xs-4 control-label text-right" for="supplierId">公司名称：</label>
+		<label class="col-xs-6 control-label text-right" for="supplierId">公司名称：</label>
 		<div class="col-xs-6">
 			<select class="form-control" name="supplierId" id="supplierId">
-                <option value="">请选择供应商</option>
+                <option value="">公司</option>
                 <#if forwarderList??>
 				<#list forwarderList as forwarder>
 				<option value="${forwarder.supplier_id}">${forwarder.supplier_name}</option>
@@ -115,28 +136,24 @@
             </select>
 		</div>
 	</div>
-	<div class="form-group">
-        <label class="col-xs-4 control-label text-right" for="year">年份：</label>
-        <div class="col-xs-6">
-            <input class="form_datetime form-control" placeholder="年份" name="year" id="year" value="">
-        </div>
-    </div>
     <div class="form-group">
-        <label class="col-xs-4 control-label text-right" for="month">月份：</label>
+        <label class="col-xs-6 control-label text-right" for="month">月　　份：</label>
         <div class="col-xs-6">
             <select class="form-control" id="month" name="month">
                 <option value="">未审核月份</option>
             </select>
         </div>
     </div>
+    </div>
+    <div class="col-xs-6">
     <div class="form-group">
-        <label class="col-xs-4 control-label text-right" for="score">月度得分：</label>
+        <label class="col-xs-6 control-label text-right" for="score">月度得分：</label>
         <div class="col-xs-6">
             <input class="form-control" id="score" type="text" placeholder="月度得分" name="score"/>
         </div>
     </div>
     <div class="form-group">
-        <label class="col-xs-4 control-label text-right" for="level">评定等级：</label>
+        <label class="col-xs-6 control-label text-right" for="level">评定等级：</label>
         <div class="col-xs-6">
             <select id="level" class="form-control" name="level">
                 <option value="">请选择等级</option>
@@ -149,26 +166,31 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="col-xs-4 control-label text-right" for="file">附件：</label>
+        <label class="col-xs-6 control-label text-right" for="file">附　　件：</label>
         <div class="col-xs-6">
             <input type="file" id="file" name="file">
             <div id="url"></div>
         </div>
     </div>
+    </div>
+    <div class="col-xs-12">
     <div class="form-group">
-        <label class="col-xs-4 control-label text-right" for="v7" style="padding-top:0;">备注：</label>
-        <div class="col-xs-6">
+        <label class="col-xs-3 control-label text-right" for="v7" style="padding-top:0;">备　　注：</label>
+        <div class="col-xs-9">
             <textarea class="form-control" id="v7" type="text" placeholder="备注" name="remark"></textarea>
         </div>
     </div>
-    </#if>
     <div class="form-group">
-        <label class="col-xs-4 control-label" for="v"></label>
-        <div class="col-xs-6 text-right">
-            <button type="button" class="btn btn-10" id="cancel">取消</button>
-            <button id="v" type="submit" class="btn btn-11">保存</button>
-       	</div>
+        <label class="col-xs-3 control-label" for="v"></label>
+        <div class="col-xs-9">
+            <!--<button type="button" class="btn btn-10" id="cancel">取消</button>-->
+            <button id="v" type="submit" class="btn btn-11">　保存　</button>
+        </div>
     </div>
+    </div>
+    </#if>
+
+    </div><!-- container -->
 </form>
 <!-- jQuery -->
 <script src="../../../vendor/jquery/jquery.min.js"></script>

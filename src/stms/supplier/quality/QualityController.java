@@ -302,9 +302,10 @@ public class QualityController extends Controller {
         // 文件列表 TODO service
         String[] fileStr = record.getStr("review_file").split(",");
         List<Record> fileList = new ArrayList<>();
-        Record file = new Record();
+
         if (!"".equals(fileStr[0])) {
             for(int i = 0; i < fileStr.length; i++) {
+				Record file = new Record();
                 file.set("fullName", fileStr[i]); // 文件全名：文件名 + 日期
                 String[] temp = fileStr[i].split("@");
                 file.set("name", temp[0]); // 文件名
