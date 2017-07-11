@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -307,6 +308,31 @@ public class QualityService {
             fis.close();
         }
         out.close();
+    }
+
+
+    /** 
+    * @Title: getFileList 
+    * @Description: 资质文件列表
+    * @param id
+    * @return List<Record>
+    */
+    public static List<Record> getFileList(Integer id) {
+        // 物流公司资质
+        Record record = getQualityById(id);
+        String[] fileStr = record.getStr("review_file").split(",");
+        List<Record> fileList = new ArrayList<>();
+        if (!"".equals(fileStr[0])) {
+            for(int i = 0; i < fileStr.length; i++) {
+                Record file = new Record();
+                file.set("fullName", fileStr[i]); // 文件全名：文件名 + 日期
+                String[] temp = fileStr[i].split("@");
+                file.set("name", temp[0]); // 文件名
+                file.set("uploadDate", temp[1]); // 日期
+                fileList.add(file);
+            }
+        }
+        return fileList;
     }
 
 

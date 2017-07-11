@@ -180,7 +180,6 @@ public class MonthController extends Controller {
 		boolean flag=Db.tx(new IAtom() {			
 			@Override
 			public boolean run() throws SQLException {
-				// TODO Auto-generated method stub
 				try{
 					UploadFile up = getFile("file");
 					System.out.println(up);System.out.println(up.getFile());

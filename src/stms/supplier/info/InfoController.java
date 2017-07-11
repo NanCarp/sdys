@@ -39,12 +39,6 @@ public class InfoController extends Controller {
         // 业务范围
 		String businessScope = getPara("businessScope");
         setAttr("businessScope", businessScope);
-        /*try {
-			forwarder = URLDecoder.decode(forwarder==null?"":forwarder, "utf-8");
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
 		
 		// 物流公司信息列表
 		List<Record> infoList = InfoService.getInfoList(forwarder, year, contractNo, state, businessScope);

@@ -615,7 +615,7 @@ function _deleteRow() {
     // 清除勾选
     $("#checkAll").prop("checked" , false);
 }
-// 编辑
+// 编辑行
 function _editRow() {
     // 获取选中记录数量
     var amount = $(":checked[name='sub']").length;
@@ -738,7 +738,7 @@ function bind(){
             email: {
                 validators: {
                     emailAddress: {
-                        message: '邮箱格式例如：aaa@aaa.com'
+                        message: '邮箱格式例如：aa@qq.com'
                     }
                 }
             },

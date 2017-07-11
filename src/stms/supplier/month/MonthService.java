@@ -197,8 +197,8 @@ public class MonthService {
                 Db.find("SELECT id,supplier_level,supplier_score FROM `t_supplier_level`");
         // supplier_score 拆分成 high 和 low
         for (Record record : levelList) {
-            Integer id = record.getInt("id");
-            String level = record.getStr("supplier_level");
+            //Integer id = record.getInt("id");
+            //String level = record.getStr("supplier_level");
             String[] score = record.getStr("supplier_score").split("~");
             Integer low = Integer.parseInt(score[0]);
             Integer high = Integer.parseInt(score[1]);

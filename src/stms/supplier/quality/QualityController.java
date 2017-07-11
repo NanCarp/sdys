@@ -3,9 +3,7 @@ package stms.supplier.quality;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,7 +14,6 @@ import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.upload.UploadFile;
 
 import stms.interceptor.ManageInterceptor;
-import stms.supplier.month.MonthService;
 
 /**
  * @ClassName: QualityController.java
@@ -297,24 +294,8 @@ public class QualityController extends Controller {
     public void getFileList() {
         // 资质 id
         Integer id = getParaToInt();
-        // 物流公司资质
-        Record record = QualityService.getQualityById(id);
-        // 文件列表 TODO service
-        String[] fileStr = record.getStr("review_file").split(",");
-        List<Record> fileList = new ArrayList<>();
-
-        if (!"".equals(fileStr[0])) {
-            for(int i = 0; i < fileStr.length; i++) {
-				Record file = new Record();
-                file.set("fullName", fileStr[i]); // 文件全名：文件名 + 日期
-                String[] temp = fileStr[i].split("@");
-                file.set("name", temp[0]); // 文件名
-                file.set("uploadDate", temp[1]); // 日期
-                fileList.add(file);
-            }
-        }
-        
-        System.out.println(fileList);
+        // 文件列表 
+        List<Record> fileList = QualityService.getFileList(id);
         setAttr("fileList", fileList);
         
         render("quality_file_list.html");
