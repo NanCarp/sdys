@@ -11,6 +11,8 @@ import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
 
 import stms.interceptor.ManageInterceptor;
+import stms.manual.endproduct.EndProductService;
+import stms.manual.importation.ImportationService;
 
 /**
  * @ClassName: CompanyController
@@ -56,7 +58,16 @@ public class CompanyController extends Controller{
 		Date now = new Date();
 		// 保存结果
 		boolean result = false;
-
+		// 返回信息
+        Map<String, Object> response = new HashMap<>();
+		// 重复检测
+		if (id == null && CompanyService.isDuplicate(companyName)) {
+            response.put("tips", "公司名重复！");
+            response.put("isSuccess", false);
+            renderJson(response);
+            return;
+        }
+		
 		Record record = new Record();
 		record.set("company_name", companyName);
 		record.set("remark", remark);
@@ -65,12 +76,16 @@ public class CompanyController extends Controller{
 		if (id != null){// 编辑
 			record.set("id", id);
 			result = Db.update("t_company", record);
+			response.put("isSuccess", result);
+	        response.put("tips", result ? "保存成功": "保存失败");
 		} else {
 			record.set("create_time", now);
 			result = Db.save("t_company", record);
+			response.put("isSuccess", result);
+	        response.put("tips", result ? "保存成功": "保存失败");
 		}
 
-		renderJson(result);
+		renderJson(response);
 	}
 	
 	/**
@@ -99,7 +114,16 @@ public class CompanyController extends Controller{
 
         // 启用或冻结公司操作结果
         boolean result = CompanyService.freezeOrEnableCompany(id, state);
-
         renderJson(result);
     }
+	
+	/**
+	 * @desc:批量删除
+	 * @author xuhui
+	 */
+	public void delete(){
+		String ids = getPara(0);
+		boolean result = CompanyService.delete(ids);
+		renderJson(result);
+	}
 }

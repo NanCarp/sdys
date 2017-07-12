@@ -93,9 +93,8 @@
     </#if>
     <div class="form-group">
         <label class="col-xs-4 control-label" for="v"></label>
-        <div class="col-xs-6 text-right">
-            <button type="button" class="btn btn-10" id="cancel">取消</button>
-            <button id="v" type="submit" class="btn btn-11">保存</button>
+        <div class="col-xs-6">
+            <button id="v" type="submit" class="btn btn-11">　保存　</button>
        	</div>
     </div>
 </form>
@@ -142,15 +141,15 @@ $(function(){
 .on('success.form.bv', function(e) {
 	e.preventDefault();
 	$.post("/system/button/saveButton", $('#defaultForm').serialize(), function(result) {
-		if (result) {
-			parent.layer.msg("保存成功", {time: 2000}, function(){
-				layer_close();
-				parent.parent.refresh_iframe();
-			});
+		if (result.isSuccess) {
+            parent.layer.msg("保存成功", {time: 2000}, function(){
+                layer_close();
+                parent.parent.refresh_iframe();
+            });
 
-		} else {
-			parent.layer.msg('保存失败', {icon: 1});
-		}
+        } else {
+            parent.layer.msg(result.tips, {time: 2000});
+        }
 		
 	});
 });

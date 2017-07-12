@@ -228,4 +228,14 @@ public class SummaryService {
         return matcher.find();
     }
 
+    /** 
+    * @Title: isDuplicate 
+    * @Description: 重复检测
+    * @param manualId
+    * @return boolean
+    */
+    public static boolean isDuplicate(String manualId) {
+        return Db.find("SELECT * FROM t_manual_sum WHERE manual_id = ?", manualId).size() > 0;
+    }
+
 }

@@ -90,8 +90,8 @@
                                         <td>${level_index+1}</td>
                                         <td>${level.supplier_level}</td>
                                         <td>${level.supplier_score}</td>
-                                        <td>${level.enter_staff}</td>
-                                        <td>${level.review_time?string("yyyy-MM-dd")}</td>
+                                        <td>${level.enter_staff!}</td>
+                                        <td>${(level.review_time?string("yyyy-MM-dd"))!}</td>
                                         <td>${level.remark!}</td>
                                     </tr>
                                 	</#list>

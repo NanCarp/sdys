@@ -241,21 +241,22 @@
     }
     function _calculateYearAlert() {
     	$.post("/supplier/year/isAllSupplierCalculated", function(data){
-    		if (data.result) { // 已全部评分
+    		/* if (data.result) { // 已全部评分
     			layer.msg('本年度已全部评分', {time: 2000});
     		} else {
     			open_window('信息','/supplier/year/calculateYearAlert',480, 350);
-    		}
+    		} */
+    		open_window('信息','/supplier/year/calculateYearAlert',480, 350);
     	});
     	
     }
     // 编辑
     function _edit(id){
-    	open_window('编辑年度考核','/supplier/year/getYear/' + id, 800, 350);
+    	open_window('编辑年度考核','/supplier/year/getYear/' + id, 760, 300);
     }
     // 新增
 	function _add(){
-		open_window('新增年度考核','/supplier/year/getYear', 800, 350);
+		open_window('新增年度考核','/supplier/year/getYear', 760, 300);
 	}
     /*// 删除
 	function _delete(id){

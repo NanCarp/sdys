@@ -45,10 +45,10 @@ public class LoginController extends Controller{
 	*/	
 	public void index(){
 		//  session 获取用户
-		Record user = getSessionAttr("user");
+		Record user = getSessionAttr("admin");
 
 		// 测试账号
-		user = Db.find("SELECT * FROM `t_user` WHERE id = 2").get(0);
+		user = Db.find("SELECT * FROM `t_user` WHERE id = 1").get(0);
 
 		// 角色 id
         Integer roleId = user.getInt("role_id");
@@ -123,7 +123,9 @@ public class LoginController extends Controller{
 								if(!getSession().getId().equals(sessionMap.get(key))){
 									MySessionContext myc = MySessionContext.getInstance();
 									HttpSession sess = myc.getSession((String)sessionMap.get(key));
-									sess.invalidate();
+									if(sess!=null){
+										sess.removeAttribute("admin");
+									}	
 									sessionMap.put(username, getSession().getId());
 									application.setAttribute("sessionMap", sessionMap);
 									kkit = false;
@@ -140,7 +142,7 @@ public class LoginController extends Controller{
 						application.setAttribute("sessionMap", sessionMap);	
 					}					
 			/***********************/	
-					
+					getSession().setAttribute("sessionID", getSession().getId());
 					getSession().setAttribute("admin", admin);
 					Cookie cookie = new Cookie("stms", ""+admin.getInt("id"));
 					cookie.setMaxAge(60*60*24*7);
@@ -206,7 +208,9 @@ public class LoginController extends Controller{
 										if(!getSession().getId().equals(sessionMap.get(key))){
 											MySessionContext myc = MySessionContext.getInstance();
 											HttpSession sess = myc.getSession((String)sessionMap.get(key));
-											sess.invalidate();
+											if(sess!=null){
+												sess.removeAttribute("admin");
+											}	
 											sessionMap.put(username, getSession().getId());
 											application.setAttribute("sessionMap", sessionMap);
 											kkit = false;
@@ -223,12 +227,9 @@ public class LoginController extends Controller{
 								application.setAttribute("sessionMap", sessionMap);	
 							}
 							
+						 getSession().setAttribute("sessionID", getSession().getId());	
 						 getSession().setAttribute("admin", admin);
-						 Cookie cookie = new Cookie("stms", ""+admin.getInt("id"));
-						 
-						 JFinal.me().getServletContext().setAttribute("sessionid", getSession().getId());; 
-						 System.out.println("#########"+JFinal.me().getServletContext().getAttributeNames());
-						 
+						 Cookie cookie = new Cookie("stms", ""+admin.getInt("id"));						 
 						 cookie.setMaxAge(60*60*24*7);
 						 cookie.setPath("/login/");
 						 getResponse().addCookie(cookie);
@@ -260,13 +261,15 @@ public class LoginController extends Controller{
 					Map sessionMap = (Map) application.getAttribute("sessionMap");
 					Set<String> keys = sessionMap.keySet();
 					for(String key:keys){
-						System.out.println(key);
 						if(key.equals(username)){
 							if(!getSession().getId().equals(sessionMap.get(key))){
 								MySessionContext myc = MySessionContext.getInstance();
 								HttpSession sess = myc.getSession((String)sessionMap.get(key));
-								System.out.println("1111####"+(String)sessionMap.get(key));
-								sess.invalidate();
+								System.out.println(sess);
+								System.out.println(getSession());								
+								if(sess!=null){
+									sess.removeAttribute("admin");
+								}								
 								sessionMap.put(username, getSession().getId());
 								application.setAttribute("sessionMap", sessionMap);
 								kkit = false;
@@ -283,6 +286,7 @@ public class LoginController extends Controller{
 					application.setAttribute("sessionMap", sessionMap);	
 				}
 				
+				getSession().setAttribute("sessionID", getSession().getId());
 				getSession().setAttribute("admin", admin);
 				Cookie cookie = new Cookie("morality", ""+admin.getInt("id"));
 				cookie.setMaxAge(60*60*24*7);
@@ -397,7 +401,7 @@ public class LoginController extends Controller{
 			System.out.println(loginRecordMap);
 			boolean b = LoginService.saveLoginMessage(loginRecordMap);
 		}
-		getSession().invalidate();
+		getSession().removeAttribute("admin");;
 		redirect("/pages/login");
 	}
 }

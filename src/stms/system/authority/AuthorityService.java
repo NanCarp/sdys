@@ -15,7 +15,7 @@ import com.jfinal.plugin.activerecord.Record;
  * @version: 1.0 版本初成
  */
 public class AuthorityService {
-	public static List<Record> getAuthorityList() {
+	public static List<Record> getAuthorityList(String company,String role) {
         String sql = "SELECT a.*,d.company_name,b.id AS menus_id,c.id AS buttons_id " +
                 "FROM t_role AS a " +
                 "INNER JOIN t_role_menu AS b " +
@@ -23,7 +23,13 @@ public class AuthorityService {
                 "INNER JOIN t_role_button AS c " +
                 "ON a.id = c.role_id " +
                 "LEFT JOIN t_company as d " +
-                "ON a.company_id = d.id ";
+                "ON a.company_id = d.id where 1=1";
+        if(company!=""&&company!=null){
+        	sql += " and d.company_name like '%"+company+"%'";
+        }
+        if(role!=""&&role!=null){
+        	sql +=" and a.role_type like '%"+role+"%'";
+        }
         return Db.find(sql);
     }
 
@@ -126,4 +132,30 @@ public class AuthorityService {
         return Db.find(sql, companyId);
     }
 
+	/**
+	 * @desc 根据id批量删除操作
+	 * @author xuhui
+	 */
+	public static boolean delete(String ids){
+		String[] allid = ids.split(",");	
+		boolean flag = Db.tx(new IAtom() {
+			boolean result = true;
+			@Override
+			public boolean run() throws SQLException {
+				// TODO Auto-generated method stub
+				for(String id:allid){
+					if(Integer.parseInt(id) == 1){
+						result = false;
+						break;
+					}
+					result = Db.deleteById("t_role_menu", "role_id", id);
+					if(result){
+						result = Db.deleteById("t_role_button", "role_id", id);
+					}
+				}
+				return result;
+			}
+		});
+		return flag;
+	}
 }

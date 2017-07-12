@@ -1,5 +1,6 @@
 package stms.manual.summary;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -7,6 +8,7 @@ import com.jfinal.core.Controller;
 import com.jfinal.upload.UploadFile;
 
 import stms.model.ManualSum;
+import stms.supplier.year.YearService;
 
 
 /**
@@ -62,82 +64,27 @@ public class SummaryController extends Controller{
 	* @Description: 保存手册情况
 	*/
 	public void saveSummary() {
-		/*// id
-	    Integer id = getParaToInt("id");
-	    // 手册号
-        String manualNo = getPara("manualNo");
-        // 核销状态：1：正在使用，0：停用，2：核销
-        Integer state = getParaToInt("state");
-        // 组件系列
-        String component = getPara("component");
-        // 成品备案金额
-        String finishedProductFilingAmount = getPara("finishedProductFilingAmount", null);
-        // 进口料件备案金额
-        String importedMaterialFilingAmount = getPara("importedMaterialFilingAmount", null);
-        // 备案分配率
-        String filingRate = getPara("filingRate", null);
-        // 实际出口金额
-        String actualExportAmount = getPara("actualExportAmount", null);
-        // 实际进口金额
-        String actualImportAmount = getPara("actualImportAmount", null);
-        // 实际分配率
-        String actualRate = getPara("actualRate", null);
-        // 手册办理日期
-        String handleDate = getPara("handleDate", null);
-        // 有效期
-        Integer expiryDate = getParaToInt("expiryDate", null);
-        // 延期日期1
-        String extensionDate1 = getPara("extensionDate1", null);
-        // 延期日期2
-        String extensionDate2 = getPara("extensionDate2", null);
-        // 报核日期
-        String verificationDate = getPara("verificationDate", null);
-        // 结案日期
-        String closeDate = getPara("closeDate", null);
-        // 备注
-        String remark = getPara("remark");
-        // 当前时间
-        Date now = new Date();
-	    // 保存结果
-	    boolean result = false;
-	    
-	    
-	    Record record = new Record();
-        record.set("manual_id", manualNo);
-        record.set("off_state", state);
-        record.set("module_set", component);
-        record.set("pre_product_money", finishedProductFilingAmount);
-        record.set("pre_import_money", importedMaterialFilingAmount);
-        record.set("pre_money_dis", filingRate);
-        record.set("act_export_money", actualExportAmount);
-        record.set("act_import_money", actualImportAmount);
-        record.set("act_money_dis", actualRate);
-        record.set("exist_date", handleDate);
-        record.set("valid_date", expiryDate);
-        record.set("extension_date1", extensionDate1);
-        record.set("extension_date2", extensionDate2);
-        record.set("report_verificate_date", verificationDate);
-        record.set("case_over_date", closeDate);
-        record.set("remark", remark);
-        record.set("review_time", now); // 修改时间
-	    
-	    if (id != null) { // 更新
-	        record.set("id", id);
-	        result = Db.update("t_manual_sum", record);
-	    } else { // 新增
-	        record.set("create_time", now);
-	        result = Db.save("t_manual_sum", record);
-	    }
-	    
-	    renderJson(result);*/
-	    // 保存结果
-	    boolean result = false;
+	    // 返回信息
+        Map<String, Object> response = new HashMap<>();
 	    // 手册
 	    ManualSum record = getModel(ManualSum.class, "");
-	    // 保存
-	    result = service.saveOrUpdate(record);
 	    
-        renderJson(result);
+	    // 重复检测
+	    Integer id = record.getId();
+	    String manualId = record.getManualId();
+	    if (id == null && SummaryService.isDuplicate(manualId)) {
+            response.put("tips", "手册号重复！");
+            response.put("isSuccess", false);
+            renderJson(response);
+            return;
+        }
+	    
+	    // 保存
+	    boolean result = service.saveOrUpdate(record);
+	    response.put("isSuccess", result);
+        response.put("tips", result ? "保存成功": "保存失败");
+	    
+        renderJson(response);
 	    
 	}
 	

@@ -13,6 +13,7 @@ import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
 
 import stms.interceptor.ManageInterceptor;
+import stms.system.department.DepartmentService;
 import stms.utils.MD5Util;
 /**
  * @ClassName: AuthorityController
@@ -25,8 +26,8 @@ import stms.utils.MD5Util;
 public class UserController extends Controller {
 	public void index() {
 	    // 公司名称
-        String company = getPara("company","").trim();
-        setAttr("company", company);
+        String company = getPara("username","").trim();
+        setAttr("username", company);
         // 查询条件
         Map<String,Object> params = new HashMap<>();
         params.put("company", company);
@@ -79,7 +80,16 @@ public class UserController extends Controller {
         Date now = new Date();
         // 保存结果
         boolean result = false;
-
+        // 返回信息
+        Map<String, Object> response = new HashMap<>();
+        
+        // 检测账号名是否重复
+        if (id == null && UserService.isUserDuplicate(account)) {
+            response.put("tips", "用户已存在");
+            response.put("isSuccess", false);
+            renderJson(response);
+            return;
+        }
         //
         Record record = new Record();
         record.set("account", account);
@@ -93,27 +103,29 @@ public class UserController extends Controller {
             record.set("password", MD5Util.getEncryptedPwd(pwd));
             record.set("id", id);
             result = Db.update("t_user", record);
+            response.put("isSuccess", result);
+            response.put("tips", result ? "保存成功": "保存失败");
+            
         } else {// 新增            
             record.set("password", MD5Util.getEncryptedPwd(pwd));
             record.set("create_time", now);
             result = Db.save("t_user", record);
+            response.put("isSuccess", result);
+            response.put("tips", result ? "保存成功": "保存失败");
         }
 
-        renderJson(result);
+        renderJson(response);
     }
 
-    // 删除用户
-    public void deleteUser() {
-	    // 用户 id
-        Integer id = getParaToInt();
-        // 删除结果
-        boolean result = false;
-        if (id != 1) { // admin 账号不能删除
-            result = UserService.deleteUser(id);
-        }
-
-        renderJson(result);
-    }
+	/**
+	 * @desc 删除以及批量删除
+	 */
+	public void delete(){
+		String ids = getPara(0);
+		boolean result = UserService.delete(ids);
+		renderJson(result);
+	}
+	
 	/**
 	 * @desc 修改密码
 	 */
@@ -140,6 +152,16 @@ public class UserController extends Controller {
     		Db.update("t_user", record);
     	}
     	renderJson(v);
+    }
+    
+    // 根据公司 id 获取角色列表
+    public void getRoleByCompanyId() {
+        // 公司 id
+        Integer companyId = getParaToInt();
+        // 角色列表
+        List<Record> roleList = UserService.getRoleByCompanyId(companyId);
+
+        renderJson(roleList);
     }
     
 }

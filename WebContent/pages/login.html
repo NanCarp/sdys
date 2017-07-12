@@ -167,6 +167,14 @@
     		   layer.tips("验证码输入错误", '#Txtidcode', {tips: [3, '#E74C3C']});return false;
     	   }   
        }
+       
+     //加入回车键确认事件
+		document.onkeydown = function(event){
+			var e = event || window.event || arguments.callee.caller.arguments[0];
+			if(e && e.keyCode==13){
+				checklogin();
+			}
+		};
     </script>
 </body>
 

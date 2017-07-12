@@ -11,6 +11,7 @@ import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
 
 import stms.interceptor.ManageInterceptor;
+import stms.system.company.CompanyService;
 /**
  * @ClassName: DepartmentController
  * @Description: 系统管理_部门管理
@@ -84,6 +85,15 @@ public class DepartmentController extends Controller{
         Date now = new Date();
         // 保存结果
         boolean result = false;
+        // 返回信息
+        Map<String, Object> response = new HashMap<>();
+        // 重复检测
+        if (id == null && DepartmentService.isDuplicate(department, companyId)) {
+            response.put("tips", "部门重复！");
+            response.put("isSuccess", false);
+            renderJson(response);
+            return;
+        }
 
         Record record = new Record();
         record.set("department_name", department);
@@ -93,12 +103,16 @@ public class DepartmentController extends Controller{
         if (id != null) {// 编辑
             record.set("id", id);
             result = Db.update("t_department", record);
+            response.put("isSuccess", result);
+            response.put("tips", result ? "保存成功": "保存失败");
         } else {// 新增
             record.set("create_time", now);
             result = Db.save("t_department", record);
+            response.put("isSuccess", result);
+            response.put("tips", result ? "保存成功": "保存失败");
         }
 
-        renderJson(result);
+        renderJson(response);
     }
 
     // 冻结或启用部门
@@ -113,5 +127,15 @@ public class DepartmentController extends Controller{
 
         renderJson(result);
     }
+    
+    /**
+	 * @desc:批量删除
+	 * @author xuhui
+	 */
+	public void delete(){
+		String ids = getPara(0);
+		boolean result = DepartmentService.delete(ids);
+		renderJson(result);
+	}
 
 }

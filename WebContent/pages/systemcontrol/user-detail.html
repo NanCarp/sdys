@@ -30,18 +30,6 @@
     <#if user??>
         <input hidden="" name="id" value="${user.id}">
         <div class="form-group">
-            <label class="col-xs-4 control-label text-right" for="account">账号：</label>
-            <div class="col-xs-6 ">
-                <input class="form-control text-left" id="account" type="text" placeholder="账号" name="account" value="${user.account}"/>
-            </div>
-        </div>
-       <div class="form-group">
-            <label class="col-xs-4 control-label text-right" for="password">密码：</label>
-            <div class="col-xs-6">
-                <input class="form-control text-left" id="password" type="text" placeholder="123456" name="password"/>
-            </div>
-        </div>
-        <div class="form-group">
             <label class="col-xs-4 control-label text-right" for="companyId">公司：</label>
             <div class="col-xs-6">
                 <select class="form-control" id="companyId" name="companyId">
@@ -67,19 +55,19 @@
                 </select>
             </div>
         </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label text-right" for="account">用户名：</label>
+            <div class="col-xs-6 ">
+                <input class="form-control text-left" id="account" type="text" placeholder="账号" name="account" value="${user.account}" readonly="readonly"/>
+            </div>
+        </div>
+       <div class="form-group">
+            <label class="col-xs-4 control-label text-right" for="password">密码：</label>
+            <div class="col-xs-6">
+                <input class="form-control text-left" id="password" type="text" placeholder="123456" name="password"/>
+            </div>
+        </div>       
     <#else>
-    <div class="form-group">
-        <label class="col-xs-4 control-label text-right" for="account">账号：</label>
-        <div class="col-xs-6 ">
-            <input class="form-control text-left" id="account" type="text" placeholder="账号" name="account"/>
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-4 control-label text-right" for="password">密码：</label>
-        <div class="col-xs-6">
-            <input class="form-control text-left" id="password" type="text" placeholder="123456" name="password"/>
-        </div>
-    </div>
     <div class="form-group">
         <label class="col-xs-4 control-label text-right" for="companyId">公司：</label>
         <div class="col-xs-6">
@@ -93,14 +81,6 @@
             </select>
         </div>
     </div>
-<!--    <div class="form-group">
-        <label class="col-xs-4 control-label text-right" for="departmentId">部门：</label>
-        <div class="col-xs-6">
-            <select class="form-control" id="departmentId" name="departmentId">
-  				<option value="">请选择部门</option>
-			</select>
-        </div>
-    </div>-->
     <div class="form-group">
         <label class="col-xs-4 control-label text-right" for="roleId">角色：</label>
         <div class="col-xs-6">
@@ -109,12 +89,23 @@
 			</select>
         </div>
     </div>
+    <div class="form-group">
+        <label class="col-xs-4 control-label text-right" for="account">用户名：</label>
+        <div class="col-xs-6 ">
+            <input class="form-control text-left" id="account" type="text" placeholder="账号" name="account"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-4 control-label text-right" for="password">密码：</label>
+        <div class="col-xs-6">
+            <input class="form-control text-left" id="password" type="text" placeholder="123456" name="password"/>
+        </div>
+    </div>    
     </#if>
     <div class="form-group">
         <label class="col-xs-4 control-label" for="v"></label>
-        <div class="col-xs-6 text-right">
-            <button type="button" class="btn btn-10" id="cancel">取消</button>
-            <button id="v" type="submit" class="btn btn-primary">保存</button>
+        <div class="col-xs-6">
+            <button id="v" type="submit" class="btn btn-primary">　保存　</button>
         </div>
     </div>
 </form>
@@ -150,7 +141,7 @@ $(function () {
             	message:'验证失败',
             	validators:{
             		notEmpty: {
-                        message: '账户不能为空'
+                        message: '密码不能为空'
                     },
             	}
             },            
@@ -176,14 +167,15 @@ $(function () {
 .on('success.form.bv', function(e) {
     e.preventDefault();
     $.post("/system/user/saveUser", $('#defaultForm').serialize(), function(result) {
-        if (result) {
+        if (result.isSuccess) {
             parent.layer.msg("保存成功", {time: 2000}, function(){
                 layer_close();
                 parent.parent.refresh_iframe();
             });
 
         } else {
-            parent.layer.msg('保存失败', {icon: 1});
+        	
+            parent.layer.msg(result.tips, {time: 2000});
         }
 
     });
@@ -204,11 +196,6 @@ $('#companyId').change(function() {
         } );
     }
 });
-
-
-
-
-
 
 //取消
 $('#cancel').on("click",function() {

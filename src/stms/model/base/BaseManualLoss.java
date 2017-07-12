@@ -72,12 +72,12 @@ public abstract class BaseManualLoss<M extends BaseManualLoss<M>> extends Model<
 		return get("materials_name");
 	}
 
-	public M setMaterialsSpecification(java.lang.String materialsSpecification) {
+	public M setMaterialsSpecification(java.lang.Integer materialsSpecification) {
 		set("materials_specification", materialsSpecification);
 		return (M)this;
 	}
 
-	public java.lang.String getMaterialsSpecification() {
+	public java.lang.Integer getMaterialsSpecification() {
 		return get("materials_specification");
 	}
 

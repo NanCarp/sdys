@@ -106,7 +106,7 @@
                                     <td>${month.month}</td>
                                     <td>${month.supplier_name}</td>
                                     <td>${month.month_score}</td>
-                                    <td>${month.supplier_level}</td>
+                                    <td>${month.supplier_level!}</td>
                                     <td>${month.remark!}</td>
                                     <td>
                                         <#if month.file?? && month.file != "">
@@ -167,8 +167,7 @@
 	//上传excel
 	function uploadexcel(){
 		var formData = new FormData();
-		var name = $("input").val();
-		formData.append("file",$("#file_exl")[0].files[0]);
+		formData.append("file",$("#file_exl")[0].files[0]);		
 		$.ajax({
 			url:"/supplier/month/getExcel",
 			type:"POST",
@@ -255,11 +254,11 @@
 	}
 	// 编辑
     function _edit(id){
-    	open_window('编辑月度考核','/supplier/month/getMonth/'+id, 800, 400);
+    	open_window('编辑月度考核','/supplier/month/getMonth/'+id, 760, 400);
     }
     // 新增
     function _add(){
-    	open_window('新增月度考核','/supplier/month/getMonth', 800, 400);
+    	open_window('新增月度考核','/supplier/month/getMonth', 760, 400);
     }
 	// 删除
     function _delete(id){

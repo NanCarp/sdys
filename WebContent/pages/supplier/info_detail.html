@@ -34,6 +34,7 @@
 	    #f1 .form-group {
 	        margin: 0;
 	    }
+	    #defaultForm { margin-right: 50px;}
     </style>
     <!-- Custom Fonts -->
     <link href="../../../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -143,9 +144,10 @@
                             <label class="col-xs-6 control-label text-right" for="businessScope">业务范围：</label>
                             <div class="col-xs-6">
                                 <select id="businessScope" class="form-control" name="businessScope">
-                                    <option value="">国内/国际</option>
-                                    <option value="国内" <#if info.supplier_field == "国内" >selected</#if>  >国内</option>
+                                    <option value="">业务范围</option>
+                                    <option value="国际/国内" <#if info.supplier_field == "国际/国内" >selected</#if>  >国际/国内</option>
                                     <option value="国际" <#if info.supplier_field == "国际" >selected</#if>  >国际</option>
+                                    <option value="国内" <#if info.supplier_field == "国内" >selected</#if>  >国内</option>
                                 </select>
                             </div>
                         </div>
@@ -255,9 +257,10 @@
                         <label class="col-xs-6 control-label text-right" for="businessScope">业务范围：</label>
                         <div class="col-xs-6">
                             <select id="businessScope" class="form-control" name="businessScope">
-                                <option value="">国内/国际</option>
-                                <option value="国内">国内</option>
+                                <option value="">业务范围</option>
+                                <option value="国际/国内">国际/国内</option>
                                 <option value="国际">国际</option>
+                                <option value="国内">国内</option>
                             </select>
                         </div>
                     </div>

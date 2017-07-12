@@ -1,8 +1,10 @@
 package stms.system.menu;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import com.jfinal.plugin.activerecord.Db;
+import com.jfinal.plugin.activerecord.IAtom;
 import com.jfinal.plugin.activerecord.Record;
 /**
  * @ClassName: MenuService
@@ -22,20 +24,30 @@ public class MenuService {
 		String sql = " SELECT a.*,b.module_name AS pname "
 				+ " FROM t_menu AS a "
 				+ " LEFT JOIN t_menu AS b "
-				+ " ON a.pid = b.id ";
+				+ " ON a.pid = b.id order by id desc";
 		return Db.find(sql);
 	}
 
-	/** 
-	* @Title: deleteLevel 
-	* @Description: 
-	* @param id
-	* @return boolean
-	* @throws 
-	*/
-	public static boolean deleteMenu(Integer id) {
-		return Db.deleteById("t_menu", id);
+	/**
+	 * @desc 根据id批量删除操作
+	 * @author xuhui
+	 */
+	public static boolean delete(String ids){
+		String[] allid = ids.split(",");	
+		boolean flag = Db.tx(new IAtom() {
+			boolean result = true;
+			@Override
+			public boolean run() throws SQLException {
+				// TODO Auto-generated method stub
+				for(String id:allid){
+					result = Db.deleteById("t_menu", "id", id);		
+					}
+				return result;
+			}
+		});
+		return flag;
 	}
+	
 	/** 
 	* @Title: getMenuListByParams 
 	* @Description: 根据条件获取菜单列表
@@ -57,5 +69,18 @@ public class MenuService {
                 "UNION " +
                 "SELECT 0,99999, '权限列表' ";
         return Db.find(sql);
+    }
+
+    /** 
+    * @Title: isDuplicate 
+    * @Description: 重复检测
+    * @param menuName
+    * @param pid
+    * @return boolean
+    * @author liyu
+    */
+    public static boolean isDuplicate(String menuName, Integer pid) {
+        return Db.find("SELECT * FROM t_menu WHERE module_name = ? AND pid = ?", 
+                menuName, pid).size() > 0;
     }
 }

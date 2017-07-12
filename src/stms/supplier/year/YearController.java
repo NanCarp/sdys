@@ -9,6 +9,8 @@ import java.util.Map;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Record;
 
+import stms.system.user.UserService;
+
 /**
  * @ClassName: YearController.java
  * @Description: 物流公司年度考核控制器
@@ -106,6 +108,8 @@ public class YearController extends Controller {
 		String level = getPara("level");
 		// 备注
 		String remark = getPara("remark");
+		// 返回信息
+        Map<String, Object> response = new HashMap<>();
 		
 		Record record = new Record();
 		record.set("year", year);
@@ -119,13 +123,22 @@ public class YearController extends Controller {
 			// 年度考核 id
 			record.set("id", id);
 		} else {// 新增
+		    // 检测是否重复
+	        if (YearService.isDuplicate(year, supplierId)) {
+	            response.put("tips", "请勿重复添加！");
+	            response.put("isSuccess", false);
+	            renderJson(response);
+	            return;
+	        }
 			// 创建时间
 			record.set("create_time", now);
 		}
 		// 保存结果
 		boolean result = YearService.saveYear(record);
+		response.put("isSuccess", result);
+        response.put("tips", result ? "保存成功": "保存失败");
 		
-		renderJson(result);
+		renderJson(response);
 	}
 	
 	/** 

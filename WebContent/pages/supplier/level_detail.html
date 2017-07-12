@@ -54,7 +54,7 @@
                 <option value="C" <#if level.supplier_level=="C">selected</#if>>C</option>
                 <option value="D" <#if level.supplier_level=="D">selected</#if>>D</option>
             </select> -->
-            <input class="form-control" name="level" id="level" value="${level.supplier_level}" readonly>
+            <input class="form-control" name="level" id="level" value="${level.supplier_level}">
         </div>
     </div>
     <div class="form-group">
@@ -66,7 +66,7 @@
 	<#else>
 	<div class="form-group">
         <label class="col-xs-4 control-label text-right" for="level">等级：</label>
-        <div class="col-xs-6">
+        <!-- <div class="col-xs-6">
             <select id="level" class="form-control" name="level">
                 <option value="">请选择等级</option>
                 <option value="AA">AA</option>
@@ -75,6 +75,9 @@
                 <option value="C">C</option>
                 <option value="D">D</option>
             </select>
+        </div> -->
+        <div class="col-xs-6">
+            <input class="form-control" id="level" type="text" placeholder="等级" name="level"/>
         </div>
     </div>
     <div class="form-group">
@@ -119,8 +122,13 @@ $(function(){
 			level: {
 				validators: {
 					notEmpty: {
-						message: '请选择等级!'
-					}
+						message: '不能为空!'
+					},
+					stringLength: {
+                        min: 0,
+                        max: 20,
+                        message: '最多20个字符'
+                    }
 				}
 			},
 			score: {
@@ -141,7 +149,7 @@ $(function(){
 .on('success.form.bv', function(e) {
 	e.preventDefault();
 	$.post("/supplier/level/saveLevel", $('#defaultForm').serialize(), function(result) {
-		if (result) {
+		if (result.isSuccess) {
             var tip = "保存成功";
             var id = $('#id').val();
             if(id) {
@@ -153,7 +161,10 @@ $(function(){
 			});
 
 		} else {
-			parent.layer.msg('系统异常，请稍后再试！', {time: 2000});
+			//parent.layer.msg('系统异常，请稍后再试！', {time: 2000});
+			parent.layer.msg(result.errMsg, {time: 2000}, function(){
+				layer_close();
+			});
 		}
 		
 	});

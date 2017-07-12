@@ -1,7 +1,9 @@
 package stms.supplier.level;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Db;
@@ -60,13 +62,18 @@ public class LevelController extends Controller {
 		// 考核标准 id
 		Integer id = getParaToInt("id");
 		// 等级
-		String level = getPara("level");
+		String level = getPara("level").trim();
 		// 得分
 		String score = getPara("score").trim();
 		// 当前时间 
 		Date now = new Date();
 		// 保存结果
 		boolean result = false;
+		// 返回信息
+		Map<String, Object> response = new HashMap<>();
+		
+		
+		
 		Record record = new Record();
 		record.set("supplier_level", level);
 		record.set("supplier_score", score);
@@ -74,12 +81,21 @@ public class LevelController extends Controller {
 		if (id != null) {// 编辑
 			record.set("id", id);
 			result = Db.update("t_supplier_level", record);
+			response.put("isSuccess", result);
 		} else {// 新增
+		    List<Record> recordDB = Db.find("SELECT * FROM t_supplier_level WHERE supplier_level = ?", level);
+	        if (recordDB.size() > 0) {
+	            response.put("errMsg", "该等级已存在！");
+	            response.put("isSuccess", false);
+	            renderJson(response);
+	            return;
+	        }
 			record.set("create_time", now);
 			result = Db.save("t_supplier_level", record);
+			response.put("isSuccess", result);
 		}
 		
-		renderJson(result);
+		renderJson(response);
 	}
 	
 	/** 

@@ -1,8 +1,10 @@
 package stms.system.role;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import com.jfinal.plugin.activerecord.Db;
+import com.jfinal.plugin.activerecord.IAtom;
 import com.jfinal.plugin.activerecord.Record;
 /**
  * @ClassName: RoleService
@@ -12,25 +14,45 @@ import com.jfinal.plugin.activerecord.Record;
  * @version: 1.0 版本初成
  */
 public class RoleService {
-	  public static List<Record> getRoleList() {
+	  public static List<Record> getRoleList(String rolename,String department) {
 	        String sql = " SELECT a.*, b.company_name " +
 	                " FROM t_role AS a " +
 	                " LEFT JOIN t_company AS b " +
-	                " ON a.company_id = b.id ";
+	                " ON a.company_id = b.id where 1=1";
+	        if(rolename!=""&&rolename!=null){
+	        	sql += " and role_type like '%"+rolename+"%'";
+	        }
+	        if(department!=""&&department!=null){
+	        	sql += " and company_name like '%"+department+"%'";
+	        }
 	        return Db.find(sql);
 	    }
 
-	    public static boolean deleteRole(Integer id) {
-	        // TODO 删除 t_role t_role_menu t_role_button 表相关数据
-	        boolean result = false;
-	        if (id == 1) {
-	            return false;
-	        } else {
-	            result = Db.deleteById("t_role", id);
-	        }
-	        return result;
-	    }
 
+	    /**
+		 * @desc 根据id批量删除操作
+		 * @author xuhui
+		 */
+		public static boolean delete(String ids){
+			String[] allid = ids.split(",");	
+			boolean flag = Db.tx(new IAtom() {
+				boolean result = true;
+				@Override
+				public boolean run() throws SQLException {
+					// TODO Auto-generated method stub
+					for(String id:allid){
+						if(Integer.parseInt(id) == 1){
+							result = false;
+							break;
+						}
+							result = Db.deleteById("t_role", "id", id);		
+						}
+					return result;
+				}
+			});
+			return flag;
+		}
+	    
 	    // 根据公司 id 获取角色列表
 	    public static List<Record> getRoleByCompanyId(Integer companyId) {
 	        return Db.find(" SELECT * FROM `t_role` WHERE company_id = ?", companyId);
@@ -59,4 +81,18 @@ public class RoleService {
 					"WHERE state = 1 " ;
 			return Db.find(sql);
 	    }
+
+
+        /** 
+        * @Title: isDuplicate 
+        * @Description: 重复检测
+        * @param role
+        * @param companyId
+        * @return boolean
+        * @author liyu
+        */
+        public static boolean isDuplicate(String role, Integer companyId) {
+            return Db.find("SELECT * FROM t_role WHERE role_type = ? AND company_id = ?", 
+                    role, companyId).size() > 0;
+        }
 }

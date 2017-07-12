@@ -18,6 +18,15 @@ public abstract class BaseSupplier<M extends BaseSupplier<M>> extends Model<M> i
 		return get("id");
 	}
 
+	public M setYear(java.util.Date year) {
+		set("year", year);
+		return (M)this;
+	}
+
+	public java.util.Date getYear() {
+		return get("year");
+	}
+
 	public M setSupplierId(java.lang.Integer supplierId) {
 		set("supplier_id", supplierId);
 		return (M)this;
@@ -70,6 +79,24 @@ public abstract class BaseSupplier<M extends BaseSupplier<M>> extends Model<M> i
 
 	public java.math.BigDecimal getSupplierBail() {
 		return get("supplier_bail");
+	}
+
+	public M setPayDate(java.util.Date payDate) {
+		set("pay_date", payDate);
+		return (M)this;
+	}
+
+	public java.util.Date getPayDate() {
+		return get("pay_date");
+	}
+
+	public M setWithdrawDate(java.util.Date withdrawDate) {
+		set("withdraw_date", withdrawDate);
+		return (M)this;
+	}
+
+	public java.util.Date getWithdrawDate() {
+		return get("withdraw_date");
 	}
 
 	public M setContact(java.lang.String contact) {

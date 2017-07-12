@@ -1,7 +1,9 @@
 package stms.system.menu;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
@@ -9,6 +11,7 @@ import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
 
 import stms.interceptor.ManageInterceptor;
+import stms.system.role.RoleService;
 /**
  * @ClassName: MenuController
  * @Description: 系统管理_菜单管理
@@ -71,6 +74,16 @@ public class MenuController extends Controller {
 		Date now = new Date();
 		// 保存结果
 		boolean result = false;
+		// 返回信息
+        Map<String, Object> response = new HashMap<>();
+        // 重复检测
+        if (id == null && MenuService.isDuplicate(menuName, pid)) {
+            response.put("tips", "菜单重复！");
+            response.put("isSuccess", false);
+            renderJson(response);
+            return;
+        }
+		
 		Record record = new Record();
 		record.set("module_name", menuName);
 		record.set("pid", pid);
@@ -81,24 +94,26 @@ public class MenuController extends Controller {
 		if (id != null) {// 编辑
 			record.set("id", id);
 			result = Db.update("t_menu", record);
+			response.put("isSuccess", result);
+            response.put("tips", result ? "保存成功": "保存失败");
 		} else {// 新增
 			record.set("create_time", now);
 			result = Db.save("t_menu", record);
+			response.put("isSuccess", result);
+            response.put("tips", result ? "保存成功": "保存失败");
 		}
 		
-		renderJson(result);
+		renderJson(response);
 	}
 	
-	/** 
-	* @Title: deleteMenu 
-	* @Description: 删除菜单
-	*/
-	public void deleteMenu() {
-		// 菜单 id
-		Integer id = getParaToInt();
-		// 删除结果
-		boolean result = MenuService.deleteMenu(id);
-
+	/**
+	 * @desc:批量删除
+	 * @author xuhui
+	 */
+	public void delete(){
+		String ids = getPara(0);
+		boolean result = MenuService.delete(ids);
 		renderJson(result);
 	}
+
 }

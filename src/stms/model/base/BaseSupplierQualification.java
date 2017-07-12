@@ -72,6 +72,15 @@ public abstract class BaseSupplierQualification<M extends BaseSupplierQualificat
 		return get("remark");
 	}
 
+	public M setEntryStaff(java.lang.String entryStaff) {
+		set("entry_staff", entryStaff);
+		return (M)this;
+	}
+
+	public java.lang.String getEntryStaff() {
+		return get("entry_staff");
+	}
+
 	public M setCreateTime(java.util.Date createTime) {
 		set("create_time", createTime);
 		return (M)this;

@@ -10,6 +10,7 @@ import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
 
 import stms.interceptor.ManageInterceptor;
+import stms.system.button.ButtonService;
 /**
  * @ClassName: DepartmentController
  * @Description: 系统管理_基础数据管理
@@ -72,6 +73,16 @@ public class DictionaryController extends Controller {
         //Date now = new Date();
         // 保存结果
         boolean result = false;
+        // 返回信息
+        Map<String, Object> response = new HashMap<>();
+        // 重复检测
+        if (id == null && DictionService.isDuplicate(key, value, keyword)) {
+            response.put("tips", "数据重复！");
+            response.put("isSuccess", false);
+            renderJson(response);
+            return;
+        }
+        
         Record record = new Record();
         record.set("keyword", keyword);
         record.set("key", key);
@@ -85,8 +96,10 @@ public class DictionaryController extends Controller {
             //record.set("create_time", now);
             result = Db.save("t_dictionary", record);
         }
-
-        renderJson(result);
+        response.put("isSuccess", result);
+        response.put("tips", result ? "保存成功": "保存失败");
+        
+        renderJson(response);
     }
 
     // 删除基础数据

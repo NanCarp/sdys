@@ -47,12 +47,6 @@
             <input class="form-control text-left" id="companyName" type="text" placeholder="公司名称" name="companyName" value="${company.company_name}"/>
         </div>
     </div>
-    <!-- <div class="form-group">
-        <label class="col-xs-4 control-label text-right" for="v2">组织代码：</label>
-        <div class="col-xs-6">
-            <input class="form-control text-left" id="v2" type="text" placeholder="组织代码" name="companycode"/>
-        </div>
-    </div> -->
     <div class="form-group">
         <label class="col-xs-4 control-label text-right" for="remark" style="padding-top: 0">备注：</label>
         <div class="col-xs-6">
@@ -66,12 +60,6 @@
             <input class="form-control text-left" id="companyName" type="text" placeholder="公司名称" name="companyName"/>
         </div>
     </div>
-    <!-- <div class="form-group">
-        <label class="col-xs-4 control-label text-right" for="v2">组织代码：</label>
-        <div class="col-xs-6">
-            <input class="form-control text-left" id="v2" type="text" placeholder="组织代码" name="companycode"/>
-        </div>
-    </div> -->
     <div class="form-group">
         <label class="col-xs-4 control-label text-right" for="remark" style="padding-top: 0">备注：</label>
         <div class="col-xs-6">
@@ -81,9 +69,8 @@
     </#if>
     <div class="form-group">
         <label class="col-xs-4 control-label" for="v"></label>
-        <div class="col-xs-6 text-right">
-            <button type="button" class="btn btn-10">取消</button>
-            <button id="v" type="submit" class="btn btn-primary">保存</button>
+        <div class="col-xs-6">
+            <button id="v" type="submit" class="btn btn-primary">　保存　</button>
         </div>
     </div>
 </form>
@@ -137,15 +124,15 @@ $(function(){
 .on('success.form.bv', function(e) {
 	e.preventDefault();
 	$.post("/system/company/saveCompany", $('#defaultForm').serialize(), function(result) {
-		if (result) {
-			parent.layer.msg("保存成功", {time: 2000}, function(){
-				layer_close();
-				parent.parent.refresh_iframe();
-			});
+		if (result.isSuccess) {
+            parent.layer.msg("保存成功", {time: 2000}, function(){
+                layer_close();
+                parent.parent.refresh_iframe();
+            });
 
-		} else {
-			parent.layer.msg('保存失败', {icon: 1});
-		}
+        } else {
+            parent.layer.msg(result.tips, {time: 2000});
+        }
 		
 	});
 });

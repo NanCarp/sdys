@@ -182,7 +182,6 @@ public class MonthController extends Controller {
 			public boolean run() throws SQLException {
 				try{
 					UploadFile up = getFile("file");
-					System.out.println(up);System.out.println(up.getFile());
 					List<String[]> list = ExcelKit.getExcelData(up.getFile());
 					for(String[] strings : list){
 						if(strings[0] != null && !"".equals(strings[0])){

@@ -22,7 +22,7 @@
 	<link href="../../../css/admin.css" rel="stylesheet">
 	<link href="../../../resource/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
 	<style type="text/css">
-		body { margin:0 95px 0 0;}
+		body { margin:0 65px 0 0;}
 		form { margin-top:20px;}
 		label { padding-top:6px;padding-right:0;}
 	</style>
@@ -70,7 +70,7 @@
                 <label class="col-xs-6 control-label text-right" for="level">评定等级：</label>
                 <div class="col-xs-6">
                     <select id="level" class="form-control" name="level">
-                        <option value="">请选择等级</option>
+                        <option value="">评定等级</option>
                         <#if criterionList?? && criterionList?size gt 0>
                             <#list criterionList as criterion>
                                 <option value="${criterion.supplier_level}" <#if year.supplier_level == criterion.supplier_level>selected</#if> >${criterion.supplier_level}</option>
@@ -128,7 +128,7 @@
                 <label class="col-xs-6 control-label text-right" for="level">评定等级：</label>
                 <div class="col-xs-6">
                     <select id="level" class="form-control" name="level" disabled="disabled">
-                        <option value="">请选择等级</option>
+                        <option value="">评定等级</option>
                         <#if criterionList?? && criterionList?size gt 0>
                             <#list criterionList as criterion>
                                 <option value="${criterion.supplier_level}">${criterion.supplier_level}</option>
@@ -176,7 +176,7 @@
 <script src="../../../js/common/admin.js"></script>
 <script type="text/javascript">
 //日期控件
-$("#year .form_datetime").datetimepicker({
+$(".form_datetime").datetimepicker({
 	format: "yyyy",
 	autoclose: true,
 	todayBtn: true,
@@ -212,11 +212,16 @@ $(function(){
 					}
 				}
 			},
-			year_score: {
+			yearScore: {
 				validators: {
 					notEmpty: {
 						message: '请输入年度得分!'
-					}
+					},
+					between: {
+                        min:0,
+                        max:100,
+                        message: '分数在0~100之间'
+                    }
 				}
 			},
 			remark: {
@@ -233,15 +238,18 @@ $(function(){
 })
 .on('success.form.bv', function(e) {
 	e.preventDefault();
-	$.post("/supplier/year/saveYear", $('#defaultForm').serialize(), function(result) {
-		if (result) {
+	var postData = $('#defaultForm').serialize();
+	var level = $('#level option:selected').val();
+	postData += '&level='+ level;
+	$.post("/supplier/year/saveYear", postData, function(result) {
+		if (result.isSuccess) {
 			parent.layer.msg("保存成功", {time: 2000}, function(){
 				layer_close();
 				parent.parent.refresh_iframe();
 			});
 
 		} else {
-			parent.layer.msg('保存失败', {icon: 1});
+			parent.layer.msg(result.tips, {time: 2000});
 		}
 		
 	});

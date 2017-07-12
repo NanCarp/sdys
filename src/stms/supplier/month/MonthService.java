@@ -55,7 +55,7 @@ public class MonthService {
 		if(month != ""){
 			sql += " AND a.month = " + month;
 		}
-		sql += " ORDER BY a.`year` DESC, a.`month` DESC ";
+		sql += " ORDER BY a.`year` DESC, a.supplier_id ASC, a.`month` ASC ";
 		
 		return Db.find(sql);
 	}

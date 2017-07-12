@@ -29,7 +29,11 @@ public class ManageInterceptor implements Interceptor {
 			if("/pages".equals(ck)){
 				c.redirect("/pages/login");
 			}else{
-				c.renderHtml("<script>window.parent.window.loginOut();</script>");
+				if(c.getSession().getId().equals(c.getSession().getAttribute("sessionID"))){
+					c.renderHtml("<script>window.parent.window.conflictOut();</script>");
+				}else{
+					c.renderHtml("<script>window.parent.window.loginOut();</script>");
+				}
 			}
 		}*/
 	}

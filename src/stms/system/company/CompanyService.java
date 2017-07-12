@@ -1,9 +1,11 @@
 package stms.system.company;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
 import com.jfinal.plugin.activerecord.Db;
+import com.jfinal.plugin.activerecord.IAtom;
 import com.jfinal.plugin.activerecord.Record;
 /**
  * @ClassName: CompanyService
@@ -40,7 +42,7 @@ public class CompanyService {
 		if (!"".equals(state)) {
 			sql += " AND state = " + state;
 		}
-		
+		sql +=" order by id desc";
 		return Db.find(sql);
 	}
 
@@ -54,54 +56,35 @@ public class CompanyService {
         }
         return Db.update("t_company", record);
     }
-	/*********************部门管理*************************/
-	// 部门列表
-	public static List<Record> getDepartmentList() {
-		String sql = " SELECT a.*, b.company_name " +
-				" FROM t_department AS a " +
-				" LEFT JOIN t_company AS b " +
-				" ON a.company_id = b.id " +
-				" WHERE b.state = 1 ";
-		return Db.find(sql);
+	
+	/**
+	 * @desc 根据id批量删除操作
+	 * @author xuhui
+	 */
+	public static boolean delete(String ids){
+		String[] allid = ids.split(",");	
+		boolean flag = Db.tx(new IAtom() {
+			boolean result = true;
+			@Override
+			public boolean run() throws SQLException {
+				// TODO Auto-generated method stub
+				for(String id:allid){
+					result = Db.deleteById("t_company", "id", id);		
+					}
+				return result;
+			}
+		});
+		return flag;
 	}
 
-    // 根据搜索条件查询部门列表
-    public static List<Record> getDepartmentList(Map<String, Object> params) {
-        String department = (String) params.get("department");
-        String company = (String) params.get("company");
-        String state = (String) params.get("state");
-        String sql = " SELECT a.*, b.company_name " +
-                " FROM t_department AS a " +
-                " LEFT JOIN t_company AS b " +
-                " ON a.company_id = b.id " +
-                " WHERE 1 = 1 ";
-
-        if (!"".equals(department)) {
-            sql += " AND a.department_name like '%" + department + "%' ";
-        }
-        if (!"".equals(company)) {
-            sql += " AND b.company_name like '%" + company + "%' ";
-        }
-        if (!"".equals(state)) {
-            sql += " AND a.state = " + state;
-        }
-
-        return Db.find(sql);
-    }
-
-	// 根据公司 id 获取部门列表
-	public static List<Record> getDepartmentByCompanyId(Integer companyId) {
-		return Db.find(" SELECT * FROM `t_department` WHERE company_id = ?", companyId);
-	}
-
-    // 启用或冻结部门
-    public static boolean freezeOrEnableDepartment(Integer id, boolean state) {
-        Record record = Db.findById("t_department", id);
-        if(state){// 冻结
-            record.set("state", 0);
-        }else {// 启用
-            record.set("state", 1);
-        }
-        return Db.update("t_department", record);
+    /** 
+    * @Title: isDuplicate 
+    * @Description: 重复检测
+    * @param companyName
+    * @return boolean
+    * @author liyu
+    */
+    public static boolean isDuplicate(String companyName) {
+        return Db.find("SELECT * FROM t_company WHERE company_name = ?", companyName).size() > 0;
     }
 }

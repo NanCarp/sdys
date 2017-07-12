@@ -55,7 +55,7 @@
 		        <label class="col-xs-6 control-label text-right" for="state">核销状态：</label>
 		        <div class="col-xs-6">
 		            <select class="form-control" name="off_state" id="state">
-		                <option >核销状态</option>
+		                <option value="">核销状态</option>
 		                <option value="0" <#if summary.off_state == 0>selected</#if>>停用</option>
 		                <option value="2" <#if summary.off_state == 2>selected</#if>>核销</option>
 		                <option value="1" <#if summary.off_state == 1>selected</#if>>正在使用</option>
@@ -148,8 +148,8 @@
 	    <div class="form-group">
 		        <label class="col-xs-3 control-label" for="v"></label>
 		        <div class="col-xs-9">
-		            <button type="button" class="btn btn-10" id="cancel">取消</button>
-		            <button id="v" type="submit" class="btn btn-11">保存</button>
+		            <!-- <button type="button" class="btn btn-10" id="cancel">取消</button> -->
+		            <button id="v" type="submit" class="btn btn-11">　保存　</button>
 		       	</div>
 		    </div>
 	    <#else>
@@ -165,7 +165,7 @@
 		        <label class="col-xs-6 control-label text-right" for="state">核销状态：</label>
 		        <div class="col-xs-6">
 		            <select class="form-control" name="off_state" id="state">
-		                <option >核销状态</option>
+		                <option value="">核销状态</option>
 		                <option value="0">停用</option>
 		                <option value="2">核销</option>
 		                <option value="1">正在使用</option>
@@ -257,8 +257,8 @@
 		    <div class="form-group">
 		        <label class="col-xs-3 control-label" for="v"></label>
 		        <div class="col-xs-9">
-		            <button type="button" class="btn btn-10" id="cancel">取消</button>
-		            <button id="v" type="submit" class="btn btn-11">保存</button>
+		            <!-- <button type="button" class="btn btn-10" id="cancel">取消</button> -->
+		            <button id="v" type="submit" class="btn btn-11">　保存　</button>
 		       	</div>
 		    </div>
 	   	</div>
@@ -443,15 +443,15 @@ $(function(){
 .on('success.form.bv', function(e) {
 	e.preventDefault();
 	$.post("/manual/summary/saveSummary", $('#defaultForm').serialize(), function(result) {
-		if (result) {
-			parent.layer.msg("保存成功", {time: 2000}, function(){
-				layer_close();
-				parent.parent.refresh_iframe();
-			});
+		if (result.isSuccess) {
+            parent.layer.msg("保存成功", {time: 2000}, function(){
+                layer_close();
+                parent.parent.refresh_iframe();
+            });
 
-		} else {
-			parent.layer.msg('保存失败', {icon: 1});
-		}
+        } else {
+            parent.layer.msg(result.tips, {time: 2000});
+        }
 		
 	});
 });

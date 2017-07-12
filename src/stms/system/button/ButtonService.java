@@ -25,7 +25,7 @@ public class ButtonService {
         return Db.find("SELECT a.*,b.module_name  " +
                 "FROM t_button AS a " +
                 "LEFT JOIN t_menu AS b " +
-                "ON a.menu_id = b.id ");
+                "ON a.menu_id = b.id order by id desc");
     }
 
     // 删除按钮
@@ -46,5 +46,36 @@ public class ButtonService {
 		return Db.find(sql);
 	}
 
+    /**
+  		 * @desc 根据id批量删除操作
+  		 * @author xuhui
+  		 */
+  		public static boolean delete(String ids){
+  			String[] allid = ids.split(",");	
+  			boolean flag = Db.tx(new IAtom() {
+  				boolean result = true;
+  				@Override
+  				public boolean run() throws SQLException {
+  					// TODO Auto-generated method stub
+  					for(String id:allid){
+  							result = Db.deleteById("t_button", "id", id);		
+  						}
+  					return result;
+  				}
+  			});
+  			return flag;
+  		}
+
+    /** 
+    * @Title: isDuplicate 
+    * @Description: 检查重复
+    * @param buttonId
+    * @return boolean
+    * @author liyu
+    */
+    public static boolean isDuplicate(Integer buttonId) {
+        return Db.find("SELECT * FROM t_button WHERE button_id = ?", 
+                buttonId).size() > 0;
+    }
 
 }

@@ -36,6 +36,24 @@ public abstract class BaseSupplierLevel<M extends BaseSupplierLevel<M>> extends 
 		return get("supplier_score");
 	}
 
+	public M setEnterStaff(java.lang.String enterStaff) {
+		set("enter_staff", enterStaff);
+		return (M)this;
+	}
+
+	public java.lang.String getEnterStaff() {
+		return get("enter_staff");
+	}
+
+	public M setRemark(java.lang.String remark) {
+		set("remark", remark);
+		return (M)this;
+	}
+
+	public java.lang.String getRemark() {
+		return get("remark");
+	}
+
 	public M setCreateTime(java.util.Date createTime) {
 		set("create_time", createTime);
 		return (M)this;

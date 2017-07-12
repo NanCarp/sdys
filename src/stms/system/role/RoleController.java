@@ -1,7 +1,9 @@
 package stms.system.role;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
@@ -9,6 +11,8 @@ import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
 
 import stms.interceptor.ManageInterceptor;
+import stms.system.company.CompanyService;
+import stms.system.department.DepartmentService;
 /**
  * @ClassName: RoleController
  * @Description: 系统管理_角色管理
@@ -20,10 +24,14 @@ import stms.interceptor.ManageInterceptor;
 public class RoleController extends Controller {
 
     public void index() {
-        // 角色列表
-        List<Record> roleList =  RoleService.getRoleList();
+    	
+    	String rolename = getPara("rolename");
+    	String department = getPara("department");
+        List<Record> roleList =  RoleService.getRoleList(rolename,department);
         setAttr("roleList", roleList);
-
+        setAttr("rolename", rolename);
+        setAttr("department", department);
+        
         render("role.html");
     }
 
@@ -48,9 +56,9 @@ public class RoleController extends Controller {
 
 	//
     public void saveRole() {
-        // 部门 id
+        // 角色 id
         Integer id = getParaToInt("id");
-        // 部门名称
+        // 角色名称
         String role = getPara("role").trim();
         // 所属公司
         Integer companyId = getParaToInt("companyId");
@@ -60,7 +68,16 @@ public class RoleController extends Controller {
         Date now = new Date();
         // 保存结果
         boolean result = false;
-
+        // 返回信息
+        Map<String, Object> response = new HashMap<>();
+        // 重复检测
+        if (id == null && RoleService.isDuplicate(role, companyId)) {
+            response.put("tips", "角色重复！");
+            response.put("isSuccess", false);
+            renderJson(response);
+            return;
+        }
+        
         Record record = new Record();
         record.set("role_type", role);
         record.set("company_id", companyId);
@@ -69,34 +86,28 @@ public class RoleController extends Controller {
         if (id != null) {// 编辑
             record.set("id", id);
             result = Db.update("t_role", record);
+            response.put("isSuccess", result);
+            response.put("tips", result ? "保存成功": "保存失败");
         } else {// 新增
             record.set("create_time", now);
             result = Db.save("t_role", record);
+            response.put("isSuccess", result);
+            response.put("tips", result ? "保存成功": "保存失败");
         }
 
-        renderJson(result);
+        renderJson(response);
     }
 
     /**
-     * @Title: deleteRole
-     * @Description: 删除角色
-     * @param
-     * @return void
-     * @throws
-     */
-    public void deleteRole() {
-        // 角色 id
-        Integer id = getParaToInt();
-        // 删除结果
-        boolean result = false;
-
-        if (id != 1) {
-            result = RoleService.deleteRole(id);
-        }
-
-
-        renderJson(result);
-    }
+	 * @desc:批量删除
+	 * @author xuhui
+	 */
+	public void delete(){
+		String ids = getPara(0);
+		boolean result = RoleService.delete(ids);
+		System.out.println(result);
+		renderJson(result);
+	}
 
     // 根据公司 id 获取角色列表
     public void getRoleByCompanyId() {

@@ -1,9 +1,11 @@
 package stms.system.department;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
 import com.jfinal.plugin.activerecord.Db;
+import com.jfinal.plugin.activerecord.IAtom;
 import com.jfinal.plugin.activerecord.Record;
 /**
  * @ClassName: DepartmentService
@@ -43,7 +45,7 @@ public class DepartmentService {
 	        if (!"".equals(state)) {
 	            sql += " AND a.state = " + state;
 	        }
-
+	        sql += " order by id desc";
 	        return Db.find(sql);
 	    }
 
@@ -69,4 +71,38 @@ public class DepartmentService {
 					"WHERE state = 1 " ;
 			return Db.find(sql);
 	    }
+	    
+	    /**
+		 * @desc 根据id批量删除操作
+		 * @author xuhui
+		 */
+		public static boolean delete(String ids){
+			String[] allid = ids.split(",");	
+			boolean flag = Db.tx(new IAtom() {
+				boolean result = true;
+				@Override
+				public boolean run() throws SQLException {
+					// TODO Auto-generated method stub
+					for(String id:allid){
+						result = Db.deleteById("t_department", "id", id);		
+						}
+					return result;
+				}
+			});
+			return flag;
+		}
+
+        /** 
+        * @Title: isDuplicate 
+        * @Description: 重复检测
+        * @param department
+        * @param companyId
+        * @return boolean
+        * @author liyu
+        */
+        public static boolean isDuplicate(String department, Integer companyId) {
+            return Db.find("SELECT * FROM t_department "
+                    + "WHERE department_name = ? AND company_id = ?", 
+                    department, companyId).size() > 0;
+        }
 }

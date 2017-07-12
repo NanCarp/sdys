@@ -35,4 +35,17 @@ public class DictionService {
 			return Db.paginate(pageNumber, pageSize, "select *", sql);
 			
 		}
+
+        /** 
+        * @Title: isDuplicate 
+        * @Description: 检测重复
+        * @param key
+        * @param value
+        * @return boolean
+        * @author liyu
+        */
+        public static boolean isDuplicate(String key, String value, String keyword) {
+            return Db.find("SELECT * FROM t_dictionary WHERE `key` = ? AND (value= ? OR keyword = ?)", 
+                    key, value, keyword).size() > 0;
+        }
 }

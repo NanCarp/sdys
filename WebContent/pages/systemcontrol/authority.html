@@ -25,6 +25,7 @@
     <link href="../../dist/css/sb-admin-2.css" rel="stylesheet">
     <link href="../../css/common/common.css" rel="stylesheet">
     <link href="../../css/admin.css" rel="stylesheet">
+	 <link href="../../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -42,17 +43,33 @@
                         <div class="panel-heading">
                         	<div class="container container-fluid">
                         	    <div class="row">                       	                      			
-	                  			<div class="col-sm-1 col-xs-12 head_3">
-		                        	<button class="btn btn-success " onclick="_add()">新增权限</button>
-		                        </div>
-							</div>
-                        </div>
+	                  			 <div class="col-sm-2 col-xs-2 head_2" style="min-width: 100px">
+                                        <input type="search" class="form-control" placeholder="输入公司" name="company" id="company" value="${company!''}">
+                                    </div>
+                                    <div class="col-sm-2 col-xs-2 head_2" style="min-width: 100px">
+                                        <input type="search" class="form-control" placeholder="输入角色"  name="role" id="role" value="${role!''}">
+                                    </div>                                    
+                                    <div class="col-sm-1 col-xs-12 head_1">
+                                        <button class="btn btn-primary" onclick="_search()">查询</button>
+                                    </div>
+                                   <div class="col-sm-2 col-xs-6 head_1">
+		                        		<button class="btn btn-success" onclick="_add()">新增</button>
+		                        	</div>
+                                    <div class="col-sm-2 col-xs-6 head_1">
+		                        		<button class="btn btn-4" onclick=" _delete()">删除</button>
+		                       		</div>
+		                       		<div class="col-sm-1 col-xs-4 head_1">
+                                		<button class="btn btn-9 " onclick="location.replace('/system/authority')"><i class="fa fa-refresh"></i></button>
+                             		</div>
+								</div>
+                        	</div>
                       </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body" >
                             <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
                                 <thead>
                                     <tr>
+                                    	<th><input type="checkbox" id="checkAll"></th>
                                         <th>序列</th>
                                         <th>公司</th>
                                         <th>角色</th>
@@ -65,6 +82,7 @@
                                     <#if authorityList?? && authorityList?size gt 0>
                                     <#list authorityList as authority>
                                     <tr>
+                                    	<td><input type="checkbox" name="sub" value="${authority.id}"></td>
                                         <td>${authority_index+1}</td>
                                         <td>${authority.company_name}</td>
                                         <td>${authority.role_type}</td>
@@ -83,7 +101,6 @@
                     </div>
                 </div>
             </div>
-
     </div>
 
 
@@ -129,6 +146,14 @@
                 },
 
             });
+        	//全选、全不选
+        	$("#checkAll").click(function() {
+        	    $("input[name='sub']").prop("checked", this.checked);
+        	});
+        	$("input[name='sub']").click(function() {
+        	    var subs = $("input[name='sub']");
+        	    $("#checkAll").prop("checked" , subs.length == subs.filter(":checked").length ? true :false);
+        	});
         });
     function _add(){
     	open_window('添加权限','/system/authority/getAuthority',480, 370);
@@ -140,6 +165,58 @@
     	open_window('查看权限','/system/authority/checkAuthority/'+id,480, 370);
     }
 
+ 	// 查询
+    function _search(){
+		layui.use('layer',function(){
+			var layer = layui.layer;
+			var company = $.trim($('#company').val());
+			var role = $.trim($('#role').val());
+			if($.trim($('#company').val())!=''){
+				var reg = /^[a-zA-Z0-9_\u0391-\uFFE5 ]{1,30}$/;
+				if(!reg.test($('#company').val())){
+					layer.tips('不允许有特殊字符，最多20个字符', '#company', {tips: [1, '#34495E']});return;
+				}					
+			}
+			if($.trim($('#role').val())!=''){
+				var reg = /^[a-zA-Z0-9_\u0391-\uFFE5 ]{1,30}$/;
+				if(!reg.test($('#role').val())){
+					layer.tips('不允许有特殊字符，最多20个字符', '#role', {tips: [1, '#34495E']});return;
+				}					
+			}
+			location.replace('/system/authority?company=' + company + '&role=' + role);
+		})
+	}
+ 	// 删除以及批量删除
+	function _delete(){
+	   var ids = [];
+	   $("input[name='sub']:checked").each(function(k,v){
+		   ids.push($(v).val());
+	   })
+	   if(ids.length==0){
+		   layer.msg('请至少选择一条记录', {time: 2000});
+	   }else{
+		   layer.confirm('确认删除吗？',{
+			   title: ['信息', 'font-weight:600;color:#fff;background-color: #3367D6;'],
+               btn: ['确认','取消'] //按钮
+		   },function(){
+			   $.post("/system/authority/delete/"+ids,function(result){
+				   if(result){
+					   layer.msg('删除成功',{time:2000},function(){
+						   parent.refresh_iframe();
+					   });
+				   }else{
+					   layer.msg('删除失败',{time:2000},function(){
+					   });
+				   }
+				  
+			   })
+		   },function(){
+			   //取消后操作
+		   }  
+		   )
+
+	   }
+ 	}
     </script>
 </body>
 </html>

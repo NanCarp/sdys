@@ -1,5 +1,6 @@
 package stms.supplier.year;
 
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Date;
@@ -138,11 +139,12 @@ public class YearService {
                 "ON a.supplier_id = b.id " +
                 "WHERE 1=1 " +
                 "AND a.`year` = ? " +
-                "AND a.supplier_id NOT IN (SELECT supplier_id FROM t_supplier_year_assess WHERE `year` = ?) " +
+                //"AND a.supplier_id NOT IN (SELECT supplier_id FROM t_supplier_year_assess WHERE `year` = ?) " +
                 "GROUP BY a.`year`,a.supplier_id " +
                 "ORDER BY a.`year` DESC ";
         Integer thisYear = LocalDate.now().getYear();
-        return Db.find(sql, thisYear, thisYear);
+        //return Db.find(sql, thisYear, thisYear);
+        return Db.find(sql, thisYear);
     }
 
 	/** 
@@ -152,7 +154,7 @@ public class YearService {
 	* @throws 
 	*/
 	public static boolean calculateYear() {
-		Date now = new Date();
+		/*Date now = new Date();
 		// 当前年份
 		int year = now.getYear() + 1900;
 		String sql = "SELECT supplier_id, ROUND(AVG(month_score)) AS year_score "
@@ -176,10 +178,10 @@ public class YearService {
 				for(Record record : list) {
 					// 删除已评分的
                     Integer supplierId = record.getInt("supplier_id");
-                    /*Integer count = Db.queryInt("SELECT COUNT(*)  " +
-                            "FROM t_supplier_year_assess  " +
-                            "WHERE supplier_id = ?  " +
-                            "GROUP BY supplier_id ", supplierId);*/
+//                    Integer count = Db.queryInt("SELECT COUNT(*)  " +
+//                            "FROM t_supplier_year_assess  " +
+//                            "WHERE supplier_id = ?  " +
+//                            "GROUP BY supplier_id ", supplierId);
                     List<Record> list = Db.find("SELECT * FROM t_supplier_year_assess WHERE supplier_id = ? ", supplierId);
 
                     if (list.size() > 0) {
@@ -222,11 +224,127 @@ public class YearService {
 			
 		});
 		
-		return succeed;
+		return succeed;*/
+	    Map<String, Object> params = new HashMap<>();
+	    Date now = new Date();
+        int thisYear = now.getYear() + 1900;
+        params.put("year", thisYear);
+	    List<Record> list = getYearList(params);
+	    for (Record record : list) {
+	        // 公司 id
+	        Integer supplierId = record.getInt("supplier_id");
+	        // 年度得分
+            Integer average = 0;
+	        for (int i = 1; i <= 12; i++) {
+	            BigDecimal score1 = record.getBigDecimal("m" + i);
+	            if (score1 == null) {
+	                continue;
+	            }
+	            Integer total = 0;
+	            Integer count = 12 - i + 1;
+	            for(int j = i; j <= 12; j++) {
+	                Integer score2 = record.getBigDecimal("m" + j) == null ? 0 : record.getBigDecimal("m" + j).intValue() ;
+	                total += score2;
+	            }
+	            average = total / count;
+	            break;
+	        }
+	        // 等级
+	        String level = convertScore2Level(average);
+	        
+	        record.clear();
+	        record.set("supplier_id", supplierId);
+	        record.set("supplier_level", level);
+            record.set("create_time", now);
+            record.set("review_time",now);
+            record.set("year", thisYear);
+	        record.set("year_score", average);
+	    }
+	    
+	    boolean succeed = Db.tx(new IAtom() {
+
+            @Override
+            public boolean run() throws SQLException {
+                if(list.isEmpty()) {
+                    return true;
+                }
+                
+                boolean result1 = false;
+                boolean result2 = false;
+
+                for(Record record : list) {
+                    // 删除已评分的
+                    Integer supplierId = record.getInt("supplier_id");
+//                    Integer count = Db.queryInt("SELECT COUNT(*)  " +
+//                            "FROM t_supplier_year_assess  " +
+//                            "WHERE supplier_id = ?  " +
+//                            "GROUP BY supplier_id ", supplierId);
+                    List<Record> list = Db.find("SELECT * FROM t_supplier_year_assess WHERE supplier_id = ? ", supplierId);
+
+                    if (list.size() > 0) {
+                        Record originalRecord = list.get(0);
+                        result1 = Db.delete("t_supplier_year_assess", originalRecord);
+                        if (result1 == false) {
+                            break;
+                        }
+                    } else {
+                        result1 = true;
+                    }
+
+                    int yearScore = record.getInt("year_score");
+                    String level = "";
+                    // TODO 修改判断方式
+                    if (yearScore >= 96) {
+                        level = "AA";
+                    } else if (yearScore >= 90) {
+                        level = "A";
+                    } else if (yearScore >= 80) {
+                        level = "B";
+                    } else if (yearScore >= 70) {
+                        level = "C";
+                    } else {
+                        level = "D";
+                    }
+                    Date now = new Date();
+                    int year = now.getYear() + 1900;
+                    record.set("supplier_level", level);
+                    record.set("create_time", now);
+                    record.set("review_time",now);
+                    record.set("year", year);
+                    result2 = Db.save("t_supplier_year_assess", record);
+                    
+                    if (!result2) {
+                        break;
+                    }
+                }
+                
+                return result1 && result2;
+            }
+	        
+	    });
+	    
+	    
+	    return succeed;
 	}
 
 
-	/** 
+	private static String convertScore2Level(Integer average) {
+	    String level = "";
+        // TODO 修改判断方式
+        if (average >= 96) {
+            level = "AA";
+        } else if (average >= 90) {
+            level = "A";
+        } else if (average >= 80) {
+            level = "B";
+        } else if (average >= 70) {
+            level = "C";
+        } else {
+            level = "D";
+        }
+        return level;
+    }
+    /** 
 	* @Title: deleteYearByIds 
 	* @Description: 通过 id 数组删除年度考核
 	* @param ids
@@ -313,4 +431,14 @@ public class YearService {
 		
 		return count < 1; // 小于 1，已经全部评分，返回 true，否则，返回 false
 	}
+    /** 
+    * @Title: isDuplicate 
+    * @Description: 判断是否重复
+    * @param year
+    * @param supplierId
+    * @return boolean
+    */
+    public static boolean isDuplicate(String year, String supplierId) {
+        return Db.find("SELECT * FROM t_supplier_year_assess WHERE year = ? AND supplier_id = ?", year, supplierId).size() > 0;
+    }
 }

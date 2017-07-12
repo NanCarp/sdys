@@ -54,6 +54,7 @@ public class EndProductService {
 		});
 		return flag;
 	}
+	
 	/**
 	 * @desc:保存成品表体
 	 * @author xuhui

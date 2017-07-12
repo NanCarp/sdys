@@ -26,7 +26,7 @@
     <link href="../../../dist/css/sb-admin-2.css" rel="stylesheet">
     <link href="../../../css/common/common.css" rel="stylesheet">
     <link href="../../../css/admin.css" rel="stylesheet">
-	
+	<link href="../../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -58,9 +58,15 @@
                                     <div class="col-sm-1 col-xs-12 head_1">
                                         <button class="btn btn-primary" onclick="_search()">查询</button>
                                     </div>
-                                    <div class="col-sm-1 col-xs-12 head_3">
-                                        <button class="btn btn-success " onclick="_add()">新增公司</button>
-                                    </div>
+                                    <div class="col-sm-2 col-xs-6 head_1">
+		                        		<button class="btn btn-success" onclick="_add()">新增</button>
+		                        	</div>
+                                    <div class="col-sm-2 col-xs-6 head_1">
+		                        		<button class="btn btn-4" onclick=" _delete()">删除</button>
+		                       		</div>
+		                       		<div class="col-sm-1 col-xs-4 head_1">
+                                    	<button class="btn btn-9 " onclick="location.replace('/system/company')"><i class="fa fa-refresh"></i></button>
+                                	</div>
                                 </div>
                             </div>
                         </div>
@@ -70,9 +76,9 @@
                             <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
                                 <thead>
                                     <tr>
+                                    	<th><input type="checkbox" id="checkAll"></th>
                                         <th>序列</th>
                                         <th>公司名称</th>
-                                        <!-- <th>组织代码</th> -->
                                         <th>状态</th>
                                         <th>备注</th>
 										<th>录入时间</th>
@@ -84,6 +90,7 @@
                                 	<#if companyList?? && companyList?size gt 0>
                                 	<#list companyList as company>
                                 	<tr>
+                                		<td><input type="checkbox" name="sub" value="${company.id}"></td>
                                         <td>${company_index+1}</td>
                                         <td>${company.company_name}</td>
                                         <!--<td>336256</td>-->
@@ -156,6 +163,14 @@
             },
         
         });
+		//全选、全不选
+		$("#checkAll").click(function() {
+		    $("input[name='sub']").prop("checked", this.checked);
+		});
+		$("input[name='sub']").click(function() {
+		    var subs = $("input[name='sub']");
+		    $("#checkAll").prop("checked" , subs.length == subs.filter(":checked").length ? true :false);
+		});
 	});
     // 编辑
     function _edit(id){
@@ -201,6 +216,38 @@
         }, function(){
 
         });
+	}
+    
+	// 删除以及批量删除
+	function _delete(){
+	   var ids = [];
+	   $("input[name='sub']:checked").each(function(k,v){
+		   ids.push($(v).val());
+	   })
+	   if(ids.length==0){
+		   layer.msg('请至少选择一条记录', {time: 2000});
+	   }else{
+		   layer.confirm('确认删除吗？',{
+			   title: ['信息', 'font-weight:600;color:#fff;background-color: #3367D6;'],
+               btn: ['确认','取消'] //按钮
+		   },function(){
+			   $.post("/system/company/delete/"+ids,function(result){
+				   if(result){
+					   layer.msg('删除成功',{time:2000},function(){
+						   parent.refresh_iframe();
+					   });
+				   }else{
+					   layer.msg('删除失败',{time:2000},function(){
+						  
+					   });
+				   }  
+			   })
+		   },function(){
+			   //取消后操作
+		   }  
+		   )
+
+	   }
 	}
 </script>
 

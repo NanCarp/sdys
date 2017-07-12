@@ -29,6 +29,7 @@ public class _MappingKit {
 		arp.addMapping("t_role_button", "id", RoleButton.class);
 		arp.addMapping("t_role_menu", "id", RoleMenu.class);
 		arp.addMapping("t_supplier", "id", Supplier.class);
+		arp.addMapping("t_supplier_contacts", "id", SupplierContacts.class);
 		arp.addMapping("t_supplier_level", "id", SupplierLevel.class);
 		arp.addMapping("t_supplier_month_assess", "id", SupplierMonthAssess.class);
 		arp.addMapping("t_supplier_qualification", "id", SupplierQualification.class);

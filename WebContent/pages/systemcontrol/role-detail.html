@@ -30,12 +30,6 @@
         <#if role??>
             <input hidden="" name="id" value="${role.id}">
             <div class="form-group">
-                <label class="col-xs-4 control-label text-right" for="role">角色：</label>
-                <div class="col-xs-6">
-                    <input class="form-control" id="role" type="text" placeholder="角色" name="role" value="${role.role_type}"/>
-                </div>
-            </div>
-            <div class="form-group">
                 <label class="col-xs-4 control-label text-right" for="companyId">公司：</label>
                 <div class="col-xs-6">
                     <select class="form-control" id="companyId" name="companyId">
@@ -49,19 +43,19 @@
                 </div>
             </div>
             <div class="form-group">
+                <label class="col-xs-4 control-label text-right" for="role">角色：</label>
+                <div class="col-xs-6">
+                    <input class="form-control" id="role" type="text" placeholder="角色" name="role" value="${role.role_type}"/>
+                </div>
+            </div>          
+            <div class="form-group">
                 <label class="col-xs-4 control-label text-right" for="remark" style="padding-top: 0">备注：</label>
                 <div class="col-xs-6">
                     <textarea class="form-control" id="remark" name="remark">${role.remark!}</textarea>
                 </div>
             </div>
             <#else>
-                <div class="form-group">
-                    <label class="col-xs-4 control-label text-right" for="role">角色：</label>
-                    <div class="col-xs-6">
-                        <input class="form-control" id="role" type="text" placeholder="角色" name="role"/>
-                    </div>
-                </div>
-                <div class="form-group">
+              <div class="form-group">
                     <label class="col-xs-4 control-label text-right" for="companyId">公司：</label>
                     <div class="col-xs-6">
                         <select class="form-control" id="companyId" name="companyId">
@@ -75,6 +69,12 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label class="col-xs-4 control-label text-right" for="role">角色：</label>
+                    <div class="col-xs-6">
+                        <input class="form-control" id="role" type="text" placeholder="角色" name="role"/>
+                    </div>
+                </div>             
+                <div class="form-group">
                     <label class="col-xs-4 control-label text-right" for="remark" style="padding-top: 0">备注：</label>
                     <div class="col-xs-6">
                         <textarea class="form-control" id="remark" name="remark"></textarea>
@@ -83,9 +83,8 @@
         </#if>
         <div class="form-group">
             <label class="col-xs-4 control-label" for="v"></label>
-            <div class="col-xs-6 text-right">
-                <button type="button" class="btn btn-10" id="cancel">取消</button>
-                <button id="v" type="submit" class="btn btn-11">保存</button>
+            <div class="col-xs-6">
+                <button id="v" type="submit" class="btn btn-11">　保存　</button>
             </div>
         </div>
     </form>
@@ -140,14 +139,14 @@
     }).on('success.form.bv', function(e) {
         e.preventDefault();
         $.post("/system/role/saveRole", $('#defaultForm').serialize(), function(result) {
-            if (result) {
+        	if (result.isSuccess) {
                 parent.layer.msg("保存成功", {time: 2000}, function(){
                     layer_close();
                     parent.parent.refresh_iframe();
                 });
 
             } else {
-                parent.layer.msg('保存失败', {icon: 1});
+                parent.layer.msg(result.tips, {time: 2000});
             }
         });
     });

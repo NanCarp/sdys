@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -242,9 +243,11 @@ public class QualityService {
 	public static Map<String, Object> saveFile(UploadFile file) {
         String originalName = file.getFileName();
         // 当前日期
-        LocalDate today = LocalDate.now();
+        //LocalDate now = LocalDate.now();
+        // 当前时间
+        LocalDateTime now = LocalDateTime.now();
         // 文件路径
-        String newName = originalName + "@" + today;
+        String newName = originalName + "@" + now.toString().replace(":", " ");
         String path = PropKit.get("uploadPath")+"temp/" + newName;
         file.getFile().renameTo(new File(path));
 
@@ -328,7 +331,8 @@ public class QualityService {
                 file.set("fullName", fileStr[i]); // 文件全名：文件名 + 日期
                 String[] temp = fileStr[i].split("@");
                 file.set("name", temp[0]); // 文件名
-                file.set("uploadDate", temp[1]); // 日期
+                String date = temp[1].substring(0, 19).replace(" ", ":").replace("T", " ");
+                file.set("uploadDate", date); // 日期
                 fileList.add(file);
             }
         }

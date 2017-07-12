@@ -18,15 +18,6 @@ public abstract class BaseManualImport<M extends BaseManualImport<M>> extends Mo
 		return get("id");
 	}
 
-	public M setManualId(java.lang.String manualId) {
-		set("manual_id", manualId);
-		return (M)this;
-	}
-
-	public java.lang.String getManualId() {
-		return get("manual_id");
-	}
-
 	public M setImportNum(java.lang.String importNum) {
 		set("import_num", importNum);
 		return (M)this;
@@ -180,13 +171,22 @@ public abstract class BaseManualImport<M extends BaseManualImport<M>> extends Mo
 		return get("tax_rate");
 	}
 
-	public M setVersion(java.lang.String version) {
+	public M setVersion(java.lang.Integer version) {
 		set("version", version);
 		return (M)this;
 	}
 
-	public java.lang.String getVersion() {
+	public java.lang.Integer getVersion() {
 		return get("version");
+	}
+
+	public M setManualId(java.lang.String manualId) {
+		set("manual_id", manualId);
+		return (M)this;
+	}
+
+	public java.lang.String getManualId() {
+		return get("manual_id");
 	}
 
 	public M setRemark(java.lang.String remark) {

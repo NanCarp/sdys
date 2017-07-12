@@ -1,7 +1,9 @@
 package stms.system.button;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
@@ -9,6 +11,8 @@ import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
 
 import stms.interceptor.ManageInterceptor;
+import stms.system.company.CompanyService;
+import stms.system.menu.MenuService;
 /**
  * @ClassName: ButtonController
  * @Description: 系统管理_按钮管理
@@ -67,6 +71,16 @@ public class ButtonController extends Controller {
         Date now = new Date();
         // 保存结果
         boolean result = false;
+        // 返回信息
+        Map<String, Object> response = new HashMap<>();
+        // 重复检测
+        if (id == null && ButtonService.isDuplicate(buttonId)) {
+            response.put("tips", "按钮ID重复！");
+            response.put("isSuccess", false);
+            renderJson(response);
+            return;
+        }
+        
         Record record = new Record();
         record.set("button_name", buttonName);
         record.set("button_id", buttonId);
@@ -75,24 +89,25 @@ public class ButtonController extends Controller {
         if (id != null) {// 编辑
             record.set("id", id);
             result = Db.update("t_button", record);
+            response.put("isSuccess", result);
+            response.put("tips", result ? "保存成功": "保存失败");
         } else {// 新增
             record.set("create_time", now);
             result = Db.save("t_button", record);
+            response.put("isSuccess", result);
+            response.put("tips", result ? "保存成功": "保存失败");
         }
 
-        renderJson(result);
+        renderJson(response);
     }
 
     /**
-     * @Title: deleteButton
-     * @Description: 删除按钮
-     */
-    public void deleteButton() {
-        // 按钮 id
-        Integer id = getParaToInt();
-        // 删除结果
-        boolean result = ButtonService.deleteButton(id);
-
-        renderJson(result);
-    }
+	 * @desc:批量删除
+	 * @author xuhui
+	 */
+	public void delete(){
+		String ids = getPara(0);
+		boolean result = ButtonService.delete(ids);
+		renderJson(result);
+	}
 }

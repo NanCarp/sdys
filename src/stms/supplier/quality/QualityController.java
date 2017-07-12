@@ -1,5 +1,10 @@
 package stms.supplier.quality;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -9,6 +14,7 @@ import java.util.Map;
 
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
+import com.jfinal.kit.PropKit;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.upload.UploadFile;
@@ -282,11 +288,10 @@ public class QualityController extends Controller {
     // 根据文件名下载文件
 	public void downloadByFileName() throws IOException {
 		// 文件名
-		String fileName = getPara("fullName");
-		// 下载资质文件
-		QualityService.downloadFile(getResponse(), fileName);
-
-		renderNull();
+		String fullName = getPara("fullName");
+		File origin = new File(PropKit.get("uploadPath")+ "temp/" + fullName);
+		String fileName = fullName.split("@")[0];
+		renderFile(origin, fileName);
 	}
 
 

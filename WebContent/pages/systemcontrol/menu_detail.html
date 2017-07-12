@@ -59,7 +59,7 @@
 		</div>
 	</div>
     <div class="form-group">
-        <label class="col-xs-4 control-label text-right" for="url">路径：</label>
+        <label class="col-xs-4 control-label text-right" for="url">访问URL：</label>
         <div class="col-xs-6">
             <input class="form-control" id="url" type="text" placeholder="路径" name="url" value="${menu.url!}"/>
         </div>
@@ -97,7 +97,7 @@
 		</div>
 	</div>
     <div class="form-group">
-        <label class="col-xs-4 control-label text-right" for="url">菜单路径：</label>
+        <label class="col-xs-4 control-label text-right" for="url">访问URL：</label>
         <div class="col-xs-6">
             <input class="form-control" id="url" type="text" placeholder="菜单路径" name="url"/>
         </div>
@@ -117,9 +117,8 @@
     </#if>
     <div class="form-group">
         <label class="col-xs-4 control-label" for="v"></label>
-        <div class="col-xs-6 text-right">
-            <button type="button" class="btn btn-10" id="cancel">取消</button>
-            <button id="v" type="submit" class="btn btn-11">保存</button>
+        <div class="col-xs-6">
+            <button id="v" type="submit" class="btn btn-11">　保存　</button>
        	</div>
     </div>
 </form>
@@ -166,15 +165,15 @@ $(function(){
 .on('success.form.bv', function(e) {
 	e.preventDefault();
 	$.post("/system/menu/saveMenu", $('#defaultForm').serialize(), function(result) {
-		if (result) {
-			parent.layer.msg("保存成功", {time: 2000}, function(){
-				layer_close();
-				parent.parent.refresh_iframe();
-			});
+		if (result.isSuccess) {
+            parent.layer.msg("保存成功", {time: 2000}, function(){
+                layer_close();
+                parent.parent.refresh_iframe();
+            });
 
-		} else {
-			parent.layer.msg('保存失败', {icon: 1});
-		}
+        } else {
+            parent.layer.msg(result.tips, {time: 2000});
+        }
 		
 	});
 });

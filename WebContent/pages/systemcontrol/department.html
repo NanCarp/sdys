@@ -51,9 +51,15 @@
                                     <div class="col-sm-1 col-xs-12 head_1">
                                         <button class="btn btn-primary" onclick="_search()">查询</button>
                                     </div>
-                                    <div class="col-sm-1 col-xs-12 head_3">
-                                        <button class="btn btn-success " onclick="_add()">新增部门</button>
-                                    </div>
+                                   <div class="col-sm-2 col-xs-6 head_1">
+		                        		<button class="btn btn-success" onclick="_add()">新增</button>
+		                        	</div>
+                                    <div class="col-sm-2 col-xs-6 head_1">
+		                        		<button class="btn btn-4" onclick=" _delete()">删除</button>
+		                       		</div>
+		                       		<div class="col-sm-1 col-xs-4 head_1">
+                                    	<button class="btn btn-9 " onclick="location.replace('/system/department')"><i class="fa fa-refresh"></i></button>
+                                	</div>
 							    </div>
                             </div>
                         </div>
@@ -62,6 +68,7 @@
                             <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
                                 <thead>
                                     <tr>
+                                    	<th><input type="checkbox" id="checkAll"></th>
                                         <th>序列</th>
                                         <th>部门名称</th>
                                         <th>所属公司</th>
@@ -76,6 +83,7 @@
                                     <#if departmentList?? && departmentList?size gt 0>
                                     <#list departmentList as department>
                                     <tr>
+                                    	<td><input type="checkbox" name="sub" value="${department.id}"></td>
                                         <td>${department_index+1}</td>
                                         <td>${department.department_name}</td>
                                         <td>${department.company_name}</td>
@@ -147,6 +155,14 @@ $(function(){
         },
 
     });
+  	//全选、全不选
+	$("#checkAll").click(function() {
+	    $("input[name='sub']").prop("checked", this.checked);
+	});
+	$("input[name='sub']").click(function() {
+	    var subs = $("input[name='sub']");
+	    $("#checkAll").prop("checked" , subs.length == subs.filter(":checked").length ? true :false);
+	});
 });
 function _search(){
     layui.use('layer',function(){
@@ -200,6 +216,37 @@ function _freezeOrEnable(id, state){
     });
 }
 
+//删除以及批量删除
+function _delete(){
+   var ids = [];
+   $("input[name='sub']:checked").each(function(k,v){
+	   ids.push($(v).val());
+   })
+   if(ids.length==0){
+	   layer.msg('请至少选择一条记录', {time: 2000});
+   }else{
+	   layer.confirm('确认删除吗？',{
+		   title: ['信息', 'font-weight:600;color:#fff;background-color: #3367D6;'],
+           btn: ['确认','取消'] //按钮
+	   },function(){
+		   $.post("/system/department/delete/"+ids,function(result){
+			   if(result){
+				   layer.msg('删除成功',{time:2000},function(){
+					   parent.refresh_iframe();
+				   }); 
+			   }else{
+				   layer.msg('删除失败',{time:2000},function(){
+				   });
+			   }
+			  
+		   })
+	   },function(){
+		   //取消后操作
+	   }  
+	   )
+
+   }
+}
 </script>
 
 </html>

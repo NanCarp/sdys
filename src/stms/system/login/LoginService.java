@@ -28,7 +28,7 @@ public class LoginService {
 				sql +=" and login_time BETWEEN '"+beginyear+"' AND '"+lastyear+"'";
 			}
 		}
-		sql += " order by id";
+		sql += " order by id desc";
 		return Db.find(sql);
 	}
 }

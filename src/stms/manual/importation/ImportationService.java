@@ -132,14 +132,14 @@ public class ImportationService {
                             record.set("import_levy_mode", strings[14]);
                             record.set("import_handle_flag", strings[15]);
                             record.set("tax_rate", strings[16]);
-                            record.set("version", strings[17]);
-                            record.set("manual_id", strings[18]);
+                            record.set("manual_id", strings[17]);
+                            record.set("version", strings[18]);
                             record.set("remark", strings[19]);
                      
                             // 存在则更新，否则新增
                             String sql = "SELECT * FROM t_manual_import " +
                                     " WHERE manual_id = ? AND import_num = ? ";
-                            ManualImport recordDB = dao.findFirst(sql, strings[18], strings[0]);
+                            ManualImport recordDB = dao.findFirst(sql, strings[17], strings[0]);
                             if (recordDB != null) { // 更新
                                 record.setId(recordDB.getId());
                                 record.update();
@@ -147,6 +147,7 @@ public class ImportationService {
                                 record.save();
                             }
                         } catch(Exception e) {
+                            e.printStackTrace();
                             //指定一个判定对象，如果countWrongList已有该行数则返回false，否则返回true；
                             countWrongList.add(i+2+"行"+"存在数据异常，请校验");
                             result = false;
@@ -191,5 +192,16 @@ public class ImportationService {
         Pattern pattern = Pattern.compile("[`~!@#$%^&*()+=|{}':;',\\[\\]<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]");
         Matcher matcher = pattern.matcher(str);
         return matcher.find();
+    }
+
+    /** 
+    * @Title: isDuplicate 
+    * @Description: 检测重复
+    * @param manualId
+    * @param itemNo
+    * @return boolean
+    */
+    public static boolean isDuplicate(String manualId, String itemNo) {
+        return Db.find("SELECT * FROM t_manual_import WHERE manual_id = ?", manualId).size() > 0;
     }
 }

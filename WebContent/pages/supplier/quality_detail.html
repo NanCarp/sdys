@@ -24,7 +24,7 @@
     <link href="../../../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="../../../resource/bootstrap-fileinput/css/fileinput.css" rel="stylesheet">
 	<style type="text/css">
-		body { margin:0 15px;}
+		body { margin:0 65px 0 0 ;}
 		form { margin-top:20px;}
 		label { padding-top:6px;padding-right:0;}
 	</style>
@@ -45,7 +45,7 @@
     	<#if quality??>
     	<input hidden="" name="id" value="${quality.id}" id="id">
         <div class="form-group">
-            <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="companyId">公司：</label>
+            <label class="col-xs-4 col-xs-offset-1 control-label text-right" for="companyId">名称：</label>
             <div class="col-xs-6">
                 <select class="form-control" id="companyId" name="companyId">
                     <#if companyList??>
@@ -74,7 +74,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-5 control-label text-right" for="file" style="padding-top:0;">资质文件：</label>
+            <label class="col-xs-5 control-label text-right" for="file" style="padding-top:0;">附件：</label>
             <div class="col-xs-6">
                 <input type="file" class="file" id="file" name="file" value="${quality.review_file!}">
                 <div id="url"></div>
@@ -88,7 +88,7 @@
         </div>
     	<#else>
         <div class="form-group">
-			<label class="col-xs-5 control-labell text-right" for="companyId">货代名称：</label>
+			<label class="col-xs-5 control-labell text-right" for="companyId">名称：</label>
             <div class="col-xs-6">
                 <select class="form-control" id="companyId" name="companyId">
                     <option value="">请选择公司</option>
@@ -118,7 +118,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-5 control-label text-right" for="file" style="padding-top:0;">资质文件：</label>
+            <label class="col-xs-5 control-label text-right" for="file" style="padding-top:0;">附件：</label>
             <div class="col-xs-6">
                 <input type="file" class="file" id="file" name="file" value="">
                 <div id="url"></div>

@@ -1,9 +1,11 @@
 package stms.system.user;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
 import com.jfinal.plugin.activerecord.Db;
+import com.jfinal.plugin.activerecord.IAtom;
 import com.jfinal.plugin.activerecord.Record;
 /**
  * @ClassName: UserService
@@ -35,7 +37,7 @@ public class UserService {
                 " ON a.role_id = c.id " +
                 " WHERE 1=1 ";
         if (!"".equals(company)) {
-            sql += " AND b.company_name like '%" + company +"%' ";
+            sql += " AND a.account like '%" + company +"%' ";
         }
         return Db.find(sql);
     }
@@ -44,10 +46,29 @@ public class UserService {
         return Db.findById("t_user", id);
     }
 
-    // 删除用户
-    public static boolean deleteUser(Integer id) {
-        return Db.deleteById("t_user", id);
-    }
+    /**
+		 * @desc 根据id批量删除操作
+		 * @author xuhui
+		 */
+		public static boolean delete(String ids){
+			String[] allid = ids.split(",");	
+			boolean flag = Db.tx(new IAtom() {
+				boolean result = true;
+				@Override
+				public boolean run() throws SQLException {
+					// TODO Auto-generated method stub
+					for(String id:allid){
+						if(Integer.parseInt(id) == 1){
+							result = false;
+							break;
+						}
+							result = Db.deleteById("t_user", "id", id);		
+						}
+					return result;
+				}
+			});
+			return flag;
+		}
     /**
      * @Title: getCompanyList
      * @Description: 获取公司列表
@@ -65,5 +86,16 @@ public class UserService {
     public static List<Record> getRoleByCompanyId(Integer companyId) {
         return Db.find(" SELECT * FROM `t_role` WHERE company_id = ?", companyId);
     }
+    /** 
+    * @Title: isUserDuplicate 
+    * @Description: 账号是否重复
+    * @param account
+    * @return boolean
+    */
+    public static boolean isUserDuplicate(String account) {
+        
+        return Db.find("SELECT * FROM t_user WHERE account = ?", account).size() > 0;
+    }
 
+    
 }

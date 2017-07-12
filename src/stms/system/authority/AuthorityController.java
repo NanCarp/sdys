@@ -8,6 +8,7 @@ import com.jfinal.kit.JsonKit;
 import com.jfinal.plugin.activerecord.Record;
 
 import stms.interceptor.ManageInterceptor;
+import stms.system.menu.MenuService;
 
 /**
  * @ClassName: AuthorityController
@@ -19,10 +20,14 @@ import stms.interceptor.ManageInterceptor;
 @Before(ManageInterceptor.class)
 public class AuthorityController extends Controller {
 	public void index(){
+		
+		String company = getPara("company");
+		String role = getPara("role");
         // 授权列表
-        List<Record> authorityList = AuthorityService.getAuthorityList();
+        List<Record> authorityList = AuthorityService.getAuthorityList(company,role);
         setAttr("authorityList", authorityList);
-
+        setAttr("company", company);
+        setAttr("role", role);
         render("authority.html");
     }
     /**
@@ -88,7 +93,7 @@ public class AuthorityController extends Controller {
         render("authority_check.html");
     }
     
- // 根据公司 id 获取角色列表，剔除已分配权限的角色，
+    // 根据公司 id 获取角色列表，剔除已分配权限的角色，
     public void getRoleByCompanyIdNotAuthorized() {
         // 公司 id
         Integer companyId = getParaToInt();
@@ -97,4 +102,17 @@ public class AuthorityController extends Controller {
 
         renderJson(roleList);
     }
+    
+    /**
+	 * @desc:批量删除
+	 * @author xuhui
+	 */
+	public void delete(){
+		String ids = getPara(0);
+		System.out.println(ids);
+		boolean result = AuthorityService.delete(ids);
+		renderJson(result);
+	}
+    
+    
 }
