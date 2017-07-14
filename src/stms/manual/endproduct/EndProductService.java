@@ -95,5 +95,18 @@ public class EndProductService {
 	public static Record getProduct(int id){
 		return Db.findById("t_manual_product", id);
 	}
+
+    /** 
+    * @Title: isDuplicate 
+    * @Description: 检测重复
+    * @param manualId
+    * @param product_record_num
+    * @return boolean
+    * @author liyu
+    */
+    public static boolean isDuplicate(String manualId, String product_record_num) {
+        return Db.find("SELECT * FROM t_manual_product WHERE manual_no = ? AND product_record_num = ?", 
+                manualId, product_record_num).size() > 0;
+    }
 	
 }

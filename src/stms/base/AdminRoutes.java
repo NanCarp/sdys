@@ -22,6 +22,7 @@ import stms.system.login.SysLoginController;
 import stms.system.menu.MenuController;
 import stms.system.role.RoleController;
 import stms.system.user.UserController;
+import stms.warehouse.StockInDomesticController;
 
 
 
@@ -85,6 +86,9 @@ public class AdminRoutes extends Routes{
 
 		// 进口明细
 		add("/manual/importation", ImportationController.class, "manual");
+		
+		// 入库明细（国内）
+		add("/warehouse/stockInDomestic", StockInDomesticController.class, "/warehouse");
 
 	}
 }

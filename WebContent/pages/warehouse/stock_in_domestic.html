@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>基础数据管理</title>
+    <title>入库（国内）</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="../../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -59,7 +59,7 @@
 		                     <button class="btn btn-4" onclick=" _batchDelete()">删除</button>
 		                </div>
 		                <div class="col-sm-1 col-xs-4 head_1">
-                             <button class="btn btn-9 " onclick="location.replace('/system/dictionary')"><i class="fa fa-refresh"></i></button>
+                             <button class="btn btn-9 " onclick="location.replace('/warehouse/stockInDomestic')"><i class="fa fa-refresh"></i></button>
                         </div>                  
 					</div>				
 				</div>
@@ -92,8 +92,7 @@
 <script src="../../../js/common/admin.js"></script>
 
 <script>
-$(function () {
-	 
+$(function () {	 
     //1.初始化Table
     var oTable = new TableInit();
     oTable.Init();
@@ -101,16 +100,6 @@ $(function () {
     //2.初始化Button的点击事件
      var oButtonInit = new ButtonInit();
     oButtonInit.Init(); 
-    
-	//全选、全不选
-	$("#checkAll").click(function() {
-	    $("input[name='sub']").prop("checked", this.checked);
-	});
-	$("input[name='sub']").click(function() {
-	    var $subs = $("input[name='sub']");
-	    $("#checkAll").prop("checked" , $subs.length == $subs.filter(":checked").length ? true :false);
-	});
-
 });
 function doQuery(){
     $('#tb_departments').bootstrapTable('refresh');    //刷新表格
@@ -120,7 +109,7 @@ var TableInit = function () {
     //初始化Table
     oTableInit.Init = function () {
         $('#tb_departments').bootstrapTable({
-            url: '/system/dictionary/getJson',         //请求后台的URL（*）
+            url: '/warehouse/stockInDomestic/getJson',         //请求后台的URL（*）
             method: 'get',                      //请求方式（*）
            	toolbar: '#toolbar',                //工具按钮用哪个容器
             showExport: true,                     //是否显示导出
@@ -159,17 +148,38 @@ var TableInit = function () {
             		return index+1;
             	}
             }, {
-                field: 'keyword',
-                title: '关键字'
+                field: 'date',
+                title: '日期'
             }, {
-                field: 'key',
-                title: '键'
+                field: 'storage_location',
+                title: '库位'
             }, {
-                field: 'value',
-                title: '值'
+                field: 'supplier_id',
+                title: '物流公司名称'
             }, {
-                field: 'remark',
-                title: '备注'
+                field: 'material_no',
+                title: '物料号'
+            }, {
+                field: 'material_no',
+                title: '物料号'
+            }, {
+                field: 'material',
+                title: '物料描述'
+            }, {
+                field: 'batch_no',
+                title: '批次号'
+            }, {
+                field: 'tray_no',
+                title: '托盘号'
+            }, {
+                field: 'quantity',
+                title: '数量'
+            }, {
+                field: 'tray_quantity',
+                title: '托盘数量'
+            }, {
+                field: 'module_power',
+                title: '组件功率'
             }, {
             	field:'opt',
             	title:'操作',
@@ -208,11 +218,11 @@ var ButtonInit = function () {
 
 // 编辑
 function _edit(id){
-	open_window('编辑基础数据','/system/dictionary/getDictionary/' + id, 480, 350);
+	open_window('编辑基础数据','' + id, 480, 350);
 }
 // 新增
 function _add(){
-	open_window('新增基础数据','/system/dictionary/getDictionary', 480, 350);
+	open_window('新增基础数据','', 480, 350);
 }
 
 // 批量删除
@@ -229,7 +239,7 @@ function _batchDelete(){
             title: ['信息', 'font-weight:600;color:#fff;background-color: #3367D6;'],
             btn: ['确认','取消'] //按钮
         }, function(){
-            $.post("/system/dictionary/delete/" + ids,function(result) {
+            $.post("" + ids,function(result) {
                 if (result) {
                     layer.msg('删除成功', {time: 2000}, function(){
                         parent.refresh_iframe();
@@ -262,6 +272,14 @@ function getIdSelections() {
         return row.id;
     });
 }
+//全选、全不选
+$("#checkAll").click(function() {
+    $("input[name='sub']").prop("checked", this.checked);
+});
+$("input[name='sub']").click(function() {
+    var $subs = $("input[name='sub']");
+    $("#checkAll").prop("checked" , $subs.length == $subs.filter(":checked").length ? true :false);
+});
 </script>
 
 </body>

@@ -90,4 +90,17 @@ public class SingleLossService {
 	public static Record getSingle(int id){
 		return	Db.findById("t_manual_loss", id);
 	}
+
+    /** 
+    * @Title: isDuplicate 
+    * @Description: 检查重复
+    * @param manualId
+    * @param product_no
+    * @return boolean
+    * @author liyu
+    */
+    public static boolean isDuplicate(String manualId, String product_no) {
+        return Db.find("SELECT * FROM t_manual_loss WHERE manual_no = ? AND product_no = ?", 
+                manualId, product_no).size() > 0;
+    }
 }

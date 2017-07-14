@@ -14,6 +14,7 @@ import com.jfinal.plugin.activerecord.IAtom;
 import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.upload.UploadFile;
 
+import stms.manual.summary.SummaryService;
 import stms.utils.ExcelKit;
 /**
  * @ClassName: EndProductController
@@ -179,8 +180,24 @@ public class EndProductController extends Controller {
 		map.put("version", getPara("version"));
 		map.put("manual_no", getPara("manual_no"));
 		map.put("customs_department", getPara("customs_department"));
-		boolean result = EndProductService.saveEndProduct(map);
-		renderJson(result);
+		
+		// 返回信息
+        Map<String, Object> response = new HashMap<>();
+        // 重复检测
+        String product_record_num = getPara("product_record_num");
+        String manualId = getPara("manual_no");
+        if (getPara("id") == null && EndProductService.isDuplicate(manualId, product_record_num)) {
+            response.put("tips", "数据重复！");
+            response.put("isSuccess", false);
+            renderJson(response);
+            return;
+        }
+        
+        boolean result = EndProductService.saveEndProduct(map);
+        response.put("isSuccess", result);
+        response.put("tips", result ? "保存成功": "保存失败");
+        
+		renderJson(response);
 	}
 	
 	/**

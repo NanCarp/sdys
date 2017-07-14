@@ -183,8 +183,24 @@ public class SingleLossController extends Controller {
 		map.put("manual_no", getPara("manual_no"));
 		map.put("customs_department", getPara("customs_department"));
 		map.put("remark", getPara("remark"));
-		boolean flag = SingleLossService.saveSingleLoss(map);
-		renderJson(flag);
+		
+		// 返回信息
+        Map<String, Object> response = new HashMap<>();
+        // 重复检测
+        String product_no = getPara("product_no");
+        String manualId = getPara("manual_no");
+        if (getPara("id") == null && SingleLossService.isDuplicate(manualId, product_no)) {
+            response.put("tips", "数据重复！");
+            response.put("isSuccess", false);
+            renderJson(response);
+            return;
+        }
+		
+		boolean result = SingleLossService.saveSingleLoss(map);
+		response.put("isSuccess", result);
+        response.put("tips", result ? "保存成功": "保存失败");
+        
+        renderJson(response);
 	}
 	
 	/**

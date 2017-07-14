@@ -18,13 +18,13 @@ public abstract class BaseUserLog<M extends BaseUserLog<M>> extends Model<M> imp
 		return get("id");
 	}
 
-	public M setUserId(java.lang.Integer userId) {
-		set("user_id", userId);
+	public M setUserAccount(java.lang.String userAccount) {
+		set("user_account", userAccount);
 		return (M)this;
 	}
 
-	public java.lang.Integer getUserId() {
-		return get("user_id");
+	public java.lang.String getUserAccount() {
+		return get("user_account");
 	}
 
 	public M setIp(java.lang.String ip) {

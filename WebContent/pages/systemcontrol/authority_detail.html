@@ -17,7 +17,9 @@
     	<div style="width: 100%;">
     		<form class="form-horizontal" role="form" style="margin-top: 20px" id="defaultForm">
                 <#if role??>
+                <div class="form-group">
                 <input hidden id="roleId" type="text" name="roleId" value="${role.id}"/>
+                </div>
                 <input hidden id="menusId" type="text" name="menusId" value="${role.menus_id}"/>
                 <input hidden id="buttonsId" type="text" name="buttonsId" value="${role.buttons_id}"/>
                 <div class="form-group">
@@ -27,9 +29,9 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-xs-4  control-label text-right" for="roleId" >角色：</label>
+                    <label class="col-xs-4  control-label text-right" for="role" >角色：</label>
                     <div class="col-xs-6">
-                        <input class="form-control text-left" id="roleId" type="text" placeholder="角色" name="roleId" value="${role.role_type}" readonly/>
+                        <input class="form-control text-left" id="role" type="text" placeholder="角色" name="role" value="${role.role_type}" readonly/>
                     </div>
                 </div>
                 <div class="form-group">

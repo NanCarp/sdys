@@ -1,8 +1,10 @@
 package stms.system.dictionary;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import com.jfinal.plugin.activerecord.Db;
+import com.jfinal.plugin.activerecord.IAtom;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 /**
@@ -36,6 +38,7 @@ public class DictionService {
 			
 		}
 
+
         /** 
         * @Title: isDuplicate 
         * @Description: 检测重复
@@ -48,4 +51,26 @@ public class DictionService {
             return Db.find("SELECT * FROM t_dictionary WHERE `key` = ? AND (value= ? OR keyword = ?)", 
                     key, value, keyword).size() > 0;
         }
+
+		
+		 /**
+		 * @desc 根据id批量删除操作
+		 * @author xuhui
+		 */
+		public static boolean delete(String ids){
+			String[] allid = ids.split(",");	
+			boolean flag = Db.tx(new IAtom() {
+				boolean result = true;
+				@Override
+				public boolean run() throws SQLException {
+					// TODO Auto-generated method stub
+					for(String id:allid){
+						result = Db.deleteById("t_dictionary", "id", id);		
+						}
+					return result;
+				}
+			});
+			return flag;
+		}
+
 }

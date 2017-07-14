@@ -18,10 +18,9 @@ public class LoginService {
 	 * @return List<Record>
 	 */
 	public static List<Record> getUserLog(String accountnum,String beginyear,String lastyear){
-		String sql = "SELECT l.*,u.account from t_user_log l "
-				+ "LEFT JOIN t_user u ON l.user_id = u.id where 1=1";
+		String sql = "SELECT l.* from t_user_log l ";
 		if(accountnum!=null&&accountnum!=""){
-			sql += " and account Like '%" +accountnum+"%'";
+			sql += " and user_account Like '%" +accountnum+"%'";
 		}
 		if(beginyear!=null&&beginyear!=""){
 			if(lastyear!=null&&lastyear!=""){

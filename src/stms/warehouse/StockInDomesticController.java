@@ -1,4 +1,4 @@
-package stms.system.dictionary;
+package stms.warehouse;
 
 import java.util.HashMap;
 import java.util.List;
@@ -7,40 +7,49 @@ import java.util.Map;
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Db;
+import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 
 import stms.interceptor.ManageInterceptor;
+import stms.system.dictionary.DictionService;
+
 /**
- * @ClassName: DepartmentController
- * @Description: 系统管理_基础数据管理
- * @author: xuhui
- * @date: 2017年5月15日下午2:00:00
+ * @ClassName: StockInDomesticController.java
+ * @Description: 入库明细（国内）控制器
+ * @author: LiYu
+ * @date: 2017年7月13日下午3:23:23
  * @version: 1.0 版本初成
  */
 @Before(ManageInterceptor.class)
-public class DictionaryController extends Controller {
-	// 基础数据列表
+public class StockInDomesticController extends Controller {
+    // 基础数据列表
     public void index() {
-        render("dictionary.html");
+        render("stock_in_domestic.html");
     }
     
+    // 
     public void getJson(){
-    	String keyword = getPara("keyword");
-    	String key = getPara("key");
-    	System.out.println(keyword+":"+key);
-    	Integer	pageindex = 0;
-    	Integer pagelimit = getParaToInt("limit")==null? 12 :getParaToInt("limit");
-    	Integer offset = getParaToInt("offset")==null?0:getParaToInt("offset");
-    	if(offset!=0){
-    		pageindex = offset/pagelimit;
-    	}
-    	pageindex += 1;
-    	Map<String, Object> map = new HashMap<String,Object>();
-    	List<Record> dictionaryList = DictionService.getDictionaryPages(pageindex, pagelimit,keyword,key).getList();
-    	map.put("rows", dictionaryList);
-    	map.put("total",DictionService.getDictionaryPages(pageindex, pagelimit,keyword,key).getTotalRow());
-    	System.out.println(dictionaryList);
-    	renderJson(map);
+//        String keyword = getPara("keyword");
+//        String key = getPara("key");
+//        System.out.println(keyword+":"+key);
+        
+        
+        Integer pageindex = 0; // 页码
+        Integer pagelimit = getParaToInt("limit")==null? 12 :getParaToInt("limit"); // 每页数据条数
+        Integer offset = getParaToInt("offset")==null?0:getParaToInt("offset");
+        if(offset!=0){
+            pageindex = offset/pagelimit;
+        }
+        pageindex += 1;
+        
+        Page<Record> page = StockInDomesticService.getDataPages(pageindex, pagelimit);
+        
+        Map<String, Object> map = new HashMap<String,Object>();
+        map.put("rows", page.getList());
+        map.put("total",page.getTotalRow());
+        System.out.println(page.getList());
+        
+        renderJson(map);
     }
     
     // 获得基础数据
@@ -102,13 +111,13 @@ public class DictionaryController extends Controller {
     }
 
     /**
-   	 * @desc:批量删除
-   	 * @author xuhui
-   	 */
-   	public void delete(){
-   		String ids = getPara(0);
-   		boolean result = DictionService.delete(ids);
-   		renderJson(result);
-   	}
+     * @desc:批量删除
+     * @author xuhui
+     */
+    public void delete(){
+        String ids = getPara(0);
+        boolean result = DictionService.delete(ids);
+        renderJson(result);
+    }
 
 }

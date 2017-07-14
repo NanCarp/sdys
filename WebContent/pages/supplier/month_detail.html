@@ -377,9 +377,13 @@ $(function(){
     }
     postData += '&file='+file;
     console.log($('#level option:selected').val());
-    return;
-    var level = $('#level option:selected').val();
-    postData += '&level=' + level;
+    
+    var id = $('#id').val();
+    if (id=="undefined") {
+    	var level = $('#level option:selected').val();
+    	postData += '&level=' + level;
+    } 
+    
     $.post("/supplier/month/saveMonth", postData, function(result) {
         if (result) {
             parent.layer.msg("保存成功", {time: 2000}, function(){

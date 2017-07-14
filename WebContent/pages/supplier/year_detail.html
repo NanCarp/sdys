@@ -239,8 +239,11 @@ $(function(){
 .on('success.form.bv', function(e) {
 	e.preventDefault();
 	var postData = $('#defaultForm').serialize();
-	var level = $('#level option:selected').val();
-	postData += '&level='+ level;
+	var id = $('#id').val();
+    if (id=="undefined") {
+        var level = $('#level option:selected').val();
+        postData += '&level=' + level;
+    }
 	$.post("/supplier/year/saveYear", postData, function(result) {
 		if (result.isSuccess) {
 			parent.layer.msg("保存成功", {time: 2000}, function(){

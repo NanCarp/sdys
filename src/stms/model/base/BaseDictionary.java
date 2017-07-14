@@ -36,12 +36,12 @@ public abstract class BaseDictionary<M extends BaseDictionary<M>> extends Model<
 		return get("key");
 	}
 
-	public M setValue(java.lang.String value) {
+	public M setValue(java.lang.Integer value) {
 		set("value", value);
 		return (M)this;
 	}
 
-	public java.lang.String getValue() {
+	public java.lang.Integer getValue() {
 		return get("value");
 	}
 
