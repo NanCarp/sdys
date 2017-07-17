@@ -20,7 +20,8 @@ public class _MappingKit {
 		arp.addMapping("t_company", "id", Company.class);
 		arp.addMapping("t_department", "id", Department.class);
 		arp.addMapping("t_dictionary", "id", Dictionary.class);
-		arp.addMapping("t_domes_in_warhouse", "id", DomesInWarhouse.class);
+		arp.addMapping("t_domes_in_warehouse", "id", DomesInWarehouse.class);
+		arp.addMapping("t_domes_out_warehouse", "id", DomesOutWarehouse.class);
 		arp.addMapping("t_import_materials", "id", ImportMaterials.class);
 		arp.addMapping("t_manual_import", "id", ManualImport.class);
 		arp.addMapping("t_manual_loss", "id", ManualLoss.class);

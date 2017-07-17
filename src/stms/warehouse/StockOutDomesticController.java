@@ -15,23 +15,23 @@ import stms.interceptor.ManageInterceptor;
 import stms.model.DomesInWarehouse;
 
 /**
- * @ClassName: StockInDomesticController.java
+ * @ClassName: StockOutDomesticController.java
  * @Description: 入库明细（国内）控制器
  * @author: LiYu
  * @date: 2017年7月13日下午3:23:23
  * @version: 1.0 版本初成
  */
 @Before(ManageInterceptor.class)
-public class StockInDomesticController extends Controller {
+public class StockOutDomesticController extends Controller {
     // 基础数据列表
     public void index() {
-        render("stock_in_domestic.html");
+        render("stock_out_domestic.html");
     }
     
     // 
     public void getJson(){
-        String in_date = getPara("in_date");
-        setAttr("in_date", in_date);
+        String out_date = getPara("out_date");
+        setAttr("out_date", out_date);
         String company_name = getPara("company_name");
         setAttr("company_name", company_name);
         String material_no = getPara("material_no");
@@ -45,7 +45,7 @@ public class StockInDomesticController extends Controller {
         }
         pageindex += 1;
         
-        Page<Record> page = StockInDomesticService.getDataPages(pageindex, pagelimit, in_date, company_name, material_no);
+        Page<Record> page = StockOutDomesticService.getDataPages(pageindex, pagelimit, out_date, company_name, material_no);
         
         Map<String, Object> map = new HashMap<String,Object>();
         map.put("rows", page.getList());
@@ -56,16 +56,16 @@ public class StockInDomesticController extends Controller {
     }
     
     // 获得
-    public void getStockInDomestic() {
+    public void getStockOutDomestic() {
         // id
         Integer id = getParaToInt();
 
         if (id != null) {//编辑
-            Record stockInDomestic = Db.findById("t_domes_in_warehouse", id);
-            setAttr("stockInDomestic", stockInDomestic);
+            Record StockOutDomestic = Db.findById("t_domes_out_warehouse", id);
+            setAttr("StockOutDomestic", StockOutDomestic);
         }
 
-        render("stock_in_domestic_detail.html");
+        render("stock_out_domestic_detail.html");
     }
 
     // 保存
@@ -80,7 +80,7 @@ public class StockInDomesticController extends Controller {
         Integer id = record.getId();
         String batchNo = record.getBatchNo();
         String trayNo = record.getTrayNo();
-        if (id == null && StockInDomesticService.isDuplicate(batchNo, trayNo)) {
+        if (id == null && StockOutDomesticService.isDuplicate(batchNo, trayNo)) {
             response.put("tips", "数据重复！");
             response.put("isSuccess", false);
             renderJson(response);
@@ -104,13 +104,13 @@ public class StockInDomesticController extends Controller {
      */
     public void delete(){
         String ids = getPara();
-        boolean result = StockInDomesticService.delete(ids);
+        boolean result = StockOutDomesticService.delete(ids);
         renderJson(result);
     }
     
     public void importUI() {
         // 导入页面
-        render("stock_in_domestic_import.html");
+        render("stock_out_domestic_import.html");
     }
     
     /** 
@@ -121,7 +121,7 @@ public class StockInDomesticController extends Controller {
         // excel
         UploadFile uploadFile = getFile();
         
-        Map<String, Object> msgMap = StockInDomesticService.importByExcel(uploadFile, getSession());
+        Map<String, Object> msgMap = StockOutDomesticService.importByExcel(uploadFile, getSession());
         
         renderJson(msgMap);
     }

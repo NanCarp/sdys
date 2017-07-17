@@ -45,7 +45,7 @@
 				<div class="container container-fluid" >				
 					<div class="row">                        	    		                                            		
 						<div class="col-sm-2 col-xs-3 head_2">
-                            <input class="form_datetime form-control " placeholder="日期" name="in_date" id="in_date" value="${in_date!}">
+                            <input class="form_datetime form-control " placeholder="日期" name="out_date" id="out_date" value="${out_date!}">
                         </div>
 						<div class="col-sm-2 col-xs-3 head_2">
                             <input type="search" class="form-control" placeholder="公司名称" name="company_name" id="company_name" value="${company_name!}">
@@ -66,7 +66,7 @@
 		                     <button class="btn btn-4" onclick=" _batchDelete()">删除</button>
 		                </div>
 		                <div class="col-sm-1 col-xs-4 head_1">
-                             <button class="btn btn-9 " onclick="location.replace('/warehouse/stockInDomestic')"><i class="fa fa-refresh"></i></button>
+                             <button class="btn btn-9 " onclick="location.replace('/warehouse/stockOutDomestic')"><i class="fa fa-refresh"></i></button>
                         </div>                  
 					</div>				
 				</div>
@@ -137,7 +137,7 @@ var TableInit = function () {
     //初始化Table
     oTableInit.Init = function () {
         $('#tb_departments').bootstrapTable({
-            url: '/warehouse/stockInDomestic/getJson',         //请求后台的URL（*）
+            url: '/warehouse/stockOutDomestic/getJson',         //请求后台的URL（*）
             method: 'get',                      //请求方式（*）
            	toolbar: '#toolbar',                //工具按钮用哪个容器
             showExport: true,                     //是否显示导出
@@ -176,7 +176,10 @@ var TableInit = function () {
             		return index+1;
             	}
             }, {
-                field: 'in_date',
+                field: 'delivery_no',
+                title: '出库单号'
+            }, {
+                field: 'out_date',
                 title: '日期'
             }, {
                 field: 'storage_location',
@@ -197,10 +200,10 @@ var TableInit = function () {
                 field: 'tray_no',
                 title: '托盘号'
             }, {
-                field: 'in_quantity',
+                field: 'out_quantity',
                 title: '数量'
             }, {
-                field: 'in_tray_quantity',
+                field: 'out_tray_quantity',
                 title: '托盘数量'
             }, {
                 field: 'module_power',
@@ -222,7 +225,7 @@ var TableInit = function () {
             offset: params.offset,  //页码
             maxrows: params.limit,
             search: params.search,
-           	in_date: $("#in_date").val(),
+           	out_date: $("#out_date").val(),
            	company_name: $("#company_name").val(),
            	material_no: $("#material_no").val(),
         };
@@ -244,7 +247,7 @@ var ButtonInit = function () {
 
 // 编辑
 function _edit(id){
-	open_window('编辑基础数据','/warehouse/stockOutDomestic/getStockInDomestic/' + id, 760, 400);
+	open_window('编辑基础数据','/warehouse/stockOutDomestic/getStockOutDomestic/' + id, 760, 400);
 }
 // 新增
 function _add(){

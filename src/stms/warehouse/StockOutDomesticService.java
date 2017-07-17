@@ -18,17 +18,17 @@ import com.jfinal.upload.UploadFile;
 
 import stms.utils.ExcelKit;
 
-public class StockInDomesticService {
-
+public class StockOutDomesticService {
+    
     public static Page<Record> getDataPages(Integer pageindex, Integer pagelimit) {
         return getDataPages(pageindex, pagelimit, null, null, null);
     }
 
-    public static Page<Record> getDataPages(Integer pageindex, Integer pagelimit, String in_date, String company_name,
+    public static Page<Record> getDataPages(Integer pageindex, Integer pagelimit, String out_date, String company_name,
             String material_no) {
-        String sql = " FROM t_domes_in_warehouse WHERE 1=1 ";
-        if (in_date != null && !"".equals(in_date)) {
-            sql += " AND in_date = '" + in_date + "'";
+        String sql = " FROM t_domes_out_warehouse WHERE 1=1 ";
+        if (out_date != null && !"".equals(out_date)) {
+            sql += " AND out_date = '" + out_date + "'";
         }
         if (company_name != null && !"".equals(company_name)) {
             sql += " AND company_name like '%" + company_name + "%'";
@@ -49,7 +49,7 @@ public class StockInDomesticService {
     * @author liyu
     */
     public static boolean isDuplicate(String batchNo, String trayNo) {
-        String sql = "SELECT COUNT(*) FROM t_domes_in_warehouse "
+        String sql = "SELECT COUNT(*) FROM t_domes_out_warehouse "
                 + " WHERE batch_no = ? OR tray_no = ? ";
         return Db.find(sql, batchNo, trayNo).size() > 0;
     }
@@ -68,7 +68,7 @@ public class StockInDomesticService {
             @Override
             public boolean run() throws SQLException {
                 for(String id:allid){
-                    result = Db.deleteById("t_domes_in_warehouse", id);
+                    result = Db.deleteById("t_domes_out_warehouse", id);
                     if (result == false) {
                         break;
                     }
@@ -113,7 +113,7 @@ public class StockInDomesticService {
                         try {
                             Record record = new Record();
                             // 日期
-                            record.set("in_date", strings[0]);
+                            record.set("out_date", strings[0]);
                             // 库位
                             record.set("storage_location", strings[1]);
                             // 物流公司名称
@@ -132,13 +132,13 @@ public class StockInDomesticService {
                             record.set("tray_no", strings[6]);
                             // 数量
                             if (!"".equals(strings[7])) {
-                                record.set("in_quantity", strings[7]);
+                                record.set("out_quantity", strings[7]);
                             }
                             // 托盘数量，默认 1 托
                             if (!"".equals(strings[8])) {
-                                record.set("in_tray_quantity", strings[8]);
+                                record.set("out_tray_quantity", strings[8]);
                             } else {
-                                record.set("in_tray_quantity", 1);
+                                record.set("out_tray_quantity", 1);
                             }
                             // 组件功率
                             if (!"".equals(strings[9])) {
@@ -146,13 +146,13 @@ public class StockInDomesticService {
                             }
                      
                             // 存在则更新，否则新增
-                            Record recordDB = Db.findFirst("SELECT * FROM t_domes_in_warehouse  WHERE batch_no = ? OR tray_no = ? ", 
+                            Record recordDB = Db.findFirst("SELECT * FROM t_domes_out_warehouse  WHERE batch_no = ? OR tray_no = ? ", 
                                     strings[5], strings[6]);
                             if (recordDB != null) { // 更新
                                 record.set("id", recordDB.getInt("id"));
-                                Db.update("t_domes_in_warehouse", record);
+                                Db.update("t_domes_out_warehouse", record);
                             } else { // 新增
-                                Db.save("t_domes_in_warehouse", record);
+                                Db.save("t_domes_out_warehouse", record);
                             }
                         } catch(Exception e) {
                             //指定一个判定对象，如果countWrongList已有该行数则返回false，否则返回true；
@@ -183,6 +183,4 @@ public class StockInDomesticService {
         Matcher matcher = pattern.matcher(str);
         return matcher.find();
     }
-
-    
 }
