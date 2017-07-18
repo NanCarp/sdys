@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>入库（国内）</title>
+    <title>仓储收费标准（国内）</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="../../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -44,29 +44,23 @@
 			<div class="panel-heading">					
 				<div class="container container-fluid" >				
 					<div class="row">                        	    		                                            		
-						<div class="col-sm-2 col-xs-3 head_2">
-                            <input class="form_datetime form-control " placeholder="日期" name="out_date" id="out_date" value="${out_date!}">
-                        </div>
+						<!-- <div class="col-sm-2 col-xs-3 head_2">
+                            <input class="form_datetime form-control " placeholder="日期" name="period" id="in_date" value="${in_date!}">
+                        </div> -->
 						<div class="col-sm-2 col-xs-3 head_2">
                             <input type="search" class="form-control" placeholder="公司名称" name="company_name" id="company_name" value="${company_name!}">
-                        </div>
-                        <div class="col-sm-2 col-xs-3 head_2">
-                            <input type="search" class="form-control" placeholder="物料号" name="material_no" id="material_no" value="${material_no!}">
                         </div>
 						<div class="col-sm-1 col-xs-12 head_1">
 							<button class="btn btn-primary" onclick="doQuery()">查询</button>
 						</div>                    			
-						<!-- <div class="col-sm-2 col-xs-6 head_1">
+						<div class="col-sm-2 col-xs-6 head_1">
 		                    <button class="btn btn-success" onclick="_add()">新增</button>
-		                </div> -->
-		                <div class="col-sm-1 col-xs-12 head_1">
-                            <button class="btn btn-5" onclick="_import()">导入</button>
-                        </div>
+		                </div>
                         <div class="col-sm-2 col-xs-6 head_1" >
 		                     <button class="btn btn-4" onclick=" _batchDelete()">删除</button>
 		                </div>
 		                <div class="col-sm-1 col-xs-4 head_1">
-                             <button class="btn btn-9 " onclick="location.replace('/warehouse/stockOutDomestic')"><i class="fa fa-refresh"></i></button>
+                             <button class="btn btn-9 " onclick="location.replace('/warehouse/standardChargeDomestic')"><i class="fa fa-refresh"></i></button>
                         </div>                  
 					</div>				
 				</div>
@@ -123,12 +117,6 @@ function doQuery(){
                 layer.tips('不允许有特殊字符，最多20个字符', '#company_name', {tips: [1, '#34495E']});return;
             }                   
         }
-        if($.trim($('#material_no').val())!=''){
-            var reg = /^[a-zA-Z0-9_ ]{1,30}$/;
-            if(!reg.test($('#material_no').val())){
-                layer.tips('不允许有特殊字符，最多20个字符', '#material_no', {tips: [1, '#34495E']});return;
-            }                   
-        }
         $('#tb_departments').bootstrapTable('refresh');    //刷新表格
 	});
 }
@@ -137,7 +125,7 @@ var TableInit = function () {
     //初始化Table
     oTableInit.Init = function () {
         $('#tb_departments').bootstrapTable({
-            url: '/warehouse/stockOutDomestic/getJson',         //请求后台的URL（*）
+            url: '/warehouse/standardChargeDomestic/getJson',         //请求后台的URL（*）
             method: 'get',                      //请求方式（*）
            	toolbar: '#toolbar',                //工具按钮用哪个容器
             showExport: true,                     //是否显示导出
@@ -176,41 +164,20 @@ var TableInit = function () {
             		return index+1;
             	}
             }, {
-                field: 'delivery_no',
-                title: '出库单号'
-            }, {
-                field: 'out_date',
-                title: '日期'
-            }, {
-                field: 'storage_location',
-                title: '库位'
+                field: 'period',
+                title: '时间段（年月）'
             }, {
                 field: 'company_name',
                 title: '物流公司名称'
             }, {
-                field: 'material_no',
-                title: '物料号'
+                field: 'currency',
+                title: '币制'
             }, {
-                field: 'material',
-                title: '物料描述'
+                field: 'amount',
+                title: '仓储费收费标准'
             }, {
-                field: 'batch_no',
-                title: '批次号'
-            }, {
-                field: 'tray_no',
-                title: '托盘号'
-            }, {
-                field: 'out_quantity',
-                title: '数量'
-            }, {
-                field: 'out_tray_quantity',
-                title: '托盘数量'
-            }, {
-                field: 'module_power',
-                title: '组件功率'
-            }, {
-            	field:'opt',
-            	title:'操作',
+            	field: 'opt',
+            	title: '操作',
             	formatter:function(value,row,index){
             			  return['<button class="btn btn-xs btn-3"  onclick="_edit('+row.id+')">编辑</button>' ]
             	},
@@ -219,15 +186,13 @@ var TableInit = function () {
     };
 
     //得到查询的参数
-  oTableInit.queryParams = function (params) {
+    oTableInit.queryParams = function (params) {
         var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
             limit: params.limit,   //页面大小
             offset: params.offset,  //页码
             maxrows: params.limit,
             search: params.search,
-           	out_date: $("#out_date").val(),
            	company_name: $("#company_name").val(),
-           	material_no: $("#material_no").val(),
         };
         return temp;
     };
@@ -247,15 +212,11 @@ var ButtonInit = function () {
 
 // 编辑
 function _edit(id){
-	open_window('编辑出库明细（国内）','/warehouse/stockOutDomestic/getStockOutDomestic/' + id, 760, 400);
+	open_window('编辑仓储收费标准（国内）','/warehouse/standardChargeDomestic/getRecord/' + id, 760, 250);
 }
 // 新增
 function _add(){
-	open_window('新增出库明细（国内）','', 480, 350);
-}
-// 导入
-function _import() {
-    open_window('导入出库明细（国内）','/warehouse/stockOutDomestic/importUI', 480, 200);
+	open_window('新增仓储收费标准（国内）','/warehouse/standardChargeDomestic/getRecord', 760, 250);
 }
 // 批量删除
 function _batchDelete(){
@@ -271,7 +232,7 @@ function _batchDelete(){
             title: ['信息', 'font-weight:600;color:#fff;background-color: #3367D6;'],
             btn: ['确认','取消'] //按钮
         }, function(){
-            $.post("/warehouse/stockOutDomestic/delete/" + ids,function(result) {
+            $.post("/warehouse/standardChargeDomestic/delete/" + ids,function(result) {
                 if (result) {
                     layer.msg('删除成功', {time: 2000}, function(){
                         parent.refresh_iframe();
@@ -304,17 +265,9 @@ function getIdSelections() {
         return row.id;
     });
 }
-//全选、全不选
-$("#checkAll").click(function() {
-    $("input[name='sub']").prop("checked", this.checked);
-});
-$("input[name='sub']").click(function() {
-    var $subs = $("input[name='sub']");
-    $("#checkAll").prop("checked" , $subs.length == $subs.filter(":checked").length ? true :false);
-});
 //日期控件
 $(".form_datetime").datetimepicker({
-    format: "yyyy-mm-dd",
+    format: "yyyymm",
     autoclose: true,
     todayBtn: false,
     todayHighlight: true,

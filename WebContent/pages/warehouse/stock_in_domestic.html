@@ -244,15 +244,15 @@ var ButtonInit = function () {
 
 // 编辑
 function _edit(id){
-	open_window('编辑基础数据','/warehouse/stockOutDomestic/getStockInDomestic/' + id, 760, 400);
+	open_window('编辑入库明细（国内）','/warehouse/stockInDomestic/getStockInDomestic/' + id, 760, 400);
 }
 // 新增
 function _add(){
-	open_window('新增基础数据','', 480, 350);
+	open_window('新增入库明细（国内）','', 480, 350);
 }
 // 导入
 function _import() {
-    open_window('导入入库明细（国内）','/warehouse/stockOutDomestic/importUI', 480, 200);
+    open_window('导入入库明细（国内）','/warehouse/stockInDomestic/importUI', 480, 200);
 }
 // 批量删除
 function _batchDelete(){
@@ -268,13 +268,13 @@ function _batchDelete(){
             title: ['信息', 'font-weight:600;color:#fff;background-color: #3367D6;'],
             btn: ['确认','取消'] //按钮
         }, function(){
-            $.post("/warehouse/stockOutDomestic/delete/" + ids,function(result) {
-                if (result) {
-                    layer.msg('删除成功', {time: 2000}, function(){
+            $.post("/warehouse/stockInDomestic/delete/" + ids,function(result) {
+                if (result.isSuccess) {
+                    layer.msg(result.tips, {time: 2000}, function(){
                         parent.refresh_iframe();
                     });
                 }else{
-                	layer.msg('删除失败', {time: 2000}, function(){
+                	layer.msg(result.tips, {time: 2000}, function(){
                     });
                 }
             });

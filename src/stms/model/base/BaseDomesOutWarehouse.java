@@ -18,13 +18,22 @@ public abstract class BaseDomesOutWarehouse<M extends BaseDomesOutWarehouse<M>> 
 		return get("id");
 	}
 
-	public M setInDate(java.util.Date inDate) {
-		set("in_date", inDate);
+	public M setDeliveryNo(java.lang.String deliveryNo) {
+		set("delivery_no", deliveryNo);
 		return (M)this;
 	}
 
-	public java.util.Date getInDate() {
-		return get("in_date");
+	public java.lang.String getDeliveryNo() {
+		return get("delivery_no");
+	}
+
+	public M setOutDate(java.util.Date outDate) {
+		set("out_date", outDate);
+		return (M)this;
+	}
+
+	public java.util.Date getOutDate() {
+		return get("out_date");
 	}
 
 	public M setStorageLocation(java.lang.String storageLocation) {
@@ -81,22 +90,22 @@ public abstract class BaseDomesOutWarehouse<M extends BaseDomesOutWarehouse<M>> 
 		return get("tray_no");
 	}
 
-	public M setInQuantity(java.lang.Integer inQuantity) {
-		set("in_quantity", inQuantity);
+	public M setOutQuantity(java.lang.Integer outQuantity) {
+		set("out_quantity", outQuantity);
 		return (M)this;
 	}
 
-	public java.lang.Integer getInQuantity() {
-		return get("in_quantity");
+	public java.lang.Integer getOutQuantity() {
+		return get("out_quantity");
 	}
 
-	public M setInTrayQuantity(java.lang.Integer inTrayQuantity) {
-		set("in_tray_quantity", inTrayQuantity);
+	public M setOutTrayQuantity(java.lang.Integer outTrayQuantity) {
+		set("out_tray_quantity", outTrayQuantity);
 		return (M)this;
 	}
 
-	public java.lang.Integer getInTrayQuantity() {
-		return get("in_tray_quantity");
+	public java.lang.Integer getOutTrayQuantity() {
+		return get("out_tray_quantity");
 	}
 
 	public M setModulePower(java.lang.Integer modulePower) {

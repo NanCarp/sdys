@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>入库（国内）</title>
+    <title>入库（国际）</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="../../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -45,7 +45,7 @@
 				<div class="container container-fluid" >				
 					<div class="row">                        	    		                                            		
 						<div class="col-sm-2 col-xs-3 head_2">
-                            <input class="form_datetime form-control " placeholder="日期" name="out_date" id="out_date" value="${out_date!}">
+                            <input class="form_datetime form-control " placeholder="日期" name="in_date" id="in_date" value="${in_date!}">
                         </div>
 						<div class="col-sm-2 col-xs-3 head_2">
                             <input type="search" class="form-control" placeholder="公司名称" name="company_name" id="company_name" value="${company_name!}">
@@ -66,7 +66,7 @@
 		                     <button class="btn btn-4" onclick=" _batchDelete()">删除</button>
 		                </div>
 		                <div class="col-sm-1 col-xs-4 head_1">
-                             <button class="btn btn-9 " onclick="location.replace('/warehouse/stockOutDomestic')"><i class="fa fa-refresh"></i></button>
+                             <button class="btn btn-9 " onclick="location.replace('/warehouse/stockInInternational')"><i class="fa fa-refresh"></i></button>
                         </div>                  
 					</div>				
 				</div>
@@ -137,7 +137,7 @@ var TableInit = function () {
     //初始化Table
     oTableInit.Init = function () {
         $('#tb_departments').bootstrapTable({
-            url: '/warehouse/stockOutDomestic/getJson',         //请求后台的URL（*）
+            url: '/warehouse/stockInInternational/getJson',         //请求后台的URL（*）
             method: 'get',                      //请求方式（*）
            	toolbar: '#toolbar',                //工具按钮用哪个容器
             showExport: true,                     //是否显示导出
@@ -176,37 +176,37 @@ var TableInit = function () {
             		return index+1;
             	}
             }, {
-                field: 'delivery_no',
-                title: '出库单号'
+                field: 'in_container_no',
+                title: '集装箱号'
             }, {
-                field: 'out_date',
+                field: 'in_date',
                 title: '日期'
             }, {
-                field: 'storage_location',
+                field: 'in_storage_location',
                 title: '库位'
             }, {
-                field: 'company_name',
+                field: 'in_company_name',
                 title: '物流公司名称'
             }, {
-                field: 'material_no',
+                field: 'in_material_no',
                 title: '物料号'
             }, {
-                field: 'material',
+                field: 'in_material',
                 title: '物料描述'
             }, {
-                field: 'batch_no',
+                field: 'in_batch_no',
                 title: '批次号'
             }, {
-                field: 'tray_no',
+                field: 'in_tray_no',
                 title: '托盘号'
             }, {
-                field: 'out_quantity',
+                field: 'in_quantity',
                 title: '数量'
             }, {
-                field: 'out_tray_quantity',
+                field: 'in_tray_quantity',
                 title: '托盘数量'
             }, {
-                field: 'module_power',
+                field: 'in_module_power',
                 title: '组件功率'
             }, {
             	field:'opt',
@@ -225,7 +225,7 @@ var TableInit = function () {
             offset: params.offset,  //页码
             maxrows: params.limit,
             search: params.search,
-           	out_date: $("#out_date").val(),
+           	in_date: $("#in_date").val(),
            	company_name: $("#company_name").val(),
            	material_no: $("#material_no").val(),
         };
@@ -247,15 +247,15 @@ var ButtonInit = function () {
 
 // 编辑
 function _edit(id){
-	open_window('编辑出库明细（国内）','/warehouse/stockOutDomestic/getStockOutDomestic/' + id, 760, 400);
+	open_window('编辑入库明细（国际）','/warehouse/stockInInternational/getStockInInternational/' + id, 760, 450);
 }
 // 新增
 function _add(){
-	open_window('新增出库明细（国内）','', 480, 350);
+	open_window('新增入库明细（国际）','', 480, 350);
 }
 // 导入
 function _import() {
-    open_window('导入出库明细（国内）','/warehouse/stockOutDomestic/importUI', 480, 200);
+    open_window('导入入库明细（国际）','/warehouse/stockInInternational/importUI', 480, 200);
 }
 // 批量删除
 function _batchDelete(){
@@ -271,13 +271,13 @@ function _batchDelete(){
             title: ['信息', 'font-weight:600;color:#fff;background-color: #3367D6;'],
             btn: ['确认','取消'] //按钮
         }, function(){
-            $.post("/warehouse/stockOutDomestic/delete/" + ids,function(result) {
-                if (result) {
-                    layer.msg('删除成功', {time: 2000}, function(){
+            $.post("/warehouse/stockInInternational/delete/" + ids,function(result) {
+                if (result.isSuccess) {
+                    layer.msg(result.tips, {time: 2000}, function(){
                         parent.refresh_iframe();
                     });
                 }else{
-                	layer.msg('删除失败', {time: 2000}, function(){
+                	layer.msg(result.tips, {time: 2000}, function(){
                     });
                 }
             });

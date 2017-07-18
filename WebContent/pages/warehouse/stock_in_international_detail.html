@@ -42,69 +42,75 @@
 <body>
 <form class="form-horizontal" role="form" style="margin-top:20px;" id="defaultForm">
 	<div class="container">
-		<#if stockInDomestic??>
-		<input type="hidden" name="id" value="${stockInDomestic.id}">
+		<#if stockInInternational??>
+		<input type="hidden" name="id" value="${stockInInternational.id}">
 		<div class="col-xs-6">
+		    <div class="form-group">
+                <label class="col-xs-6 control-label text-right" for="in_container_no">集装箱号：</label>
+                <div class="col-xs-6">
+                    <input class="form-control" placeholder="集装箱号" name="in_container_no" id="in_container_no" value="${stockInInternational.in_container_no!}">
+                </div>
+            </div>
             <div class="form-group">
                 <label class="col-xs-6 control-label text-right" for="in_date">日期：</label>
                 <div class="col-xs-6">
-                    <input class="form-control form_datetime" placeholder="日期" name="in_date" id="in_date" value="${stockInDomestic.in_date!}">
+                    <input class="form-control form_datetime" placeholder="日期" name="in_date" id="in_date" value="${stockInInternational.in_date!}">
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-6 control-label text-right" for="storage_location">库位：</label>
+                <label class="col-xs-6 control-label text-right" for="in_storage_location">库位：</label>
                 <div class="col-xs-6">
-                    <input class="form-control" placeholder="库位" name="storage_location" id="storage_location" value="${stockInDomestic.storage_location!}">
+                    <input class="form-control" placeholder="库位" name="in_storage_location" id="in_storage_location" value="${stockInInternational.in_storage_location!}">
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-6 control-label text-right" for="company_name">物流公司名称：</label>
+                <label class="col-xs-6 control-label text-right" for="in_company_name">物流公司名称：</label>
                 <div class="col-xs-6">
-                    <input class="form-control" placeholder="物流公司名称" name="company_name" id="company_name" value="${stockInDomestic.company_name!}">
+                    <input class="form-control" placeholder="物流公司名称" name="in_company_name" id="in_company_name" value="${stockInInternational.in_company_name!}">
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-6 control-label text-right" for="material_no">物料号：</label>
+                <label class="col-xs-6 control-label text-right" for="in_material_no">物料号：</label>
                 <div class="col-xs-6">
-                    <input class="form-control" placeholder="物料号" name="material_no" id="material_no" value="${stockInDomestic.material_no!}">
+                    <input class="form-control" placeholder="物料号" name="in_material_no" id="in_material_no" value="${stockInInternational.in_material_no!}">
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-6 control-label text-right" for="material">物料描述：</label>
+                <label class="col-xs-6 control-label text-right" for="in_material">物料描述：</label>
                 <div class="col-xs-6">
-                    <input class="form-control" placeholder="物料描述" name="material" id="material" value="${stockInDomestic.material!}">
+                    <input class="form-control" placeholder="物料描述" name="in_material" id="in_material" value="${stockInInternational.in_material!}">
                 </div>
             </div>
         </div>
         <div class="col-xs-6">
             <div class="form-group">
-                <label class="col-xs-6 control-label text-right" for="batch_no">批次号：</label>
+                <label class="col-xs-6 control-label text-right" for="in_batch_no">批次号：</label>
                 <div class="col-xs-6">
-                    <input class="form-control" placeholder="批次号" name="batch_no" id="batch_no" value="${stockInDomestic.batch_no!}" readonly>
+                    <input class="form-control" placeholder="批次号" name="in_batch_no" id="in_batch_no" value="${stockInInternational.in_batch_no!}" readonly>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-6 control-label text-right" for="tray_no">托盘号：</label>
+                <label class="col-xs-6 control-label text-right" for="in_tray_no">托盘号：</label>
                 <div class="col-xs-6">
-                    <input class="form-control" placeholder="托盘号" name="tray_no" id="tray_no" value="${stockInDomestic.tray_no!}" readonly>
+                    <input class="form-control" placeholder="托盘号" name="in_tray_no" id="in_tray_no" value="${stockInInternational.in_tray_no!}" readonly>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-xs-6 control-label text-right" for="in_quantity">数量（片）：</label>
                 <div class="col-xs-6">
-                    <input class="form-control" placeholder="数量（片）" name="in_quantity" id="in_quantity" value="${stockInDomestic.in_quantity!}">
+                    <input class="form-control" placeholder="数量（片）" name="in_quantity" id="in_quantity" value="${stockInInternational.in_quantity!}">
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-xs-6 control-label text-right" for="in_tray_quantity">托盘托数（托）：</label>
                 <div class="col-xs-6">
-                    <input class="form-control" placeholder="托盘托数（托）" name="in_tray_quantity" id="in_tray_quantity" value="${stockInDomestic.in_tray_quantity!}">
+                    <input class="form-control" placeholder="托盘托数（托）" name="in_tray_quantity" id="in_tray_quantity" value="${stockInInternational.in_tray_quantity!}">
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-6 control-label text-right" for="module_power">组件功率（W）：</label>
+                <label class="col-xs-6 control-label text-right" for="in_module_power">组件功率（W）：</label>
                 <div class="col-xs-6">
-                    <input class="form-control" placeholder="组件功率（W）" name="module_power" id="module_power" value="${stockInDomestic.module_power!}">
+                    <input class="form-control" placeholder="组件功率（W）" name="in_module_power" id="in_module_power" value="${stockInInternational.in_module_power!}">
                 </div>
             </div>
         </div>
@@ -126,41 +132,41 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-6 control-label text-right" for="storage_location">库位：</label>
+                <label class="col-xs-6 control-label text-right" for="in_storage_location">库位：</label>
                 <div class="col-xs-6">
-                    <input class="form-control" placeholder="库位" name="storage_location" id="storage_location">
+                    <input class="form-control" placeholder="库位" name="in_storage_location" id="in_storage_location">
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-6 control-label text-right" for="company_name">物流公司名称：</label>
+                <label class="col-xs-6 control-label text-right" for="in_company_name">物流公司名称：</label>
                 <div class="col-xs-6">
-                    <input class="form-control" placeholder="物流公司名称" name="company_name" id="company_name">
+                    <input class="form-control" placeholder="物流公司名称" name="in_company_name" id="in_company_name">
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-6 control-label text-right" for="material_no">物料号：</label>
+                <label class="col-xs-6 control-label text-right" for="in_material_no">物料号：</label>
                 <div class="col-xs-6">
-                    <input class="form-control" placeholder="物料号" name="material_no" id="material_no">
+                    <input class="form-control" placeholder="物料号" name="in_material_no" id="in_material_no">
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-6 control-label text-right" for="material">物料描述：</label>
+                <label class="col-xs-6 control-label text-right" for="in_material">物料描述：</label>
                 <div class="col-xs-6">
-                    <input class="form-control" placeholder="物料描述" name="material" id="material">
+                    <input class="form-control" placeholder="物料描述" name="in_material" id="in_material">
                 </div>
             </div>
 	   	</div>
 	   	<div class="col-xs-6">
 	   		<div class="form-group">
-                <label class="col-xs-6 control-label text-right" for="batch_no">批次号：</label>
+                <label class="col-xs-6 control-label text-right" for="in_batch_no">批次号：</label>
                 <div class="col-xs-6">
-                    <input class="form-control" placeholder="批次号" name="batch_no" id="batch_no">
+                    <input class="form-control" placeholder="批次号" name="in_batch_no" id="in_batch_no">
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-6 control-label text-right" for="tray_no">托盘号：</label>
+                <label class="col-xs-6 control-label text-right" for="in_tray_no">托盘号：</label>
                 <div class="col-xs-6">
-                    <input class="form-control" placeholder="托盘号" name="tray_no" id="tray_no">
+                    <input class="form-control" placeholder="托盘号" name="in_tray_no" id="in_tray_no">
                 </div>
             </div>
             <div class="form-group">
@@ -176,9 +182,9 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-6 control-label text-right" for="module_power">组件功率（W）：</label>
+                <label class="col-xs-6 control-label text-right" for="in_module_power">组件功率（W）：</label>
                 <div class="col-xs-6">
-                    <input class="form-control" placeholder="组件功率（W）" name="module_power" id="module_power">
+                    <input class="form-control" placeholder="组件功率（W）" name="in_module_power" id="in_module_power">
                 </div>
             </div>
 	   	</div>
@@ -234,6 +240,21 @@ $(function(){
 			validating: 'glyphicon glyphicon-refresh'
 		},
 		fields: {
+			"in_container_no": {
+                validators: {
+                    notEmpty: {
+                        message: '不能为空!'
+                    },regexp: {
+                        regexp: /^[a-zA-Z0-9_ ]{1,}$/,
+                        message: '请输入正确的集装箱号'
+                    },
+                    stringLength: {
+                        min: 0,
+                        max: 20,
+                        message: '最多20个字符'
+                    }
+                }
+            },
 			"in_date": {
 				validators: {
 					notEmpty: {
@@ -241,13 +262,13 @@ $(function(){
 					},
 				}
 			},
-			"storage_location": {
+			"in_storage_location": {
                 validators: {
                     notEmpty: {
                         message: '不能为空!'
                     },
                     regexp: {
-                        regexp: /^[a-zA-Z0-9_\u0391-\uFFE5 ]{1,}$/,
+                        regexp: /^[a-zA-Z0-9_ ]{1,}$/,
                         message: '请输入正确的库位'
                     },
                     stringLength: {
@@ -257,7 +278,7 @@ $(function(){
                     }
                 }
             },
-            "company_name": {
+            "in_company_name": {
                 validators: {
                     notEmpty: {
                         message: '不能为空!'
@@ -273,7 +294,7 @@ $(function(){
                     }
                 }
             },
-            "material_no": {
+            "in_material_no": {
                 validators: {
                     notEmpty: {
                         message: '不能为空!'
@@ -289,7 +310,7 @@ $(function(){
                     }
                 }
             },
-            "material": {
+            "in_material": {
                 validators: {
                     notEmpty: {
                         message: '不能为空!'
@@ -305,7 +326,7 @@ $(function(){
                     }
                 }
             },
-            "batch_no": {
+            "in_batch_no": {
                 validators: {
                     notEmpty: {
                         message: '不能为空!'
@@ -321,7 +342,7 @@ $(function(){
                     }
                 }
             },
-            "tray_no": {
+            "in_tray_no": {
                 validators: {
                     notEmpty: {
                         message: '不能为空!'
@@ -369,7 +390,7 @@ $(function(){
                     }
                 }
             },
-            "module_power": {
+            "in_module_power": {
                 validators: {
                     notEmpty: {
                         message: '不能为空!'
@@ -390,7 +411,7 @@ $(function(){
 })
 .on('success.form.bv', function(e) {
 	e.preventDefault();
-	$.post("/warehouse/stockInDomestic/save", $('#defaultForm').serialize(), function(result) {
+	$.post("/warehouse/stockInInternational/save", $('#defaultForm').serialize(), function(result) {
 		if (result.isSuccess) {
             parent.layer.msg(result.tips, {time: 2000}, function(){
                 layer_close();
