@@ -1,4 +1,4 @@
-package stms.warehouse.stockoutdomestic;
+package stms.warehouse.stockoutinternational;
 
 import java.util.HashMap;
 import java.util.List;
@@ -12,20 +12,20 @@ import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.upload.UploadFile;
 
 import stms.interceptor.ManageInterceptor;
-import stms.model.DomesInWarehouse;
+import stms.model.InterInWarehouse;
 
 /**
- * @ClassName: StockOutDomesticController.java
- * @Description: 入库明细（国内）控制器
+ * @ClassName: StockOutInternationalController.java
+ * @Description: 入库明细（国际）控制器
  * @author: LiYu
  * @date: 2017年7月13日下午3:23:23
  * @version: 1.0 版本初成
  */
 @Before(ManageInterceptor.class)
-public class StockOutDomesticController extends Controller {
+public class StockOutInternationalController extends Controller {
     // 基础数据列表
     public void index() {
-        render("stock_out_domestic.html");
+        render("stock_out_international.html");
     }
     
     // 
@@ -45,7 +45,7 @@ public class StockOutDomesticController extends Controller {
         }
         pageindex += 1;
         
-        Page<Record> page = StockOutDomesticService.getDataPages(pageindex, pagelimit, out_date, company_name, material_no);
+        Page<Record> page = StockOutInternationalService.getDataPages(pageindex, pagelimit, out_date, company_name, material_no);
         
         Map<String, Object> map = new HashMap<String,Object>();
         map.put("rows", page.getList());
@@ -56,21 +56,21 @@ public class StockOutDomesticController extends Controller {
     }
     
     // 获得
-    public void getStockOutDomestic() {
+    public void getStockOutInternational() {
         // id
         Integer id = getParaToInt();
 
         if (id != null) {//编辑
-            Record StockOutDomestic = Db.findById("t_domes_out_warehouse", id);
-            setAttr("stockOutDomestic", StockOutDomestic);
+            Record StockOutInternational = Db.findById("t_inter_out_warehouse", id);
+            setAttr("stockOutInternational", StockOutInternational);
         }
 
-        render("stock_out_domestic_detail.html");
+        render("stock_out_international_detail.html");
     }
 
     // 保存
     public void save() {
-        DomesInWarehouse record = getModel(DomesInWarehouse.class, "");
+        InterInWarehouse record = getModel(InterInWarehouse.class, "");
         
         // 保存结果
         boolean result = false;
@@ -80,7 +80,7 @@ public class StockOutDomesticController extends Controller {
         Integer id = record.getId();
         String batchNo = record.getBatchNo();
         String trayNo = record.getTrayNo();
-        if (id == null && StockOutDomesticService.isDuplicate(batchNo, trayNo)) {
+        if (id == null && StockOutInternationalService.isDuplicate(batchNo, trayNo)) {
             response.put("tips", "数据重复！");
             response.put("isSuccess", false);
             renderJson(response);
@@ -104,13 +104,13 @@ public class StockOutDomesticController extends Controller {
      */
     public void delete(){
         String ids = getPara();
-        boolean result = StockOutDomesticService.delete(ids);
+        boolean result = StockOutInternationalService.delete(ids);
         renderJson(result);
     }
     
     public void importUI() {
         // 导入页面
-        render("stock_out_domestic_import.html");
+        render("stock_out_international_import.html");
     }
     
     /** 
@@ -121,7 +121,7 @@ public class StockOutDomesticController extends Controller {
         // excel
         UploadFile uploadFile = getFile();
         
-        Map<String, Object> msgMap = StockOutDomesticService.importByExcel(uploadFile, getSession());
+        Map<String, Object> msgMap = StockOutInternationalService.importByExcel(uploadFile, getSession());
         
         renderJson(msgMap);
     }

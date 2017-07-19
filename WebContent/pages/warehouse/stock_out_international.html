@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>入库（国内）</title>
+    <title>入库（国际）</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="../../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -45,7 +45,7 @@
 				<div class="container container-fluid" >				
 					<div class="row">                        	    		                                            		
 						<div class="col-sm-2 col-xs-3 head_2">
-                            <input class="form_datetime form-control " placeholder="日期" name="in_date" id="in_date" value="${in_date!}">
+                            <input class="form_datetime form-control " placeholder="日期" name="out_date" id="out_date" value="${out_date!}">
                         </div>
 						<div class="col-sm-2 col-xs-3 head_2">
                             <input type="search" class="form-control" placeholder="公司名称" name="company_name" id="company_name" value="${company_name!}">
@@ -56,20 +56,17 @@
 						<div class="col-sm-1 col-xs-12 head_1">
 							<button class="btn btn-primary" onclick="doQuery()">查询</button>
 						</div>                    			
-						<!-- <div class="col-sm-2 col-xs-6 head_1">
-		                    <button class="btn btn-success" onclick="_add()">新增</button>
-		                </div> -->
 		                <div class="col-sm-1 col-xs-12 head_1">
                             <button class="btn btn-5" onclick="_import()">导入</button>
                         </div>
-                        <div class="col-sm-1 col-xs-12 head_1">
+                        <div class="col-sm-1 col-xs-4 head_1">
                             <button class="btn btn-3"  onclick="_edit1()">编辑</button>
                         </div>
-                        <div class="col-sm-2 col-xs-6 head_1" >
+                        <div class="col-sm-1 col-xs-6 head_1" >
 		                     <button class="btn btn-4" onclick=" _batchDelete()">删除</button>
 		                </div>
 		                <div class="col-sm-1 col-xs-4 head_1">
-                             <button class="btn btn-9 " onclick="location.replace('/warehouse/stockInDomestic')"><i class="fa fa-refresh"></i></button>
+                             <button class="btn btn-9 " onclick="location.replace('/warehouse/stockOutInternational')"><i class="fa fa-refresh"></i></button>
                         </div>                  
 					</div>				
 				</div>
@@ -140,7 +137,7 @@ var TableInit = function () {
     //初始化Table
     oTableInit.Init = function () {
         $('#tb_departments').bootstrapTable({
-            url: '/warehouse/stockInDomestic/getJson',         //请求后台的URL（*）
+            url: '/warehouse/stockOutInternational/getJson',         //请求后台的URL（*）
             method: 'get',                      //请求方式（*）
            	toolbar: '#toolbar',                //工具按钮用哪个容器
             showExport: true,                     //是否显示导出
@@ -179,7 +176,10 @@ var TableInit = function () {
             		return index+1;
             	}
             }, {
-                field: 'in_date',
+                field: 'delivery_no',
+                title: '出库单号'
+            }, {
+                field: 'out_date',
                 title: '日期'
             }, {
                 field: 'storage_location',
@@ -200,14 +200,26 @@ var TableInit = function () {
                 field: 'tray_no',
                 title: '托盘号'
             }, {
-                field: 'in_quantity',
+                field: 'out_quantity',
                 title: '数量'
             }, {
-                field: 'in_tray_quantity',
+                field: 'out_tray_quantity',
                 title: '托盘数量'
+            }, {
+                field: 'invoice_no',
+                title: '发票号'
             }, {
                 field: 'module_power',
                 title: '组件功率'
+            }, {
+                field: 'customer',
+                title: '实际客户'
+            }, {
+                field: 'notice_no',
+                title: '外库通知单号'
+            }, {
+                field: 'customer_invoice_no',
+                title: '客户发票号'
             }, {
             	field:'opt',
             	title:'操作',
@@ -219,13 +231,13 @@ var TableInit = function () {
     };
 
     //得到查询的参数
-  oTableInit.queryParams = function (params) {
+    oTableInit.queryParams = function (params) {
         var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
             limit: params.limit,   //页面大小
             offset: params.offset,  //页码
             maxrows: params.limit,
             search: params.search,
-           	in_date: $("#in_date").val(),
+           	out_date: $("#out_date").val(),
            	company_name: $("#company_name").val(),
            	material_no: $("#material_no").val(),
         };
@@ -247,7 +259,7 @@ var ButtonInit = function () {
 
 // 编辑
 function _edit(id){
-	open_window('编辑入库明细（国内）','/warehouse/stockInDomestic/getStockInDomestic/' + id, 760, 370);
+	open_window('编辑出库明细（国际）','/warehouse/stockOutInternational/getStockOutInternational/' + id, 760, 360);
 }
 function _edit1(){
     // 获取选中记录 id
@@ -256,18 +268,18 @@ function _edit1(){
     if (id.length == 0) {
         layer.msg('请选择一条记录', {time: 2000});
     } else if (id.length == 1){
-        _edit(id);
+    	_edit(id);
     } else {
         layer.msg('最多选择选择一条记录', {time: 2000});
     }
 }
 // 新增
 function _add(){
-	open_window('新增入库明细（国内）','', 480, 350);
+	open_window('新增出库明细（国际）','', 480, 350);
 }
 // 导入
 function _import() {
-    open_window('导入入库明细（国内）','/warehouse/stockInDomestic/importUI', 480, 200);
+    open_window('导入出库明细（国际）','/warehouse/stockOutInternational/importUI', 480, 200);
 }
 // 批量删除
 function _batchDelete(){
@@ -283,13 +295,13 @@ function _batchDelete(){
             title: ['信息', 'font-weight:600;color:#fff;background-color: #3367D6;'],
             btn: ['确认','取消'] //按钮
         }, function(){
-            $.post("/warehouse/stockInDomestic/delete/" + ids,function(result) {
-                if (result.isSuccess) {
-                    layer.msg(result.tips, {time: 2000}, function(){
+            $.post("/warehouse/stockOutInternational/delete/" + ids,function(result) {
+                if (result) {
+                    layer.msg('删除成功', {time: 2000}, function(){
                         parent.refresh_iframe();
                     });
                 }else{
-                	layer.msg(result.tips, {time: 2000}, function(){
+                	layer.msg('删除失败', {time: 2000}, function(){
                     });
                 }
             });
@@ -316,14 +328,6 @@ function getIdSelections() {
         return row.id;
     });
 }
-//全选、全不选
-$("#checkAll").click(function() {
-    $("input[name='sub']").prop("checked", this.checked);
-});
-$("input[name='sub']").click(function() {
-    var $subs = $("input[name='sub']");
-    $("#checkAll").prop("checked" , $subs.length == $subs.filter(":checked").length ? true :false);
-});
 //日期控件
 $(".form_datetime").datetimepicker({
     format: "yyyy-mm-dd",

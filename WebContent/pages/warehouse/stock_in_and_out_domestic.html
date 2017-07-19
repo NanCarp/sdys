@@ -52,7 +52,10 @@
                         </div>
 						<div class="col-sm-1 col-xs-12 head_1">
 							<button class="btn btn-primary" onclick="doQuery()">查询</button>
-						</div>                    			
+						</div>
+						<!-- <div class="col-sm-1 col-xs-4 head_1">
+                            <button class="btn btn-3"  onclick="_edit1()">编辑</button>
+                        </div> -->                    			
 		                <div class="col-sm-1 col-xs-4 head_1">
                              <button class="btn btn-9 " onclick="location.replace('/warehouse/stockInAndOutDomestic')"><i class="fa fa-refresh"></i></button>
                         </div>                  
@@ -268,6 +271,18 @@ var ButtonInit = function () {
 function _edit(in_batch_no){
 	open_window('编辑出入库明细（国内）','/warehouse/stockInAndOutDomestic/getRecord/' + in_batch_no, 480, 250);
 }
+function _edit1(){
+    // 获取选中记录 id
+    var id = getIdSelections();
+    // 如果没有选择，提示勾选至少一条数据
+    if (id.length == 0) {
+        layer.msg('请选择一条记录', {time: 2000});
+    } else if (id.length == 1){
+        _edit(id);
+    } else {
+        layer.msg('最多选择选择一条记录', {time: 2000});
+    }
+}
 // 新增
 function _add(){
 	open_window('编辑出入库明细（国内）','', 480, 350);
@@ -323,14 +338,7 @@ function getIdSelections() {
         return row.id;
     });
 }
-/* //全选、全不选
-$("#checkAll").click(function() {
-    $("input[name='sub']").prop("checked", this.checked);
-});
-$("input[name='sub']").click(function() {
-    var $subs = $("input[name='sub']");
-    $("#checkAll").prop("checked" , $subs.length == $subs.filter(":checked").length ? true :false);
-}); */
+
 //日期控件
 $(".form_datetime").datetimepicker({
     format: "yyyy-mm-dd",

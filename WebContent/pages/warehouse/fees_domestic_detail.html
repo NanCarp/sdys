@@ -65,7 +65,7 @@
             <div class="form-group form-group-sm">
                 <label class="col-xs-6 control-label text-right" for="in_date">短驳车型及数量：</label>
                 <div class="col-xs-6">
-                    <input class="form-control" placeholder="时间" name="in_date" id="in_date" value="">
+                    <input class="form-control" placeholder="短驳车型及数量" name="in_date" id="in_date" value="">
                 </div>
             </div>
             <div class="form-group form-group-sm">
@@ -77,7 +77,7 @@
             <div class="form-group form-group-sm">
                 <label class="col-xs-6 control-label text-right" for="in_date">短驳车型及数量：</label>
                 <div class="col-xs-6">
-                    <input class="form-control" placeholder="时间" name="in_date" id="in_date" value="">
+                    <input class="form-control" placeholder="短驳车型及数量" name="in_date" id="in_date" value="">
                 </div>
             </div>
             <div class="form-group form-group-sm">
@@ -91,7 +91,7 @@
 		    <div class="form-group form-group-sm">
                 <label class="col-xs-6 control-label text-right" for="period">账单周期：</label>
                 <div class="col-xs-6">
-                    <input class="form-control form_datetime" placeholder="年月" name="period" id="period" >
+                    <input class="form-control yyyymm" placeholder="年月" name="period" id="period" >
                 </div>
             </div>
             <div class="form-group form-group-sm">
@@ -103,19 +103,19 @@
             <div class="form-group form-group-sm">
                 <label class="col-xs-6 control-label text-right" for="in_tray_quantity">短驳费：</label>
                 <div class="col-xs-6">
-                    <input class="form-control" placeholder="入库托数" name="in_tray_quantity" id="in_tray_quantity" value="">
+                    <input class="form-control" placeholder="短驳费" name="in_tray_quantity" id="in_tray_quantity" value="">
                 </div>
             </div>
             <div class="form-group form-group-sm">
                 <label class="col-xs-6 control-label text-right" for="in_tray_quantity">出库托数：</label>
                 <div class="col-xs-6">
-                    <input class="form-control" placeholder="入库托数" name="in_tray_quantity" id="in_tray_quantity" value="">
+                    <input class="form-control" placeholder="出库托数" name="in_tray_quantity" id="in_tray_quantity" value="">
                 </div>
             </div>
             <div class="form-group form-group-sm">
                 <label class="col-xs-6 control-label text-right" for="in_tray_quantity">短驳费：</label>
                 <div class="col-xs-6">
-                    <input class="form-control" placeholder="入库托数" name="in_tray_quantity" id="in_tray_quantity" value="">
+                    <input class="form-control" placeholder="短驳费" name="in_tray_quantity" id="in_tray_quantity" value="">
                 </div>
             </div>
         </div>
@@ -146,7 +146,7 @@
             <div class="form-group form-group-sm">
                 <label class="col-xs-6 control-label text-right" for="in_quantity">装货费（出库）：</label>
                 <div class="col-xs-6">
-                    <input class="form-control" placeholder="卸货费" name="in_quantity" id="in_quantity">
+                    <input class="form-control" placeholder="装货费" name="in_quantity" id="in_quantity">
                 </div>
             </div>
             <div class="form-group form-group-sm">
@@ -160,7 +160,6 @@
             <div class="form-group form-group-sm">
                 <label class="col-xs-2 control-label" for="commit_btn"></label>
                 <div class="col-xs-10 text-left">
-                    <!-- <button type="button" class="btn btn-10" id="cancel">取消</button> -->
                     <button id="commit_btn" class="btn btn-11">　保存　</button>
                 </div>
             </div>
@@ -196,6 +195,17 @@ $(".form_datetime").datetimepicker({
 	startView: 2,// 日视图
 	minView: 2,
 });
+$(".yyyymm").datetimepicker({
+    format: "yyyymm",
+    autoclose: true,
+    todayBtn: false,
+    todayHighlight: true,
+    showMeridian: true,
+    pickerPosition: "bottom-right",
+    language: 'zh-CN',//中文，需要引用zh-CN.js包
+    startView: 3,// 月视图
+    minView: 3,
+});
 $(function(){
 	// 表单校验
 	$('form').bootstrapValidator({
@@ -206,135 +216,138 @@ $(function(){
 			validating: 'glyphicon glyphicon-refresh'
 		},
 		fields: {
-			"manual_id": {
+			"company_name": {
 				validators: {
 					notEmpty: {
 						message: '不能为空!'
 					},
-					stringLength: {
-	                    min: 0,
-	                    max: 20,
-	                    message: '最多20个字符'
-	                }
 				}
 			},
-			"off_state": {
+			"period": {
 				validators: {
 					notEmpty: {
-						message: '请选择状态!'
-					}
+						message: '不能为空!'
+					},
 				}
 			},
-			"module_set": {
+			"currency": {
 				validators: {
 					notEmpty: {
-						message: '请选择组件!'
-					}
-				}
-			},
-			"pre_product_money": {
-				validators: {
-					regexp: {
-                        regexp: /^[0-9]+(\.[0-9]{1,})?$/,
-                        message: '请输入正确的金额'
-                    },
-					stringLength: {
-	                    min: 0,
-	                    max: 20,
-	                    message: '最多20个字符'
-	                }
-				}
-			},
-			"pre_import_money": {
-				validators: {
-					regexp: {
-                        regexp: /^[0-9]+(\.[0-9]{1,})?$/,
-                        message: '请输入正确的金额'
-                    },
-					stringLength: {
-	                    min: 0,
-	                    max: 20,
-	                    message: '最多20个字符'
-	                }
-				}
-			},
-			"pre_money_dis": {
-				validators: {
-					regexp: {
-                        regexp: /^[0-9]+(\.[0-9]{1,})?$/,
-                        message: '请输入正确的数值'
-                    },
-                    between: {
-						min:0,
-						max:100,
-						message: '在0~100之间'
+						message: '不能为空!'
 					},
-					stringLength: {
-	                    min: 0,
-	                    max: 20,
-	                    message: '最多20个字符'
-	                }
 				}
 			},
-			"act_export_money": {
+			"in_date": {
 				validators: {
-					regexp: {
-                        regexp: /^[0-9]+(\.[0-9]{1,})?$/,
-                        message: '请输入正确的金额'
-                    },
-					stringLength: {
-	                    min: 0,
-	                    max: 20,
-	                    message: '最多20个字符'
-	                }
-				}
-			},
-			"act_import_money": {
-				validators: {
-					regexp: {
-                        regexp: /^[0-9]+(\.[0-9]{1,})?$/,
-                        message: '请输入正确的金额'
-                    },
-					stringLength: {
-	                    min: 0,
-	                    max: 20,
-	                    message: '最多20个字符'
-	                }
-				}
-			},
-			"act_money_dis": {
-				validators: {
-					regexp: {
-                        regexp: /^[0-9]+(\.[0-9]{1,})?$/,
-                        message: '请输入正确的数值'
-                    },
-                    between: {
-						min:0,
-						max:100,
-						message: '在0~100之间'
+					notEmpty: {
+						message: '不能为空!'
 					},
-					stringLength: {
-	                    min: 0,
-	                    max: 20,
-	                    message: '最多20个字符'
-	                }
 				}
 			},
-			"valid_date": {
-                validators: {
-                	between: {
-                        min:1,
-                        max:100,
-                        message: '在0~100之间'
-                    }
+			"in_tray_quantity": {
+				validators: {
+					notEmpty: {
+						message: '不能为空!'
+					},
+				}
+			},
+			"unloading_fees": {
+				validators: {
+					notEmpty: {
+						message: '不能为空!'
+					},
+				}
+			},
+			"in_drayage_type_quantity": {
+				validators: {
+					notEmpty: {
+						message: '不能为空!'
+					},
+				}
+			},
+			"in_drayage": {
+				validators: {
+					notEmpty: {
+						message: '不能为空!'
+					},
+				}
+			},
+			"in_overtime_pay": {
+				validators: {
+					notEmpty: {
+						message: '不能为空!'
+					},
+				}
+			},
+			"in_remark": {
+				stringLength: {
+                    min: 0,
+                    max: 100,
+                    message: '最多100个字符'
                 }
-            },
-			"remark": {
+			},
+			"out_date": {
+				validators: {
+					notEmpty: {
+						message: '不能为空!'
+					},
+				}
+			},
+			"out_tray_quantity": {
+				validators: {
+					notEmpty: {
+						message: '不能为空!'
+					},
+				}
+			},
+			"loading_fees": {
+				validators: {
+					notEmpty: {
+						message: '不能为空!'
+					},
+				}
+			},
+			"out_drayate_tyep_quantity": {
+				validators: {
+					notEmpty: {
+						message: '不能为空!'
+					},
+				}
+			},
+			"out_drayage": {
+				validators: {
+					notEmpty: {
+						message: '不能为空!'
+					},
+				}
+			},
+			"out_overtime_pay": {
+				validators: {
+					notEmpty: {
+						message: '不能为空!'
+					},
+				}
+			},
+			"warehouse_fee": {
+				validators: {
+					notEmpty: {
+						message: '不能为空!'
+					},
+				}
+			},
+			"company_name": {
+				validators: {
+					notEmpty: {
+						message: '不能为空!'
+					},
+				}
+			},
+			"out_remark": {
                 validators: {
                     stringLength: {
                         min: 0,
-                        max: 20,
-                        message: '最多200个字符'
+                        max: 100,
+                        message: '最多100个字符'
                     }
                 }
             },

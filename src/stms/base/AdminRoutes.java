@@ -25,9 +25,11 @@ import stms.system.user.UserController;
 import stms.warehouse.feesdomestic.FeesDomesticController;
 import stms.warehouse.standardchargedomestic.StandardChargeDomesticController;
 import stms.warehouse.stockinandoutdomestic.StockInAndOutDomesticController;
+import stms.warehouse.stockinandoutinternational.StockInAndOutInternationalController;
 import stms.warehouse.stockindomestic.StockInDomesticController;
 import stms.warehouse.stockininternational.StockInInternationalController;
 import stms.warehouse.stockoutdomestic.StockOutDomesticController;
+import stms.warehouse.stockoutinternational.StockOutInternationalController;
 
 
 
@@ -104,5 +106,9 @@ public class AdminRoutes extends Routes{
         add("/warehouse/feesDomestic", FeesDomesticController.class,"/warehouse");
         // 入库明细（国际）
         add("/warehouse/stockInInternational", StockInInternationalController.class, "/warehouse");
+        // 出库明细（国际）
+        add("/warehouse/stockOutInternational", StockOutInternationalController.class, "/warehouse");
+        // 出入库明细表（国际）
+        add("/warehouse/stockInAndOutInternational", StockInAndOutInternationalController.class,"/warehouse");
 	}
 }

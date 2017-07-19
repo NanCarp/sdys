@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>入库（国内）</title>
+    <title>出库（国内）</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="../../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -61,6 +61,9 @@
 		                </div> -->
 		                <div class="col-sm-1 col-xs-12 head_1">
                             <button class="btn btn-5" onclick="_import()">导入</button>
+                        </div>
+                        <div class="col-sm-1 col-xs-4 head_1">
+                            <button class="btn btn-3"  onclick="_edit1()">编辑</button>
                         </div>
                         <div class="col-sm-2 col-xs-6 head_1" >
 		                     <button class="btn btn-4" onclick=" _batchDelete()">删除</button>
@@ -247,7 +250,19 @@ var ButtonInit = function () {
 
 // 编辑
 function _edit(id){
-	open_window('编辑出库明细（国内）','/warehouse/stockOutDomestic/getStockOutDomestic/' + id, 760, 400);
+	open_window('编辑出库明细（国内）','/warehouse/stockOutDomestic/getStockOutDomestic/' + id, 760, 360);
+}
+function _edit1(){
+    // 获取选中记录 id
+    var id = getIdSelections();
+    // 如果没有选择，提示勾选至少一条数据
+    if (id.length == 0) {
+        layer.msg('请选择一条记录', {time: 2000});
+    } else if (id.length == 1){
+        _edit(id);
+    } else {
+        layer.msg('最多选择选择一条记录', {time: 2000});
+    }
 }
 // 新增
 function _add(){
