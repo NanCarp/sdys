@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>费用明细结算表（国际）入库费用</title>
+    <title>仓储收费标准（国际）</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="../../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -46,24 +46,21 @@
 					<div class="row">                        	    		                                            		
 						<!-- <div class="col-sm-2 col-xs-3 head_2">
                             <input class="form_datetime form-control " placeholder="日期" name="period" id="in_date" value="${in_date!}">
-                        </div>-->
+                        </div> -->
 						<div class="col-sm-2 col-xs-3 head_2">
                             <input type="search" class="form-control" placeholder="公司名称" name="company_name" id="company_name" value="${company_name!}">
                         </div>
 						<div class="col-sm-1 col-xs-12 head_1">
-							<button class="btn btn-primary" onclick="doQuery()">查询</button> 
+							<button class="btn btn-primary" onclick="doQuery()">查询</button>
 						</div>                    			
 						<div class="col-sm-2 col-xs-6 head_1">
 		                    <button class="btn btn-success" onclick="_add()">新增</button>
 		                </div>
-		                <div class="col-sm-1 col-xs-4 head_1">
-                            <button class="btn btn-3"  onclick="_edit1()">编辑</button>
-                        </div>
                         <div class="col-sm-2 col-xs-6 head_1" >
 		                     <button class="btn btn-4" onclick=" _batchDelete()">删除</button>
 		                </div>
 		                <div class="col-sm-1 col-xs-4 head_1">
-                             <button class="btn btn-9 " onclick="location.replace('/warehouse/feesInternationalIn')"><i class="fa fa-refresh"></i></button>
+                             <button class="btn btn-9 " onclick="location.replace('/warehouse/standardChargeInternational')"><i class="fa fa-refresh"></i></button>
                         </div>                  
 					</div>				
 				</div>
@@ -128,7 +125,7 @@ var TableInit = function () {
     //初始化Table
     oTableInit.Init = function () {
         $('#tb_departments').bootstrapTable({
-            url: '/warehouse/feesInternationalIn/getJson',         //请求后台的URL（*）
+            url: '/warehouse/standardChargeInternational/getJson',         //请求后台的URL（*）
             method: 'get',                      //请求方式（*）
            	toolbar: '#toolbar',                //工具按钮用哪个容器
             showExport: true,                     //是否显示导出
@@ -154,7 +151,6 @@ var TableInit = function () {
             detailView: false,
             showRefresh:true,           
             locale: "zh-CN",					//中文支持,
-            showFooter:true,
             //是否显示父子表
             columns: [{
             	field:"checked",
@@ -166,45 +162,25 @@ var TableInit = function () {
             	title:'序号',
             	formatter:function(value,row,index){
             		return index+1;
-            	},
-            	/* footerFormatter: totalTextFormatter */
+            	}
+            }, {
+                field: 'period',
+                title: '时间段（年月）'
             }, {
                 field: 'company_name',
                 title: '物流公司名称'
             }, {
-                field: 'period',
-                title: '账单周期'
-            }, {
                 field: 'currency',
                 title: '币制'
             }, {
-                field: 'in_date',
-                title: '时间'
-            }, {
-                field: 'in_tray_quantity',
-                title: '入库托数',
-                footerFormatter: sumFormatter
-            }, {
-                field: 'in_handling_fees',
-                title: '入库操作费',
-                footerFormatter: sumFormatter
-            }, {
-                field: 'ship_fees',
-                title: '船公司费用（代收代付）',
-                footerFormatter: sumFormatter
-            }, {
-                field: 'warehouse_fee',
-                title: '仓储费',
-                footerFormatter: sumFormatter
-            }, {
-                field: 'remark',
-                title: '备注'
+                field: 'amount',
+                title: '仓储费收费标准'
             }, {
             	field: 'opt',
             	title: '操作',
             	formatter:function(value,row,index){
-            			  return['<button class="btn btn-xs btn-3"  onclick="_edit('+row.id+')">编辑</button>' ];
-            			  },
+            			  return['<button class="btn btn-xs btn-3"  onclick="_edit('+row.id+')">编辑</button>' ]
+            	},
             }]
         });
     };
@@ -234,36 +210,13 @@ var ButtonInit = function () {
     return oInit;
 };
 
-function totalTextFormatter(data) {
-    return 'Total';
-}
-
-function sumFormatter(data) {
-    field = this.field;
-    return data.reduce(function(sum, row) { 
-        return sum + (+row[field]);
-    }, 0);
-}
-
 // 编辑
 function _edit(id){
-	open_window('编辑费用明细结算表（国际）入库费用','/warehouse/feesInternationalIn/getRecord/' + id, 760, 410);
+	open_window('编辑仓储收费标准（国内）','/warehouse/standardChargeInternational/getRecord/' + id, 760, 250);
 }
 // 新增
 function _add(){
-	open_window('新增费用明细结算表（国际）入库费用','/warehouse/feesInternationalIn/getRecord', 760, 410);
-}
-function _edit1(){
-    // 获取选中记录 id
-    var id = getIdSelections();
-    // 如果没有选择，提示勾选至少一条数据
-    if (id.length == 0) {
-        layer.msg('请选择一条记录', {time: 2000});
-    } else if (id.length == 1){
-        _edit(id);
-    } else {
-        layer.msg('最多选择选择一条记录', {time: 2000});
-    }
+	open_window('新增仓储收费标准（国内）','/warehouse/standardChargeInternational/getRecord', 760, 250);
 }
 // 批量删除
 function _batchDelete(){
@@ -279,7 +232,7 @@ function _batchDelete(){
             title: ['信息', 'font-weight:600;color:#fff;background-color: #3367D6;'],
             btn: ['确认','取消'] //按钮
         }, function(){
-            $.post("/warehouse/feesInternationalIn/delete/" + ids,function(result) {
+            $.post("/warehouse/standardChargeInternational/delete/" + ids,function(result) {
                 if (result) {
                     layer.msg('删除成功', {time: 2000}, function(){
                         parent.refresh_iframe();

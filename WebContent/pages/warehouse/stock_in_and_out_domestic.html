@@ -193,7 +193,10 @@ var TableInit = function () {
                 title: '组件功率'
             }, {
                 field: 'delivery_no',
-                title: '出库单号'
+                title: '出库单号',
+                formatter: function(value,row,index){
+                    return value == null ? "未出" : value;
+                    }
             }, {
                 field: 'out_date',
                 title: '日期'

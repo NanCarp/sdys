@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>费用明细结算表（国际）入库费用</title>
+    <title>入库（国内）</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="../../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -44,26 +44,32 @@
 			<div class="panel-heading">					
 				<div class="container container-fluid" >				
 					<div class="row">                        	    		                                            		
-						<!-- <div class="col-sm-2 col-xs-3 head_2">
-                            <input class="form_datetime form-control " placeholder="日期" name="period" id="in_date" value="${in_date!}">
-                        </div>-->
+						<div class="col-sm-2 col-xs-3 head_2">
+                            <input class="form_datetime form-control " placeholder="日期" name="in_date" id="in_date" value="${in_date!}">
+                        </div>
 						<div class="col-sm-2 col-xs-3 head_2">
                             <input type="search" class="form-control" placeholder="公司名称" name="company_name" id="company_name" value="${company_name!}">
                         </div>
+                        <div class="col-sm-2 col-xs-3 head_2">
+                            <input type="search" class="form-control" placeholder="物料号" name="material_no" id="material_no" value="${material_no!}">
+                        </div>
 						<div class="col-sm-1 col-xs-12 head_1">
-							<button class="btn btn-primary" onclick="doQuery()">查询</button> 
+							<button class="btn btn-primary" onclick="doQuery()">查询</button>
 						</div>                    			
-						<div class="col-sm-2 col-xs-6 head_1">
+						<!-- <div class="col-sm-2 col-xs-6 head_1">
 		                    <button class="btn btn-success" onclick="_add()">新增</button>
-		                </div>
-		                <div class="col-sm-1 col-xs-4 head_1">
+		                </div> -->
+		                <div class="col-sm-1 col-xs-12 head_1">
+                            <button class="btn btn-5" onclick="_import()">导入</button>
+                        </div>
+                        <div class="col-sm-1 col-xs-12 head_1">
                             <button class="btn btn-3"  onclick="_edit1()">编辑</button>
                         </div>
                         <div class="col-sm-2 col-xs-6 head_1" >
 		                     <button class="btn btn-4" onclick=" _batchDelete()">删除</button>
 		                </div>
 		                <div class="col-sm-1 col-xs-4 head_1">
-                             <button class="btn btn-9 " onclick="location.replace('/warehouse/feesInternationalIn')"><i class="fa fa-refresh"></i></button>
+                             <button class="btn btn-9 " onclick="location.replace('/warehouse/stockInDomestic')"><i class="fa fa-refresh"></i></button>
                         </div>                  
 					</div>				
 				</div>
@@ -120,6 +126,12 @@ function doQuery(){
                 layer.tips('不允许有特殊字符，最多20个字符', '#company_name', {tips: [1, '#34495E']});return;
             }                   
         }
+        if($.trim($('#material_no').val())!=''){
+            var reg = /^[a-zA-Z0-9_ ]{1,30}$/;
+            if(!reg.test($('#material_no').val())){
+                layer.tips('不允许有特殊字符，最多20个字符', '#material_no', {tips: [1, '#34495E']});return;
+            }                   
+        }
         $('#tb_departments').bootstrapTable('refresh');    //刷新表格
 	});
 }
@@ -128,7 +140,7 @@ var TableInit = function () {
     //初始化Table
     oTableInit.Init = function () {
         $('#tb_departments').bootstrapTable({
-            url: '/warehouse/feesInternationalIn/getJson',         //请求后台的URL（*）
+            url: '/warehouse/stockInDomestic/getJson',         //请求后台的URL（*）
             method: 'get',                      //请求方式（*）
            	toolbar: '#toolbar',                //工具按钮用哪个容器
             showExport: true,                     //是否显示导出
@@ -154,7 +166,6 @@ var TableInit = function () {
             detailView: false,
             showRefresh:true,           
             locale: "zh-CN",					//中文支持,
-            showFooter:true,
             //是否显示父子表
             columns: [{
             	field:"checked",
@@ -166,57 +177,57 @@ var TableInit = function () {
             	title:'序号',
             	formatter:function(value,row,index){
             		return index+1;
-            	},
-            	/* footerFormatter: totalTextFormatter */
+            	}
+            }, {
+                field: 'in_date',
+                title: '日期'
+            }, {
+                field: 'storage_location',
+                title: '库位'
             }, {
                 field: 'company_name',
                 title: '物流公司名称'
             }, {
-                field: 'period',
-                title: '账单周期'
+                field: 'material_no',
+                title: '物料号'
             }, {
-                field: 'currency',
-                title: '币制'
+                field: 'material',
+                title: '物料描述'
             }, {
-                field: 'in_date',
-                title: '时间'
+                field: 'batch_no',
+                title: '批次号'
+            }, {
+                field: 'tray_no',
+                title: '托盘号'
+            }, {
+                field: 'in_quantity',
+                title: '数量'
             }, {
                 field: 'in_tray_quantity',
-                title: '入库托数',
-                footerFormatter: sumFormatter
+                title: '托盘数量'
             }, {
-                field: 'in_handling_fees',
-                title: '入库操作费',
-                footerFormatter: sumFormatter
+                field: 'module_power',
+                title: '组件功率'
             }, {
-                field: 'ship_fees',
-                title: '船公司费用（代收代付）',
-                footerFormatter: sumFormatter
-            }, {
-                field: 'warehouse_fee',
-                title: '仓储费',
-                footerFormatter: sumFormatter
-            }, {
-                field: 'remark',
-                title: '备注'
-            }, {
-            	field: 'opt',
-            	title: '操作',
+            	field:'opt',
+            	title:'操作',
             	formatter:function(value,row,index){
-            			  return['<button class="btn btn-xs btn-3"  onclick="_edit('+row.id+')">编辑</button>' ];
-            			  },
+            			  return['<button class="btn btn-xs btn-3"  onclick="_edit('+row.id+')">编辑</button>' ]
+            	},
             }]
         });
     };
 
     //得到查询的参数
-    oTableInit.queryParams = function (params) {
+  oTableInit.queryParams = function (params) {
         var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
             limit: params.limit,   //页面大小
             offset: params.offset,  //页码
             maxrows: params.limit,
             search: params.search,
+           	in_date: $("#in_date").val(),
            	company_name: $("#company_name").val(),
+           	material_no: $("#material_no").val(),
         };
         return temp;
     };
@@ -234,24 +245,9 @@ var ButtonInit = function () {
     return oInit;
 };
 
-function totalTextFormatter(data) {
-    return 'Total';
-}
-
-function sumFormatter(data) {
-    field = this.field;
-    return data.reduce(function(sum, row) { 
-        return sum + (+row[field]);
-    }, 0);
-}
-
 // 编辑
 function _edit(id){
-	open_window('编辑费用明细结算表（国际）入库费用','/warehouse/feesInternationalIn/getRecord/' + id, 760, 410);
-}
-// 新增
-function _add(){
-	open_window('新增费用明细结算表（国际）入库费用','/warehouse/feesInternationalIn/getRecord', 760, 410);
+	open_window('编辑入库明细（国内）','/warehouse/stockInDomestic/getStockInDomestic/' + id, 760, 370);
 }
 function _edit1(){
     // 获取选中记录 id
@@ -264,6 +260,14 @@ function _edit1(){
     } else {
         layer.msg('最多选择选择一条记录', {time: 2000});
     }
+}
+// 新增
+function _add(){
+	open_window('新增入库明细（国内）','', 480, 350);
+}
+// 导入
+function _import() {
+    open_window('导入入库明细（国内）','/warehouse/stockInDomestic/importUI', 480, 200);
 }
 // 批量删除
 function _batchDelete(){
@@ -279,13 +283,13 @@ function _batchDelete(){
             title: ['信息', 'font-weight:600;color:#fff;background-color: #3367D6;'],
             btn: ['确认','取消'] //按钮
         }, function(){
-            $.post("/warehouse/feesInternationalIn/delete/" + ids,function(result) {
-                if (result) {
-                    layer.msg('删除成功', {time: 2000}, function(){
+            $.post("/warehouse/stockInDomestic/delete/" + ids,function(result) {
+                if (result.isSuccess) {
+                    layer.msg(result.tips, {time: 2000}, function(){
                         parent.refresh_iframe();
                     });
                 }else{
-                	layer.msg('删除失败', {time: 2000}, function(){
+                	layer.msg(result.tips, {time: 2000}, function(){
                     });
                 }
             });
@@ -312,9 +316,17 @@ function getIdSelections() {
         return row.id;
     });
 }
+//全选、全不选
+$("#checkAll").click(function() {
+    $("input[name='sub']").prop("checked", this.checked);
+});
+$("input[name='sub']").click(function() {
+    var $subs = $("input[name='sub']");
+    $("#checkAll").prop("checked" , $subs.length == $subs.filter(":checked").length ? true :false);
+});
 //日期控件
 $(".form_datetime").datetimepicker({
-    format: "yyyymm",
+    format: "yyyy-mm-dd",
     autoclose: true,
     todayBtn: false,
     todayHighlight: true,

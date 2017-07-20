@@ -151,6 +151,7 @@ var TableInit = function () {
             detailView: false,
             showRefresh:true,           
             locale: "zh-CN",					//中文支持,
+            showFooter:true,
             //是否显示父子表
             columns: [{
             	field:"checked",
@@ -162,7 +163,8 @@ var TableInit = function () {
             	title:'序号',
             	formatter:function(value,row,index){
             		return index+1;
-            	}
+            	},
+            	/* footerFormatter: totalTextFormatter */
             }, {
                 field: 'company_name',
                 title: '物流公司名称'
@@ -177,19 +179,23 @@ var TableInit = function () {
                 title: '时间'
             }, {
                 field: 'in_tray_quantity',
-                title: '入库托数'
+                title: '入库托数',
+                footerFormatter: sumFormatter
             }, {
                 field: 'unloading_fees',
-                title: '卸货费（入库）'
+                title: '卸货费（入库）',
+                footerFormatter: sumFormatter
             }, {
                 field: 'in_drayage_type_quantity',
                 title: '短驳车型及数量'
             }, {
                 field: 'in_drayage',
-                title: '短驳费'
+                title: '短驳费',
+                footerFormatter: sumFormatter
             }, {
                 field: 'in_overtime_pay',
-                title: '加班费'
+                title: '加班费',
+                footerFormatter: sumFormatter
             }, {
                 field: 'in_remark',
                 title: '备注'
@@ -198,25 +204,30 @@ var TableInit = function () {
                 title: '时间'
             }, {
                 field: 'out_tray_quantity',
-                title: '出库托数'
+                title: '出库托数',
+                footerFormatter: sumFormatter
             }, {
                 field: 'loading_fees',
-                title: '装货费（出库）'
+                title: '装货费（出库）',
+                footerFormatter: sumFormatter
             }, {
                 field: 'out_drayate_type_quantity',
                 title: '短驳车型及数量'
             }, {
                 field: 'out_drayage',
-                title: '短驳费'
+                title: '短驳费',
+                footerFormatter: sumFormatter
             }, {
                 field: 'out_overtime_pay',
-                title: '加班费'
+                title: '加班费',
+                footerFormatter: sumFormatter
             }, {
                 field: 'out_remark',
                 title: '备注'
             }, {
                 field: 'warehouse_fee',
-                title: '仓储费'
+                title: '仓储费',
+                footerFormatter: sumFormatter
             }, {
             	field: 'opt',
             	title: '操作',
@@ -251,6 +262,32 @@ var ButtonInit = function () {
 
     return oInit;
 };
+
+function totalTextFormatter(data) {
+    return 'Total';
+}
+
+function sumFormatter(data) {
+    field = this.field;
+    return data.reduce(function(sum, row) { 
+        return sum + (+row[field]);
+    }, 0);
+}
+
+/* function runningFormatter(value, row, index) {
+    return index;
+}
+
+
+function totalFormatter(data) {
+    return data.length;
+}
+
+
+function avgFormatter(data) {
+    return sumFormatter.call(this, data) / data.length;
+} */
+
 
 // 编辑
 function _edit(id){

@@ -138,7 +138,20 @@
                             <ul class="nav nav-second-level">
                                 <#list menuList as menu2>
                                 <#if menu2.pid == menu1.id>
+                                <#if menu2.type == 1>
+                                <li>
+                                    <a href="#">${menu2.module_name} <span class="fa arrow"></span></a>
+                                    <ul class="nav nav-third-level">
+                                    <#list menuList as menu3>
+                                    <#if menu3.pid == menu2.id>
+                                        <li><a id="${menu3.id}" class="site-demo-active" _href="${menu3.url}" data-title="${menu3.module_name}" href="javascript:void(0)">${menu3.module_name}</a></li>
+                                    </#if>
+                                    </#list>
+                                    </ul>
+                                </li>
+                                <#else>
                                 <li><a id="${menu2.id}" class="site-demo-active" _href="${menu2.url}" data-title="${menu2.module_name}" href="javascript:void(0)">${menu2.module_name}</a></li>
+                                </#if>
                                 </#if>
                                 </#list>
                             </ul>

@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>费用明细结算表（国际）入库费用</title>
+    <title>费用明细结算表（国际）出库费用</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="../../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -63,7 +63,7 @@
 		                     <button class="btn btn-4" onclick=" _batchDelete()">删除</button>
 		                </div>
 		                <div class="col-sm-1 col-xs-4 head_1">
-                             <button class="btn btn-9 " onclick="location.replace('/warehouse/feesInternationalIn')"><i class="fa fa-refresh"></i></button>
+                             <button class="btn btn-9 " onclick="location.replace('/warehouse/feesInternationalOut')"><i class="fa fa-refresh"></i></button>
                         </div>                  
 					</div>				
 				</div>
@@ -128,7 +128,7 @@ var TableInit = function () {
     //初始化Table
     oTableInit.Init = function () {
         $('#tb_departments').bootstrapTable({
-            url: '/warehouse/feesInternationalIn/getJson',         //请求后台的URL（*）
+            url: '/warehouse/feesInternationalOut/getJson',         //请求后台的URL（*）
             method: 'get',                      //请求方式（*）
            	toolbar: '#toolbar',                //工具按钮用哪个容器
             showExport: true,                     //是否显示导出
@@ -178,27 +178,44 @@ var TableInit = function () {
                 field: 'currency',
                 title: '币制'
             }, {
-                field: 'in_date',
+                field: 'out_date',
                 title: '时间'
             }, {
-                field: 'in_tray_quantity',
-                title: '入库托数',
+                field: 'out_container_no',
+                title: '集装箱号'
+            }, {
+                field: 'out_tray_quantity',
+                title: '出库托数',
                 footerFormatter: sumFormatter
             }, {
-                field: 'in_handling_fees',
-                title: '入库操作费',
+                field: 'loading_fees',
+                title: '装货费',
                 footerFormatter: sumFormatter
             }, {
-                field: 'ship_fees',
-                title: '船公司费用（代收代付）',
+                field: 'customs_fees',
+                title: '出仓报关费(/BILL)',
                 footerFormatter: sumFormatter
             }, {
-                field: 'warehouse_fee',
-                title: '仓储费',
+                field: 'file_fees',
+                title: '文件费(/BILL)',
+                footerFormatter: sumFormatter
+            }, {
+                field: 'delivery_fees',
+                title: '送货费',
+                footerFormatter: sumFormatter
+            }, {
+                field: 'other_fees',
+                title: '其他费用',
                 footerFormatter: sumFormatter
             }, {
                 field: 'remark',
                 title: '备注'
+            }, {
+                field: 'invoice_no',
+                title: '发票号'
+            }, {
+                field: 'delivery_no',
+                title: '出库单号（DN 号）'
             }, {
             	field: 'opt',
             	title: '操作',
@@ -233,11 +250,11 @@ var ButtonInit = function () {
 
     return oInit;
 };
-
+// 返回 Total
 function totalTextFormatter(data) {
     return 'Total';
 }
-
+// 返回字段总和
 function sumFormatter(data) {
     field = this.field;
     return data.reduce(function(sum, row) { 
@@ -247,11 +264,7 @@ function sumFormatter(data) {
 
 // 编辑
 function _edit(id){
-	open_window('编辑费用明细结算表（国际）入库费用','/warehouse/feesInternationalIn/getRecord/' + id, 760, 410);
-}
-// 新增
-function _add(){
-	open_window('新增费用明细结算表（国际）入库费用','/warehouse/feesInternationalIn/getRecord', 760, 410);
+	open_window('编辑费用明细结算表（国际）入库费用','/warehouse/feesInternationalOut/getRecord/' + id, 760, 440);
 }
 function _edit1(){
     // 获取选中记录 id
@@ -264,6 +277,10 @@ function _edit1(){
     } else {
         layer.msg('最多选择选择一条记录', {time: 2000});
     }
+}
+// 新增
+function _add(){
+	open_window('新增费用明细结算表（国际）入库费用','/warehouse/feesInternationalOut/getRecord', 760, 440);
 }
 // 批量删除
 function _batchDelete(){
@@ -279,7 +296,7 @@ function _batchDelete(){
             title: ['信息', 'font-weight:600;color:#fff;background-color: #3367D6;'],
             btn: ['确认','取消'] //按钮
         }, function(){
-            $.post("/warehouse/feesInternationalIn/delete/" + ids,function(result) {
+            $.post("/warehouse/feesInternationalOut/delete/" + ids,function(result) {
                 if (result) {
                     layer.msg('删除成功', {time: 2000}, function(){
                         parent.refresh_iframe();
