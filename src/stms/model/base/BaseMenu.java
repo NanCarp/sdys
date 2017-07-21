@@ -81,4 +81,13 @@ public abstract class BaseMenu<M extends BaseMenu<M>> extends Model<M> implement
 		return get("review_time");
 	}
 
+	public M setType(java.lang.Integer type) {
+		set("type", type);
+		return (M)this;
+	}
+
+	public java.lang.Integer getType() {
+		return get("type");
+	}
+
 }

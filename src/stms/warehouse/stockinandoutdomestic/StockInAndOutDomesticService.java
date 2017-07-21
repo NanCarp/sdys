@@ -22,10 +22,14 @@ public class StockInAndOutDomesticService {
                 + " a.in_quantity,a.in_tray_quantity,a.module_power AS in_module_power, b.*, "
                 + " a.in_quantity - b.out_quantity AS real_time_quantity, "
                 + " a.in_tray_quantity - b.out_tray_quantity AS real_time_tray_quantity, "
-                + " IF(ISNULL(delivery_no), DATEDIFF(NOW(), a.in_date ) + 1, DATEDIFF(b.out_date  , a.in_date )) AS retention_days ";
+                + " IF(ISNULL(delivery_no), DATEDIFF(NOW(), a.in_date ) + 1, DATEDIFF(b.out_date, a.in_date )) AS retention_days, "
+                + " IF(ISNULL(b.out_date), NOW(), b.out_date) AS out_date2, "
+                + " c.currency,c.amount ";
         String sql = " FROM `t_domes_in_warehouse` AS a "
                 + " LEFT JOIN t_domes_out_warehouse AS b "
                 + " ON a.batch_no = b.batch_no "
+                + " LEFT JOIN t_standard_charge_domestic AS c "
+                + " ON DATE_FORMAT(a.in_date,'%Y%m') = c.period AND a.company_name = c.company_name "
                 + " WHERE 1 = 1";
         
         if (company_name != null && !"".equals(company_name)) {
@@ -33,10 +37,10 @@ public class StockInAndOutDomesticService {
         }
         /*if (in_date != null && !"".equals(in_date)) {
             sql += " AND in_date = '" + in_date + "'";
-        }
-        if (material_no != null && !"".equals(material_no)) {
-            sql += " AND material_no like '%" + material_no + "%'";
         }*/
+        if (material_no != null && !"".equals(material_no)) {
+            sql += " AND a.material_no like '%" + material_no + "%'";
+        }
         
         return Db.paginate(pageindex, pagelimit, select, sql);
     }

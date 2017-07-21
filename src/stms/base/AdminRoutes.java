@@ -8,6 +8,11 @@ import stms.manual.singleloss.SingleLossController;
 import stms.manual.importation.ImportationController;
 
 import stms.manual.summary.SummaryController;
+import stms.purchase.Importmaterialtax.ImportmaterialtaxController;
+import stms.purchase.importedmaterials.ImportedmaterialsController;
+import stms.purchase.importfreight.ImportFreightControllr;
+import stms.purchase.importsummary.ImportSummaryController;
+import stms.purchase.importtaxbreak.ImporttaxbreakController;
 import stms.supplier.info.InfoController;
 import stms.supplier.level.LevelController;
 import stms.supplier.month.MonthController;
@@ -25,6 +30,7 @@ import stms.system.user.UserController;
 import stms.warehouse.feesdomestic.FeesDomesticController;
 import stms.warehouse.feesinternationalin.FeesInternationalInController;
 import stms.warehouse.feesinternationalout.FeesInternationalOutController;
+import stms.warehouse.locationcomparison.LocationComparisonController;
 import stms.warehouse.standardchargedomestic.StandardChargeDomesticController;
 import stms.warehouse.standardchargeinternational.StandardChargeInternationalController;
 import stms.warehouse.stockinandoutdomestic.StockInAndOutDomesticController;
@@ -33,6 +39,7 @@ import stms.warehouse.stockindomestic.StockInDomesticController;
 import stms.warehouse.stockininternational.StockInInternationalController;
 import stms.warehouse.stockoutdomestic.StockOutDomesticController;
 import stms.warehouse.stockoutinternational.StockOutInternationalController;
+import stms.warehouse.tablecomparison.TableComparisonController;
 
 
 
@@ -54,6 +61,17 @@ public class AdminRoutes extends Routes{
 		setBaseViewPath("/pages");
 		// 用户登录控制器
 		add("/pages",LoginController.class,"");
+		
+		//进货管理-进口料件清单
+		add("/purchase/importedmaterials",ImportedmaterialsController.class,"/purchase");
+		//进货管理-进口运费表
+		add("/purchase/importfreight",ImportFreightControllr.class,"/purchase");
+		//进货管理-进口货物总表
+		add("/purchase/importsummary",ImportSummaryController.class,"/purchase");
+		//进口货物-进口货物税金表
+		add("/purchase/Importtax",ImportmaterialtaxController.class,"/purchase");
+		//进口货物-内销管理-转税折料表
+		add("/purchase/Importtaxbreak",ImporttaxbreakController.class,"/purchase");
 		
 		
 		// 系统管理-公司管理控制器
@@ -95,7 +113,7 @@ public class AdminRoutes extends Routes{
 		add("/manual/singleloss",SingleLossController.class,"/manual");
 
 		// 进口明细
-		add("/manual/importation", ImportationController.class, "manual");
+		add("/manual/importation", ImportationController.class, "/manual");
 		
 		// 入库明细（国内）
 		add("/warehouse/stockInDomestic", StockInDomesticController.class, "/warehouse");
@@ -119,5 +137,9 @@ public class AdminRoutes extends Routes{
         add("/warehouse/feesInternationalIn", FeesInternationalInController.class,"/warehouse");
         // 费用明细结算表（国际）出库费用
         add("/warehouse/feesInternationalOut", FeesInternationalOutController.class,"/warehouse");
+        // 库位对比
+        add("/warehouse/locationComparison", LocationComparisonController.class, "/warehouse");
+        // 总表对比
+        add("/warehouse/tableComparison", TableComparisonController.class, "/warehouse");
 	}
 }

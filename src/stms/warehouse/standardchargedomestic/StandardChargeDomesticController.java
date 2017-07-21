@@ -1,12 +1,15 @@
 package stms.warehouse.standardchargedomestic;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
+
+import stms.model.StandardChargeDomestic;
 
 
 /**
@@ -32,6 +35,9 @@ public class StandardChargeDomesticController extends Controller {
     * @author liyu
     */
     public void getJson() {
+        String company_name = getPara("company_name");
+        setAttr("company_name", company_name);
+        
         Integer pageindex = 0; // 页码
         Integer pagelimit = getParaToInt("limit")==null? 12 :getParaToInt("limit"); // 每页数据条数
         Integer offset = getParaToInt("offset")==null?0:getParaToInt("offset");
@@ -40,7 +46,8 @@ public class StandardChargeDomesticController extends Controller {
         }
         pageindex += 1;
         
-        Page<Record> page = StandardChargeDomesticService.getDataPages(pageindex, pagelimit);
+        //Page<Record> page = StandardChargeDomesticService.getDataPages(pageindex, pagelimit);
+        Page<Record> page = StandardChargeDomesticService.getDataPages(pageindex, pagelimit, company_name);
         
         Map<String, Object> map = new HashMap<String,Object>();
         map.put("rows", page.getList());
@@ -50,6 +57,11 @@ public class StandardChargeDomesticController extends Controller {
         renderJson(map);
     }
     
+    /** 
+    * @Title: getRecord 
+    * @Description: TODO(这里用一句话描述这个方法的作用)  void
+    * @author liyu
+    */
     public void getRecord() {
         // id
         Integer id = getParaToInt();
@@ -58,7 +70,83 @@ public class StandardChargeDomesticController extends Controller {
             Record record = Db.findById("t_standard_charge_domestic", id);
             setAttr("record", record);
         }
+        
+        // 物流公司列表
+        List<Record> companyList = StandardChargeDomesticService.getCompanyList();
+        setAttr("companyList", companyList);
+        // 币制列表
+        List<Record> currencyList = StandardChargeDomesticService.getCurrencyList();
+        setAttr("currencyList", currencyList);
 
         render("standard_charge_domestic_detail.html");
+    }
+    
+    /** 
+    * @Title: save 
+    * @Description: 保存
+    * @author liyu
+    */
+    public void save() {
+        StandardChargeDomestic record = getModel(StandardChargeDomestic.class, "");
+        
+        // 保存结果
+        boolean result = false;
+        // 返回信息
+        Map<String, Object> response = new HashMap<>();
+        // 重复检测
+        Integer id = record.getId();
+        String period = record.getPeriod();
+        String company_name = record.getCompanyName();
+        if (id == null && StandardChargeDomesticService.isDuplicate(period, company_name)) {
+            response.put("tips", "数据重复！");
+            response.put("isSuccess", false);
+            renderJson(response);
+            return;
+        }
+        /*// 检测是否有后续业务单据
+        if (id != null && StandardChargeDomesticService.hasOtherBusiness(period, company_name)) {
+            response.put("isSuccess", false);
+            response.put("tips", "存在后续业务单据，不可编辑！");
+            renderJson(response);
+            return;
+        }*/
+        
+        if (id != null) {// 编辑
+            result = record.update();
+        } else {// 新增
+            result = record.save();
+        }
+        response.put("isSuccess", result);
+        response.put("tips", result ? "保存成功": "保存失败");
+        
+        renderJson(response);
+    }
+    
+    /**
+     * @desc:批量删除
+     * @author liyu
+     */
+    public void delete(){
+        // id
+        String idStr = getPara();
+        String[] ids = idStr.split(","); 
+        // 返回信息
+        Map<String, Object> response = new HashMap<>();
+        /*// 检测是否有后续业务单据
+        boolean hasOtherBusiness = false;
+        for (String id : ids) {
+            hasOtherBusiness = StandardChargeDomesticService.hasOtherBusiness(id);
+            if (hasOtherBusiness) {
+                response.put("isSuccess", false);
+                response.put("tips", "存在后续业务单据，不可删除！");
+                renderJson(response);
+                return;
+            }
+        }*/
+        
+        boolean result = StandardChargeDomesticService.delete(ids);
+        response.put("isSuccess", result);
+        response.put("tips", result ? "删除成功": "删除失败");
+        renderJson(response);
     }
 }

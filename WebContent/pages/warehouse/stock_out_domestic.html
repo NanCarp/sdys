@@ -62,9 +62,9 @@
 		                <div class="col-sm-1 col-xs-12 head_1">
                             <button class="btn btn-5" onclick="_import()">导入</button>
                         </div>
-                        <div class="col-sm-1 col-xs-4 head_1">
+                        <!-- <div class="col-sm-1 col-xs-4 head_1">
                             <button class="btn btn-3"  onclick="_edit1()">编辑</button>
-                        </div>
+                        </div> -->
                         <div class="col-sm-2 col-xs-6 head_1" >
 		                     <button class="btn btn-4" onclick=" _batchDelete()">删除</button>
 		                </div>
@@ -250,7 +250,7 @@ var ButtonInit = function () {
 
 // 编辑
 function _edit(id){
-	open_window('编辑出库明细（国内）','/warehouse/stockOutDomestic/getStockOutDomestic/' + id, 760, 360);
+	open_window('编辑出库明细（国内）','/warehouse/stockOutDomestic/getStockOutDomestic/' + id, 760, 415);
 }
 function _edit1(){
     // 获取选中记录 id

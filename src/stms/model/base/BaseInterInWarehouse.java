@@ -18,6 +18,15 @@ public abstract class BaseInterInWarehouse<M extends BaseInterInWarehouse<M>> ex
 		return get("id");
 	}
 
+	public M setInContainerNo(java.lang.String inContainerNo) {
+		set("in_container_no", inContainerNo);
+		return (M)this;
+	}
+
+	public java.lang.String getInContainerNo() {
+		return get("in_container_no");
+	}
+
 	public M setInDate(java.util.Date inDate) {
 		set("in_date", inDate);
 		return (M)this;
@@ -27,58 +36,58 @@ public abstract class BaseInterInWarehouse<M extends BaseInterInWarehouse<M>> ex
 		return get("in_date");
 	}
 
-	public M setStorageLocation(java.lang.String storageLocation) {
-		set("storage_location", storageLocation);
+	public M setInStorageLocation(java.lang.String inStorageLocation) {
+		set("in_storage_location", inStorageLocation);
 		return (M)this;
 	}
 
-	public java.lang.String getStorageLocation() {
-		return get("storage_location");
+	public java.lang.String getInStorageLocation() {
+		return get("in_storage_location");
 	}
 
-	public M setCompanyName(java.lang.String companyName) {
-		set("company_name", companyName);
+	public M setInCompanyName(java.lang.String inCompanyName) {
+		set("in_company_name", inCompanyName);
 		return (M)this;
 	}
 
-	public java.lang.String getCompanyName() {
-		return get("company_name");
+	public java.lang.String getInCompanyName() {
+		return get("in_company_name");
 	}
 
-	public M setMaterialNo(java.lang.String materialNo) {
-		set("material_no", materialNo);
+	public M setInMaterialNo(java.lang.String inMaterialNo) {
+		set("in_material_no", inMaterialNo);
 		return (M)this;
 	}
 
-	public java.lang.String getMaterialNo() {
-		return get("material_no");
+	public java.lang.String getInMaterialNo() {
+		return get("in_material_no");
 	}
 
-	public M setMaterial(java.lang.String material) {
-		set("material", material);
+	public M setInMaterial(java.lang.String inMaterial) {
+		set("in_material", inMaterial);
 		return (M)this;
 	}
 
-	public java.lang.String getMaterial() {
-		return get("material");
+	public java.lang.String getInMaterial() {
+		return get("in_material");
 	}
 
-	public M setBatchNo(java.lang.String batchNo) {
-		set("batch_no", batchNo);
+	public M setInBatchNo(java.lang.String inBatchNo) {
+		set("in_batch_no", inBatchNo);
 		return (M)this;
 	}
 
-	public java.lang.String getBatchNo() {
-		return get("batch_no");
+	public java.lang.String getInBatchNo() {
+		return get("in_batch_no");
 	}
 
-	public M setTrayNo(java.lang.String trayNo) {
-		set("tray_no", trayNo);
+	public M setInTrayNo(java.lang.String inTrayNo) {
+		set("in_tray_no", inTrayNo);
 		return (M)this;
 	}
 
-	public java.lang.String getTrayNo() {
-		return get("tray_no");
+	public java.lang.String getInTrayNo() {
+		return get("in_tray_no");
 	}
 
 	public M setInQuantity(java.lang.Integer inQuantity) {
@@ -99,13 +108,13 @@ public abstract class BaseInterInWarehouse<M extends BaseInterInWarehouse<M>> ex
 		return get("in_tray_quantity");
 	}
 
-	public M setModulePower(java.lang.Integer modulePower) {
-		set("module_power", modulePower);
+	public M setInModulePower(java.lang.Integer inModulePower) {
+		set("in_module_power", inModulePower);
 		return (M)this;
 	}
 
-	public java.lang.Integer getModulePower() {
-		return get("module_power");
+	public java.lang.Integer getInModulePower() {
+		return get("in_module_power");
 	}
 
 }

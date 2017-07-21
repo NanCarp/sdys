@@ -27,6 +27,15 @@ public abstract class BaseImportFreight<M extends BaseImportFreight<M>> extends 
 		return get("import_invoice_num");
 	}
 
+	public M setImportInnerNum(java.lang.String importInnerNum) {
+		set("import_inner_num", importInnerNum);
+		return (M)this;
+	}
+
+	public java.lang.String getImportInnerNum() {
+		return get("import_inner_num");
+	}
+
 	public M setImportName(java.lang.String importName) {
 		set("import_name", importName);
 		return (M)this;
@@ -117,13 +126,13 @@ public abstract class BaseImportFreight<M extends BaseImportFreight<M>> extends 
 		return get("inspection_fee");
 	}
 
-	public M setCustomInspectFees(java.math.BigDecimal customInspectFees) {
-		set("custom_inspect_fees", customInspectFees);
+	public M setCustomInspectFee(java.math.BigDecimal customInspectFee) {
+		set("custom_inspect_fee", customInspectFee);
 		return (M)this;
 	}
 
-	public java.math.BigDecimal getCustomInspectFees() {
-		return get("custom_inspect_fees");
+	public java.math.BigDecimal getCustomInspectFee() {
+		return get("custom_inspect_fee");
 	}
 
 	public M setDomesticLandFreight(java.math.BigDecimal domesticLandFreight) {
@@ -234,12 +243,12 @@ public abstract class BaseImportFreight<M extends BaseImportFreight<M>> extends 
 		return get("total_clearcustoms_usd");
 	}
 
-	public M setStatementDate(java.util.Date statementDate) {
+	public M setStatementDate(java.lang.String statementDate) {
 		set("statement_date", statementDate);
 		return (M)this;
 	}
 
-	public java.util.Date getStatementDate() {
+	public java.lang.String getStatementDate() {
 		return get("statement_date");
 	}
 
@@ -259,15 +268,6 @@ public abstract class BaseImportFreight<M extends BaseImportFreight<M>> extends 
 
 	public java.lang.String getFreightPayTerms() {
 		return get("freight_pay_terms");
-	}
-
-	public M setImportInnerNum(java.lang.String importInnerNum) {
-		set("import_inner_num", importInnerNum);
-		return (M)this;
-	}
-
-	public java.lang.String getImportInnerNum() {
-		return get("import_inner_num");
 	}
 
 	public M setLogisticsId(java.lang.Integer logisticsId) {

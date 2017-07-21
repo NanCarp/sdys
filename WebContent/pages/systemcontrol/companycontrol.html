@@ -227,7 +227,7 @@
 	   if(ids.length==0){
 		   layer.msg('请至少选择一条记录', {time: 2000});
 	   }else{
-		   layer.confirm('确认删除吗？',{
+		   layer.confirm('<span style="color:red">警告:</span>您将删除与该公司相关的全部数据!',{
 			   title: ['信息', 'font-weight:600;color:#fff;background-color: #3367D6;'],
                btn: ['确认','取消'] //按钮
 		   },function(){

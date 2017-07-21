@@ -45,6 +45,11 @@ public class RoleService {
 							result = false;
 							break;
 						}
+						//删除与角色对应用户
+						List<Record> list = Db.find("select id from t_user where role_id=?", id);
+						for(Record record:list){
+							Db.update("delete from t_user where id = ?",record.getInt("id"));
+						}
 							result = Db.deleteById("t_role", "id", id);		
 						}
 					return result;

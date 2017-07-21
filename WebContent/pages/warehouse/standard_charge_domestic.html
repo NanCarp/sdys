@@ -110,7 +110,6 @@ function doQuery(){
         var layer = layui.layer;
         
         var company_name = $.trim($('#company_name').val());
-        var material_no = $.trim($('#material_no').val());
         if($.trim($('#company_name').val())!=''){
             var reg = /^[a-zA-Z0-9_\u0391-\uFFE5 ]{1,30}$/;
             if(!reg.test($('#company_name').val())){

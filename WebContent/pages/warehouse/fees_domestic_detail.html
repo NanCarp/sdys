@@ -44,15 +44,136 @@
 <body>
 <form class="form-horizontal" role="form" style="margin-top:20px;" id="defaultForm">
 	<div class="container">
-	   	<div class="col-xs-4">
-	   		<div class="form-group form-group-sm">
+        <#if record??>
+        <input type="hidden" name="id" value="${record.id}">
+        <div class="col-xs-4">
+            <div class="form-group">
                 <label class="col-xs-6 control-label text-right" for="company_name">物流公司：</label>
                 <div class="col-xs-6">
                     <select class="form-control" name="company_name" id="company_name">
                         <option value="">物流公司</option>
-                        <option value="申通运输公司">申通运输公司</option>
-                        <option value="圆通运输公司">圆通运输公司</option>
-                        <option value="中通运输公司">中通运输公司</option>
+                        <#if companyList?? && companyList?size gt 0>
+                        <#list companyList as company>
+                        <option value="${company.company_name}" <#if company.company_name == record.company_name >selected</#if> >${company.company_name}</option>
+                        </#list>
+                        </#if>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group form-group-sm">
+                <label class="col-xs-6 control-label text-right" for="in_date">时间：</label>
+                <div class="col-xs-6">
+                    <input class="form-control form_datetime" placeholder="时间" name="in_date" id="in_date" value="${record.in_date!}">
+                </div>
+            </div>
+            <div class="form-group form-group-sm">
+                <label class="col-xs-6 control-label text-right" for="in_drayage_type_quantity">短驳车型及数量：</label>
+                <div class="col-xs-6">
+                    <input class="form-control" placeholder="短驳车型及数量" name="in_drayage_type_quantity" id="in_drayage_type_quantity" value="${record.in_drayage_type_quantity!}">
+                </div>
+            </div>
+            <div class="form-group form-group-sm">
+                <label class="col-xs-6 control-label text-right" for="out_date">时间：</label>
+                <div class="col-xs-6">
+                    <input class="form-control form_datetime" placeholder="时间" name="out_date" id="out_date" value="${record.out_date!}">
+                </div>
+            </div>
+            <div class="form-group form-group-sm">
+                <label class="col-xs-6 control-label text-right" for="out_drayate_type_quantity">短驳车型及数量：</label>
+                <div class="col-xs-6">
+                    <input class="form-control" placeholder="短驳车型及数量" name="out_drayate_type_quantity" id="out_drayate_type_quantity" value="${record.out_drayate_type_quantity!}">
+                </div>
+            </div>
+            <div class="form-group form-group-sm">
+                <label class="col-xs-6 control-label text-right" for="warehouse_fee">仓储费：</label>
+                <div class="col-xs-6">
+                    <input class="form-control" placeholder="仓储费" name="warehouse_fee" id="warehouse_fee" value="${record.warehouse_fee!}">
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-4">
+            <div class="form-group form-group-sm">
+                <label class="col-xs-6 control-label text-right" for="period">账单周期：</label>
+                <div class="col-xs-6">
+                    <input class="form-control yyyymm" placeholder="年月" name="period" id="period" value="${record.period!}">
+                </div>
+            </div>
+            <div class="form-group form-group-sm">
+                <label class="col-xs-6 control-label text-right" for="in_tray_quantity">入库托数：</label>
+                <div class="col-xs-6">
+                    <input class="form-control" placeholder="入库托数" name="in_tray_quantity" id="in_tray_quantity" value="${record.in_tray_quantity!}">
+                </div>
+            </div>
+            <div class="form-group form-group-sm">
+                <label class="col-xs-6 control-label text-right" for="in_drayage">短驳费：</label>
+                <div class="col-xs-6">
+                    <input class="form-control" placeholder="短驳费" name="in_drayage" id="in_drayage" value="${record.in_drayage!}">
+                </div>
+            </div>
+            <div class="form-group form-group-sm">
+                <label class="col-xs-6 control-label text-right" for="out_tray_quantity">出库托数：</label>
+                <div class="col-xs-6">
+                    <input class="form-control" placeholder="出库托数" name="out_tray_quantity" id="out_tray_quantity" value="${record.out_tray_quantity!}">
+                </div>
+            </div>
+            <div class="form-group form-group-sm">
+                <label class="col-xs-6 control-label text-right" for="out_drayage">短驳费：</label>
+                <div class="col-xs-6">
+                    <input class="form-control" placeholder="短驳费" name="out_drayage" id="out_drayage" value="${record.out_drayage!}">
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-4">
+            <div class="form-group">
+                <label class="col-xs-6 control-label text-right" for="currency">币制：</label>
+                <div class="col-xs-6">
+                    <select class="form-control" name="currency" id="currency">
+                        <option value="">币制</option>
+                        <#if currencyList?? && currencyList?size gt 0>
+                        <#list currencyList as currency>
+                        <option value="${currency.keyword}" <#if currency.keyword == record.currency>selected</#if> >${currency.keyword}</option>
+                        </#list>
+                        </#if>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group form-group-sm">
+                <label class="col-xs-6 control-label text-right" for="unloading_fees">卸货费（入库）：</label>
+                <div class="col-xs-6">
+                    <input class="form-control" placeholder="卸货费" name="unloading_fees" id="unloading_fees" value="${record.unloading_fees!}">
+                </div>
+            </div>
+            <div class="form-group form-group-sm">
+                <label class="col-xs-6 control-label text-right" for="in_remark">备注：</label>
+                <div class="col-xs-6">
+                    <input class="form-control" placeholder="备注" name="in_remark" id="in_remark" value="${record.in_remark!}">
+                </div>
+            </div>
+            <div class="form-group form-group-sm">
+                <label class="col-xs-6 control-label text-right" for="loading_fees">装货费（出库）：</label>
+                <div class="col-xs-6">
+                    <input class="form-control" placeholder="装货费" name="loading_fees" id="loading_fees" value="${record.loading_fees!}">
+                </div>
+            </div>
+            <div class="form-group form-group-sm">
+                <label class="col-xs-6 control-label text-right" for="out_remark">备注：</label>
+                <div class="col-xs-6">
+                    <input class="form-control" placeholder="备注" name="out_remark" id="out_remark" value="${record.out_remark!}">
+                </div>
+            </div>
+        </div>
+        <#else>
+	   	<div class="col-xs-4">
+	   		<div class="form-group">
+                <label class="col-xs-6 control-label text-right" for="company_name">物流公司：</label>
+                <div class="col-xs-6">
+                    <select class="form-control" name="company_name" id="company_name">
+                        <option value="">物流公司</option>
+                        <#if companyList?? && companyList?size gt 0>
+                        <#list companyList as company>
+                        <option value="${company.company_name}">${company.company_name}</option>
+                        </#list>
+                        </#if>
                     </select>
                 </div>
             </div>
@@ -63,27 +184,27 @@
                 </div>
             </div>
             <div class="form-group form-group-sm">
-                <label class="col-xs-6 control-label text-right" for="in_date">短驳车型及数量：</label>
+                <label class="col-xs-6 control-label text-right" for="in_drayage_type_quantity">短驳车型及数量：</label>
                 <div class="col-xs-6">
-                    <input class="form-control" placeholder="短驳车型及数量" name="in_date" id="in_date" value="">
+                    <input class="form-control" placeholder="短驳车型及数量" name="in_drayage_type_quantity" id="in_drayage_type_quantity" value="">
                 </div>
             </div>
             <div class="form-group form-group-sm">
-                <label class="col-xs-6 control-label text-right" for="in_date">时间：</label>
+                <label class="col-xs-6 control-label text-right" for="out_date">时间：</label>
                 <div class="col-xs-6">
-                    <input class="form-control form_datetime" placeholder="时间" name="in_date" id="in_date" value="">
+                    <input class="form-control form_datetime" placeholder="时间" name="out_date" id="out_date" value="">
                 </div>
             </div>
             <div class="form-group form-group-sm">
-                <label class="col-xs-6 control-label text-right" for="in_date">短驳车型及数量：</label>
+                <label class="col-xs-6 control-label text-right" for="out_drayate_type_quantity">短驳车型及数量：</label>
                 <div class="col-xs-6">
-                    <input class="form-control" placeholder="短驳车型及数量" name="in_date" id="in_date" value="">
+                    <input class="form-control" placeholder="短驳车型及数量" name="out_drayate_type_quantity" id="out_drayate_type_quantity" value="">
                 </div>
             </div>
             <div class="form-group form-group-sm">
-                <label class="col-xs-6 control-label text-right" for="in_quantity">仓储费：</label>
+                <label class="col-xs-6 control-label text-right" for="warehouse_fee">仓储费：</label>
                 <div class="col-xs-6">
-                    <input class="form-control" placeholder="仓储费" name="in_remark" id="in_remark" value="">
+                    <input class="form-control" placeholder="仓储费" name="warehouse_fee" id="warehouse_fee" value="">
                 </div>
             </div>
         </div>
@@ -101,61 +222,64 @@
                 </div>
             </div>
             <div class="form-group form-group-sm">
-                <label class="col-xs-6 control-label text-right" for="in_tray_quantity">短驳费：</label>
+                <label class="col-xs-6 control-label text-right" for="in_drayage">短驳费：</label>
                 <div class="col-xs-6">
-                    <input class="form-control" placeholder="短驳费" name="in_tray_quantity" id="in_tray_quantity" value="">
+                    <input class="form-control" placeholder="短驳费" name="in_drayage" id="in_drayage" value="">
                 </div>
             </div>
             <div class="form-group form-group-sm">
-                <label class="col-xs-6 control-label text-right" for="in_tray_quantity">出库托数：</label>
+                <label class="col-xs-6 control-label text-right" for="out_tray_quantity">出库托数：</label>
                 <div class="col-xs-6">
-                    <input class="form-control" placeholder="出库托数" name="in_tray_quantity" id="in_tray_quantity" value="">
+                    <input class="form-control" placeholder="出库托数" name="out_tray_quantity" id="out_tray_quantity" value="">
                 </div>
             </div>
             <div class="form-group form-group-sm">
-                <label class="col-xs-6 control-label text-right" for="in_tray_quantity">短驳费：</label>
+                <label class="col-xs-6 control-label text-right" for="out_drayage">短驳费：</label>
                 <div class="col-xs-6">
-                    <input class="form-control" placeholder="短驳费" name="in_tray_quantity" id="in_tray_quantity" value="">
+                    <input class="form-control" placeholder="短驳费" name="out_drayage" id="out_drayage" value="">
                 </div>
             </div>
         </div>
         <div class="col-xs-4">
-		    <div class="form-group form-group-sm">
+		    <div class="form-group">
                 <label class="col-xs-6 control-label text-right" for="currency">币制：</label>
                 <div class="col-xs-6">
                     <select class="form-control" name="currency" id="currency">
                         <option value="">币制</option>
-                        <option value="CNY">CNY</option>
-                        <option value="USD">USD</option>
-                        <option value="EUR">EUR</option>
+                        <#if currencyList?? && currencyList?size gt 0>
+                        <#list currencyList as currency>
+                        <option value="${currency.keyword}">${currency.keyword}</option>
+                        </#list>
+                        </#if>
                     </select>
                 </div>
             </div>
             <div class="form-group form-group-sm">
-                <label class="col-xs-6 control-label text-right" for="in_quantity">卸货费（入库）：</label>
+                <label class="col-xs-6 control-label text-right" for="unloading_fees">卸货费（入库）：</label>
                 <div class="col-xs-6">
-                    <input class="form-control" placeholder="卸货费" name="in_quantity" id="in_quantity">
+                    <input class="form-control" placeholder="卸货费" name="unloading_fees" id="unloading_fees">
                 </div>
             </div>
             <div class="form-group form-group-sm">
-                <label class="col-xs-6 control-label text-right" for="in_quantity">备注：</label>
+                <label class="col-xs-6 control-label text-right" for="in_remark">备注：</label>
                 <div class="col-xs-6">
                     <input class="form-control" placeholder="备注" name="in_remark" id="in_remark" value="">
                 </div>
             </div>
             <div class="form-group form-group-sm">
-                <label class="col-xs-6 control-label text-right" for="in_quantity">装货费（出库）：</label>
+                <label class="col-xs-6 control-label text-right" for="loading_fees">装货费（出库）：</label>
                 <div class="col-xs-6">
-                    <input class="form-control" placeholder="装货费" name="in_quantity" id="in_quantity">
+                    <input class="form-control" placeholder="装货费" name="loading_fees" id="loading_fees">
                 </div>
             </div>
             <div class="form-group form-group-sm">
-                <label class="col-xs-6 control-label text-right" for="in_quantity">备注：</label>
+                <label class="col-xs-6 control-label text-right" for="out_remark">备注：</label>
                 <div class="col-xs-6">
-                    <input class="form-control" placeholder="备注" name="in_remark" id="in_remark" value="">
+                    <input class="form-control" placeholder="备注" name="out_remark" id="out_remark" value="">
                 </div>
             </div>
 		</div>
+		</#if>
 		<div class="col-xs-12">
             <div class="form-group form-group-sm">
                 <label class="col-xs-2 control-label" for="commit_btn"></label>
@@ -220,7 +344,7 @@ $(function(){
 				validators: {
 					notEmpty: {
 						message: '不能为空!'
-					},
+					}
 				}
 			},
 			"period": {
@@ -249,6 +373,15 @@ $(function(){
 					notEmpty: {
 						message: '不能为空!'
 					},
+                    regexp: {
+                        regexp: /^[0-9]+$/,
+                        message: '请输入正确的数量'
+                    },
+                    stringLength: {
+                        min: 0,
+                        max: 20,
+                        message: '最多20个字符'
+                    }
 				}
 			},
 			"unloading_fees": {
@@ -256,6 +389,15 @@ $(function(){
 					notEmpty: {
 						message: '不能为空!'
 					},
+					regexp: {
+                        regexp: /^[0-9]+(\.[0-9]{1,})?$/,
+                        message: '请输入正确的金额'
+                    },
+                    stringLength: {
+                        min: 0,
+                        max: 20,
+                        message: '最多20个字符'
+                    }
 				}
 			},
 			"in_drayage_type_quantity": {
@@ -263,6 +405,11 @@ $(function(){
 					notEmpty: {
 						message: '不能为空!'
 					},
+                    stringLength: {
+                        min: 0,
+                        max: 50,
+                        message: '最多50个字符'
+                    }
 				}
 			},
 			"in_drayage": {
@@ -270,6 +417,15 @@ $(function(){
 					notEmpty: {
 						message: '不能为空!'
 					},
+					regexp: {
+                        regexp: /^[0-9]+(\.[0-9]{1,})?$/,
+                        message: '请输入正确的金额'
+                    },
+                    stringLength: {
+                        min: 0,
+                        max: 20,
+                        message: '最多20个字符'
+                    }
 				}
 			},
 			"in_overtime_pay": {
@@ -277,6 +433,15 @@ $(function(){
 					notEmpty: {
 						message: '不能为空!'
 					},
+					regexp: {
+                        regexp: /^[0-9]+(\.[0-9]{1,})?$/,
+                        message: '请输入正确的金额'
+                    },
+                    stringLength: {
+                        min: 0,
+                        max: 20,
+                        message: '最多20个字符'
+                    }
 				}
 			},
 			"in_remark": {
@@ -298,6 +463,15 @@ $(function(){
 					notEmpty: {
 						message: '不能为空!'
 					},
+                    regexp: {
+                        regexp: /^[0-9]+$/,
+                        message: '请输入正确的数量'
+                    },
+                    stringLength: {
+                        min: 0,
+                        max: 20,
+                        message: '最多20个字符'
+                    }
 				}
 			},
 			"loading_fees": {
@@ -305,13 +479,27 @@ $(function(){
 					notEmpty: {
 						message: '不能为空!'
 					},
+					regexp: {
+                        regexp: /^[0-9]+(\.[0-9]{1,})?$/,
+                        message: '请输入正确的金额'
+                    },
+                    stringLength: {
+                        min: 0,
+                        max: 20,
+                        message: '最多20个字符'
+                    }
 				}
 			},
-			"out_drayate_tyep_quantity": {
+			"out_drayate_type_quantity": {
 				validators: {
 					notEmpty: {
 						message: '不能为空!'
 					},
+                    stringLength: {
+                        min: 0,
+                        max: 50,
+                        message: '最多50个字符'
+                    }
 				}
 			},
 			"out_drayage": {
@@ -319,6 +507,15 @@ $(function(){
 					notEmpty: {
 						message: '不能为空!'
 					},
+					regexp: {
+                        regexp: /^[0-9]+(\.[0-9]{1,})?$/,
+                        message: '请输入正确的金额'
+                    },
+                    stringLength: {
+                        min: 0,
+                        max: 20,
+                        message: '最多20个字符'
+                    }
 				}
 			},
 			"out_overtime_pay": {
@@ -326,6 +523,15 @@ $(function(){
 					notEmpty: {
 						message: '不能为空!'
 					},
+					regexp: {
+                        regexp: /^[0-9]+(\.[0-9]{1,})?$/,
+                        message: '请输入正确的金额'
+                    },
+                    stringLength: {
+                        min: 0,
+                        max: 20,
+                        message: '最多20个字符'
+                    }
 				}
 			},
 			"warehouse_fee": {
@@ -333,13 +539,15 @@ $(function(){
 					notEmpty: {
 						message: '不能为空!'
 					},
-				}
-			},
-			"company_name": {
-				validators: {
-					notEmpty: {
-						message: '不能为空!'
-					},
+					regexp: {
+                        regexp: /^[0-9]+(\.[0-9]{1,})?$/,
+                        message: '请输入正确的金额'
+                    },
+                    stringLength: {
+                        min: 0,
+                        max: 20,
+                        message: '最多20个字符'
+                    }
 				}
 			},
 			"out_remark": {
@@ -356,7 +564,7 @@ $(function(){
 })
 .on('success.form.bv', function(e) {
 	e.preventDefault();
-	$.post("/manual/summary/saveSummary", $('#defaultForm').serialize(), function(result) {
+	$.post("/warehouse/feesDomestic/save", $('#defaultForm').serialize(), function(result) {
 		if (result.isSuccess) {
             parent.layer.msg("保存成功", {time: 2000}, function(){
                 layer_close();

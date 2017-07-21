@@ -13,6 +13,7 @@ import com.jfinal.upload.UploadFile;
 
 import stms.interceptor.ManageInterceptor;
 import stms.model.InterInWarehouse;
+import stms.model.InterOutWarehouse;
 
 /**
  * @ClassName: StockOutInternationalController.java
@@ -70,7 +71,7 @@ public class StockOutInternationalController extends Controller {
 
     // 保存
     public void save() {
-        InterInWarehouse record = getModel(InterInWarehouse.class, "");
+        InterOutWarehouse record = getModel(InterOutWarehouse.class, "");
         
         // 保存结果
         boolean result = false;

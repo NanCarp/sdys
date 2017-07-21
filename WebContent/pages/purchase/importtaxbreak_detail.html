@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>新增进口运费</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="../../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="../../../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="../../../dist/css/sb-admin-2.css" rel="stylesheet">
+	<link href="../../../css/admin.css" rel="stylesheet">
+	<link href="../../../resource/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+	<style type="text/css">
+		body { margin:0 15px;}
+		form { margin-top:20px;}
+		label { padding-top:6px;padding-right:0;}
+	</style>
+	
+    <!-- Custom Fonts -->
+    <link href="../../../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+<form class="form-horizontal" role="form" style="margin-top:20px;" id="defaultForm">
+	<#if im??>
+	<input id="id" name="id" hidden="" value="${im.id}">
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="flow_number">流转单号：</label>
+        <div class="col-xs-6">
+            <input style="padding-right: 2px" class="form-control" placeholder="流转单号" name="flow_number" id="flow_number" value="${im.flow_number!}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="material_properties">材料性质：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="材料性质" name="material_properties" id="material_properties" value="${im.material_properties!}">
+        </div>
+    </div> 
+     <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="import_specification">规格：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="规格" name="import_specification" id="import_specification" value="${im.import_specification!}">
+        </div>
+    </div> 
+     <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="domes_sale_num">内销数量：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="规格" name="domes_sale_num" id="domes_sale_num" value="${im.domes_sale_num!}">
+        </div>
+    </div>    
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="fold_pieces">折成料件品名和单位：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="折成料件品名和单位" name="fold_pieces" id="fold_pieces" value="${im.fold_pieces!}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="unit_consume">单耗：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="单耗" name="unit_consume" id="unit_consume" value="${im.unit_consume!}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="bond_consume">保税耗用：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="保税耗用" name="bond_consume" id="bond_consume" value="${im.bond_consume!}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="duty_paid_consume">完税耗用：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="完税耗用" name="duty_paid_consume" id="duty_paid_consume" value="${im.duty_paid_consume!}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="custom_batch_num">海关批次号：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="海关批次号" name="custom_batch_num" id="custom_batch_num" value="${im.custom_batch_num!}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="manual_id">手册号：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="手册号" name="manual_id" id="manual_id" value="${im.manual_id!}">
+        </div>
+    </div>
+    <#else>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="flow_number">流转单号：</label>
+        <div class="col-xs-6">
+            <input style="padding-right: 2px" class="form-control" placeholder="流转单号" name="flow_number" id="flow_number" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="material_properties">材料性质：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="材料性质" name="material_properties" id="material_properties" value="">
+        </div>
+    </div> 
+     <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="import_specification">规格：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="规格" name="import_specification" id="import_specification" value="">
+        </div>
+    </div> 
+     <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="domes_sale_num">内销数量：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="规格" name="domes_sale_num" id="domes_sale_num" value="">
+        </div>
+    </div>    
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="fold_pieces">折成料件品名和单位：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="折成料件品名和单位" name="fold_pieces" id="fold_pieces" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="unit_consume">单耗：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="单耗" name="unit_consume" id="unit_consume" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="bond_consume">保税耗用：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="保税耗用" name="bond_consume" id="bond_consume" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="duty_paid_consume">完税耗用：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="完税耗用" name="duty_paid_consume" id="duty_paid_consume" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="custom_batch_num">海关批次号：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="海关批次号" name="custom_batch_num" id="custom_batch_num" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="manual_id">手册号：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="手册号" name="manual_id" id="manual_id" value="">
+        </div>
+    </div>
+    </#if>
+	<div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="v"></label>
+        <div class="col-xs-6">
+            <button id="v" type="submit" class="btn btn-11">　保存　</button>
+       	</div>
+    </div>     
+</form>
+<!-- jQuery -->
+<script src="../../../vendor/jquery/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="../../../vendor/bootstrap/js/bootstrap.min.js"></script>
+
+<!-- Metis Menu Plugin JavaScript -->
+<script src="../../../vendor/metisMenu/metisMenu.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="../../../dist/js/sb-admin-2.js"></script>
+<script src="../../../resource/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
+<script src="../../../resource/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script> 
+<script src="../../../resource/bootstrap-datetimepicker/js/moment-with-locales.min.js"></script>
+<script src="../../../resource/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+<script src="../../../js/common/admin.js"></script>
+<script type="text/javascript">
+//日期控件
+$(".form_datetime").datetimepicker({
+	format:"yyyy-mm",
+	autoclose: true,
+	todayBtn: true,
+	todayHighlight: true,
+	showMeridian: true,
+	pickerPosition: "bottom-right",
+	language: 'zh-CN',//中文，需要引用zh-CN.js包
+	startView: 3,//年视图
+	minView: 3,
+	// 禁止手动输入
+});
+$(function(){	
+	// 表单校验
+	$('form').bootstrapValidator({
+		message: 'This value is not valid',
+		feedbackIcons: {
+			valid: 'glyphicon glyphicon-ok',
+			invalid: 'glyphicon glyphicon-remove',
+			validating: 'glyphicon glyphicon-refresh'
+		},
+		fields: {
+			flow_number: {
+				validators: {
+					notEmpty: {
+						message: '请输入流转单号!'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+	                regexp:{
+						regexp:/^[a-zA-Z0-9_\-\u0391-\uFFE5 ]{1,30}$/,
+						message:'请输入正确的流转单号'
+					}					 
+				}
+			},
+	material_properties: {
+				validators: {
+					notEmpty: {
+						message: '请输入材料性质!'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+					regexp:{
+						regexp:/^[a-zA-Z0-9_\-\/\u0391-\uFFE5 ]{1,30}$/,
+						message:'请输入正确的材料性质'
+					},
+				}
+			},
+	import_specification: {
+				validators: {
+					notEmpty: {
+						message: '请输入规格!'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+					regexp:{
+						regexp:/^[a-zA-Z0-9_\-\/\u0391-\uFFE5 ]{1,30}$/,
+						message:'请输入正确的规格'
+					}
+				}
+			},
+		domes_sale_num: {
+				validators: {
+					notEmpty: {
+						message: '请选择内销数量!'
+					},
+					stringLength: {
+		                min: 0,
+		                max: 20,
+		                message: '最多20个字符'
+		            },
+					regexp:{
+						regexp:/^[a-zA-Z0-9_\-\u0391-\uFFE5 ]{1,30}$/,
+						message:'请输入正确内销数量'
+					}
+				}
+			},
+			fold_pieces: {
+				validators: {
+					notEmpty: {
+						message: '请输入正确的折成料件品名和单位!'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+					regexp:{
+						regexp:/^[a-zA-Z0-9_\-\/\u0391-\uFFE5 ]{1,30}$/,
+						message:'请输入正确的折成料件品名和单位!'
+					}
+				}
+			},
+			unit_consume: {
+				validators: {
+					notEmpty: {
+						message: '请输入单耗!'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+					regexp:{
+						regexp:/^\d+(\.\d{1,4})?$/,
+						message:'请输入单耗'
+					}
+				}
+			},
+			bond_consume: {
+				validators: {
+					notEmpty: {
+						message: '请输入保税耗用!'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+					regexp:{
+						regexp:/^\d+(\.\d{1,4})?$/,
+						message:'请输入保税耗用'
+					}
+				}
+			},
+	duty_paid_consume: {
+				validators: {
+					notEmpty: {
+						message: '请输入完税耗用!'
+					},	
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+					regexp:{
+						regexp:/^\d+(\.\d{1,4})?$/,
+						message:'请输入完税耗用'
+					}
+				}
+			},
+		custom_batch_num: {
+				validators: {
+					notEmpty: {
+						message: '请输入海关批次号!'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+					regexp:{
+						regexp:/^[a-zA-Z0-9_\-\u0391-\uFFE5]{1,30}$/,
+						message:'请输入单号'
+					}
+				}
+			},
+			manual_id: {
+				validators: {
+					notEmpty: {
+						message: '请输入手册号!'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+					regexp:{
+						regexp:/^[a-zA-Z0-9_\-\u0391-\uFFE5]{1,30}$/,
+						message:'请输入手册号'
+					}
+				}
+			},	 
+		}
+	});
+})
+.on('success.form.bv', function(e) {
+	e.preventDefault();
+	 $.post("/purchase/Importtaxbreak/saveOrUpdate", $('#defaultForm').serialize(), function(result) {
+		if (result) {
+			parent.layer.msg("保存成功", {time: 2000}, function(){
+				layer_close();
+				parent.parent.refresh_iframe();
+			});
+
+		} else {
+			parent.layer.msg('保存失败', {icon: 1});
+		}
+		
+	}); 
+});
+
+
+
+
+
+
+</script>
+</body>
+
+</html>

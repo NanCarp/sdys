@@ -92,6 +92,9 @@
 <script src="../../../js/common/admin.js"></script>
 
 <script>
+var keyword = "";
+var key = "";
+
 $(function () {
 	 
     //1.初始化Table
@@ -101,19 +104,28 @@ $(function () {
     //2.初始化Button的点击事件
      var oButtonInit = new ButtonInit();
     oButtonInit.Init(); 
-    
-	//全选、全不选
-	$("#checkAll").click(function() {
-	    $("input[name='sub']").prop("checked", this.checked);
-	});
-	$("input[name='sub']").click(function() {
-	    var $subs = $("input[name='sub']");
-	    $("#checkAll").prop("checked" , $subs.length == $subs.filter(":checked").length ? true :false);
-	});
 
 });
 function doQuery(){
-    $('#tb_departments').bootstrapTable('refresh');    //刷新表格
+	layui.use('layer',function(){
+		var layer = layui.layer;
+		keyword = $('#keyword').val()
+		key = $.trim($('#key').val());
+		if($.trim($('#keyword').val())!=''){
+			var reg = /^[a-zA-Z0-9_\u0391-\uFFE5 ]{1,30}$/;
+			if(!reg.test($('#keyword').val())){
+				layer.tips('不允许有特殊字符，最多20个字符', '#keyword', {tips: [1, '#34495E']});return;
+			}					
+		}
+		if($.trim($('#key').val())!=''){
+			var reg = /^[a-zA-Z0-9_\u0391-\uFFE5 ]{1,30}$/;
+			if(!reg.test($('#key').val())){
+				layer.tips('不允许有特殊字符，最多20个字符', '#key', {tips: [1, '#34495E']});return;
+			}					
+		}
+		 $('#tb_departments').bootstrapTable('refresh');    //刷新表格
+	})
+   
 }
 var TableInit = function () {
     var oTableInit = new Object();
@@ -187,8 +199,8 @@ var TableInit = function () {
             offset: params.offset,  //页码
             maxrows: params.limit,
             search: params.search,
-           	keyword :$("#keyword").val(),
-        	key: $("#key").val(),
+           	keyword :keyword,
+        	key: key,
         };
         return temp;
     };
@@ -198,11 +210,9 @@ var TableInit = function () {
 var ButtonInit = function () {
     var oInit = new Object();
     var postdata = {};
-
     oInit.Init = function () {
         //初始化页面上面的按钮事件
     };
-
     return oInit;
 };
 
@@ -240,7 +250,6 @@ function _batchDelete(){
                 }
             });
         }, function(){
-
         });
     }
 }

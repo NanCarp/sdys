@@ -78,8 +78,8 @@ public class StockInInternationalController extends Controller {
         Map<String, Object> response = new HashMap<>();
         // 重复检测
         Integer id = record.getId();
-        String batchNo = record.getBatchNo();
-        String trayNo = record.getTrayNo();
+        String batchNo = record.getInBatchNo();
+        String trayNo = record.getInTrayNo();
         if (id == null && StockInInternationalService.isDuplicate(batchNo, trayNo)) {
             response.put("tips", "数据重复！");
             response.put("isSuccess", false);

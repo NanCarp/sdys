@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>新增进口运费</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="../../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="../../../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="../../../dist/css/sb-admin-2.css" rel="stylesheet">
+	<link href="../../../css/admin.css" rel="stylesheet">
+	<link href="../../../resource/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+	<style type="text/css">
+		body { margin:0 15px;}
+		form { margin-top:20px;}
+		label { padding-top:6px;padding-right:0;}
+	</style>
+	
+    <!-- Custom Fonts -->
+    <link href="../../../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+<form class="form-horizontal" role="form" style="margin-top:20px;" id="defaultForm">
+	<#if im??>
+<div style="display: inline-block">
+	<input name="id" id="id" hidden value="${im.id}">
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="import_invoice_num">进口发票号：</label>
+        <div class="col-xs-6">
+            <input style="padding-right: 2px"  class="form-control" placeholder="进口发票号" name="import_invoice_num" id="import_invoice_num" value="${im.import_invoice_num!}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="trade_terms">贸易条款：</label>
+        <div class="col-xs-6">
+            <select class="form-control" name="trade_terms" id="trade_terms" onchange="setCustom(this)">
+                <option value="">--选择贸易条款--</option>
+                <option <#if im.trade_terms=='EXW'>selected</#if> value="EXW">EXW</option>
+                <option <#if im.trade_terms=='FOB'>selected</#if> value="FOB" >FOB</option>
+                <option <#if im.trade_terms=='CFR'>selected</#if> value="CFR" >CFR</option>
+                <option <#if im.trade_terms=='CIF'>selected</#if> value="CIF" >CIF</option>
+                <option <#if im.trade_terms=='CIP'>selected</#if> value="CIP" >CIP</option>
+                <option <#if im.trade_terms=='DAP WUXI'>selected</#if> value="DAP WUXI" >DAP WUXI</option>
+                <option <#if im.trade_terms=='DAP SHANGHAI'>selected</#if> value="DAP SHANGHAI" >DAP SHANGHAI</option>
+                <option <#if im.trade_terms=='DDP'>selected</#if> value="DDP" >DDP</option>
+                <option <#if im.trade_terms=='DDU'>selected</#if> value="DDU" >DDU</option>
+                <#if im.trade_terms=='EXW' || im.trade_terms=='DAP WUXI' || im.trade_terms=='CFR' || im.trade_terms=='CIF' ||
+                	 im.trade_terms=='CIP' || im.trade_terms=='FOB' || im.trade_terms=='DAP SHANGHAI' || im.trade_terms=='DDP' ||
+                	 im.trade_terms=='DDU'>               	
+                <#else>
+                	<option value="${im.trade_terms}" selected>${im.trade_terms}</option>
+                </#if>
+                <option <#if im.trade_terms=='其他自定义'>selected</#if> value="其他自定义" >其他自定义</option>
+           </select> 
+        </div>
+    </div> 
+     <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="gross_weight">毛重(KG)：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="毛重" name="gross_weight" id="gross_weight" value="${im.gross_weight!}">
+        </div>
+    </div>    
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="customs_agent_fee">报关代理费：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="报关代理费" name="customs_agent_fee" id="customs_agent_fee" value="${im.customs_agent_fee!}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="custom_inspect_fee">海关检查费：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="海关检查费" name="custom_inspect_fee" id="custom_inspect_fee" value="${im.custom_inspect_fee!}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="packing_inspection_fee">包装查验费：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="料件序号" name="packing_inspection_fee" id="packing_inspection_fee" value="${im.packing_inspection_fee!}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="pick_up_charge">提货费：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="提货表" name="pick_up_charge" id="pick_up_charge" value="${im.pick_up_charge!}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="international_fees">国际杂费：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="国际杂费" name="international_fees" id="international_fees" value="${im.international_fees!}">
+        </div>
+    </div>
+    <div style="margin-bottom: 7px" class="form-group">
+        <label style="padding-top: 0" class="col-xs-5 control-label text-right" for="total_clearcustoms_usd">进口清关合计:<br>(USD)　　</label>
+        <div class="col-xs-6">
+            <input style="padding-right: 2xp" class="form-control" placeholder="进口清关合计USD" name="total_clearcustoms_usd" id="total_clearcustoms_usd" value="${im.total_clearcustoms_usd!}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="freight_pay_terms">运费支付方式：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="运费支付方式" name="freight_pay_terms" id="freight_pay_terms" value="${im.freight_pay_terms!}">
+        </div>
+    </div>
+</div>
+<div style="display: inline-block;margin-bottom: 0px">
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="import_inner_num">内部编号：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="内部编号" name="import_inner_num" id="import_inner_num" value="${im.import_inner_num!}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="delivery_num">提运单号：</label>
+        <div class="col-xs-6">
+            <input style="padding-right: 2px" class="form-control" placeholder="提运单号" name="delivery_num" id="delivery_num" value="${im.delivery_num!}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="customs_fees">报关费：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="报关费" name="customs_fees" id="customs_fees" value="${im.customs_fees!}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="replacement_fee">换单费：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="换单费" name="replacement_fee" id="replacement_fee" value="${im.replacement_fee!}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="domestic_land_freight">国内陆运费：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="国内陆运费" name="domestic_land_freight" id="domestic_land_freight" value="${im.domestic_land_freight!}">
+        </div>
+    </div>
+     <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="inspection_service_fee">商检服务费：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="商检服务费" name="inspection_service_fee" id="inspection_service_fee" value="${im.inspection_service_fee!}">
+        </div>
+    </div>
+     <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="accreditation_fee">办证费：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="办证费" name="accreditation_fee" id="accreditation_fee" value="${im.accreditation_fee!}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="international_agency_fee">国际代理费：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="国际代理费" name="international_agency_fee" id="international_agency_fee" value="${im.international_agency_fee!}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="statement_date">账单日期：</label>
+        <div class="col-xs-6">
+            <input class="form-control form_datetime" placeholder="账单日期" name="statement_date" id="statement_date" value="${im.statement_date!}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="IBMS_num">IBMS号：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="IBMS号" name="IBMS_num" id="IBMS_num" value="${im.IBMS_num!}">
+        </div>
+    </div>
+</div> 
+<div style="display: inline-block;margin-bottom: 0px">
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="import_name">商品名称：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="商品名称" name="import_name" id="import_name" value="${im.import_name!}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="import_num">件数：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="件数" name="import_num" id="import_num" value="${im.import_num!}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="CIQ_Brokerage_Fee">报检费：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="报检费" name="CIQ_Brokerage_Fee" id="CIQ_Brokerage_Fee" value="${im.CIQ_Brokerage_Fee!}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="inspection_fee">待检费：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="待检费" name="inspection_fee" id="inspection_fee" value="${im.inspection_fee!}">
+        </div>
+    </div>
+    <div class="form-group" style="margin-bottom: 5px">
+        <label style="padding-top:0" class="col-xs-5 control-label text-right" for="incidental_fee">检疫费/港杂　<br>/港建/坏污箱：</label>
+        <div class="col-xs-6">
+            <input style="padding-right: 2px" class="form-control" placeholder="检疫费/港杂/港建/坏污箱" name="incidental_fee" id="incidental_fee" value="${im.incidental_fee!}">
+        </div>
+    </div>
+     <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="customs_service_charge">海关查验服务费：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="海关查验服务费" name="customs_service_charge" id="customs_service_charge" value="${im.customs_service_charge!}">
+        </div>
+    </div>
+     <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="international_shipping">国际运费：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="国际运费" name="international_shipping" id="international_shipping" value="${im.international_shipping!}">
+        </div>
+    </div>
+    <div style="margin-bottom: 7px" class="form-group">
+        <label class="col-xs-5 control-label text-right" for="total_clearcustoms_rmb">进口清关合计:<br>(RMB)　　</label>
+        <div class="col-xs-6">
+            <input style="padding-right: 2px" class="form-control" placeholder="进口清关合计(RMB)" name="total_clearcustoms_rmb" id="total_clearcustoms_rmb" value="${im.total_clearcustoms_rmb!}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="cost_type">费用类型：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="费用类型" name="cost_type" id="cost_type" value="${im.cost_type!}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="logistics_id">物流公司：</label>
+        <div class="col-xs-6">
+            <#if host>
+    		<select style="padding-right: 2px" class="form-control" name="logistics_id" id="logistics_id">
+                <option value="">--请选择物流公司--</option>  
+                <#if WuLiuCompanies?? && WuLiuCompanies?size gt 0>      
+                <#list WuLiuCompanies as WuliuCompany>
+                	<option <#if im.logistics_id = WuliuCompany.id>selected</#if> value="${WuliuCompany.id}">${WuliuCompany.company_name}</option>
+                </#list>
+                </#if>
+           </select> 
+    		<#else>    
+       			<input class="form-control" placeholder="物流公司" name="logistics_id" id="logistics_id" value="${logistics_name!}" disabled="disabled">      
+    		</#if>
+        </div>
+    </div>
+</div>
+	<div style="margin-left: 52px" class="form-group">
+        <label class="col-xs-1 control-label text-right" for="remark">备注：</label>
+        <div class="col-xs-6">
+            <textarea class="form-control" placeholder="备注" name="remark" id="remark" value="">${im.remark!}</textarea>
+        </div>
+    </div>
+	<#else>
+<div style="display: inline-block">
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="import_invoice_num">进口发票号：</label>
+        <div class="col-xs-6">
+            <input style="padding-right: 2px" class="form-control" placeholder="进口发票号" name="import_invoice_num" id="product_no" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="trade_terms">贸易条款：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="贸易条款" name="trade_terms" id="trade_terms" value="">
+        </div>
+    </div> 
+     <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="gross_weight">毛重(KG)：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="毛重" name="gross_weight" id="gross_weight" value="">
+        </div>
+    </div>    
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="customs_agent_fee">报关代理费：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="报关代理费" name="customs_agent_fee" id="customs_agent_fee" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="custom_inspect_fee">海关检查费：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="海关检查费" name="custom_inspect_fee" id="custom_inspect_fee" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="packing_inspection_fee">包装查验费：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="料件序号" name="packing_inspection_fee" id="packing_inspection_fee" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="pick_up_charge">提货费：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="提货表" name="pick_up_charge" id="pick_up_charge" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="international_fees">国际杂费：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="国际杂费" name="international_fees" id="international_fees" value="">
+        </div>
+    </div>
+    <div style="margin-bottom: 7px" class="form-group">
+        <label style="padding-top: 0" class="col-xs-5 control-label text-right" for="total_clearcustoms_usd">进口清关合计:<br>(USD)　　</label>
+        <div class="col-xs-6">
+            <input style="padding-right: 2px" class="form-control" placeholder="进口清关合计USD" name="total_clearcustoms_usd" id="total_clearcustoms_usd" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="freight_pay_terms">运费支付方式：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="运费支付方式" name="freight_pay_terms" id="freight_pay_terms" value="">
+        </div>
+    </div>
+</div>
+<div style="display: inline-block;margin-bottom: 0px">
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="import_inner_num">内部编号：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="内部编号" name="import_inner_num" id="import_inner_num" value="" onblur="getMessageFrominnerNum()">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="delivery_num">提运单号：</label>
+        <div class="col-xs-6">
+            <input style="padding-right: 2px" class="form-control" placeholder="提运单号" name="delivery_num" id="delivery_num" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="customs_fees">报关费：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="报关费" name="customs_fees" id="customs_fees" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="replacement_fee">换单费：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="换单费" name="replacement_fee" id="replacement_fee" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="domestic_land_freight">国内陆运费：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="国内陆运费" name="domestic_land_freight" id="domestic_land_freight" value="">
+        </div>
+    </div>
+     <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="inspection_service_fee">商检服务费：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="商检服务费" name="inspection_service_fee" id="inspection_service_fee" value="">
+        </div>
+    </div>
+     <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="accreditation_fee">办证费：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="办证费" name="accreditation_fee" id="accreditation_fee" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="international_agency_fee">国际代理费：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="国际代理费" name="international_agency_fee" id="international_agency_fee" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="statement_date">账单日期：</label>
+        <div class="col-xs-6">
+            <input class="form-control form_datetime" placeholder="账单日期" name="statement_date" id="statement_date" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="IBMS_num">IBMS号：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="IBMS号" name="IBMS_num" id="IBMS_num" value="">
+        </div>
+    </div>
+</div> 
+<div style="display: inline-block;margin-bottom: 0px">
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="import_name">商品名称：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="商品名称" name="import_name" id="import_name" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="import_num">件数：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="件数" name="import_num" id="import_num" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="CIQ_Brokerage_Fee">报检费：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="报检费" name="CIQ_Brokerage_Fee" id="CIQ_Brokerage_Fee" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="inspection_fee">待检费：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="待检费" name="inspection_fee" id="inspection_fee" value="">
+        </div>
+    </div>
+    <div class="form-group" style="margin-bottom: 5px">
+        <label style="padding-top:0" class="col-xs-5 control-label text-right" for="incidental_fee">检疫费/港杂　<br>/港建/坏污箱：</label>
+        <div class="col-xs-6">
+            <input style="padding-right: 2px" class="form-control" placeholder="检疫费/港杂/港建/坏污箱" name="incidental_fee" id="incidental_fee" value="">
+        </div>
+    </div>
+     <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="customs_service_charge">海关查验服务费：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="海关查验服务费" name="customs_service_charge" id="customs_service_charge" value="">
+        </div>
+    </div>
+     <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="international_shipping">国际运费：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="国际运费" name="international_shipping" id="international_shipping" value="">
+        </div>
+    </div>
+    <div style="margin-bottom: 7px" class="form-group">
+        <label class="col-xs-5 control-label text-right" for="total_clearcustoms_rmb">进口清关合计:<br>(RMB)　　</label>
+        <div class="col-xs-6">
+            <input style="padding-right: 2px" class="form-control" placeholder="进口清关合计(RMB)" name="total_clearcustoms_rmb" id="total_clearcustoms_rmb" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="cost_type">费用类型：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="费用类型" name="cost_type" id="cost_type" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="logistics_id">物流公司：</label>
+        <div class="col-xs-6">
+    	<#if host>
+    		<select style="padding-right: 2px" class="form-control" name="logistics_id" id="logistics_id">
+                <option value="">--请选择物流公司--</option>  
+                <#if WuLiuCompanies?? && WuLiuCompanies?size gt 0>      
+                <#list WuLiuCompanies as WuliuCompany>
+                	<option value="${WuliuCompany.id}">${WuliuCompany.company_name}</option>
+                </#list>
+                </#if>
+           </select> 
+    	<#else>    
+       		<input class="form-control" placeholder="物流公司" name="logistics_id" id="logistics_id" value="${logistics_name!}" disabled="disabled">      
+    	</#if>
+    </div>
+    </div>
+</div>
+	<div style="margin-left: 52px" class="form-group">
+        <label class="col-xs-1 control-label text-right" for="remark">备注：</label>
+        <div class="col-xs-6">
+            <textarea class="form-control" placeholder="备注" name="remark" id="remark" value=""></textarea>
+        </div>
+    </div>
+    </#if> 
+	<div style="margin-left: 52px" class="form-group">
+        <label class="col-xs-1 control-label" for="v"></label>
+        <div class="col-xs-6">
+            <button id="v" type="submit" class="btn btn-11">　保存　</button>
+       	</div>
+    </div>     
+</form>
+<!-- jQuery -->
+<script src="../../../vendor/jquery/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="../../../vendor/bootstrap/js/bootstrap.min.js"></script>
+
+<!-- Metis Menu Plugin JavaScript -->
+<script src="../../../vendor/metisMenu/metisMenu.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="../../../dist/js/sb-admin-2.js"></script>
+<script src="../../../resource/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
+<script src="../../../resource/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script> 
+<script src="../../../resource/bootstrap-datetimepicker/js/moment-with-locales.min.js"></script>
+<script src="../../../resource/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+<script src="../../../js/common/admin.js"></script>
+<script type="text/javascript">
+//日期控件
+$(".form_datetime").datetimepicker({
+	format:"yyyy-mm",
+	autoclose: true,
+	todayBtn: true,
+	todayHighlight: true,
+	showMeridian: true,
+	pickerPosition: "bottom-right",
+	language: 'zh-CN',//中文，需要引用zh-CN.js包
+	startView: 3,//年视图
+	minView: 3,
+	// 禁止手动输入
+});
+$(function(){
+	var cost_type = $.trim($("#cost_type").val());
+	var freight_pay_terms = $.trim($("#freight_pay_terms").val());
+	if(cost_type==null||cost_type==""){
+		$("#cost_type").val("运费(进口)");
+	}
+	if(freight_pay_terms==null||freight_pay_terms==""){
+		$("#freight_pay_terms").val("自付费");	
+	}
+	
+	// 表单校验
+	$('form').bootstrapValidator({
+		message: 'This value is not valid',
+		feedbackIcons: {
+			valid: 'glyphicon glyphicon-ok',
+			invalid: 'glyphicon glyphicon-remove',
+			validating: 'glyphicon glyphicon-refresh'
+		},
+		fields: {
+	import_invoice_num: {
+				validators: {
+					notEmpty: {
+						message: '请输入进口发票号!'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+	                regexp:{
+						regexp:/^[a-zA-Z0-9_\-\u0391-\uFFE5 ]{1,30}$/,
+						message:'请输入正确的进口发票号'
+					}					 
+				}
+			},
+		import_inner_num: {
+				validators: {
+					notEmpty: {
+						message: '请输入内部编号!'
+					}
+				},
+				regexp:{
+					regexp:/^[a-zA-Z0-9_-\u0391-\uFFE5]{1,30}$/,
+					message:'请输入正确的内部编号'
+				}
+			},
+			import_name: {
+				validators: {
+					notEmpty: {
+						message: '请输入商品名称!'
+					}
+				},
+				regexp:{
+					regexp:/^[a-zA-Z0-9_-\u0391-\uFFE5]{1,30}$/,
+					message:'请输入正确的商品名称'
+				}
+			},
+			trade_terms: {
+				validators: {
+					notEmpty: {
+						message: '请选择贸易条款!'
+					}
+				}
+			},
+			delivery_num: {
+				validators: {
+					notEmpty: {
+						message: '请输入正确的提运单号!'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+					regexp:{
+						regexp:/^[a-zA-Z0-9_\-\u0391-\uFFE5]{1,30}$/,
+						message:'请输入正确的提运单号'
+					}
+				}
+			},
+			import_num: {
+				validators: {
+					notEmpty: {
+						message: '请输入件数!'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+					regexp:{
+						regexp:/^[0-9]*$/,
+						message:'请输入数字'
+					}
+				}
+			},
+			gross_weight: {
+				validators: {
+					notEmpty: {
+						message: '请输入毛重!'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+	                regexp:{
+						regexp:/^\d+(\.\d{1,4})?$/,
+						message:'请保留小数点后4位'
+					}
+				}
+			},
+			customs_fees: {//报关费
+				validators: {
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+	                regexp:{
+						regexp:/^\d+(\.\d{1,4})?$/,
+						message:'请保留小数点后4位'
+					}
+				}
+			},
+		CIQ_Brokerage_Fee: {//报检费
+				validators: {
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+	                regexp:{
+						regexp:/^\d+(\.\d{1,4})?$/,
+						message:'请保留小数点后4位'
+					}
+				}
+			},
+		customs_agent_fee:{//报关代理费
+				validators: {
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+	                regexp:{
+						regexp:/^\d+(\.\d{1,4})?$/,
+						message:'请保留小数点后4位'
+					}
+				}
+			},
+		replacement_fee:{//换单费
+				validators: {
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+	                regexp:{
+						regexp:/^\d+(\.\d{1,4})?$/,
+						message:'请保留小数点后4位'
+					}
+				}
+			},
+			inspection_fee:{//待检费
+				validators: {
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+	                regexp:{
+						regexp:/^\d+(\.\d{1,4})?$/,
+						message:'请保留小数点后4位'
+					}
+				}
+			},
+		custom_inspect_fee:{//海关检查费
+				validators: {
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+	                regexp:{
+						regexp:/^\d+(\.\d{1,4})?$/,
+						message:'请保留小数点后4位'
+					}
+				}
+			},
+		domestic_land_freight:{
+				validators: {
+					notEmpty: {
+						message: '请输入国内陆运费!'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+	                regexp:{
+						regexp:/^\d+(\.\d{1,4})?$/,
+						message:'请保留小数点后4位'
+					}
+				}
+			},
+			incidental_fee:{//检疫费/港砸/港建/坏污箱!
+				validators: {
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+	                regexp:{
+						regexp:/^\d+(\.\d{1,4})?$/,
+						message:'请保留小数点后4位'
+					}
+				}
+			},
+	packing_inspection_fee:{//包装检查费
+				validators: {
+					stringLength: {
+	                    min: 0,
+	                    max: 100,
+	                    message: '最多100个字符'
+	                },
+	                regexp:{
+						regexp:/^\d+(\.\d{1,4})?$/,
+						message:'请保留小数点后4位'
+					}
+				}
+			},
+inspection_service_fee:{//商检服务费
+				validators: {
+					stringLength: {
+	                    min: 0,
+	                    max: 100,
+	                    message: '最多100个字符'
+	                },
+	                regexp:{
+						regexp:/^\d+(\.\d{1,4})?$/,
+						message:'请保留小数点后4位'
+					}
+				}
+			},
+   customs_service_charge:{//海关检查服务费
+				validators: {
+					stringLength: {
+	                    min: 0,
+	                    max: 100,
+	                    message: '最多100个字符'
+	                },
+	                regexp:{
+						regexp:/^\d+(\.\d{1,4})?$/,
+						message:'请保留小数点后4位'
+					}
+				}
+			},
+		pick_up_charge:{
+				validators: {
+					notEmpty: {
+						message: '请输入提货费'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 100,
+	                    message: '最多100个字符'
+	                },
+	                regexp:{
+						regexp:/^\d+(\.\d{1,4})?$/,
+						message:'请保留小数点后4位'
+					}
+				}
+			},
+		accreditation_fee:{//办证费
+				validators: {
+					stringLength: {
+	                    min: 0,
+	                    max: 100,
+	                    message: '最多100个字符'
+	                },
+	                regexp:{
+						regexp:/^\d+(\.\d{1,4})?$/,
+						message:'请保留小数点后4位'
+					}
+				}
+			},
+international_shipping:{
+				validators: {//国际运费
+					stringLength: {
+	                    min: 0,
+	                    max: 100,
+	                    message: '最多100个字符'
+	                },
+	                regexp:{
+						regexp:/^\d+(\.\d{1,4})?$/,
+						message:'请保留小数点后4位'
+					}
+				}
+			},
+	international_fees:{
+				validators: {//国际杂费
+					stringLength: {
+	                    min: 0,
+	                    max: 100,
+	                    message: '最多100个字符'
+	                },
+	                regexp:{
+						regexp:/^\d+(\.\d{1,4})?$/,
+						message:'请保留小数点后4位'
+					}
+				}
+			},
+international_agency_fee:{
+				validators: {//国际代理费
+					stringLength: {
+	                    min: 0,
+	                    max: 100,
+	                    message: '最多100个字符'
+	                },
+	                regexp:{
+						regexp:/^\d+(\.\d{1,4})?$/,
+						message:'请保留小数点后4位'
+					}
+				}
+			},
+total_clearcustoms_rmb:{
+				validators: {
+					notEmpty: {
+						message: '请输入进口清关合计(RMB)'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 100,
+	                    message: '最多100个字符'
+	                },
+	                regexp:{
+						regexp:/^\d+(\.\d{1,4})?$/,
+						message:'请保留小数点后4位'
+					}
+				}
+			},
+total_clearcustoms_usd:{
+				validators: {
+						notEmpty: {
+							message: '请输入进口清关合计(RMB)'
+						},
+						stringLength: {
+		                    min: 0,
+		                    max: 100,
+		                    message: '最多100个字符'
+		                },
+		                regexp:{
+							regexp:/^\d+(\.\d{1,4})?$/,
+							message:'请保留小数点后4位'
+						}
+					}
+			},
+		statement_date:{
+			validators: {
+					notEmpty: {
+						message: '请输入账单日期'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                }
+				}
+			},
+			cost_type:{
+				validators: {
+					notEmpty: {
+						message: '请输入费用类型'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 100,
+	                    message: '最多100个字符'
+	                },
+	                regexp:{
+						regexp:/^[a-zA-Z0-9_\-\(\)\（\）\u0391-\uFFE5]{1,30}$/,
+						message:'请勿输入特殊字符'
+					}
+				}
+			},
+		freight_pay_terms:{
+			validators: {
+					notEmpty: {
+						message: '请输入运费支付方式'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 100,
+	                    message: '最多100个字符'
+	                },
+	                regexp:{
+						regexp:/^[a-zA-Z0-9_\u0391-\uFFE5]{1,30}$/,
+						message:'请勿输入特殊字符'
+					}
+				}
+			},
+			logistics_id:{
+				validators: {
+					notEmpty: {
+						message: '请选择物流公司'
+					}
+				}
+			},
+			IBMS_num:{
+				validators: {
+					notEmpty: {
+						message: '请输入IBMS号'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 100,
+	                    message: '最多100个字符'
+	                },
+	                regexp:{
+						regexp:/^[a-zA-Z0-9_\-\u0391-\uFFE5]{1,30}$/,
+						message:'请勿输入特殊字符'
+					}
+					
+				}
+			},
+			remark: {
+				stringLength: {
+                    min: 0,
+                    max: 200,
+                    message: '最多200个字符'
+                },	
+			}
+		 
+		}
+	});
+})
+.on('success.form.bv', function(e) {
+	e.preventDefault();
+	 $.post("/purchase/importfreight/saveOrUpdate", $('#defaultForm').serialize(), function(result) {
+		if (result) {
+			parent.layer.msg("保存成功", {time: 2000}, function(){
+				layer_close();
+				parent.parent.refresh_iframe();
+			});
+
+		} else {
+			parent.layer.msg('保存失败', {icon: 1});
+		}
+		
+	}); 
+});
+
+//根据内部编号带出信息
+function getMessageFrominnerNum(){
+	var innerNum = $("#import_inner_num").val();
+	$.post("/purchase/importfreight/getMessageFrominnerNum",{"innerNum":innerNum},function(result){
+		if(result.flag){
+			$("#import_name").val(result.import_name);
+			$("#trade_terms").val(result.trade_terms);
+			$("#delivery_num").val(result.main_note_num);
+			$("#gross_weight").val(result.gross_weight);
+			$("#import_num").val(result.import_num);
+		}
+	})
+}
+
+//设置自定义数据
+function setCustom(_obj){
+	var obj = $(_obj).val();
+	var name = $(_obj).attr("name");
+	var id = $(_obj).attr("id");
+	if(obj == "其他自定义"){
+		$(_obj).parent().empty().append("<input class='form-control' placeholder='自定义内容' name='"+name+"' id='"+id+"'>")
+	}
+}
+
+
+</script>
+</body>
+
+</html>

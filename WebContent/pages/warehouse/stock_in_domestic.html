@@ -62,9 +62,9 @@
 		                <div class="col-sm-1 col-xs-12 head_1">
                             <button class="btn btn-5" onclick="_import()">导入</button>
                         </div>
-                        <div class="col-sm-1 col-xs-12 head_1">
+                        <!-- <div class="col-sm-1 col-xs-12 head_1">
                             <button class="btn btn-3"  onclick="_edit1()">编辑</button>
-                        </div>
+                        </div> -->
                         <div class="col-sm-2 col-xs-6 head_1" >
 		                     <button class="btn btn-4" onclick=" _batchDelete()">删除</button>
 		                </div>
@@ -316,14 +316,6 @@ function getIdSelections() {
         return row.id;
     });
 }
-//全选、全不选
-$("#checkAll").click(function() {
-    $("input[name='sub']").prop("checked", this.checked);
-});
-$("input[name='sub']").click(function() {
-    var $subs = $("input[name='sub']");
-    $("#checkAll").prop("checked" , $subs.length == $subs.filter(":checked").length ? true :false);
-});
 //日期控件
 $(".form_datetime").datetimepicker({
     format: "yyyy-mm-dd",

@@ -52,7 +52,8 @@ public class LoginService {
 	 */
 	public static boolean saveLoginMessage(Map<String, Object> loginRecordMap){
 		Record record = new Record();
-		record.set("user_id", loginRecordMap.get("userid"));
+		Record record1=Db.findById("t_user",loginRecordMap.get("userid"));
+		record.set("user_account", record1.getStr("account"));
 		record.set("ip", loginRecordMap.get("userip"));
 		record.set("agent", loginRecordMap.get("MoblieOrPc"));
 		record.set("login_time",loginRecordMap.get("loginTime"));

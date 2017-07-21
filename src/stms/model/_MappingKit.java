@@ -25,7 +25,13 @@ public class _MappingKit {
 		arp.addMapping("t_domes_warehouse_fees", "id", DomesWarehouseFees.class);
 		arp.addMapping("t_import_freight", "id", ImportFreight.class);
 		arp.addMapping("t_import_materials", "id", ImportMaterials.class);
+		arp.addMapping("t_import_tax", "id", ImportTax.class);
+		arp.addMapping("t_import_tax_break", "id", ImportTaxBreak.class);
 		arp.addMapping("t_inter_in_warehouse", "id", InterInWarehouse.class);
+		arp.addMapping("t_inter_out_warehouse", "id", InterOutWarehouse.class);
+		arp.addMapping("t_inter_warehouse_fees_in", "id", InterWarehouseFeesIn.class);
+		arp.addMapping("t_inter_warehouse_fees_out", "id", InterWarehouseFeesOut.class);
+		arp.addMapping("t_location_comparison", "id", LocationComparison.class);
 		arp.addMapping("t_manual_import", "id", ManualImport.class);
 		arp.addMapping("t_manual_loss", "id", ManualLoss.class);
 		arp.addMapping("t_manual_product", "id", ManualProduct.class);
@@ -35,12 +41,14 @@ public class _MappingKit {
 		arp.addMapping("t_role_button", "id", RoleButton.class);
 		arp.addMapping("t_role_menu", "id", RoleMenu.class);
 		arp.addMapping("t_standard_charge_domestic", "id", StandardChargeDomestic.class);
+		arp.addMapping("t_standard_charge_international", "id", StandardChargeInternational.class);
 		arp.addMapping("t_supplier", "id", Supplier.class);
 		arp.addMapping("t_supplier_contacts", "id", SupplierContacts.class);
 		arp.addMapping("t_supplier_level", "id", SupplierLevel.class);
 		arp.addMapping("t_supplier_month_assess", "id", SupplierMonthAssess.class);
 		arp.addMapping("t_supplier_qualification", "id", SupplierQualification.class);
 		arp.addMapping("t_supplier_year_assess", "id", SupplierYearAssess.class);
+		arp.addMapping("t_table_comparison", "id", TableComparison.class);
 		arp.addMapping("t_user", "id", User.class);
 		arp.addMapping("t_user_log", "id", UserLog.class);
 	}

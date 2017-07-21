@@ -1,0 +1,1564 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>成品表体</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="../../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="../../../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="../../../dist/css/sb-admin-2.css" rel="stylesheet">
+	<link href="../../../css/admin.css" rel="stylesheet">
+	<link href="../../../resource/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+	<style type="text/css">
+		body { margin:0 15px;}
+		form { margin-top:20px;}
+		label { padding-top:6px;padding-right:0;}
+	</style>
+	
+    <!-- Custom Fonts -->
+    <link href="../../../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+<form class="form-horizontal" role="form" style="margin-top:20px;" id="defaultForm">
+	<#if im??>	
+	<div style="display: inline-block">	
+	<input hidden="" name="id" value="${im.id!}" id="id">
+     <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="import_inner_num">内部编号：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="内部编号" name="import_inner_num" id="import_inner_num" value="${im.import_inner_num!}" disabled="disabled">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="import_invoice_num">进口发票号：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="进口发票号" name="import_invoice_num" id="import_invoice_num" value="${im.import_invoice_num!}">
+        </div>
+    </div> 
+     <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="import_type">货物品种：</label>
+        <div class="col-xs-6">
+           <select style="padding-right: 2px" class="form-control" name="import_type" id="import_type" onchange="setCustom(this)">
+                <option value="">--选择货物品种--</option>
+                <option <#if im.import_type=='原材料'>selected</#if> value="原材料">原材料</option>
+                <option <#if im.import_type=='硅材料'>selected</#if> value="硅材料">硅材料</option>
+                <option <#if im.import_type=='样品'>selected</#if> value="样品">样品</option>
+                <option <#if im.import_type=='设备'>selected</#if> value="设备">设备</option>
+                <option <#if im.import_type=='设备配件'>selected</#if> value="设备配件">设备配件</option>
+                <option <#if im.import_type=='电池片'>selected</#if> value="电池片">电池片</option>
+                <#if im.import_type=='原材料' || im.import_type=='硅材料' || im.import_type=='样品' || im.import_type=='设备' ||
+                	im.import_type=='设备配件' || im.import_type=='电池片'>               	
+                <#else>
+                	<option value="${im.import_type!}" selected>${im.import_type!}</option>
+                </#if>
+                <option <#if im.import_type=='其他自定义'>selected</#if> value="其他自定义">其他自定义</option>
+           </select>                       
+        </div>
+    </div>    
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="declare_unit_price">报关单价：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="报关单价" name="declare_unit_price" id="declare_unit_price" value="${im.declare_unit_price!}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="import_total_dollar">折美元：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="折美元" name="import_total_dollar" id="import_total_dollar" value="${im.import_total_dollar!}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="gross_weight">毛重：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="毛重" name="gross_weight" id="gross_weight" value="${im.gross_weight!}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="transf_property">物权转移日期：</label>
+        <div class="col-xs-6">
+            <input class="form-control form_datetime" placeholder="物权转移日期" name="transf_property" id="transf_property" value="${im.transf_property!}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="actual_arrival_date">实际到厂日期：</label>
+        <div class="col-xs-6">
+            <input class="form-control form_datetime" placeholder="实际到厂日期" name="actual_arrival_date" id="actual_arrival_date" value="${im.actual_arrival_date!}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="main_note_num">主提运单号：</label>
+        <div class="col-xs-6">
+            <input style="padding-right: 2px" class="form-control" placeholder="申报总价" name="main_note_num" id="main_note_num" value="${im.main_note_num!}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="departure_place">起运国(地区)：</label>
+        <div class="col-xs-6">
+            <select style="padding-right: 2px" class="form-control" name="departure_place" id="departure_place" onchange="setCustom(this)">
+                <option value="">--选择起运国(地区)--</option>
+                <option <#if im.departure_place=='中国'>selected</#if> value="中国" > 中国</option>
+                <option <#if im.departure_place=='德国'>selected</#if> value="德国" > 德国</option>
+                <option <#if im.departure_place=='日本'>selected</#if> value="日本" > 日本</option>
+                <option <#if im.departure_place=='美国'>selected</#if> value="美国" > 美国</option>
+                <option <#if im.departure_place=='台湾'>selected</#if> value="台湾" > 台湾</option>
+                <option <#if im.departure_place=='英国'>selected</#if> value="英国" > 英国</option>
+                <option <#if im.departure_place=='韩国'>selected</#if> value="韩国" > 韩国</option>
+                <option <#if im.departure_place=='意大利'>selected</#if> value="意大利" > 意大利</option>
+                <option <#if im.departure_place=='越南'>selected</#if> value="越南" > 越南</option>
+                <option <#if im.departure_place=='香港'>selected</#if> value="香港" > 香港</option>
+                <option <#if im.departure_place=='马来西亚'>selected</#if> value="马来西亚" > 马来西亚</option>
+                <option <#if im.departure_place=='俄罗斯'>selected</#if> value="俄罗斯" > 俄罗斯</option>
+                <option <#if im.departure_place=='澳大利亚'>selected</#if> value="澳大利亚" > 澳大利亚</option>
+                <option <#if im.departure_place=='加拿大'>selected</#if> value="加拿大" > 加拿大</option>
+                <#if im.departure_place=='中国' || im.departure_place=='德国' || im.departure_place=='日本' || im.departure_place=='美国' ||
+                	 im.departure_place=='台湾' || im.departure_place=='英国' || im.departure_place=='韩国' || im.departure_place=='意大利' ||
+                	 im.departure_place=='越南' || im.departure_place=='香港' || im.departure_place=='马来西亚' || im.departure_place=='俄罗斯' ||
+                	 im.departure_place=='澳大利亚' || im.departure_place=='加拿大'>               	
+                <#else>
+                	<option value="${im.departure_place!}" selected>${im.departure_place!}</option>
+                </#if>
+                <option <#if im.departure_place=='其他自定义'>selected</#if> value="其他自定义" > 其他自定义</option>
+           </select> 
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="logistics_id">物流公司：</label>
+        <div class="col-xs-6">
+             <select style="padding-right: 2px" class="form-control" name="logistics_id" id="logistics_id">
+                <option value="">--请选择物流公司--</option>  
+                <#if WuLiuCompanies?? && WuLiuCompanies?size gt 0>      
+                <#list WuLiuCompanies as WuliuCompany>
+                	<option <#if im.logistics_id==WuliuCompany.id>selected</#if> value="${WuliuCompany.id}">${WuliuCompany.company_name}</option>
+                </#list>
+                </#if>
+           </select> 
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="manual_id">手册号：</label>
+        <div class="col-xs-6">
+            <select style="padding-right: 2px" class="form-control" name="manual_id" id="manual_id" onchange="getItemNumber()">
+            	<option value="">--请选择手册--</option>
+            	<#if importmanuals?? && importmanuals?size gt 0>
+            	<#list importmanuals as importmanual>
+            		<option <#if im.manual_id==importmanual.manual_id>selected</#if> value="${importmanual.manual_id}">${importmanual.manual_id}</option>
+            	</#list>
+            	</#if>
+            	<option value=""></option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="VAT">增值税：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="增值税" name="VAT" id="VAT" value="${im.VAT!}" onblur="setTotal_tax()" >
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="payment_date">支付日期：</label>
+        <div class="col-xs-6">
+            <input class="form-control form_datetime" placeholder="支付日期" name="payment_date" id="payment_date" value="${im.payment_date!}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="receipt_no">入库单(校验单)：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="入库单(校验单)" name="receipt_no" id="receipt_no" value="${im.receipt_no!}">
+        </div>
+    </div>   
+    <div class="form-group">
+        <label class="col-xs-5 control-label" for="v"></label>
+        <div class="col-xs-6">
+            <button id="v" type="submit" class="btn btn-11">　保存　</button>
+       	</div>
+    </div>
+ </div>  
+ <div style="display:inline-block;margin-bottom: 50px"> 
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="purchasing_agent">采购员：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="采购员" name="purchasing_agent" id="purchasing_agent" value="${im.purchasing_agent!}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="import_name">商品名称：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="商品名称" name="import_name" id="import_name" value="${im.import_name!}" onblur="getHScode()">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="declare_quantity">报关数量：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="报关数量" name="declare_quantity" id="declare_quantity" value="${im.declare_quantity!}" onblur="getunitprice()">
+        </div>
+    </div>
+     <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="import_total_price">总价：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="总价" name="import_total_price" id="import_total_price" value="${im.import_total_price!}" onblur="getunitprice()">
+        </div>
+    </div>
+     <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="import_num">件数：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="件数" name="import_num" id="import_num" value="${im.import_num!}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="net_weight">净重：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="净重" name="net_weight" id="net_weight" value="${im.net_weight!}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="import_date">进口日期：</label>
+        <div class="col-xs-6">
+            <input class="form-control form_datetime" placeholder="进口日期" name="import_date" id="import_date" value="${im.import_date!}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="import_code">商品编码：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="商品编码" name="import_code" id="import_code" value="${im.import_code!}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="trade_terms">贸易条款：</label>
+        <div class="col-xs-6">
+             <select style="padding-right: 2px" class="form-control" name="trade_terms" id="trade_terms" onchange="setCustom(this)">
+                <option value="">--选择贸易条款--</option>
+                <option <#if im.trade_terms=='EXW'>selected</#if> value="EXW">EXW</option>
+                <option <#if im.trade_terms=='FOB'>selected</#if> value="FOB" >FOB</option>
+                <option <#if im.trade_terms=='CFR'>selected</#if> value="CFR" >CFR</option>
+                <option <#if im.trade_terms=='CIF'>selected</#if> value="CIF" >CIF</option>
+                <option <#if im.trade_terms=='CIP'>selected</#if> value="CIP" >CIP</option>
+                <option <#if im.trade_terms=='DAP WUXI'>selected</#if> value="DAP WUXI" >DAP WUXI</option>
+                <option <#if im.trade_terms=='DAP SHANGHAI'>selected</#if> value="DAP SHANGHAI" >DAP SHANGHAI</option>
+                <option <#if im.trade_terms=='DDP'>selected</#if> value="DDP" >DDP</option>
+                <option <#if im.trade_terms=='DDU'>selected</#if> value="DDU" >DDU</option>
+                <#if im.trade_terms=='EXW' || im.trade_terms=='DAP WUXI' || im.trade_terms=='CFR' || im.trade_terms=='CIF' ||
+                	 im.trade_terms=='CIP' || im.trade_terms=='FOB' || im.trade_terms=='DAP SHANGHAI' || im.trade_terms=='DDP' ||
+                	 im.trade_terms=='DDU'>               	
+                <#else>
+                	<option value="${im.trade_terms}" selected>${im.trade_terms}</option>
+                </#if>
+                <option <#if im.trade_terms=='其他自定义'>selected</#if> value="其他自定义" >其他自定义</option>
+           </select> 
+        </div>
+    </div>   
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="loading_port">装货港：</label>
+        <div class="col-xs-6">
+            <select style="padding-right: 2px" class="form-control" name="loading_port" id="loading_port">
+                <option value="">--选择装货港--</option>
+                <option <#if im.loading_port=="境内">selected</#if> value="境内">境内</option>
+                <option <#if im.loading_port=="桃园机场">selected</#if> value="桃园机场">桃园机场</option>                
+           </select>
+        </div>
+    </div> 
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="declare_customs">申报地海关：</label>
+        <div class="col-xs-6">
+             <select style="padding-right: 2px" class="form-control" name="declare_customs" id="declare_customs">
+             	<option value="" >--请选择海关--</option>  
+                <option <#if im.declare_customs=="2201浦江海关">selected</#if> value="2201浦江海关"> 2201浦江海关</option>
+                <option <#if im.declare_customs=="2202吴淞海关">selected</#if> value="2202吴淞海关" > 2202吴淞海关</option>
+                <option <#if im.declare_customs=="2211卢湾监管">selected</#if> value="2211卢湾监管" > 2211卢湾监管</option>
+                <option <#if im.declare_customs=="2225外港海关">selected</#if> value="2225外港海关" > 2225外港海关</option>
+                <option <#if im.declare_customs=="2227普陀区站">selected</#if> value="2227普陀区站" > 2227普陀区站　</option>
+                <option <#if im.declare_customs=="2229航交办">selected</#if> value="2229航交办" > 2229航交办　</option>
+                <option <#if im.declare_customs=="2231洋山市内">selected</#if> value="2231洋山市内" > 2231洋山市内</option>
+                <option <#if im.declare_customs=="2233浦东机场">selected</#if> value="2233浦东机场" > 2233浦东机场</option>
+                <option <#if im.declare_customs=="2244上海快件">selected</#if> value="2244上海快件" > 2244上海快件</option>
+                <option <#if im.declare_customs=="2248洋山港区">selected</#if> value="2248洋山港区" > 2248洋山港区</option>
+                <option <#if im.declare_customs=="2303苏州海关">selected</#if> value="2303苏州海关" > 2303苏州海关</option>
+                <option <#if im.declare_customs=="2304无锡海关">selected</#if> value="2304无锡海关" > 2304无锡海关</option>
+                <option <#if im.declare_customs=="2305张家港关">selected</#if> value="2305张家港关" > 2305张家港关</option>
+                <option <#if im.declare_customs=="2312江阴海关">selected</#if> value="2312江阴海关" > 2312江阴海关</option>
+                <option <#if im.declare_customs=="2317禄口机办">selected</#if> value="2317禄口机办" > 2317禄口机办</option>
+                <option <#if im.declare_customs=="2327太仓海关">selected</#if> value="2327太仓海关" > 2327太仓海关</option>
+                <option <#if im.declare_customs=="2345镇江加工">selected</#if> value="2345镇江加工" > 2345镇江加工</option>
+                <option <#if im.declare_customs=="2354扬关出加">selected</#if> value="2354扬关出加" > 2354扬关出加</option>
+                <option <#if im.declare_customs=="2358苏园保税">selected</#if> value="2358苏园保税" > 2358苏园保税</option>
+                <option <#if im.declare_customs=="2365张保税港">selected</#if> value="2365张保税港" > 2365张保税港</option>             
+                <option <#if im.declare_customs=="2374锡高综保">selected</#if> value="2374锡高综保" > 2374锡高综保</option>
+                <option <#if im.declare_customs=="2991杭加工区">selected</#if> value="2991杭加工区" > 2991杭加工区</option>
+                <option <#if im.declare_customs=="5343深盐物流">selected</#if> value="5343深盐物流" > 5343深盐物流</option>
+                <option <#if im.declare_customs=="9006陕加工B">selected</#if> value="9006陕加工B" > 9006陕加工B</option>
+                <option <#if im.declare_customs=="9007西安物流">selected</#if> value="9007西安物流" > 9007西安物流</option>               
+           </select>
+        </div>
+    </div> 
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="item_no">项号：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="项号" name="item_no" id="item_no" value="${im.item_no!}">
+        </div>
+    </div> 
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="Total_tax">税款总计：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="税款总计" name="Total_tax" id="Total_tax" value="${im.Total_tax!}">
+        </div>
+    </div> 
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="return_invoice_date">税单退单日期：</label>
+        <div class="col-xs-6">
+            <input class="form-control form_datetime" placeholder="税单退单日期" name="return_invoice_date" id="return_invoice_date" value="${im.return_invoice_date!}">
+        </div>
+    </div> 
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="receipt_type">单据类型：</label>
+        <div class="col-xs-6">
+           	<select style="padding-right: 2px" class="form-control" name="receipt_type" id="receipt_type">
+                <option value="">--选择单据类型--</option>
+                <option <#if im.receipt_type=="进货">selected</#if> value="进货">进货</option>
+                <option <#if im.receipt_type=="出货">selected</#if> value="出货">出货</option>                   
+           </select>
+        </div>
+    </div>
+</div>
+<div style="display:inline-block;margin-bottom: 99px">
+	<div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="order_num">订单号：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="订单号" name="order_num" id="order_num" value="${im.order_num!}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="import_specification">规格型号：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="规格型号" name="import_specification" id="import_specification" value="${im.import_specification!}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="declare_unit">报关单位：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="报关单位" name="declare_unit" id="declare_unit" value="${im.declare_unit!}">
+        </div>
+    </div>
+     <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="currency_system">币值：</label>
+        <div class="col-xs-6">
+            <select style="padding-right: 2px" class="form-control" name="currency_system" id="currency_system" onchange="setCustom(this)">
+                <option value="">--选择币值--</option>
+                <option <#if im.currency_system=="美元">selected</#if> value="美元"> 美元</option>
+                <option <#if im.currency_system=="欧元">selected</#if> value="欧元"> 欧元</option>
+                <option <#if im.currency_system=="日元">selected</#if> value="日元"> 日元</option> 
+                <option <#if im.currency_system=="人民币">selected</#if> value="人民币"> 人民币</option>                
+                <#if im.currency_system=="美元" || im.currency_system=="欧元" || im.currency_system=="日元" || im.currency_system=="人民币" >               	
+                <#else>
+                	<option value="${im.currency_system}" selected>${im.currency_system}</option>
+                </#if> 
+                <option <#if im.currency_system=="其他自定义">selected</#if> value="其他自定义"> 其他自定义</option>                   
+           </select>
+        </div>
+    </div>
+     <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="packing_type">包装种类：</label>
+        <div class="col-xs-6" id="packing_type_head">
+            <select style="padding-right: 2px" class="form-control" name="packing_type" id="packing_type" onchange="setCustom(this)">
+                <option value="">--选择包装种类--</option>
+                <option <#if im.packing_type=="托盘">selected</#if> value="托盘"> 托盘</option>
+                <option <#if im.packing_type=="纸箱">selected</#if> value="纸箱"> 纸箱</option>
+                <option <#if im.packing_type=="木箱">selected</#if> value="木箱"> 木箱元</option> 
+                <#if im.packing_type=="托盘" || im.packing_type=="纸箱" || im.packing_type=="木箱">               	
+                <#else>
+                	<option value="${im.packing_type}" selected>${im.packing_type}</option>
+                </#if>
+                <option <#if im.packing_type=="其他自定义">selected</#if> value="其他自定义"> 其他自定义</option>                    
+           </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="supplier">供应商：</label>
+        <div class="col-xs-6">
+            <input style="padding-right: 2px" class="form-control" placeholder="供应商" name="supplier" id="supplier" value="${im.supplier!}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="expect_arrival_date">预计到货日期：</label>
+        <div class="col-xs-6">
+            <input class="form-control form_datetime" placeholder="预计到货日期" name="expect_arrival_date" id="expect_arrival_date" value="${im.expect_arrival_date!}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="declare_num">报关单号：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="报关单号" name="declare_num" id="declare_num" value="${im.declare_num!}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="transport_mode">运输方式：</label>
+        <div class="col-xs-6">
+            <select style="padding-right: 2px" class="form-control" name="transport_mode" id="transport_mode" onchange="setCustom(this)">
+                <option value="">--选择运输方式--</option>
+                <option <#if im.transport_mode=="水路运输">selected</#if> value="水路运输">水路运输</option>
+                <option <#if im.transport_mode=="公路运输">selected</#if> value="公路运输">公路运输</option>
+                <option <#if im.transport_mode=="航空运输">selected</#if> value="航空运输">航空运输</option> 
+                <option <#if im.transport_mode=="其他运输">selected</#if> value="其他运输">其他运输</option> 
+                <option <#if im.transport_mode=="物流中心">selected</#if> value="物流中心">物流中心</option> 
+                <option <#if im.transport_mode=="物流园区">selected</#if>  value="物流园区">物流园区</option> 
+                <option <#if im.transport_mode=="保税港区">selected</#if> value="保税港区">保税港区</option> 
+                <option <#if im.transport_mode=="出口加工区">selected</#if> value="出口加工区">出口加工区</option>
+                <#if im.transport_mode=="水路运输" || im.transport_mode=="公路运输" || im.transport_mode=="航空运输" || im.transport_mode=="其他运输" ||
+                	 im.transport_mode=="物流中心" || im.transport_mode=="物流园区" || im.transport_mode=="保税港区" || im.transport_mode=="出口加工区" >               	
+                <#else>
+                	<option value="${im.transport_mode}" selected>${im.transport_mode}</option>
+                </#if> 
+                <option <#if im.transport_mode=="其他自定义">selected</#if> value="其他自定义">其他自定义</option>                    
+           </select>
+        </div>
+    </div>   
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="origin_country">原产国：</label>
+        <div class="col-xs-6">
+           <select style="padding-right: 2px" class="form-control" name="origin_country" id="origin_country" onchange="setCustom(this)">
+                <option value="">--选择原产国--</option>
+                <option <#if im.origin_country=="中国">selected</#if> value="中国" >中国</option>
+                <option <#if im.origin_country=="德国">selected</#if> value="德国" >德国</option>
+                <option <#if im.origin_country=="日本">selected</#if> value="日本" >日本</option>
+                <option <#if im.origin_country=="美国">selected</#if> value="美国" >美国</option>
+                <option <#if im.origin_country=="台湾">selected</#if> value="台湾" >台湾</option>
+                <option <#if im.origin_country=="英国">selected</#if> value="英国" >英国</option>
+                <option <#if im.origin_country=="韩国">selected</#if> value="韩国" >韩国</option>
+                <option <#if im.origin_country=="意大利">selected</#if> value="意大利" >意大利</option>
+                <option <#if im.origin_country=="越南">selected</#if> value="越南" >越南</option>
+                <option <#if im.origin_country=="香港">selected</#if> value="香港" >香港</option>
+                <option <#if im.origin_country=="马来西亚">selected</#if> value="马来西亚" >马来西亚</option>
+                <option <#if im.origin_country=="俄罗斯">selected</#if> value="俄罗斯" >俄罗斯</option>
+                <option <#if im.origin_country=="澳大利亚">selected</#if> value="澳大利亚" >澳大利亚</option>
+                <option <#if im.origin_country=="加拿大">selected</#if> value="加拿大" >加拿大</option>
+                <#if im.origin_country=="中国" || im.origin_country=="德国" || im.origin_country=="日本" || im.origin_country=="美国" ||
+                	 im.origin_country=="台湾" || im.origin_country=="英国" || im.origin_country=="韩国" || im.origin_country=="意大利" ||
+                	 im.origin_country=="越南" || im.origin_country=="香港" || im.origin_country=="马来西亚" || im.origin_country=="俄罗斯" ||
+                	 im.origin_country=="澳大利亚" || im.origin_country=="加拿大">               	
+                <#else>
+                	<option value="${im.origin_country}" selected>${im.origin_country}</option>
+                </#if> 
+                <option <#if im.origin_country=="其他自定义">selected</#if> value="其他自定义" >其他自定义</option>                   
+           </select>
+        </div>
+    </div> 
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="trade_type">贸易方式：</label>
+        <div class="col-xs-6">
+            <select style="padding-right: 2px" class="form-control" name="trade_type" id="trade_type" onchange="setCustom(this)">
+                <option value="">--选择贸易方式--</option>
+                <option <#if im.trade_type=="货样广告品">selected</#if> value="货样广告品" >货样广告品</option>
+                <option <#if im.trade_type=="KJ3">selected</#if> value="KJ3" >KJ3</option>
+                <option <#if im.trade_type=="一般贸易">selected</#if> value="一般贸易" >一般贸易</option>
+                <option <#if im.trade_type=="其他进出口免费">selected</#if> value="其他进出口免费" >其他进出口免费</option>
+                <option <#if im.trade_type=="进料对口">selected</#if> value="进料对口" >进料对口</option>
+                <option <#if im.trade_type=="进料料件复出">selected</#if> value="进料料件复出" >进料料件复出</option>
+                <option <#if im.trade_type=="直接退运">selected</#if> value="直接退运" >直接退运</option>
+                <option <#if im.trade_type=="进料余料结转">selected</#if> value="进料余料结转" >进料余料结转</option>
+                <option <#if im.trade_type=="进料料件内销">selected</#if> value="进料料件内销" >进料料件内销</option>
+                <option <#if im.trade_type=="进料边角料内销">selected</#if> value="进料边角料内销" >进料边角料内销</option>
+                <#if im.trade_type=="货样广告品" || im.trade_type=="KJ3" || im.trade_type=="一般贸易" || im.trade_type=="其他进出口免费" ||
+                	 im.trade_type=="进料对口" || im.trade_type=="进料料件复出" || im.trade_type=="直接退运" || im.trade_type=="进料余料结转" ||
+                	 im.trade_type=="进料料件内销" || im.origin_country=="进料边角料内销" >               	
+                <#else>
+                	<option value="${im.trade_type}" selected>${im.trade_type}</option>
+                </#if>
+                <option <#if im.trade_type=="其他自定义">selected</#if> value="其他自定义" >其他自定义</option>                   
+           </select>
+        </div>
+    </div> 
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="tariff">关税：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="关税" name="tariff" id="tariff" value="${im.tariff!}" onblur="setTotal_tax()">
+        </div>
+    </div> 
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="margin">保证金/滞报金：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="保证金/滞报金" name="margin" id="margin" value="${im.margin!}">
+        </div>
+    </div> 
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="return_declare_date">报关单退单日期：</label>
+        <div class="col-xs-6">
+            <input class="form-control form_datetime" placeholder="报关单退单日期" name="return_declare_date" id="return_declare_date" value="${im.return_declare_date!}">
+        </div>
+    </div> 
+</div> 
+	
+	<#else>
+	<div style="display: inline-block">	
+     <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="import_inner_num">内部编号：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="内部编号" name="import_inner_num" id="import_inner_num" value="保存自动生成" disabled="disabled">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="import_invoice_num">进口发票号：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="进口发票号" name="import_invoice_num" id="import_invoice_num" value="">
+        </div>
+    </div> 
+     <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="import_type">货物品种：</label>
+        <div class="col-xs-6">
+           <select style="padding-right: 2px" class="form-control" name="import_type" id="import_type" onchange="setCustom(this)">
+                <option value="">--选择货物品种--</option>
+                <option value="原材料" >原材料</option>
+                <option value="硅材料" >硅材料</option>
+                <option value="样品" >样品</option>
+                <option value="设备" >设备</option>
+                <option value="设备配件" >设备配件</option>
+                <option value="电池片" >电池片</option>
+                <option value="其他自定义">其他自定义</option>
+           </select>                       
+        </div>
+    </div>    
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="declare_unit_price">报关单价：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="报关单价" name="declare_unit_price" id="declare_unit_price" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="import_total_dollar">折美元：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="折美元" name="import_total_dollar" id="import_total_dollar" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="gross_weight">毛重：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="毛重" name="gross_weight" id="gross_weight" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="transf_property">物权转移日期：</label>
+        <div class="col-xs-6">
+            <input class="form-control form_datetime" placeholder="物权转移日期" name="transf_property" id="transf_property" >
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="actual_arrival_date">实际到厂日期：</label>
+        <div class="col-xs-6">
+            <input class="form-control form_datetime" placeholder="实际到厂日期" name="actual_arrival_date" id="actual_arrival_date" >
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="main_note_num">主提运单号：</label>
+        <div class="col-xs-6">
+            <input style="padding-right: 2px" class="form-control" placeholder="申报总价" name="main_note_num" id="main_note_num" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="departure_place">起运国(地区)：</label>
+        <div class="col-xs-6">
+            <select style="padding-right: 2px" class="form-control" name="departure_place" id="departure_place" onchange="setCustom(this)">
+                <option value="">--选择起运国(地区)--</option>
+                <option value="中国" >中国</option>
+                <option value="德国" >德国</option>
+                <option value="日本" >日本</option>
+                <option value="美国" >美国</option>
+                <option value="台湾" >台湾</option>
+                <option value="英国" >英国</option>
+                <option value="韩国" >韩国</option>
+                <option value="意大利" >意大利</option>
+                <option value="越南" >越南</option>
+                <option value="香港" >香港</option>
+                <option value="马来西亚" >马来西亚</option>
+                <option value="俄罗斯" >俄罗斯</option>
+                <option value="澳大利亚" >澳大利亚</option>
+                <option value="加拿大" >加拿大</option>
+                <option value="其他自定义" >其他自定义</option>
+           </select> 
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="logistics_id">物流公司：</label>
+        <div class="col-xs-6">
+             <select style="padding-right: 2px" class="form-control" name="logistics_id" id="logistics_id">
+                <option value="">--请选择物流公司--</option>  
+                <#if WuLiuCompanies?? && WuLiuCompanies?size gt 0>      
+                <#list WuLiuCompanies as WuliuCompany>
+                	<option value="${WuliuCompany.id}">${WuliuCompany.company_name}</option>
+                </#list>
+                </#if>
+           </select> 
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="manual_id">手册号：</label>
+        <div class="col-xs-6">
+            <select style="padding-right: 2px" class="form-control" name="manual_id" id="manual_id" onchange="getItemNumber()">
+            	<option value="">--请选择手册--</option>
+            	<#if importmanuals?? && importmanuals?size gt 0>
+            	<#list importmanuals as importmanual>
+            		<option value="${importmanual.manual_id}">${importmanual.manual_id}</option>
+            	</#list>
+            	</#if>
+            	<option value=""></option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="VAT">增值税：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="增值税" name="VAT" id="VAT" value="" onblur="setTotal_tax()">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="payment_date">支付日期：</label>
+        <div class="col-xs-6">
+            <input class="form-control form_datetime" placeholder="支付日期" name="payment_date" id="payment_date" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="receipt_no">入库单(校验单)：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="入库单(校验单)
+            
+            " name="receipt_no" id="receipt_no" value="">
+        </div>
+    </div>   
+    <div class="form-group">
+        <label class="col-xs-5 control-label" for="v"></label>
+        <div class="col-xs-6">
+            <button id="v" type="submit" class="btn btn-11">　保存　</button>
+       	</div>
+    </div>
+ </div>  
+ <div style="display:inline-block;margin-bottom: 50px"> 
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="purchasing_agent">采购员：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="采购员" name="purchasing_agent" id="purchasing_agent" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="import_name">商品名称：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="商品名称" name="import_name" id="import_name" value="" onblur="getHScode()">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="declare_quantity">报关数量：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="报关数量" name="declare_quantity" id="declare_quantity" value="" onblur="getunitprice()">
+        </div>
+    </div>
+     <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="import_total_price">总价：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="总价" name="import_total_price" id="import_total_price" value="" onblur="getunitprice()">
+        </div>
+    </div>
+     <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="import_num">件数：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="件数" name="import_num" id="import_num" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="net_weight">净重：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="净重" name="net_weight" id="net_weight" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="import_date">进口日期：</label>
+        <div class="col-xs-6">
+            <input class="form-control form_datetime" placeholder="进口日期" name="import_date" id="import_date" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="import_code">商品编码：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="商品编码" name="import_code" id="import_code" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="trade_terms">贸易条款：</label>
+        <div class="col-xs-6">
+             <select style="padding-right: 2px" class="form-control" name="trade_terms" id="trade_terms" onchange="setCustom(this)">
+                <option value="">--选择贸易条款--</option>
+                <option value="EXW" >EXW</option>
+                <option value="FOB" >FOB</option>
+                <option value="CFR" >CFR</option>
+                <option value="CIF" >CIF</option>
+                <option value="CIP" >CIP</option>
+                <option value="DAP WUXI" >DAP WUXI</option>
+                <option value="DAP SHANGHAI" >DAP SHANGHAI</option>
+                <option value="DDP" >DDP</option>
+                <option value="DDU" >DDU</option>
+                <option value="其他自定义" >其他自定义</option>
+           </select> 
+        </div>
+    </div>   
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="loading_port">装货港：</label>
+        <div class="col-xs-6">
+            <select style="padding-right: 2px" class="form-control" name="loading_port" id="loading_port">
+                <option value="">--选择装货港--</option>
+                <option value="境内" >境内</option>               
+           </select>
+        </div>
+    </div> 
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="declare_customs">申报地海关：</label>
+        <div class="col-xs-6">
+             <select style="padding-right: 2px" style="padding-right: 2px" class="form-control" name="declare_customs" id="declare_customs">
+             	<option value="" >--请选择海关--</option>  
+                <option value="2201浦江海关">2201浦江海关</option>
+                <option value="2202吴淞海关" >2202吴淞海关</option>
+                <option value="2211卢湾监管" >2211卢湾监管</option>
+                <option value="2225外港海关" >2225外港海关</option>
+                <option value="2227普陀区站" >2227普陀区站　</option>
+                <option value="2229航交办" >2229航交办　</option>
+                <option value="2231洋山市内" >2231洋山市内</option>
+                <option value="2233浦东机场" >2233浦东机场</option>
+                <option value="2244上海快件" >2244上海快件</option>
+                <option value="2248洋山港区" >2248洋山港区</option>
+                <option value="2303苏州海关" >2303苏州海关</option>
+                <option value="2304无锡海关" >2304无锡海关</option>
+                <option value="2305张家港关" >2305张家港关</option>
+                <option value="2312江阴海关" >2312江阴海关</option>
+                <option value="2317禄口机办" >2317禄口机办</option>
+                <option value="2327太仓海关" >2327太仓海关</option>
+                <option value="2345镇江加工" >2345镇江加工</option>
+                <option value="2354扬关出加" >2354扬关出加</option>
+                <option value="2358苏园保税" >2358苏园保税</option>
+                <option value="2365张保税港" >2365张保税港</option>             
+                <option value="2374锡高综保" >2374锡高综保</option>
+                <option value="2991杭加工区" >2991杭加工区</option>
+                <option value="5343深盐物流" >5343深盐物流</option>
+                <option value="9006陕加工B" >9006陕加工B</option>
+                <option value="9007西安物流" >9007西安物流</option>               
+           </select>
+        </div>
+    </div> 
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="item_no">项号：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="请先选择手册号" name="item_no" id="item_no" value="" disabled="disabled">
+        </div>
+    </div> 
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="Total_tax">税款总计：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="税款总计" name="Total_tax" id="Total_tax" value="">
+        </div>
+    </div> 
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="return_invoice_date">税单退单日期：</label>
+        <div class="col-xs-6">
+            <input class="form-control form_datetime" placeholder="税单退单日期" name="return_invoice_date" id="return_invoice_date" value="">
+        </div>
+    </div> 
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="receipt_type">单据类型：</label>
+        <div class="col-xs-6">
+           	<select style="padding-right: 2px" class="form-control" name="receipt_type" id="receipt_type">
+                <option value="">--选择单据类型--</option>
+                <option value="进货">进货</option>
+                <option value="出货">出货</option>                   
+           </select>
+        </div>
+    </div>
+</div>
+<div style="display:inline-block;margin-bottom: 99px">
+	<div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="order_num">订单号：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="订单号" name="order_num" id="order_num" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="import_specification">规格型号：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="规格型号" name="import_specification" id="import_specification" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="declare_unit">报关单位：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="报关单位" name="declare_unit" id="declare_unit" value="">
+        </div>
+    </div>
+     <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="currency_system">币值：</label>
+        <div class="col-xs-6">
+            <select style="padding-right: 2px" class="form-control" name="currency_system" id="currency_system" onchange="setCustom(this)">
+                <option value="">--选择币值--</option>
+                <option value="美元">美元</option>
+                <option value="欧元">欧元</option>
+                <option value="日元">日元</option> 
+                <option value="人民币">人民币</option> 
+                <option value="其他自定义">其他自定义</option>                    
+           </select>
+        </div>
+    </div>
+     <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="packing_type">包装种类：</label>
+        <div class="col-xs-6" id="packing_type_head">
+            <select style="padding-right: 2px" class="form-control" name="packing_type" id="packing_type" onchange="setCustom(this)">
+                <option value="">--选择包装种类--</option>
+                <option value="托盘">托盘</option>
+                <option value="纸箱">纸箱</option>
+                <option value="木箱">木箱元</option> 
+                <option value="其他自定义">其他自定义</option>                    
+           </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="supplier">供应商：</label>
+        <div class="col-xs-6">
+            <input style="padding-right: 2px" class="form-control" placeholder="供应商" name="supplier" id="supplier" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="expect_arrival_date">预计到货日期：</label>
+        <div class="col-xs-6">
+            <input class="form-control form_datetime" placeholder="预计到货日期" name="expect_arrival_date" id="expect_arrival_date" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="declare_num">报关单号：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="报关单号" name="declare_num" id="declare_num" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="transport_mode">运输方式：</label>
+        <div class="col-xs-6">
+            <select style="padding-right: 2px" class="form-control" name="transport_mode" id="transport_mode" onchange="setCustom(this)">
+                <option value="">--选择运输方式--</option>
+                <option value="水路运输">水路运输</option>
+                <option value="公路运输">公路运输</option>
+                <option value="航空运输">航空运输</option> 
+                <option value="其他运输">其他运输</option> 
+                <option value="物流中心">物流中心</option> 
+                <option value="物流园区">物流园区</option> 
+                <option value="保税港区">保税港区</option> 
+                <option value="出口加工区">出口加工区</option> 
+                <option value="其他自定义">其他自定义</option>                    
+           </select>
+        </div>
+    </div>   
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="origin_country">原产国：</label>
+        <div class="col-xs-6">
+           <select style="padding-right: 2px" class="form-control" name="origin_country" id="origin_country" onchange="setCustom(this)">
+                <option value="">--选择原产国--</option>
+                <option value="中国" >中国</option>
+                <option value="德国" >德国</option>
+                <option value="日本" >日本</option>
+                <option value="美国" >美国</option>
+                <option value="台湾" >台湾</option>
+                <option value="英国" >英国</option>
+                <option value="韩国" >韩国</option>
+                <option value="意大利" >意大利</option>
+                <option value="越南" >越南</option>
+                <option value="香港" >香港</option>
+                <option value="马来西亚" >马来西亚</option>
+                <option value="俄罗斯" >俄罗斯</option>
+                <option value="澳大利亚" >澳大利亚</option>
+                <option value="加拿大" >加拿大</option>
+                <option value="其他自定义" >其他自定义</option>                   
+           </select>
+        </div>
+    </div> 
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="trade_type">贸易方式：</label>
+        <div class="col-xs-6">
+            <select style="padding-right: 2px" class="form-control" name="trade_type" id="trade_type" onchange="setCustom(this)">
+                 <option value="">--选择贸易方式--</option>
+                <option value="货样广告品" >货样广告品</option>
+                <option value="KJ3" >KJ3</option>
+                <option value="一般贸易" >一般贸易</option>
+                <option value="其他进出口免费" >其他进出口免费</option>
+                <option value="进料对口" >进料对口</option>
+                <option value="进料料件复出" >进料料件复出</option>
+                <option value="直接退运" >直接退运</option>
+                <option value="进料余料结转" >进料余料结转</option>
+                <option value="进料料件内销" >进料料件内销</option>
+                <option value="进料边角料内销" >进料边角料内销</option>
+                <option value="其他自定义" >其他自定义</option>                   
+           </select>
+        </div>
+    </div> 
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="tariff">关税：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="关税" name="tariff" id="tariff" value="" onblur="setTotal_tax()">
+        </div>
+    </div> 
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="margin">保证金/滞报金：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="保证金/滞报金" name="margin" id="margin" value="">
+        </div>
+    </div> 
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="return_declare_date">报关单退单日期：</label>
+        <div class="col-xs-6">
+            <input class="form-control form_datetime" placeholder="报关单退单日期" name="return_declare_date" id="return_declare_date" value="">
+        </div>
+    </div> 
+</div> 
+    </#if>
+</form>
+<!-- jQuery -->
+<script src="../../../vendor/jquery/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="../../../vendor/bootstrap/js/bootstrap.min.js"></script>
+
+<!-- Metis Menu Plugin JavaScript -->
+<script src="../../../vendor/metisMenu/metisMenu.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="../../../dist/js/sb-admin-2.js"></script>
+<script src="../../../resource/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
+<script src="../../../resource/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script> 
+<script src="../../../resource/bootstrap-datetimepicker/js/moment-with-locales.min.js"></script>
+<script src="../../../resource/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+<script src="../../../js/common/admin.js"></script>
+<script src="../../../resource/layer/layer.js"></script>
+<script type="text/javascript">
+$(".form_datetime").datetimepicker({
+	format: "yyyy-mm-dd",
+	autoclose: true,
+	todayBtn: false,
+	todayHighlight: true,
+	showMeridian: true,
+	pickerPosition: "bottom-right",
+	language: 'zh-CN',//中文，需要引用zh-CN.js包
+	startView: 2,// // 日视图
+	minView: 2,
+});
+$(function(){
+	// 表单校验
+	$('form').bootstrapValidator({
+		message: 'This value is not valid',
+		feedbackIcons: {
+			valid: 'glyphicon glyphicon-ok',
+			invalid: 'glyphicon glyphicon-remove',
+			validating: 'glyphicon glyphicon-refresh'
+		},
+		fields: {
+			purchasing_agent: {
+				validators: {
+					notEmpty: {
+						message: '请输入采购员!'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+	                regexp:{
+						regexp:/^[a-zA-Z0-9_\u0391-\uFFE5 ]{1,30}$/,
+						message:'请勿输入特殊字符'
+					}
+				}
+			},
+			order_num: {
+				validators: {
+					notEmpty: {
+						message: '请输入订单号!'
+					},
+					regexp:{
+						regexp:/^[a-zA-Z0-9_\u0391-\uFFE5 ]{1,30}$/,
+						message:'请勿输入特殊字符'
+					}
+				}
+			},
+			import_invoice_num: {
+				validators: {
+					notEmpty: {
+						message: '请输入进口发票号!'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                }
+				}
+			},
+			import_name: {
+				validators: {
+					notEmpty:{
+						message:'请输入商品名称'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                }
+				}
+			},
+			import_specification: {
+				validators: {
+					notEmpty:{
+						message:'请输入规格型号'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+				}
+			},
+			import_type: {
+				validators: {
+					notEmpty:{
+						message:'请选择货物品种'
+					}
+				}
+			},
+			declare_quantity: {	
+				validators: {
+					notEmpty:{
+						message:'请输入报关数量'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+	                regexp:{
+						regexp:/^\d+(\.\d{1,4})?$/,
+						message:'请保留小数点后4位'
+					}	
+				}
+			},
+			declare_unit: {
+				validators: {
+					notEmpty:{
+						message:'请输入报关单位'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                }
+				}
+			},
+			declare_unit_price: {
+				validators: {
+					notEmpty:{
+						message:'请输入报关单价'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+	                regexp:{
+						regexp:/^\d+(\.\d{1,4})?$/,
+						message:'请保留小数点后4位'
+					}										
+				}
+			},
+			import_total_price: {
+				validators: {
+					notEmpty:{
+						message:'请输入总价'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+	                regexp:{
+						regexp:/^\d+(\.\d{1,4})?$/,
+						message:'请保留小数点后4位'
+					}	
+				}
+			},
+			currency_system: {
+				validators: {
+					notEmpty:{
+						message:'请输入币值'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                }
+				}
+			},
+			import_total_dollar: {
+				validators: {
+					notEmpty:{
+						message:'请输入折美元金额'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+	                regexp:{
+						regexp:/^\d+(\.\d{1,4})?$/,
+						message:'请最多保留小数点后4位'
+					}	
+				}
+			},
+			import_num: {
+				validators: {
+					notEmpty:{
+						message:'请输入件数'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+	                regexp:{
+						regexp:/^[0-9]*$/,
+						message:'请输入正整数'
+					}					
+				}
+			},
+			packing_type: {				
+				validators: {
+					notEmpty:{
+						message:'请输入包装种类'
+					},
+					notEmpty:{
+						message:'请选择包装种类'
+					}
+				}
+			},
+			gross_weight: {				
+				validators: {
+					notEmpty:{
+						message:'请输入毛重'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+	                regexp:{
+						regexp:/^\d+(\.\d{1,4})?$/,
+						message:'请保留小数点后4位'
+					}	
+				}
+			},
+			net_weight: {
+				validators: {
+					notEmpty:{
+						message:'请输入净重'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+	                regexp:{
+						regexp:/^\d+(\.\d{1,4})?$/,
+						message:'请保留小数点后4位'
+					}
+				}
+			},
+			supplier: {
+				validators: {
+					notEmpty:{
+						message:'请选择供应商'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                }
+				}
+			},
+			transf_property: {
+				validators: {
+					notEmpty:{
+						message:'请选择物权转移日期'
+					}
+				}
+			},
+			import_date: {
+				validators: {
+					notEmpty:{
+						message:'请选择进口日期'
+					}
+				}
+			},
+			expect_arrival_date: {
+				validators: {
+					notEmpty:{
+						message:'请选择预计到货日期'
+					},
+				}
+			},
+			actual_arrival_date: {
+				validators: {
+					notEmpty:{
+						message:'请选择实际到厂日期'
+					},
+				}
+			},
+			import_code: {
+				validators: {
+					notEmpty:{
+						message:'请选择商品编码'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+					regexp:{
+						regexp:/^[a-zA-Z0-9_\u0391-\uFFE5 ]{1,30}$/,
+						message:'请勿输入特殊字符'
+					}
+				}
+			},
+			declare_num: {
+				validators: {
+					notEmpty:{
+						message:'请输入报关单号'
+					},
+				}
+			},
+			main_note_num: {
+				validators: {
+					notEmpty:{
+						message:'请输入主提运单号'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                }
+				}
+			},
+			trade_terms: {
+				validators: {
+					notEmpty:{
+						message:'请选择贸易条款'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                }
+				}
+			},
+			transport_mode: {
+				validators: {
+					notEmpty:{
+						message:'请输入运输方式'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                }
+				}
+			},
+			departure_place: {
+				validators: {
+					notEmpty:{
+						message:'请选择起运国(地区)'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                }
+				}
+			},
+			loading_port: {
+				validators: {
+					notEmpty:{
+						message:'请选择装货港'
+					},
+				}
+			},
+			origin_country: {
+				validators: {
+					notEmpty:{
+						message:'请选择原产国'
+					},
+				}
+			},
+			logistics_id: {
+				validators: {
+					notEmpty:{
+						message:'请选择物流公司'
+					},
+				}
+			},
+			declare_customs: {
+				validators: {
+					notEmpty:{
+						message:'请选择申报地海关'
+					},
+				}
+			},
+			trade_type: {
+				validators: {
+					notEmpty:{
+						message:'请选择贸易方式'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                }
+				}
+			},
+			manual_id: {
+				validators: {
+					notEmpty:{
+						message:'请选择手册号'
+					}
+				}
+			},
+			item_no: {
+				validators: {
+					notEmpty:{
+						message:'请输入项号'
+					}
+				}
+			},
+			tariff: {
+				validators: {
+					notEmpty:{
+						message:'请输入关税'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+	                regexp:{
+						regexp:/^\d+(\.\d{1,4})?$/,
+						message:'请保留小数点后4位'
+					}
+				}
+			},
+			VAT: {
+				validators: {
+					notEmpty:{
+						message:'请输入增值税'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+	                regexp:{
+						regexp:/^\d+(\.\d{1,4})?$/,
+						message:'请保留小数点后4位'
+					}
+				}
+			},
+			Total_tax: {
+				validators: {
+					notEmpty:{
+						message:'请输入税款总计'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+	                regexp:{
+						regexp:/^\d+(\.\d{1,4})?$/,
+						message:'请保留小数点后4位'
+					}
+				}
+			},
+			margin: {//保证金
+				validators: {
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+	                regexp:{
+						regexp:/^\d+(\.\d{1,4})?$/,
+						message:'请保留小数点后4位'
+					}
+				}
+			},
+			payment_date: {
+				validators: {
+					regexp:{
+						regexp:/^[a-zA-Z0-9_\-\u0391-\uFFE5 ]{1,30}$/,
+						message:'请勿输入特殊字符'
+					}
+				}
+			},
+			return_invoice_date: {
+				validators: {
+					notEmpty:{
+						message:'请选择税单退单日期'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                }
+				}
+			},
+			return_declare_date: {
+				validators: {
+					notEmpty:{
+						message:'请选择报关单退单日期'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                }
+				}
+			},
+			receipt_no: {
+				validators: {
+					notEmpty:{
+						message:'请输入入库单号(校验单)'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+	                regexp:{
+						regexp:/^[a-zA-Z0-9_\u0391-\uFFE5 ]{1,30}$/,
+						message:'请勿输入特殊字符'
+					}
+				}
+			},
+			receipt_type: {
+				validators: {
+					notEmpty:{
+						message:'请输入单据类型'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                }
+				}
+			},
+		}
+	});
+})
+.on('success.form.bv', function(e) {
+	e.preventDefault();
+	 $.post("/purchase/importedmaterials/saveimportedmaterials", $('#defaultForm').serialize(), function(result) {
+		if (result.result) {
+			if(result.import_inner_num!=null){
+				parent.layer.msg("保存成功<br>"+"内部编号为:"+result.import_inner_num, {time: 3000}, function(){
+					layer_close();
+					parent.parent.refresh_iframe();
+				});
+			}else{
+				parent.layer.msg("保存成功", {time: 2000}, function(){
+					layer_close();
+					parent.parent.refresh_iframe();
+				});
+			}
+		} else {
+			parent.layer.msg('保存失败', {icon: 1});
+		}
+		
+	}); 
+});
+
+//根据总价和数量计算单价
+function getunitprice(){
+ 	var import_total_price = $("#import_total_price").val();
+	var declare_quantity = $("#declare_quantity").val();	
+	if((import_total_price!=null)&&(import_total_price!="")&&(declare_quantity!=null)&&(declare_quantity!="")){
+		var declare_unit_price =parseFloat(import_total_price)/parseFloat(declare_quantity);
+		$("#declare_unit_price").val(declare_unit_price.toFixed(4));
+	}
+}
+
+//根据商品名称自动补全商品编码
+function getHScode(){
+	getItemNumber();
+	var import_name = $.trim($("#import_name").val());
+	$.post("/purchase/importedmaterials/getHScode",{"import_name":import_name},function(result){
+		if(result.flag){
+			$("#import_code").val(result.import_code);
+		}else{
+			$("#import_code").val("");
+		}
+	},"JSON")
+}
+
+//根据商品名称以及手册号带出项号
+function getItemNumber(){
+	var import_name = $.trim($("#import_name").val());
+	var manual_id = $("#manual_id").val();
+	if(manual_id!=""){//现有手册号才可以有项号
+		$("#item_no").removeAttr("disabled");
+		$("#item_no").attr("placeholder","项号");
+	}else{
+		$("#item_no").attr("disabled","disabled");
+		$("#item_no").attr("placeholder","先选择手册号");
+	}
+	$.post("/purchase/importedmaterials/getItemNumber",{"import_name":import_name,"manual_id":manual_id},function(result){
+		if(result.flag){
+			$("#item_no").val(result.itemnumber);
+		}else{
+			$("#item_no").val("");
+		}
+	},"JSON")
+}
+
+//税款总计
+function setTotal_tax(){
+	var tariff =$.trim($("#tariff").val());
+	var VAT = $.trim($("#VAT").val());
+	if(tariff!=null&&tariff!=""&&VAT!=null&&VAT!=""){
+		var Total_tax = parseFloat(tariff) + parseFloat(VAT);
+		$("#Total_tax").val(Total_tax);
+	}
+}
+
+//设置自定义数据
+function setCustom(_obj){
+	var obj = $(_obj).val();
+	var name = $(_obj).attr("name");
+	var id = $(_obj).attr("id");
+	if(obj == "其他自定义"){
+		$(_obj).parent().empty().append("<input class='form-control' placeholder='自定义内容' name='"+name+"' id='"+id+"'>")
+	}
+}
+
+
+</script>
+</body>
+
+</html>

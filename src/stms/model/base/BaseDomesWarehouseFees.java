@@ -135,13 +135,13 @@ public abstract class BaseDomesWarehouseFees<M extends BaseDomesWarehouseFees<M>
 		return get("loading_fees");
 	}
 
-	public M setOutDrayateTyepQuantity(java.lang.String outDrayateTyepQuantity) {
-		set("out_drayate_tyep_quantity", outDrayateTyepQuantity);
+	public M setOutDrayateTypeQuantity(java.lang.String outDrayateTypeQuantity) {
+		set("out_drayate_type_quantity", outDrayateTypeQuantity);
 		return (M)this;
 	}
 
-	public java.lang.String getOutDrayateTyepQuantity() {
-		return get("out_drayate_tyep_quantity");
+	public java.lang.String getOutDrayateTypeQuantity() {
+		return get("out_drayate_type_quantity");
 	}
 
 	public M setOutDrayage(java.math.BigDecimal outDrayage) {

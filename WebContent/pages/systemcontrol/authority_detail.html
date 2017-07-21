@@ -7,7 +7,7 @@
     <link href="../../../dist/css/sb-admin-2.css" rel="stylesheet">
     <link href="../../../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="../../../css/admin.css" rel="stylesheet" type="text/css">
-	<link rel="stylesheet" type="text/css" href="../../resource/zTree/css/zTreeStyle/zTreeStyle.css" />
+	<link rel="stylesheet" type="text/css" href="../../../resource/zTree/css/zTreeStyle/zTreeStyle.css" />
     <style>
         label{padding-right: 0;padding-top: 6px}
     </style>
@@ -17,7 +17,7 @@
     	<div style="width: 100%;">
     		<form class="form-horizontal" role="form" style="margin-top: 20px" id="defaultForm">
                 <#if role??>
-                <div class="form-group">
+                <div class="form-group">             
                 <input hidden id="roleId" type="text" name="roleId" value="${role.id}"/>
                 </div>
                 <input hidden id="menusId" type="text" name="menusId" value="${role.menus_id}"/>

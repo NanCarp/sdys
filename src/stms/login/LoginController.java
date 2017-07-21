@@ -113,9 +113,11 @@ public class LoginController extends Controller{
 					//获取全局application对象
 					ServletContext application = JFinal.me().getServletContext();
 					//判断sessionMap是否存在
+					System.out.println(application.getAttribute("sessionMap"));
 					if(application.getAttribute("sessionMap")!=null){
 						boolean kkit = true;
 						Map sessionMap = (Map) application.getAttribute("sessionMap");
+						System.out.println(sessionMap);
 						Set<String> keys = sessionMap.keySet();
 						for(String key:keys){
 							System.out.println(key);
@@ -123,6 +125,7 @@ public class LoginController extends Controller{
 								if(!getSession().getId().equals(sessionMap.get(key))){
 									MySessionContext myc = MySessionContext.getInstance();
 									HttpSession sess = myc.getSession((String)sessionMap.get(key));
+									System.out.println(sess);
 									if(sess!=null){
 										sess.removeAttribute("admin");
 									}	
@@ -203,7 +206,6 @@ public class LoginController extends Controller{
 								Map sessionMap = (Map) application.getAttribute("sessionMap");
 								Set<String> keys = sessionMap.keySet();
 								for(String key:keys){
-									System.out.println(key);
 									if(key.equals(username)){
 										if(!getSession().getId().equals(sessionMap.get(key))){
 											MySessionContext myc = MySessionContext.getInstance();
@@ -255,18 +257,22 @@ public class LoginController extends Controller{
 				msg = "登录成功";
 				
 				//单点登录
-				ServletContext application = JFinal.me().getServletContext();			
+				ServletContext application = JFinal.me().getServletContext();
+				System.out.println(application.getAttribute("sessionMap"));
 				if(application.getAttribute("sessionMap")!=null){
 					boolean kkit = true;
 					Map sessionMap = (Map) application.getAttribute("sessionMap");
 					Set<String> keys = sessionMap.keySet();
+					System.out.println(keys);
 					for(String key:keys){
+						System.out.println(key);
 						if(key.equals(username)){
 							if(!getSession().getId().equals(sessionMap.get(key))){
 								MySessionContext myc = MySessionContext.getInstance();
+								System.out.println((String)sessionMap.get(key));
 								HttpSession sess = myc.getSession((String)sessionMap.get(key));
 								System.out.println(sess);
-								System.out.println(getSession());								
+								System.out.println(getSession().getId());								
 								if(sess!=null){
 									sess.removeAttribute("admin");
 								}								
@@ -391,17 +397,21 @@ public class LoginController extends Controller{
 	 */
 	public void loginOut(){		
 		ServletContext application = JFinal.me().getServletContext();
-		Map sessionMap = (Map) application.getAttribute("sessionMap");
+		//Map sessionMap = (Map) application.getAttribute("sessionMap");
 		Record admin = getSessionAttr("admin");
-		String username = admin.getStr("account");
-		sessionMap.remove(username);
-		application.setAttribute("sessionMap", sessionMap);
-		Map<String, Object> loginRecordMap = (Map<String, Object>) getSession().getAttribute("loginRecordMap");
-		if(loginRecordMap!=null){
-			System.out.println(loginRecordMap);
-			boolean b = LoginService.saveLoginMessage(loginRecordMap);
+		if(admin!=null){
+			String username = admin.getStr("account");
+			//if(sessionMap!=null){
+				//sessionMap.remove(username);
+			//}
+			//application.setAttribute("sessionMap", sessionMap);
+			Map<String, Object> loginRecordMap = (Map<String, Object>) getSession().getAttribute("loginRecordMap");
+			if(loginRecordMap!=null){
+				System.out.println(loginRecordMap);
+				boolean b = LoginService.saveLoginMessage(loginRecordMap);
+			}
+			getSession().removeAttribute("admin");			
 		}
-		getSession().removeAttribute("admin");;
-		redirect("/pages/login");
+			redirect("/pages/login");	
 	}
 }

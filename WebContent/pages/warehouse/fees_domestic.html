@@ -56,6 +56,9 @@
 						<div class="col-sm-2 col-xs-6 head_1">
 		                    <button class="btn btn-success" onclick="_add()">新增</button>
 		                </div>
+		                <div class="col-sm-1 col-xs-12 head_1">
+                            <button class="btn btn-3"  onclick="_edit1()">编辑</button>
+                        </div>
                         <div class="col-sm-2 col-xs-6 head_1" >
 		                     <button class="btn btn-4" onclick=" _batchDelete()">删除</button>
 		                </div>
@@ -110,7 +113,6 @@ function doQuery(){
         var layer = layui.layer;
         
         var company_name = $.trim($('#company_name').val());
-        var material_no = $.trim($('#material_no').val());
         if($.trim($('#company_name').val())!=''){
             var reg = /^[a-zA-Z0-9_\u0391-\uFFE5 ]{1,30}$/;
             if(!reg.test($('#company_name').val())){
@@ -296,6 +298,18 @@ function _edit(id){
 // 新增
 function _add(){
 	open_window('新增费用明细（国内）','/warehouse/feesDomestic/getRecord', 900, 390);
+}
+function _edit1(){
+    // 获取选中记录 id
+    var id = getIdSelections();
+    // 如果没有选择，提示勾选至少一条数据
+    if (id.length == 0) {
+        layer.msg('请选择一条记录', {time: 2000});
+    } else if (id.length == 1){
+        _edit(id);
+    } else {
+        layer.msg('最多选择选择一条记录', {time: 2000});
+    }
 }
 // 批量删除
 function _batchDelete(){

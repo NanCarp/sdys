@@ -69,7 +69,34 @@ public class CompanyService {
 			public boolean run() throws SQLException {
 				// TODO Auto-generated method stub
 				for(String id:allid){
-					result = Db.deleteById("t_company", "id", id);		
+					/*
+					//删除公司对应资质管理
+					Db.update("delete from t_supplier_qualification where supplier_id = ?",id);
+					//删除公司对应信息管理
+					Db.update("delete from t_supplier where supplier_id = ?",id);
+					//删除公司对用联系人信息
+					Db.update("delete from t_supplier_contacts where supplier_id = ?",id);
+					//删除公司对应月度考核
+					Db.update("delete from t_supplier_month_assess where supplier_id = ?",id);
+					//删除公司年度考核
+					Db.update("delete from t_supplier_year_assess where supplier_id = ?",id);
+					
+					//删除公司所对应的部门
+					 Db.update("delete from t_department where company_id = ?",id);
+					 //删除公司所对应的角色权限
+					 List<Record> list = Db.find("select id from t_role where company_id = ?", id);
+					 for(Record record:list){
+						 Db.deleteById("t_role_button", "role_id", record.getInt("id"));
+						 Db.deleteById("t_role_menu", "role_id",record.getInt("id"));
+					 }
+					 
+					 //删除公司对应的用户
+					 Db.update("delete from t_user where company_id = ?",id);
+					//删除公司对应的角色
+					 Db.update("delete from t_role where company_id = ?", id);
+					 */
+					 //删除公司
+					 result = Db.deleteById("t_company", "id", id);
 					}
 				return result;
 			}
