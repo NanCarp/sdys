@@ -64,7 +64,7 @@ public class StockInDomesticService {
     */
     public static boolean hasOtherBusiness(String batchNo, String trayNo) {
         boolean flag = false;
-        String sql = "SELECT COUNT(*) FROM t_domes_out_warehouse "
+        String sql = "SELECT * FROM t_domes_out_warehouse "
                 + " WHERE batch_no = ? OR tray_no = ? ";
         flag = Db.find(sql, batchNo, trayNo).size() > 0;
         return flag;
@@ -78,7 +78,7 @@ public class StockInDomesticService {
     * @author liyu
     */
     public static boolean hasOtherBusiness(String id) {
-        Record record = Db.findById("t_domes_out_warehouse", id);
+        Record record = Db.findById("t_domes_in_warehouse", id);
         String batchNo = record.getStr("batch_no");
         String trayNo = record.getStr("tray_no");
         return hasOtherBusiness(batchNo, trayNo);
@@ -213,9 +213,18 @@ public class StockInDomesticService {
         return matcher.find();
     }
 
-
-
-
+    /** 
+    * @Title: getCompanyList 
+    * @Description: 物流公司列表
+    * @return List<Record>
+    * @author liyu
+    */
+    public static List<Record> getCompanyList() {
+        String sql = "SELECT *  " +
+                "FROM t_company " +
+                "WHERE state = 1 " ;
+        return Db.find(sql);
+    }
 
     
 }

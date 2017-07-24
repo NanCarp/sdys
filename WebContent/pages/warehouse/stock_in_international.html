@@ -169,7 +169,7 @@ var TableInit = function () {
             	checkbox: true,
             	formatter:stateFormatter        	
             	
-            },{
+            }, {
             	field:"SerialNumber",
             	title:'序号',
             	formatter:function(value,row,index){
@@ -226,8 +226,8 @@ var TableInit = function () {
             maxrows: params.limit,
             search: params.search,
            	in_date: $("#in_date").val(),
-           	company_name: $("#company_name").val(),
-           	material_no: $("#material_no").val(),
+           	company_name: $.trim($("#company_name").val()),
+           	material_no: $.trim($("#material_no").val()),
         };
         return temp;
     };
@@ -247,7 +247,7 @@ var ButtonInit = function () {
 
 // 编辑
 function _edit(id){
-	open_window('编辑入库明细（国际）','/warehouse/stockInInternational/getStockInInternational/' + id, 760, 360);
+	open_window('编辑入库明细（国际）','/warehouse/stockInInternational/getStockInInternational/' + id, 760, 410);
 }
 // 新增
 function _add(){

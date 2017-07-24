@@ -36,6 +36,7 @@ public class StockInInternationalService {
         if (material_no != null && !"".equals(material_no)) {
             sql += " AND in_material_no like '%" + material_no + "%'";
         }
+        sql += " ORDER BY in_date DESC ";
         
         return Db.paginate(pageindex, pagelimit, "SELECT * ", sql);
     }
@@ -64,7 +65,7 @@ public class StockInInternationalService {
     */
     public static boolean hasOtherBusiness(String batchNo, String trayNo) {
         boolean flag = false;
-        String sql = "SELECT COUNT(*) FROM t_inter_out_warehouse "
+        String sql = "SELECT * FROM t_inter_out_warehouse "
                 + " WHERE batch_no = ? OR tray_no = ? ";
         flag = Db.find(sql, batchNo, trayNo).size() > 0;
         return flag;
@@ -78,9 +79,9 @@ public class StockInInternationalService {
     * @author liyu
     */
     public static boolean hasOtherBusiness(String id) {
-        Record record = Db.findById("t_inter_out_warehouse", id);
-        String batchNo = record.getStr("batch_no");
-        String trayNo = record.getStr("tray_no");
+        Record record = Db.findById("t_inter_in_warehouse", id);
+        String batchNo = record.getStr("in_batch_no");
+        String trayNo = record.getStr("in_tray_no");
         return hasOtherBusiness(batchNo, trayNo);
     }
     
@@ -126,7 +127,7 @@ public class StockInInternationalService {
                 //导入excel返回结果，true导入正确，false导入错误
                 boolean result = true;
                 System.out.println(list.get(0).length);
-                if(list.get(0).length!=10){
+                if(list.get(0).length!=11){
                     session.setAttribute("ErrorFile",true);
                     result = false;
                 } else {
@@ -141,42 +142,44 @@ public class StockInInternationalService {
                         }
                         try {
                             Record record = new Record();
+                            // 集装箱号
+                            record.set("in_container_no", strings[0]);
                             // 日期
-                            record.set("in_date", strings[0]);
+                            record.set("in_date", strings[1]);
                             // 库位
-                            record.set("in_storage_location", strings[1]);
+                            record.set("in_storage_location", strings[2]);
                             // 物流公司名称
-                            record.set("in_company_name", strings[2]);
+                            record.set("in_company_name", strings[3]);
                             // 物料号
-                            if (!"".equals(strings[3])) {
-                                record.set("in_material_no", strings[3]);
+                            if (!"".equals(strings[4])) {
+                                record.set("in_material_no", strings[4]);
                             }
                             // 物料描述
-                            if (!"".equals(strings[4])) {
-                                record.set("in_material", strings[4]);
+                            if (!"".equals(strings[6])) {
+                                record.set("in_material", strings[5]);
                             }
                             // 批次号
-                            record.set("in_batch_no", strings[5]);
+                            record.set("in_batch_no", strings[6]);
                             // 托盘号
-                            record.set("in_tray_no", strings[6]);
+                            record.set("in_tray_no", strings[7]);
                             // 数量
-                            if (!"".equals(strings[7])) {
-                                record.set("in_quantity", strings[7]);
+                            if (!"".equals(strings[8])) {
+                                record.set("in_quantity", strings[8]);
                             }
                             // 托盘数量，默认 1 托
-                            if (!"".equals(strings[8])) {
-                                record.set("in_tray_quantity", strings[8]);
+                            if (!"".equals(strings[9])) {
+                                record.set("in_tray_quantity", strings[9]);
                             } else {
                                 record.set("in_tray_quantity", 1);
                             }
                             // 组件功率
-                            if (!"".equals(strings[9])) {
-                                record.set("in_module_power", strings[9]);
+                            if (!"".equals(strings[10])) {
+                                record.set("in_module_power", strings[10]);
                             }
                      
                             // 存在则更新，否则新增
                             Record recordDB = Db.findFirst("SELECT * FROM t_inter_in_warehouse  WHERE in_batch_no = ? OR in_tray_no = ? ", 
-                                    strings[5], strings[6]);
+                                    strings[6], strings[7]);
                             if (recordDB != null) { // 更新
                                 record.set("id", recordDB.getInt("id"));
                                 Db.update("t_inter_in_warehouse", record);
@@ -213,6 +216,18 @@ public class StockInInternationalService {
         return matcher.find();
     }
 
+    /** 
+    * @Title: getCompanyList 
+    * @Description: 物流公司列表
+    * @return List<Record>
+    * @author liyu
+    */
+    public static List<Record> getCompanyList() {
+        String sql = "SELECT *  " +
+                "FROM t_company " +
+                "WHERE state = 1 " ;
+        return Db.find(sql);
+    }
 
 
 

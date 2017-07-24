@@ -29,7 +29,7 @@ public class StockInAndOutDomesticService {
                 + " LEFT JOIN t_domes_out_warehouse AS b "
                 + " ON a.batch_no = b.batch_no "
                 + " LEFT JOIN t_standard_charge_domestic AS c "
-                + " ON DATE_FORMAT(a.in_date,'%Y%m') = c.period AND a.company_name = c.company_name "
+                + " ON DATE_FORMAT(a.in_date,'%Y%m') = c.period AND a.storage_location = c.location "
                 + " WHERE 1 = 1";
         
         if (company_name != null && !"".equals(company_name)) {

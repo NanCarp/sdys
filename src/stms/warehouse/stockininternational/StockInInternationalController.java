@@ -64,6 +64,10 @@ public class StockInInternationalController extends Controller {
             Record stockInInternational = Db.findById("t_inter_in_warehouse", id);
             setAttr("stockInInternational", stockInInternational);
         }
+        
+        // 物流公司列表
+        List<Record> companyList = StockInInternationalService.getCompanyList();
+        setAttr("companyList", companyList);
 
         render("stock_in_international_detail.html");
     }

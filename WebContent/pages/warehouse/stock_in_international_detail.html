@@ -42,7 +42,7 @@
 <body>
 <form class="form-horizontal" role="form" style="margin-top:20px;" id="defaultForm">
 	<div class="container">
-		<#if StockInInternational??>
+		<#if stockInInternational??>
 		<input type="hidden" name="id" value="${stockInInternational.id}">
 		<div class="col-xs-6">
 		    <div class="form-group">
@@ -60,13 +60,25 @@
             <div class="form-group">
                 <label class="col-xs-6 control-label text-right" for="in_storage_location">库位：</label>
                 <div class="col-xs-6">
-                    <input class="form-control" placeholder="库位" name="in_storage_location" id="in_storage_location" value="${stockInInternational.in_storage_location!}">
+                    <select class="form-control" name="in_storage_location" id="in_storage_location">
+                        <option value="">库位</option>
+                        <option value="亚龙" <#if stockInInternational.in_storage_location == "亚龙">selected</#if> >亚龙</option>
+                        <option value="Ordin" <#if stockInInternational.in_storage_location == "Ordin">selected</#if> >Ordin</option>
+                    </select>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-xs-6 control-label text-right" for="in_company_name">物流公司名称：</label>
                 <div class="col-xs-6">
-                    <input class="form-control" placeholder="物流公司名称" name="in_company_name" id="in_company_name" value="${stockInInternational.in_company_name!}">
+                    <!-- <input class="form-control" placeholder="物流公司名称" name="in_company_name" id="in_company_name" value="${stockInInternational.in_company_name!}"> -->
+                    <select class="form-control" name="in_company_name" id="in_company_name">
+                        <option value="">物流公司</option>
+                        <#if companyList?? && companyList?size gt 0>
+                        <#list companyList as company>
+                        <option value="${stockInInternational.in_company_name!}" <#if company.company_name == stockInInternational.in_company_name >selected</#if> >${company.company_name}</option>
+                        </#list>
+                        </#if>
+                    </select>
                 </div>
             </div>
             <div class="form-group">
@@ -134,7 +146,11 @@
             <div class="form-group">
                 <label class="col-xs-6 control-label text-right" for="in_storage_location">库位：</label>
                 <div class="col-xs-6">
-                    <input class="form-control" placeholder="库位" name="in_storage_location" id="in_storage_location">
+                    <select class="form-control" name="in_storage_location" id="in_storage_location">
+                        <option value="">库位</option>
+                        <option value="亚龙">亚龙</option>
+                        <option value="Ordin">Ordin</option>
+                    </select>
                 </div>
             </div>
             <div class="form-group">
@@ -267,15 +283,6 @@ $(function(){
                     notEmpty: {
                         message: '不能为空!'
                     },
-                    regexp: {
-                        regexp: /^[a-zA-Z0-9_ ]{1,}$/,
-                        message: '请输入正确的库位'
-                    },
-                    stringLength: {
-                        min: 0,
-                        max: 20,
-                        message: '最多20个字符'
-                    }
                 }
             },
             "in_company_name": {

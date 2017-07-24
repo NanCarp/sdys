@@ -186,4 +186,17 @@ public class StockOutDomesticService {
         Matcher matcher = pattern.matcher(str);
         return matcher.find();
     }
+    
+    /** 
+    * @Title: getCompanyList 
+    * @Description: 物流公司列表
+    * @return List<Record>
+    * @author liyu
+    */
+    public static List<Record> getCompanyList() {
+        String sql = "SELECT *  " +
+                "FROM t_company " +
+                "WHERE state = 1 " ;
+        return Db.find(sql);
+    }
 }

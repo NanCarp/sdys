@@ -64,6 +64,10 @@ public class StockInDomesticController extends Controller {
             Record stockInDomestic = Db.findById("t_domes_in_warehouse", id);
             setAttr("stockInDomestic", stockInDomestic);
         }
+        
+        // 物流公司列表
+        List<Record> companyList = StockInDomesticService.getCompanyList();
+        setAttr("companyList", companyList);
 
         render("stock_in_domestic_detail.html");
     }
