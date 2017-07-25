@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -101,15 +102,25 @@ public class QualityController extends Controller {
 	* @return void
 	* @throws 
 	*/
-	/*public void saveQuality() throws Exception{
+	public void saveQualitySync() throws Exception{
 	    // 资质文件
-		UploadFile file = getFile();
-		if (file != null){
-
+		List<UploadFile> fileList = null;
+		
+		try {
+		    fileList = getFiles();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        String originalName = file.getFileName();
-        String newName = PropKit.get("uploadPath")+"temp/" + originalName;
-        file.getFile().renameTo(new File(newName));
+		
+		String fileNames = "";
+		if (fileList != null) {
+		    for (UploadFile file : fileList) {
+		        Map<String, Object> responseMsg = QualityService.saveFile(file);
+		        fileNames += responseMsg.get("fileName").toString() + ",";
+		        fileNames = fileNames.substring(0, fileNames.length() - 1);
+		    }
+		}
+        
 		// 资质 id
 		Integer id = getParaToInt("id", null);
 		// 货代名称
@@ -133,8 +144,6 @@ public class QualityController extends Controller {
 		record.set("short_name", abbreviation);
 		record.set("state", state);
 
-		record.set("review_file", originalName);
-
 		record.set("remark", remark);
 		// 修改时间
 		Date now = new Date();
@@ -144,19 +153,25 @@ public class QualityController extends Controller {
 		if (id != null) {
 			record.set("id", id);
 			result = Db.update("t_supplier_qualification", record);
+			
+			Record a = Db.findById("t_supplier_qualification", id);
+			fileNames = a.getStr("review_file") + "," + fileNames;
+			
 		} else {
 			// 创建时间
 			record.set("create_time", now);
 			// 注册代码
 			String registrationCode = "123abc";
 			record.set("registration_code", registrationCode);
+			// 附件
+			record.set("review_file", fileNames);
 
 			result = Db.save("t_supplier_qualification", record);
 
 		}
 
 		renderJson(result);
-	}*/
+	}
     public void saveQuality() {
         // 资质 id
         Integer id = getParaToInt("id", null);

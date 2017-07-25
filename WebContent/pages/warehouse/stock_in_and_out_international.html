@@ -200,7 +200,10 @@ var TableInit = function () {
                 title: '托盘数量'
             }, {
                 field: 'delivery_no',
-                title: '出库单号'
+                title: '出库单号',
+                formatter: function(value,row,index){
+                    return value == null ? "未出" : value;
+                    }
             }, {
                 field: 'invoice_no',
                 title: '发票号'
@@ -214,8 +217,11 @@ var TableInit = function () {
                 field: 'customer_invoice_no',
                 title: '客户发票号'
             }, {
-                field: 'out_date',
-                title: '日期'
+                field: 'out_date2',
+                title: '日期',
+                formatter: function(value,row,index){
+                    return value.substring(0, 10);
+                    }
             }, {
                 field: 'material_no',
                 title: '物料号'
@@ -253,8 +259,11 @@ var TableInit = function () {
                 field: 'retention_days',
                 title: '滞留天数'
             }, {
-                field: 'warehouse_fee',
-                title: '仓储费'
+                title: '仓储费',
+                formatter:function(value,row,index){
+                    var warehouse_fees = row.amount * row.retention_days;
+                    return warehouse_fees == 0 ? 0 : row.currency + warehouse_fees;
+                }
             }, {
             	field:'opt',
             	title:'操作',

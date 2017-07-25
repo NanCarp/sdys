@@ -98,7 +98,7 @@ public class StockOutInternationalService {
                 //导入excel返回结果，true导入正确，false导入错误
                 boolean result = true;
                 System.out.println(list.get(0).length);
-                if(list.get(0).length!=11){
+                if(list.get(0).length!=15){
                     session.setAttribute("ErrorFile",true);
                     result = false;
                 } else {
@@ -143,10 +143,18 @@ public class StockOutInternationalService {
                             } else {
                                 record.set("out_tray_quantity", 1);
                             }
+                            // 发票号
+                            record.set("invoice_no", strings[10]);
                             // 组件功率
                             if (!"".equals(strings[10])) {
-                                record.set("module_power", strings[10]);
+                                record.set("module_power", strings[11]);
                             }
+                            // 实际客户
+                            record.set("customer", strings[12]);
+                            // 外库通知单号
+                            record.set("notice_no", strings[13]);
+                            // 客户发票号
+                            record.set("customer_invoice_no", strings[14]);
                      
                             // 存在则更新，否则新增
                             Record recordDB = Db.findFirst("SELECT * FROM t_inter_out_warehouse  WHERE batch_no = ? OR tray_no = ? ", 
@@ -185,5 +193,18 @@ public class StockOutInternationalService {
         Pattern pattern = Pattern.compile("[`~!@#$%^&*()+=|{}':;',\\[\\]<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]");
         Matcher matcher = pattern.matcher(str);
         return matcher.find();
+    }
+    
+    /** 
+    * @Title: getCompanyList 
+    * @Description: 物流公司列表
+    * @return List<Record>
+    * @author liyu
+    */
+    public static List<Record> getCompanyList() {
+        String sql = "SELECT *  " +
+                "FROM t_company " +
+                "WHERE state = 1 " ;
+        return Db.find(sql);
     }
 }

@@ -42,25 +42,39 @@
 <body>
 <form class="form-horizontal" role="form" style="margin-top:20px;" id="defaultForm">
 	<div class="container">
-		<#if StockOutInternational??>
+		<#if stockOutInternational??>
 		<input type="hidden" name="id" value="${stockOutInternational.id}">
 		<div class="col-xs-6">
             <div class="form-group">
-                <label class="col-xs-6 control-label text-right" for="in_date">日期：</label>
+                <label class="col-xs-6 control-label text-right" for="delivery_no">出库单号：</label>
                 <div class="col-xs-6">
-                    <input class="form-control form_datetime" placeholder="日期" name="in_date" id="in_date" value="${stockOutInternational.out_date!}">
+                    <input class="form-control" placeholder="出库单号" name="delivery_no" id="delivery_no" value="${stockOutInternational.delivery_no!}" readonly>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-6 control-label text-right" for="out_date">日期：</label>
+                <div class="col-xs-6">
+                    <input class="form-control form_datetime" placeholder="日期" name="out_date" id="out_date" value="${stockOutInternational.out_date!}">
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-xs-6 control-label text-right" for="storage_location">库位：</label>
                 <div class="col-xs-6">
-                    <input class="form-control" placeholder="库位" name="storage_location" id="storage_location" value="${stockOutInternational.storage_location!}">
+                    <input class="form-control" placeholder="库位" name="storage_location" id="storage_location" value="${stockOutInternational.storage_location!}" readonly>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-xs-6 control-label text-right" for="company_name">物流公司名称：</label>
                 <div class="col-xs-6">
-                    <input class="form-control" placeholder="物流公司名称" name="company_name" id="company_name" value="${stockOutInternational.company_name!}">
+                    <!-- <input class="form-control" placeholder="物流公司名称" name="company_name" id="company_name" value="${stockOutInternational.company_name!}"> -->
+                    <select class="form-control" name="company_name" id="company_name">
+                        <option value="">物流公司</option>
+                        <#if companyList?? && companyList?size gt 0>
+                        <#list companyList as company>
+                        <option value="${stockOutInternational.company_name!}" <#if company.company_name == stockOutInternational.company_name >selected</#if> >${company.company_name}</option>
+                        </#list>
+                        </#if>
+                    </select>
                 </div>
             </div>
             <div class="form-group">
@@ -75,8 +89,6 @@
                     <input class="form-control" placeholder="物料描述" name="material" id="material" value="${stockOutInternational.material!}">
                 </div>
             </div>
-        </div>
-        <div class="col-xs-6">
             <div class="form-group">
                 <label class="col-xs-6 control-label text-right" for="batch_no">批次号：</label>
                 <div class="col-xs-6">
@@ -89,22 +101,48 @@
                     <input class="form-control" placeholder="托盘号" name="tray_no" id="tray_no" value="${stockOutInternational.tray_no!}" readonly>
                 </div>
             </div>
+        </div>
+        <div class="col-xs-6">
             <div class="form-group">
-                <label class="col-xs-6 control-label text-right" for="in_quantity">数量（片）：</label>
+                <label class="col-xs-6 control-label text-right" for="out_quantity">数量（片）：</label>
                 <div class="col-xs-6">
-                    <input class="form-control" placeholder="数量（片）" name="in_quantity" id="in_quantity" value="${stockOutInternational.out_quantity!}">
+                    <input class="form-control" placeholder="数量（片）" name="out_quantity" id="out_quantity" value="${stockOutInternational.out_quantity!}">
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-6 control-label text-right" for="in_tray_quantity">托盘托数（托）：</label>
+                <label class="col-xs-6 control-label text-right" for="out_tray_quantity">托盘托数（托）：</label>
                 <div class="col-xs-6">
-                    <input class="form-control" placeholder="托盘托数（托）" name="in_tray_quantity" id="in_tray_quantity" value="${stockOutInternational.out_tray_quantity!}">
+                    <input class="form-control" placeholder="托盘托数（托）" name="out_tray_quantity" id="out_tray_quantity" value="${stockOutInternational.out_tray_quantity!}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-6 control-label text-right" for="invoice_no">发票号：</label>
+                <div class="col-xs-6">
+                    <input class="form-control" placeholder="托盘托数（托）" name="invoice_no" id="invoice_no" value="${stockOutInternational.invoice_no!}">
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-xs-6 control-label text-right" for="module_power">组件功率（W）：</label>
                 <div class="col-xs-6">
                     <input class="form-control" placeholder="组件功率（W）" name="module_power" id="module_power" value="${stockOutInternational.module_power!}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-6 control-label text-right" for="customer">实际客户：</label>
+                <div class="col-xs-6">
+                    <input class="form-control" placeholder="实际客户" name="customer" id="customer" value="${stockOutInternational.customer!}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-6 control-label text-right" for="notice_no">外库通知单号：</label>
+                <div class="col-xs-6">
+                    <input class="form-control" placeholder="外库通知单号" name="notice_no" id="notice_no" value="${stockOutInternational.notice_no!}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-6 control-label text-right" for="customer_invoice_no">客户发票号：</label>
+                <div class="col-xs-6">
+                    <input class="form-control" placeholder="客户发票号" name="customer_invoice_no" id="customer_invoice_no" value="${stockOutInternational.customer_invoice_no!}">
                 </div>
             </div>
         </div>
@@ -120,9 +158,9 @@
 	    <#else>
         <div class="col-xs-6">
             <div class="form-group">
-                <label class="col-xs-6 control-label text-right" for="in_date">日期：</label>
+                <label class="col-xs-6 control-label text-right" for="out_date">日期：</label>
                 <div class="col-xs-6">
-                    <input class="form-control form_datetime" placeholder="日期" name="in_date" id="in_date" >
+                    <input class="form-control form_datetime" placeholder="日期" name="out_date" id="out_date" >
                 </div>
             </div>
             <div class="form-group">
@@ -164,15 +202,15 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-6 control-label text-right" for="in_quantity">数量（片）：</label>
+                <label class="col-xs-6 control-label text-right" for="out_quantity">数量（片）：</label>
                 <div class="col-xs-6">
-                    <input class="form-control" placeholder="数量（片）" name="in_quantity" id="in_quantity">
+                    <input class="form-control" placeholder="数量（片）" name="out_quantity" id="out_quantity">
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-6 control-label text-right" for="in_tray_quantity">托盘托数（托）：</label>
+                <label class="col-xs-6 control-label text-right" for="out_tray_quantity">托盘托数（托）：</label>
                 <div class="col-xs-6">
-                    <input class="form-control" placeholder="托盘托数（托）" name="in_tray_quantity" id="in_tray_quantity">
+                    <input class="form-control" placeholder="托盘托数（托）" name="out_tray_quantity" id="out_tray_quantity">
                 </div>
             </div>
             <div class="form-group">
@@ -234,7 +272,7 @@ $(function(){
 			validating: 'glyphicon glyphicon-refresh'
 		},
 		fields: {
-			"in_date": {
+			"out_date": {
 				validators: {
 					notEmpty: {
 						message: '不能为空!'
@@ -295,7 +333,7 @@ $(function(){
                         message: '不能为空!'
                     },
                     regexp: {
-                        regexp: /^[a-zA-Z0-9_\u0391-\uFFE5 ]{1,}$/,
+                        regexp: /^[a-zA-Z0-9]{1,}$/,
                         message: '请输入正确的托盘号'
                     },
                     stringLength: {
@@ -337,7 +375,7 @@ $(function(){
                     }
                 }
             },
-            "in_quantity": {
+            "out_quantity": {
                 validators: {
                     notEmpty: {
                         message: '不能为空!'
@@ -353,7 +391,7 @@ $(function(){
                     }
                 }
             },
-            "in_tray_quantity": {
+            "out_tray_quantity": {
                 validators: {
                     notEmpty: {
                         message: '不能为空!'
@@ -361,6 +399,22 @@ $(function(){
                     regexp: {
                         regexp: /^[0-9]+$/,
                         message: '请输入正确的数量'
+                    },
+                    stringLength: {
+                        min: 0,
+                        max: 20,
+                        message: '最多20个字符'
+                    }
+                }
+            },
+            "invoice_no": {
+                validators: {
+                    notEmpty: {
+                        message: '不能为空!'
+                    },
+                    regexp: {
+                        regexp: /^[a-zA-Z0-9]{1,}$/,
+                        message: '请输入正确的发票号'
                     },
                     stringLength: {
                         min: 0,
@@ -384,13 +438,61 @@ $(function(){
                         message: '最多20个字符'
                     }
                 }
+            },
+            "customer": {
+                validators: {
+                    notEmpty: {
+                        message: '不能为空!'
+                    },
+                    regexp: {
+                        regexp: /^[a-zA-Z0-9_\u0391-\uFFE5 ]{1,}$/,
+                        message: '请输入正确的名称'
+                    },
+                    stringLength: {
+                        min: 0,
+                        max: 20,
+                        message: '最多20个字符'
+                    }
+                }
+            },
+            "notice_no": {
+                validators: {
+                    notEmpty: {
+                        message: '不能为空!'
+                    },
+                    regexp: {
+                        regexp: /^[a-zA-Z0-9]{1,}$/,
+                        message: '请输入正确的通知单号'
+                    },
+                    stringLength: {
+                        min: 0,
+                        max: 20,
+                        message: '最多20个字符'
+                    }
+                }
+            },
+            "customer_invoice_no": {
+                validators: {
+                    notEmpty: {
+                        message: '不能为空!'
+                    },
+                    regexp: {
+                        regexp: /^[a-zA-Z0-9]{1,}$/,
+                        message: '请输入正确的客户发票号'
+                    },
+                    stringLength: {
+                        min: 0,
+                        max: 20,
+                        message: '最多20个字符'
+                    }
+                }
             }
 		}
 	});
 })
 .on('success.form.bv', function(e) {
 	e.preventDefault();
-	$.post("/warehouse/stockInInternational/save", $('#defaultForm').serialize(), function(result) {
+	$.post("/warehouse/stockOutInternational/save", $('#defaultForm').serialize(), function(result) {
 		if (result.isSuccess) {
             parent.layer.msg("保存成功", {time: 2000}, function(){
                 layer_close();

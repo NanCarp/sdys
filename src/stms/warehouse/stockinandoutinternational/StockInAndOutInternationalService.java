@@ -27,10 +27,14 @@ public class StockInAndOutInternationalService {
         String select = "SELECT *, "
                 + " a.in_quantity - b.out_quantity AS real_time_quantity, "
                 + " a.in_tray_quantity - b.out_tray_quantity AS real_time_tray_quantity, "
-                + " IF(ISNULL(delivery_no), DATEDIFF(NOW(), a.in_date ) + 1, DATEDIFF(b.out_date , a.in_date )) AS retention_days ";
+                + " IF(ISNULL(delivery_no), DATEDIFF(NOW(), a.in_date ) + 1, DATEDIFF(b.out_date , a.in_date )) AS retention_days, "
+                + " IF(ISNULL(b.out_date), NOW(), b.out_date) AS out_date2, "
+                + " c.currency,c.amount ";
         String sql = " FROM `t_inter_in_warehouse` AS a "
                 + " LEFT JOIN t_inter_out_warehouse AS b "
                 + " ON a.in_batch_no = b.batch_no "
+                + " LEFT JOIN t_standard_charge_domestic AS c "
+                + " ON DATE_FORMAT(a.in_date,'%Y%m') = c.period AND a.in_storage_location = c.location "
                 + " WHERE 1 = 1";
         
         if (company_name != null && !"".equals(company_name)) {

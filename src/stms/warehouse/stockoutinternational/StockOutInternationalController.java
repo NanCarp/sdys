@@ -14,6 +14,7 @@ import com.jfinal.upload.UploadFile;
 import stms.interceptor.ManageInterceptor;
 import stms.model.InterInWarehouse;
 import stms.model.InterOutWarehouse;
+import stms.warehouse.stockininternational.StockInInternationalService;
 
 /**
  * @ClassName: StockOutInternationalController.java
@@ -65,6 +66,10 @@ public class StockOutInternationalController extends Controller {
             Record StockOutInternational = Db.findById("t_inter_out_warehouse", id);
             setAttr("stockOutInternational", StockOutInternational);
         }
+        
+        // 物流公司列表
+        List<Record> companyList = StockOutInternationalService.getCompanyList();
+        setAttr("companyList", companyList);
 
         render("stock_out_international_detail.html");
     }
