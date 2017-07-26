@@ -22,7 +22,7 @@
     <link href="../../../css/admin.css" rel="stylesheet">
     <link href="../../../resource/bootstrapvalidator/css/bootstrapValidator.min.css" rel="stylesheet">
     <link href="../../../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <!-- <link href="../../../resource/bootstrap-fileinput/css/fileinput.css" rel="stylesheet"> -->
+    <link href="../../../resource/bootstrap-fileinput/css/fileinput.css" rel="stylesheet">
 	<style type="text/css">
 		body { margin:0 65px 0 0 ;}
 		form { margin-top:20px;}
@@ -76,7 +76,7 @@
         <div class="form-group">
             <label class="col-xs-5 control-label text-right" for="file" style="padding-top:0;">附件：</label>
             <div class="col-xs-6">
-                <input type="file" class="file" id="file" name="file" multiple="multiple">
+                <input type="file" class="file" id="file" name="file" value="${quality.review_file!}">
                 <div id="url"></div>
             </div>
         </div>
@@ -120,7 +120,7 @@
         <div class="form-group">
             <label class="col-xs-5 control-label text-right" for="file" style="padding-top:0;">附件：</label>
             <div class="col-xs-6">
-                <input type="file" class="file" id="file" name="file"  multiple=true >
+                <input type="file" class="file" id="file" name="file" value="">
                 <div id="url"></div>
             </div>
         </div>
@@ -149,8 +149,8 @@
 <script src="../../../vendor/metisMenu/metisMenu.min.js"></script>
 <script src="../../../resource/layui/layui.js"></script>
 <!-- Custom Theme JavaScript -->
-<!-- <script src="../../../resource/bootstrap-fileinput/js/fileinput.js"></script> 
-<script src="../../../resource/bootstrap-fileinput/js/locales/zh.js"></script>-->
+<script src="../../../resource/bootstrap-fileinput/js/fileinput.js"></script>
+<script src="../../../resource/bootstrap-fileinput/js/locales/zh.js"></script>
 <script src="../../../dist/js/sb-admin-2.js"></script>
 <script src="../../../resource/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
 <script src="../../../js/common/admin.js"></script>
@@ -160,7 +160,7 @@
 // 初始化fileinput控件（第一次初始化）
 //var fileList = new Array();//定义一个全局变量去接受文件名和id
 
-/* function initFileInput(ctrlName, uploadUrl) {
+function initFileInput(ctrlName, uploadUrl) {
     var control = $('#' + ctrlName);
 
     control.fileinput({
@@ -175,36 +175,45 @@
         dropZoneEnabled: false,//是否显示拖拽区域
         showPreview :false,//是否显示预览
         enctype: 'multipart/form-data',
-        uploadAsync: false, //同步上传
-    })
+        previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+    }).on("filebatchselected", function(event, files) {// 上传文件
+        $(this).fileinput("upload");
+    }).on("fileuploaded", function(event, data, previewId, index) {// 上传成功后的回调函数
+        if(data.response) {
+            var fileName = data.response.fileName;
+            //var fullName = fileName;
+            console.log("fileName: " + fileName);
+            var file = fileName.substring(0, fileName.indexOf("@"));
+            //fileList.push({fileName: fileName, keyId : previewId});
+            $('#url').append('<p><span _url="'+fileName+'" style="width: 90%;float: left;">'+file+'</span><a _url="'+fileName+'" href="javascript:;" onclick="del(this)" style="width: 10%;float: left;"><i class="fa fa-times" title="删除"></i></a></br></p>');
+        }
+    }).on('filesuccessremove', function(event,id) {// 上传成功后，点击删除按钮的回调函数
+        console.log("filesuccessremove: " + id);
+    }).on('fileclear', function(event) {
+        console.log("fileclear");
+    });
 }
 
-initFileInput("file", "/supplier/quality/uploadQualityFile"); */
+initFileInput("file", "/supplier/quality/uploadQualityFile");
 
 
-// 文件上传，显示文件名
+/*// 文件上传，显示文件名
 $('body').delegate('#file','change',function(e){
-	var newFileList = [];
-    var file; 
-    //取得FileList取得的file集合 
-    for(var i = 0 ;i<document.getElementById("file").files.length;i++){ 
-        //file对象为用户选择的某一个文件 
-        file=document.getElementById("file").files[i]; 
-        //console.log(file.name); 
-        newFileList.push(file.name);
+    //console.log($(this).val())//e就是你获取的file对象
+    var file = $(this).val();
+    var strFileName=file.replace(/^.+?\\([^\\]+?)(\.[^\.\\]*?)?$/gi,"$1");  //正则表达式获取文件名，不带后缀
+    var FileExt=file.replace(/.+\./,"");   //正则表达式获取后缀
+    var fileName = strFileName + "." + FileExt;
+    //console.log(fileName);
+    if ("." !== fileName) {
+        $('#url').empty().append('<p><span style="width: 90%;float: left;">'+fileName+'</span><a href="javascript:;" onclick="del(this)" style="width: 10%;float: left;"><i class="fa fa-times" title="删除"></i></a></br></p>');
+    } else {
+        $('#url').empty();
     }
-    
-    console.log("fileList: " + newFileList);
-    $('p[class="new-file"]').remove();
-   	for(var i = 0; i < newFileList.length; i++) {
-   		console.log(newFileList[i]);
-   	    $('#url').append('<p class="new-file"><span style="width: 90%;float: left;">'+newFileList[i]+'</span><a href="javascript:;" onclick="del(this)" style="width: 10%;float: left;"><i class="fa fa-times" title="删除"></i></a></br></p>');
-   	}
-    
-}); 
+})*/
 // 删除选中文件
 function del(_obj){
-    /* var fileName = $(_obj).attr('_url');
+    var fileName = $(_obj).attr('_url');
     //console.log(fileName);
     $.post("/supplier/quality/deleteQualityFile",{"fileName":fileName},function (data) {
         if (data) {
@@ -213,7 +222,7 @@ function del(_obj){
         } else {
             parent.layer.msg('删除失败', {time: 1000});
         }
-    }); */
+    });
     $(_obj).parent('p').remove();
     $("#file").val("");
 }
@@ -306,11 +315,24 @@ $('#defaultForm').bootstrapValidator({
     // var file = fileList[0]["fileName"];
     var remark = $('#remark').html();
 	var postData = {'id': id, 'companyId': companyId, 'abbreviation': abbreviation, 'state': state, 'file': fileName, 'remark': remark};
-    
+
+    $.post("/supplier/quality/saveQuality", postData, function(result) {
+		if (result) {
+			parent.layer.msg(msg, {time: 2000}, function(){
+				layer_close();
+				parent.parent.refresh_iframe();
+			});
+
+		} else {
+			parent.layer.msg('系统异常，请稍后再试！', {time: 2000});
+		}
+	});
+
+    /*
     // 同步传输
     var postdata = new FormData(document.getElementById('defaultForm'));
     $.ajax({
-        url:"/supplier/quality/saveQualitySync",
+        url:"/supplier/quality/saveQuality",
         type:"post",
         data:postdata,
         cache: false,
@@ -330,7 +352,7 @@ $('#defaultForm').bootstrapValidator({
         error:function(e){
             alert("网络错误，请重试！！");
         }
-    });
+    });*/
 });
 
 // 取消

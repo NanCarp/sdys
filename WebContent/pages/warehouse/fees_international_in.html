@@ -53,11 +53,14 @@
 						<div class="col-sm-1 col-xs-12 head_1">
 							<button class="btn btn-primary" onclick="doQuery()">查询</button> 
 						</div>                    			
-						<div class="col-sm-2 col-xs-6 head_1">
+						<!-- <div class="col-sm-2 col-xs-6 head_1">
 		                    <button class="btn btn-success" onclick="_add()">新增</button>
 		                </div>
 		                <div class="col-sm-1 col-xs-4 head_1">
                             <button class="btn btn-3"  onclick="_edit1()">编辑</button>
+                        </div> -->
+                        <div class="col-sm-1 col-xs-12 head_1">
+                            <button class="btn btn-5" onclick="_import()">导入</button>
                         </div>
                         <div class="col-sm-2 col-xs-6 head_1" >
 		                     <button class="btn btn-4" onclick=" _batchDelete()">删除</button>
@@ -181,6 +184,9 @@ var TableInit = function () {
                 field: 'in_date',
                 title: '时间'
             }, {
+                field: 'in_container_no',
+                title: '入库集装箱号'
+            }, {
                 field: 'in_tray_quantity',
                 title: '入库托数',
                 footerFormatter: sumFormatter
@@ -216,7 +222,7 @@ var TableInit = function () {
             offset: params.offset,  //页码
             maxrows: params.limit,
             search: params.search,
-           	company_name: $("#company_name").val(),
+           	company_name: $.trim($("#company_name").val()),
         };
         return temp;
     };
@@ -264,6 +270,10 @@ function _edit1(){
     } else {
         layer.msg('最多选择选择一条记录', {time: 2000});
     }
+}
+//导入
+function _import() {
+    open_window('导入','/warehouse/feesInternationalIn/importUI', 480, 200);
 }
 // 批量删除
 function _batchDelete(){

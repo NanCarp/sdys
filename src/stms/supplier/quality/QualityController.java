@@ -74,7 +74,7 @@ public class QualityController extends Controller {
 			Record quality = QualityService.getQualityById(id);
 			setAttr("quality", quality);
             // 文件名
-            setAttr("fileName", quality.getStr("review_file"));
+            setAttr("fileName", quality.getStr("review_file").replace("quality/", ""));
             // 获取公司列表
             List<Record> companyList = QualityService.getCompanyList();
             setAttr("companyList", companyList);
@@ -115,10 +115,10 @@ public class QualityController extends Controller {
 		String fileNames = "";
 		if (fileList != null) {
 		    for (UploadFile file : fileList) {
-		        Map<String, Object> responseMsg = QualityService.saveFile(file);
+		        Map<String, Object> responseMsg = QualityService.saveFileSync(file);
 		        fileNames += responseMsg.get("fileName").toString() + ",";
-		        fileNames = fileNames.substring(0, fileNames.length() - 1);
 		    }
+		    fileNames = fileNames.substring(0, fileNames.length() - 1);
 		}
         
 		// 资质 id
@@ -304,7 +304,7 @@ public class QualityController extends Controller {
 	public void downloadByFileName() throws IOException {
 		// 文件名
 		String fullName = getPara("fullName");
-		File origin = new File(PropKit.get("uploadPath")+ "temp/" + fullName);
+		File origin = new File(PropKit.get("uploadPath")+ "quality/" + fullName);
 		String fileName = fullName.split("@")[0];
 		renderFile(origin, fileName);
 	}

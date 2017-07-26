@@ -132,7 +132,7 @@ public class QualityService {
 	    // 待删除记录
         Record record = Db.findById("t_supplier_qualification", id);
         // 待删除文件名
-		String[] fileList = record.getStr("review_file").split(",");
+		String[] fileList = record.getStr("review_file").replace("quality/", "").split(",");
         // 删除结果
         boolean result = Db.delete("t_supplier_qualification", record);
         // 数据库删除成功，删除对应文件
@@ -248,7 +248,7 @@ public class QualityService {
         LocalDateTime now = LocalDateTime.now();
         // 文件路径
         String newName = originalName + "@" + now.toString().replace(":", " ");
-        String path = PropKit.get("uploadPath")+"temp/" + newName;
+        String path = PropKit.get("uploadPath")+"quality/" + newName;
         file.getFile().renameTo(new File(path));
 
         Map<String, Object> responseMsg = new HashMap<>();
@@ -256,6 +256,30 @@ public class QualityService {
 
 		return responseMsg;
 	}
+	
+    /** 
+    * @Title: saveFile 
+    * @Description: 保存文件
+    * @param file
+    * @return Map<String,Object>
+    * @throws 
+    */
+    public static Map<String, Object> saveFileSync(UploadFile file) {
+        String originalName = file.getFileName();
+        // 当前日期
+        //LocalDate now = LocalDate.now();
+        // 当前时间
+        LocalDateTime now = LocalDateTime.now();
+        // 文件路径
+        String newName = "quality/" + originalName + "@" + now.toString().replace(":", " ");
+        String path = PropKit.get("uploadPath")+ newName;
+        file.getFile().renameTo(new File(path));
+
+        Map<String, Object> responseMsg = new HashMap<>();
+        responseMsg.put("fileName", newName);
+
+        return responseMsg;
+    }
 	
     /** 
     * @Title: deleteFile 
@@ -266,7 +290,7 @@ public class QualityService {
     */
     public static Map<String,Object> deleteFile(String fileName) {
         boolean result = false;
-        String path = PropKit.get("uploadPath")+"temp/" + fileName;
+        String path = PropKit.get("uploadPath")+"quality/" + fileName;
         File file = new File(path);
         if (file.exists() && file.isFile()) {
             file.delete();
@@ -297,7 +321,7 @@ public class QualityService {
         String[] farr = file_url.split(",");
         File[] fs = new File[farr.length];
         for (int i = 0; i < farr.length; i++) {
-            fs[i] = new File(PropKit.get("uploadPath")+ "temp/" + farr[i]);
+            fs[i] = new File(PropKit.get("uploadPath")+ "quality/" + farr[i]);
         }
         for (int j = 0; j < fs.length; j++) {
             FileInputStream fis = new FileInputStream(fs[j]);
@@ -323,7 +347,7 @@ public class QualityService {
     public static List<Record> getFileList(Integer id) {
         // 物流公司资质
         Record record = getQualityById(id);
-        String[] fileStr = record.getStr("review_file").split(",");
+        String[] fileStr = record.getStr("review_file").replace("quality/", "").split(",");
         List<Record> fileList = new ArrayList<>();
         if (!"".equals(fileStr[0])) {
             for(int i = 0; i < fileStr.length; i++) {
