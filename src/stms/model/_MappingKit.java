@@ -23,6 +23,7 @@ public class _MappingKit {
 		arp.addMapping("t_domes_in_warehouse", "id", DomesInWarehouse.class);
 		arp.addMapping("t_domes_out_warehouse", "id", DomesOutWarehouse.class);
 		arp.addMapping("t_domes_warehouse_fees", "id", DomesWarehouseFees.class);
+		arp.addMapping("t_import_floworder", "id", ImportFloworder.class);
 		arp.addMapping("t_import_freight", "id", ImportFreight.class);
 		arp.addMapping("t_import_materials", "id", ImportMaterials.class);
 		arp.addMapping("t_import_tax", "id", ImportTax.class);

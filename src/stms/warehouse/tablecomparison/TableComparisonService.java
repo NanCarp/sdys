@@ -21,23 +21,38 @@ import stms.utils.ExcelKit;
 public class TableComparisonService {
 
     public static Page<Record> getDataPages(Integer pageindex, Integer pagelimit) {
-        return getDataPages(pageindex, pagelimit, null, null, null);
+        return getDataPages(pageindex, pagelimit, null, null);
     }
 
-    public static Page<Record> getDataPages(Integer pageindex, Integer pagelimit, String in_date, String company_name,
-            String material_no) {
-        String sql = " FROM t_table_comparison WHERE 1=1 ";
-        if (in_date != null && !"".equals(in_date)) {
-            sql += " AND in_date = '" + in_date + "'";
-        }
+    public static Page<Record> getDataPages(Integer pageindex, Integer pagelimit, String location, String company_name) {
+        String sql = " FROM "
+                + " (SELECT c.storage_location,c.company_name,SUM(c.real_time_quantity) AS quality,SUM(c.real_time_tray_quantity) AS tray_quality "
+                + " FROM "
+                + " (SELECT a.storage_location,a.company_name,a.material_no,a.material,a.batch_no,a.tray_no,a.module_power, "
+                + " IF(ISNULL(b.out_date), a.in_quantity, a.in_quantity - b.out_quantity) AS real_time_quantity, "
+                + " IF(ISNULL(b.out_date), a.in_tray_quantity, a.in_tray_quantity - b.out_tray_quantity) AS real_time_tray_quantity "
+                + " FROM `t_domes_in_warehouse` AS a "
+                + " LEFT JOIN t_domes_out_warehouse AS b "
+                + " ON a.batch_no = b.batch_no "
+                + " UNION "
+                + " SELECT a.in_storage_location,a.in_company_name,a.in_material_no,a.in_material,a.in_batch_no,a.in_tray_no,a.in_module_power, "
+                + " IF(ISNULL(b.out_date), a.in_quantity, a.in_quantity - b.out_quantity) AS real_time_quantity, "
+                + " IF(ISNULL(b.out_date), a.in_tray_quantity, a.in_tray_quantity - b.out_tray_quantity) AS real_time_tray_quantity "
+                + " FROM `t_inter_in_warehouse` AS a "
+                + " LEFT JOIN t_inter_out_warehouse AS b "
+                + " ON a.in_batch_no = b.batch_no) AS c "
+                + " GROUP BY c.storage_location, c.company_name) AS d "
+                + " LEFT JOIN t_table_comparison  AS e "
+                + " ON d.company_name = e.company_name2 AND d.storage_location = e.location2";
+        
         if (company_name != null && !"".equals(company_name)) {
-            sql += " AND company_name like '%" + company_name + "%'";
+            sql += " AND company_name2 like '%" + company_name + "%'";
         }
-        if (material_no != null && !"".equals(material_no)) {
-            sql += " AND material_no like '%" + material_no + "%'";
+        if (location != null && !"".equals(location)) {
+            sql += " AND location2 like '%" + location + "%'";
         }
         
-        return Db.paginate(pageindex, pagelimit, "SELECT * ", sql);
+        return Db.paginate(pageindex, pagelimit, "SELECT d.*,e.* ", sql);
     }
     
     /** 

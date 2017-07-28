@@ -6,13 +6,12 @@ import java.util.Map;
 
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
-import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.upload.UploadFile;
 
 import stms.interceptor.ManageInterceptor;
-import stms.model.DomesInWarehouse;
+import stms.model.LocationComparison;
 
 /**
  * @ClassName: LocationComparisonController
@@ -30,12 +29,15 @@ public class LocationComparisonController extends Controller {
     
     // 
     public void getJson(){
-        String in_date = getPara("in_date");
+        /*String in_date = getPara("in_date");
         setAttr("in_date", in_date);
         String company_name = getPara("company_name");
         setAttr("company_name", company_name);
         String material_no = getPara("material_no");
-        setAttr("company_name", company_name);
+        setAttr("material_no", material_no);*/
+        // 批次号
+        String batch_no = getPara("batch_no");
+        setAttr("batch_no", batch_no);
         
         Integer pageindex = 0; // 页码
         Integer pagelimit = getParaToInt("limit")==null? 12 :getParaToInt("limit"); // 每页数据条数
@@ -45,7 +47,7 @@ public class LocationComparisonController extends Controller {
         }
         pageindex += 1;
         
-        Page<Record> page = LocationComparisonService.getDataPages(pageindex, pagelimit, in_date, company_name, material_no);
+        Page<Record> page = LocationComparisonService.getDataPages(pageindex, pagelimit, batch_no);
 //        Page<Record> page = new Page<Record>();
         
         Map<String, Object> map = new HashMap<String,Object>();
@@ -58,48 +60,34 @@ public class LocationComparisonController extends Controller {
     
     // 获得
     public void getRecord() {
-        // id
-        Integer id = getParaToInt();
-
-        if (id != null) {//编辑
-            Record record = Db.findById("t_location_comparison", id);
-            setAttr("record", record);
-        }
+        // 批次号
+        String batch_no = getPara();
+        // 
+        Record record = LocationComparisonService.getRecord(batch_no);
+        setAttr("record", record);
+        
+        // 物流公司列表
+        List<Record> companyList = LocationComparisonService.getCompanyList();
+        setAttr("companyList", companyList);
 
         render("location_comparison_detail.html");
     }
 
     // 保存
     public void save() {
-        DomesInWarehouse record = getModel(DomesInWarehouse.class, "");
+        LocationComparison record = getModel(LocationComparison.class, "");
         
         // 保存结果
         boolean result = false;
         // 返回信息
         Map<String, Object> response = new HashMap<>();
-        // 重复检测
-        Integer id = record.getId();
-        String batchNo = record.getBatchNo();
-        String trayNo = record.getTrayNo();
-        if (id == null && LocationComparisonService.isDuplicate(batchNo, trayNo)) {
-            response.put("tips", "数据重复！");
-            response.put("isSuccess", false);
-            renderJson(response);
-            return;
-        }
-        // 检测是否有后续业务单据
-        if (id != null && LocationComparisonService.hasOtherBusiness(batchNo, trayNo)) {
-            response.put("isSuccess", false);
-            response.put("tips", "存在后续业务单据，不可编辑！");
-            renderJson(response);
-            return;
-        }
         
-        if (id != null) {// 编辑
-            result = record.update();
-        } else {// 新增
-            
+        if (record.getId() != null) {
+            result = record.update(); // 更新
+        } else {
+            result = record.save(); // 新增
         }
+            
         response.put("isSuccess", result);
         response.put("tips", result ? "保存成功": "保存失败");
         
@@ -116,17 +104,6 @@ public class LocationComparisonController extends Controller {
         String[] ids = idStr.split(","); 
         // 返回信息
         Map<String, Object> response = new HashMap<>();
-        // 检测是否有后续业务单据
-        boolean hasOtherBusiness = false;
-        for (String id : ids) {
-            hasOtherBusiness = LocationComparisonService.hasOtherBusiness(id);
-            if (hasOtherBusiness) {
-                response.put("isSuccess", false);
-                response.put("tips", "存在后续业务单据，不可删除！");
-                renderJson(response);
-                return;
-            }
-        }
         
         boolean result = LocationComparisonService.delete(ids);
         response.put("isSuccess", result);

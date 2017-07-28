@@ -23,19 +23,19 @@ import stms.model.DomesInWarehouse;
  */
 @Before(ManageInterceptor.class)
 public class StockInDomesticController extends Controller {
-    // 基础数据列表
+    // 页面
     public void index() {
         render("stock_in_domestic.html");
     }
     
-    // 
+    // 数据列表
     public void getJson(){
         String in_date = getPara("in_date");
         setAttr("in_date", in_date);
         String company_name = getPara("company_name");
         setAttr("company_name", company_name);
         String material_no = getPara("material_no");
-        setAttr("company_name", company_name);
+        setAttr("material_no", material_no);
         
         Integer pageindex = 0; // 页码
         Integer pagelimit = getParaToInt("limit")==null? 12 :getParaToInt("limit"); // 每页数据条数
@@ -84,14 +84,14 @@ public class StockInDomesticController extends Controller {
         Integer id = record.getId();
         String batchNo = record.getBatchNo();
         String trayNo = record.getTrayNo();
-        if (id == null && StockInDomesticService.isDuplicate(batchNo, trayNo)) {
+        if (id == null && StockInDomesticService.isDuplicate(null, trayNo)) {
             response.put("tips", "数据重复！");
             response.put("isSuccess", false);
             renderJson(response);
             return;
         }
         // 检测是否有后续业务单据
-        if (id != null && StockInDomesticService.hasOtherBusiness(batchNo, trayNo)) {
+        if (id != null && StockInDomesticService.hasOtherBusiness(trayNo)) {
             response.put("isSuccess", false);
             response.put("tips", "存在后续业务单据，不可编辑！");
             renderJson(response);

@@ -1,5 +1,6 @@
 package stms.purchase.importtaxbreak;
 
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,12 +14,8 @@ import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.IAtom;
 import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.upload.UploadFile;
-import com.sun.xml.internal.bind.v2.schemagen.xmlschema.Import;
 
-import stms.model.ImportFreight;
 import stms.model.ImportTaxBreak;
-import stms.purchase.importedmaterials.ImportedmaterialsService;
-import stms.purchase.importfreight.ImportFreightService;
 import stms.utils.ExcelKit;
 /**
  * @desc 转税折料表
@@ -75,6 +72,8 @@ public class ImporttaxbreakController extends Controller{
 	 */
 	public void getimporttaxbreak(){
 		Integer id = getParaToInt(0);
+		List<Record> normanlManuals = ImporttaxbreakService.getNormalManual();
+		setAttr("normanlManuals", normanlManuals);
 		if(id!=null){
 			Record record = ImporttaxbreakService.getSingleImportedmaterials(id);
 			setAttr("im", record);
@@ -88,7 +87,20 @@ public class ImporttaxbreakController extends Controller{
 	 */
 	public void saveOrUpdate(){
 		ImportTaxBreak record = getModel(ImportTaxBreak.class,"");
-		boolean result = ImporttaxbreakService.saveOrUpdate(record);
+		//抓取手册号、材料性质、规格、进口料件名称、数量、内部流转单号、海关批次号到内销补税明细总表
+		//抓取条件：保税耗用>0
+		String manual_id = record.getManualId();
+		String material_properties = record.getMaterialProperties();
+		String import_specification = record.getImportSpecification();
+		String import_name = record.getImportName();
+		Integer domes_sale_num = record.getDomesSaleNum();
+		String custom_batch_num = record.getCustomBatchNum();
+		String flow_number = record.getFlowNumber();
+		BigDecimal bond_consume = record.getBondConsume();
+		
+		//保存转税折料表信息
+		boolean result = ImporttaxbreakService.saveOrUpdate(record,manual_id,material_properties
+				,import_specification,import_name,domes_sale_num,custom_batch_num,flow_number,bond_consume);
 		renderJson(result);
 	}
 	
@@ -110,7 +122,7 @@ public class ImporttaxbreakController extends Controller{
 				boolean result = true;
 				//该Excel导入列数应为31列，不符合31列即为错误导入excel文件
 				System.out.println(list.get(0).length);
-				if(list.get(0).length!=10){
+				if(list.get(0).length!=11){
 					getSession().setAttribute("ErrorFile",true);
 					result = false;
 				}else{
@@ -127,26 +139,27 @@ public class ImporttaxbreakController extends Controller{
 						try{
 							Record record = new Record();						
 							record.set("flow_number", strings[0]);//流转单号
-							record.set("material_properties",strings[1] );//材料性质
-							record.set("import_specification", strings[2]);//规格
-							if(strings[3]!=null&&strings[3]!=""){
-								record.set("domes_sale_num", strings[3]);//内销数量
+							record.set("import_name", strings[1]);
+							record.set("material_properties",strings[2]);//材料性质
+							record.set("import_specification", strings[3]);//规格
+							if(strings[4]!=null&&strings[4]!=""){
+								record.set("domes_sale_num", strings[4]);//内销数量
 							}							
-							record.set("fold_pieces", strings[4]);//折成料件品名和单位
-							if(strings[5] !=null && !"".equals(strings[5])){
-								record.set("unit_consume",strings[5]);//单耗
+							record.set("fold_pieces", strings[5]);//折成料件品名和单位
+							if(strings[6] !=null && !"".equals(strings[6])){
+								record.set("unit_consume",strings[6]);//单耗
 							}	
-							if(strings[6] != null && !"".equals(strings[6])){
-								record.set("bond_consume",strings[6]);//保税耗用
+							if(strings[7] != null && !"".equals(strings[7])){
+								record.set("bond_consume",strings[7]);//保税耗用
 							}	
-							if(strings[7]!=null&&!"".equals(strings[6])){
-								record.set("duty_paid_consume", strings[7]);//完税耗用
+							if(strings[8]!=null&&!"".equals(strings[8])){
+								record.set("duty_paid_consume", strings[8]);//完税耗用
 							}
-							if(strings[8]!=null && !"".equals(strings[8])){
-								record.set("custom_batch_num", strings[8]);//海关批次号
+							if(strings[9]!=null && !"".equals(strings[9])){
+								record.set("custom_batch_num", strings[9]);//海关批次号
 							}
-							if(strings[9]!=null&&!"".equals(strings[9])){
-								record.set("manual_id", strings[9]);//手册号
+							if(strings[10]!=null&&!"".equals(strings[10])){
+								record.set("manual_id", strings[10]);//手册号
 							}
 							Db.save("t_import_tax_break", record);
 						}catch(Exception e){

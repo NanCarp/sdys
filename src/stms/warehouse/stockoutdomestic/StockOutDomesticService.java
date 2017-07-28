@@ -149,8 +149,8 @@ public class StockOutDomesticService {
                             }
                      
                             // 存在则更新，否则新增
-                            Record recordDB = Db.findFirst("SELECT * FROM t_domes_out_warehouse  WHERE batch_no = ? OR tray_no = ? ", 
-                                    strings[6], strings[7]);
+                            Record recordDB = Db.findFirst("SELECT * FROM t_domes_out_warehouse  WHERE tray_no = ? ", 
+                                    strings[7]);
                             if (recordDB != null) { // 更新
                                 record.set("id", recordDB.getInt("id"));
                                 Db.update("t_domes_out_warehouse", record);

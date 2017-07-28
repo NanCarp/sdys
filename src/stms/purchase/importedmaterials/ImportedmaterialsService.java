@@ -57,7 +57,7 @@ public class ImportedmaterialsService {
 			public boolean run() throws SQLException {
 				// TODO Auto-generated method stub
 				for(String id:allid){
-					result = Db.deleteById("t_import_materials", "id", id);		
+					result = Db.deleteById("t_import_domestic_taxdetails", "id", id);		
 					}
 				return result;
 			}
@@ -130,8 +130,9 @@ public class ImportedmaterialsService {
 	 * @desc 生成内部编号
 	 * @author xuhui
 	 */
-	public static List<Record> getMaxImportInnerNum(){
-		String sql = "SELECT MAX(import_inner_num) as import_inner_num from t_import_materials";
+	public static List<Record> getMaxImportInnerNum(String type){
+		String sql = "SELECT MAX(import_inner_num) as import_inner_num "
+				+ "from t_import_materials WHERE import_inner_num like '"+type+"%'";
 		return Db.find(sql);
 	}
 }

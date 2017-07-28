@@ -81,7 +81,8 @@ public class StockInDomesticService {
         Record record = Db.findById("t_domes_in_warehouse", id);
         String batchNo = record.getStr("batch_no");
         String trayNo = record.getStr("tray_no");
-        return hasOtherBusiness(batchNo, trayNo);
+        //return hasOtherBusiness(batchNo, trayNo);
+        return hasOtherBusiness(null, trayNo);
     }
     
     /** 
@@ -164,19 +165,20 @@ public class StockInDomesticService {
                                 record.set("in_quantity", strings[7]);
                             }
                             // 托盘数量，默认 1 托
-                            if (!"".equals(strings[8])) {
+                            /*if (!"".equals(strings[8])) {
                                 record.set("in_tray_quantity", strings[8]);
                             } else {
                                 record.set("in_tray_quantity", 1);
-                            }
+                            }*/
+                            record.set("in_tray_quantity", 1);
                             // 组件功率
                             if (!"".equals(strings[9])) {
                                 record.set("module_power", strings[9]);
                             }
                      
                             // 存在则更新，否则新增
-                            Record recordDB = Db.findFirst("SELECT * FROM t_domes_in_warehouse  WHERE batch_no = ? OR tray_no = ? ", 
-                                    strings[5], strings[6]);
+                            Record recordDB = Db.findFirst("SELECT * FROM t_domes_in_warehouse  WHERE tray_no = ? ", 
+                                    strings[6]);
                             if (recordDB != null) { // 更新
                                 record.set("id", recordDB.getInt("id"));
                                 Db.update("t_domes_in_warehouse", record);

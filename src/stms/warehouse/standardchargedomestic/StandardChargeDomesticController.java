@@ -46,13 +46,11 @@ public class StandardChargeDomesticController extends Controller {
         }
         pageindex += 1;
         
-        //Page<Record> page = StandardChargeDomesticService.getDataPages(pageindex, pagelimit);
         Page<Record> page = StandardChargeDomesticService.getDataPages(pageindex, pagelimit, company_name);
         
         Map<String, Object> map = new HashMap<String,Object>();
         map.put("rows", page.getList());
         map.put("total",page.getTotalRow());
-        //System.out.println(page.getList());
         
         renderJson(map);
     }

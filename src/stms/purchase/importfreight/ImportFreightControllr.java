@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.omg.PortableInterceptor.INACTIVE;
+
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Db;
@@ -291,6 +293,34 @@ public class ImportFreightControllr extends Controller {
 		}else{
 			map.put("flag", flag);
 		}
+		renderJson(map);
+	}
+	
+	/**
+	 * @desc 打开修改IBMS页面
+	 */
+	public void openIBMS(){
+		List<Record> WuLiuCompanies = ImportFreightService.getWuliuCompany();
+		setAttr("WuLiuCompanies", WuLiuCompanies);
+		
+		render("importfreight_IBMS.html");
+	}
+	
+	/**
+	 * @desc 修改IBMS号
+	 */
+	public void updateIBMS(){
+		String statement_date = getPara("statement_date");
+		Integer logistics_id = getParaToInt("logistics_id");
+		String IBMS_num = getPara("IBMS_num");
+		boolean isSuccess = false;
+		Map<String, Object> map = new HashMap<String,Object>();
+		Integer row = ImportFreightService.updateIBMS(IBMS_num, logistics_id, statement_date);
+		map.put("row",row);
+		if(row!=null&&row>0){
+			isSuccess = true;
+		}
+		map.put("isSuccess", isSuccess);
 		renderJson(map);
 	}
 }

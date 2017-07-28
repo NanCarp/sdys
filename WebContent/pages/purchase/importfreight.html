@@ -66,13 +66,14 @@
 		                </div>
 		                <div class="col-sm-2 col-xs-6 head_1">
 		                    <button class="btn btn-3" onclick="_edit()">编辑</button>
-		                </div>
+		                </div>		          
                         <div class="col-sm-2 col-xs-6 head_1" >
 		                     <button class="btn btn-4" onclick=" _batchDelete()">删除</button>
 		                </div>
-		                <div class="col-sm-1 col-xs-4 head_1">
-                             <button class="btn btn-9 " onclick=""><i class="fa fa-refresh"></i></button>
-                        </div>                  
+		                <div class="col-sm-1 col-xs-12 head_1">
+							<button class="btn btn-primary" onclick="openIBMS()">IBMS</button>
+						</div>
+		                                
 					</div>				
 				</div>
 			</div>		
@@ -398,6 +399,11 @@ function getIdSelections() {
 //导入Excel
 function uploadexcel(){
 	open_window('导入Excel','/purchase/importfreight/showimportdesk', 500, 200);
+}
+
+//修改IBMS号
+function openIBMS(){
+	open_window('修改IBMS','/purchase/importfreight/openIBMS',460,280);
 }
 
 </script>

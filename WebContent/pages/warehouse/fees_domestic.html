@@ -53,9 +53,12 @@
 						<div class="col-sm-1 col-xs-12 head_1">
 							<button class="btn btn-primary" onclick="doQuery()">查询</button> 
 						</div>                    			
-						<div class="col-sm-2 col-xs-6 head_1">
+						<!-- <div class="col-sm-2 col-xs-6 head_1">
 		                    <button class="btn btn-success" onclick="_add()">新增</button>
-		                </div>
+		                </div> -->
+		                <div class="col-sm-1 col-xs-12 head_1">
+                            <button class="btn btn-5" onclick="_import()">导入</button>
+                        </div>
 		                <div class="col-sm-1 col-xs-12 head_1">
                             <button class="btn btn-3"  onclick="_edit1()">编辑</button>
                         </div>
@@ -310,6 +313,10 @@ function _edit1(){
     } else {
         layer.msg('最多选择选择一条记录', {time: 2000});
     }
+}
+//导入
+function _import() {
+    open_window('导入','/warehouse/feesDomestic/importUI', 480, 200);
 }
 // 批量删除
 function _batchDelete(){

@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>新增流转单汇总</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="../../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="../../../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="../../../dist/css/sb-admin-2.css" rel="stylesheet">
+	<link href="../../../css/admin.css" rel="stylesheet">
+	<link href="../../../resource/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+	<style type="text/css">
+		body { margin:0 15px;}
+		form { margin-top:20px;}
+		label { padding-top:6px;padding-right:0;}
+	</style>
+	
+    <!-- Custom Fonts -->
+    <link href="../../../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+<form class="form-horizontal" role="form" style="margin-top:20px;" id="defaultForm">
+	<#if im??>	
+	<input hidden="" name="id" id="id" value="${im.id}">
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="flow_number">流转单号：</label>
+        <div class="col-xs-6">
+            <input style="padding-right: 2px" class="form-control" placeholder="流转单号" name="flow_number" id="flow_number" value="${im.flow_number}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="issue_date">发出日期：</label>
+        <div class="col-xs-6">
+            <input class="form-control form_datetime" placeholder="发出日期" name="issue_date" id="issue_date" value="${im.issue_date}">
+        </div>
+    </div> 
+     <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="manual_id">手册号：</label>
+        <div class="col-xs-6">
+            <select style="padding-right: 2px" class="form-control" name="manual_id" id="manual_id">
+                <option value="">--请选择手册号--</option>  
+                <#if normalMasnual?? && normalMasnual?size gt 0>      
+                <#list normalMasnual as normalManual>
+                	<option <#if im.manual_id=normalManual.manual_id>selected</#if> value="${normalManual.manual_id}">${normalManual.manual_id}</option>
+                </#list>
+                </#if>
+           </select>
+        </div>
+    </div> 
+     <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="material_properties">材料性质：</label>
+        <div class="col-xs-6">
+            <input style="padding-right: 2px" class="form-control" placeholder="材料性质" name="material_properties" id="material_properties" value="${im.material_properties}">
+        </div>
+    </div>    
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="import_specification">规格：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="规格" name="import_specification" id="import_specification" value="${im.import_specification}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="import_code">物料编码：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="物料编码" name="import_code" id="import_code" value="${im.import_code}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="batch_num">产品批次号：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="产品批次号" name="batch_num" id="batch_num" value="${im.batch_num}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="domes_sale_num">内销数量：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="内销数量" name="domes_sale_num" id="domes_sale_num" value="${im.domes_sale_num}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="unit">单位：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="单位" name="unit" id="unit" value="${im.unit}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="overdue_tax_progress">补税项目：</label>
+        <div class="col-xs-6">
+            <input style="padding-right: 2px" class="form-control" placeholder="补税项目" name="overdue_tax_progress" id="overdue_tax_progress" value="${im.overdue_tax_progress}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="applicant">申请人：</label>
+        <div class="col-xs-6">
+            <input style="padding-right: 2px" class="form-control" placeholder="申请人" name="applicant" id="applicant" value="${im.applicant}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="storage_location">库位：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="库位" name="storage_location" id="storage_location" value="${im.storage_location}">
+        </div>
+    </div> 
+     <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="costum_batch_num">海关批次号：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="海关批次号" name="costum_batch_num" id="costum_batch_num" value="${im.costum_batch_num}">
+        </div>
+    </div> 
+     <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="remark">备注：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="备注" name="remark" id="remark" value="${im.remark}">
+        </div>
+    </div>
+	<#else>
+	<div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="flow_number">流转单号：</label>
+        <div class="col-xs-6">
+            <input style="padding-right: 2px" class="form-control" placeholder="流转单号" name="flow_number" id="flow_number" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="issue_date">发出日期：</label>
+        <div class="col-xs-6">
+            <input class="form-control form_datetime" placeholder="发出日期" name="issue_date" id="issue_date" value="">
+        </div>
+    </div> 
+     <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="manual_id">手册号：</label>
+        <div class="col-xs-6">
+            <select style="padding-right: 2px" class="form-control" name="manual_id" id="manual_id">
+                <option value="">--请选择手册号--</option>  
+                <#if normalMasnual?? && normalMasnual?size gt 0>      
+                <#list normalMasnual as normalManual>
+                	<option value="${normalManual.manual_id}">${normalManual.manual_id}</option>
+                </#list>
+                </#if>
+           </select> 
+        </div>
+    </div> 
+     <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="material_properties">材料性质：</label>
+        <div class="col-xs-6">
+            <input style="padding-right: 2px" class="form-control" placeholder="材料性质" name="material_properties" id="material_properties" value="">
+        </div>
+    </div>    
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="import_specification">规格：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="规格" name="import_specification" id="import_specification" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="import_code">物料编码：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="物料编码" name="import_code" id="import_code" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="batch_num">产品批次号：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="产品批次号" name="batch_num" id="batch_num" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="domes_sale_num">内销数量：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="内销数量" name="domes_sale_num" id="domes_sale_num" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="unit">单位：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="单位" name="unit" id="unit" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="overdue_tax_progress">补税项目：</label>
+        <div class="col-xs-6">
+            <input style="padding-right: 2px" class="form-control" placeholder="补税项目" name="overdue_tax_progress" id="overdue_tax_progress" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="applicant">申请人：</label>
+        <div class="col-xs-6">
+            <input style="padding-right: 2px" class="form-control" placeholder="申请人" name="applicant" id="applicant" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="storage_location">库位：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="库位" name="storage_location" id="storage_location" value="">
+        </div>
+    </div> 
+     <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="costum_batch_num">海关批次号：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="海关批次号" name="costum_batch_num" id="costum_batch_num" value="">
+        </div>
+    </div> 
+     <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="remark">备注：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="备注" name="remark" id="remark" value="">
+        </div>
+    </div>
+	</#if>      
+	<div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="v"></label>
+        <div class="col-xs-6">
+            <button id="v" type="submit" class="btn btn-11">　保存　</button>
+       	</div>
+    </div>     
+</form>
+<!-- jQuery -->
+<script src="../../../vendor/jquery/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="../../../vendor/bootstrap/js/bootstrap.min.js"></script>
+
+<!-- Metis Menu Plugin JavaScript -->
+<script src="../../../vendor/metisMenu/metisMenu.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="../../../dist/js/sb-admin-2.js"></script>
+<script src="../../../resource/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
+<script src="../../../resource/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script> 
+<script src="../../../resource/bootstrap-datetimepicker/js/moment-with-locales.min.js"></script>
+<script src="../../../resource/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+<script src="../../../js/common/admin.js"></script>
+<script type="text/javascript">
+//日期控件
+$(".form_datetime").datetimepicker({
+	format: "yyyy-mm-dd",
+	autoclose: true,
+	todayBtn: false,
+	todayHighlight: true,
+	showMeridian: true,
+	pickerPosition: "bottom-right",
+	language: 'zh-CN',//中文，需要引用zh-CN.js包
+	startView: 2,// // 日视图
+	minView: 2,
+});
+$(function(){	
+	// 表单校验
+	$('form').bootstrapValidator({
+		message: 'This value is not valid',
+		feedbackIcons: {
+			valid: 'glyphicon glyphicon-ok',
+			invalid: 'glyphicon glyphicon-remove',
+			validating: 'glyphicon glyphicon-refresh'
+		},
+		fields: {
+			flow_number: {
+				validators: {
+					notEmpty: {
+						message: '请输入流转单号!'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+	                regexp:{
+						regexp:/^[a-zA-Z0-9_\-\u0391-\uFFE5 ]{1,30}$/,
+						message:'请输入正确的流转单号'
+					}					 
+				}
+			},
+			issue_date: {
+				validators: {
+					notEmpty: {
+						message: '请输入发出日期!'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+					regexp:{
+						regexp:/^[a-zA-Z0-9_\-\/\u0391-\uFFE5 ]{1,30}$/,
+						message:'请输入正确的材料性质'
+					},
+				}
+			},
+			manual_id: {
+				validators: {
+					notEmpty: {
+						message: '请输入手册号!'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+					regexp:{
+						regexp:/^[a-zA-Z0-9_\-\/\u0391-\uFFE5 ]{1,30}$/,
+						message:'请输入正确的规格'
+					}
+				}
+			},
+	material_properties: {
+				validators: {
+					notEmpty: {
+						message: '请输入材料性质!'
+					},
+					stringLength: {
+		                min: 0,
+		                max: 20,
+		                message: '最多20个字符'
+		            },
+					regexp:{
+						regexp:/^[a-zA-Z0-9_\-\/\u0391-\uFFE5 ]{1,30}$/,
+						message:'请输入正确材料性质'
+					}
+				}
+			},
+	import_specification: {
+				validators: {
+					notEmpty: {
+						message: '请输入规格!'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+					regexp:{
+						regexp:/^[a-zA-Z0-9_\-\/\u0391-\uFFE5 ]{1,30}$/,
+						message:'请输入正确的折成料件品名和单位!'
+					}
+				}
+			},
+			import_code: {
+				validators: {
+					notEmpty: {
+						message: '请输入物料编码!'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                }
+				}
+			},
+			batch_num: {
+				validators: {
+					notEmpty: {
+						message: '请输入产品批次号!'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                }
+				}
+			},
+		domes_sale_num: {
+				validators: {
+					notEmpty: {
+						message: '请输入内销数量!'
+					},	
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                }
+				}
+			},
+			unit: {
+				validators: {
+					notEmpty: {
+						message: '请输入单位!'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                }
+				}
+			},
+			applicant: {
+				validators: {
+					notEmpty: {
+						message: '请输入申请人!'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                }
+				}
+			},
+		storage_location: {
+				validators: {
+					notEmpty: {
+						message: '请输入库位!'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                }
+				}
+			},
+		costum_batch_num: {
+				validators: {
+					notEmpty: {
+						message: '请输入海关批次号!'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                }
+				}
+			},
+	overdue_tax_progress: {
+				validators: {
+					notEmpty: {
+						message: '请输入补税项目!'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                }
+				}
+			},
+			remark: {
+				validators: {
+					notEmpty: {
+						message: '请输入补税项目!'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                }
+				}
+			} 
+		}
+	});
+})
+.on('success.form.bv', function(e) {
+	e.preventDefault();
+	 $.post("/purchase/importfloworder/saveOrUpdate", $('#defaultForm').serialize(), function(result) {
+		if (result) {
+			parent.layer.msg("保存成功", {time: 2000}, function(){
+				layer_close();
+				parent.parent.refresh_iframe();
+			});
+
+		} else {
+			parent.layer.msg('保存失败', {icon: 1});
+		}
+		
+	}); 
+});
+</script>
+</body>
+
+</html>

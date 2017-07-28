@@ -101,7 +101,7 @@
     <div class="form-group">
         <label class="col-xs-5 control-label text-right" for="pick_up_charge">提货费：</label>
         <div class="col-xs-6">
-            <input class="form-control" placeholder="提货表" name="pick_up_charge" id="pick_up_charge" value="${im.pick_up_charge!}">
+            <input class="form-control" placeholder="提货费" name="pick_up_charge" id="pick_up_charge" value="${im.pick_up_charge!}">
         </div>
     </div>
     <div class="form-group">
@@ -179,13 +179,24 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="IBMS_num">IBMS号：</label>
+        <label class="col-xs-5 control-label text-right" for="logistics_id">物流公司：</label>
         <div class="col-xs-6">
-            <input class="form-control" placeholder="IBMS号" name="IBMS_num" id="IBMS_num" value="${im.IBMS_num!}">
+            <#if host>
+    		<select style="padding-right: 2px" class="form-control" name="logistics_id" id="logistics_id">
+                <option value="">--请选择物流公司--</option>  
+                <#if WuLiuCompanies?? && WuLiuCompanies?size gt 0>      
+                <#list WuLiuCompanies as WuliuCompany>
+                	<option <#if im.logistics_id = WuliuCompany.id>selected</#if> value="${WuliuCompany.id}">${WuliuCompany.company_name}</option>
+                </#list>
+                </#if>
+           </select> 
+    		<#else>    
+       			<input class="form-control" placeholder="物流公司" name="logistics_id" id="logistics_id" value="${logistics_name!}" disabled="disabled">      
+    		</#if>
         </div>
     </div>
 </div> 
-<div style="display: inline-block;margin-bottom: 0px">
+<div style="display: inline-block;margin-bottom: 49px">
     <div class="form-group">
         <label class="col-xs-5 control-label text-right" for="import_name">商品名称：</label>
         <div class="col-xs-6">
@@ -238,23 +249,6 @@
         <label class="col-xs-5 control-label text-right" for="cost_type">费用类型：</label>
         <div class="col-xs-6">
             <input class="form-control" placeholder="费用类型" name="cost_type" id="cost_type" value="${im.cost_type!}">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="logistics_id">物流公司：</label>
-        <div class="col-xs-6">
-            <#if host>
-    		<select style="padding-right: 2px" class="form-control" name="logistics_id" id="logistics_id">
-                <option value="">--请选择物流公司--</option>  
-                <#if WuLiuCompanies?? && WuLiuCompanies?size gt 0>      
-                <#list WuLiuCompanies as WuliuCompany>
-                	<option <#if im.logistics_id = WuliuCompany.id>selected</#if> value="${WuliuCompany.id}">${WuliuCompany.company_name}</option>
-                </#list>
-                </#if>
-           </select> 
-    		<#else>    
-       			<input class="form-control" placeholder="物流公司" name="logistics_id" id="logistics_id" value="${logistics_name!}" disabled="disabled">      
-    		</#if>
         </div>
     </div>
 </div>
@@ -383,13 +377,24 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="IBMS_num">IBMS号：</label>
+        <label class="col-xs-5 control-label text-right" for="logistics_id">物流公司：</label>
         <div class="col-xs-6">
-            <input class="form-control" placeholder="IBMS号" name="IBMS_num" id="IBMS_num" value="">
-        </div>
+    	<#if host>
+    		<select style="padding-right: 2px" class="form-control" name="logistics_id" id="logistics_id">
+                <option value="">--请选择物流公司--</option>  
+                <#if WuLiuCompanies?? && WuLiuCompanies?size gt 0>      
+                <#list WuLiuCompanies as WuliuCompany>
+                	<option value="${WuliuCompany.id}">${WuliuCompany.company_name}</option>
+                </#list>
+                </#if>
+           </select> 
+    	<#else>    
+       		<input class="form-control" placeholder="物流公司" name="logistics_id" id="logistics_id" value="${logistics_name!}" disabled="disabled">      
+    	</#if>
+   		 </div>
     </div>
 </div> 
-<div style="display: inline-block;margin-bottom: 0px">
+<div style="display: inline-block;margin-bottom: 49px">
     <div class="form-group">
         <label class="col-xs-5 control-label text-right" for="import_name">商品名称：</label>
         <div class="col-xs-6">
@@ -443,24 +448,7 @@
         <div class="col-xs-6">
             <input class="form-control" placeholder="费用类型" name="cost_type" id="cost_type" value="">
         </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-5 control-label text-right" for="logistics_id">物流公司：</label>
-        <div class="col-xs-6">
-    	<#if host>
-    		<select style="padding-right: 2px" class="form-control" name="logistics_id" id="logistics_id">
-                <option value="">--请选择物流公司--</option>  
-                <#if WuLiuCompanies?? && WuLiuCompanies?size gt 0>      
-                <#list WuLiuCompanies as WuliuCompany>
-                	<option value="${WuliuCompany.id}">${WuliuCompany.company_name}</option>
-                </#list>
-                </#if>
-           </select> 
-    	<#else>    
-       		<input class="form-control" placeholder="物流公司" name="logistics_id" id="logistics_id" value="${logistics_name!}" disabled="disabled">      
-    	</#if>
-    </div>
-    </div>
+    </div>   
 </div>
 	<div style="margin-left: 52px" class="form-group">
         <label class="col-xs-1 control-label text-right" for="remark">备注：</label>

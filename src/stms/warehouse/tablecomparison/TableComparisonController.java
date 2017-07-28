@@ -30,11 +30,9 @@ public class TableComparisonController extends Controller {
     
     // 
     public void getJson(){
-        String in_date = getPara("in_date");
-        setAttr("in_date", in_date);
+        String location = getPara("location");
+        setAttr("location", location);
         String company_name = getPara("company_name");
-        setAttr("company_name", company_name);
-        String material_no = getPara("material_no");
         setAttr("company_name", company_name);
         
         Integer pageindex = 0; // 页码
@@ -45,7 +43,7 @@ public class TableComparisonController extends Controller {
         }
         pageindex += 1;
         
-        Page<Record> page = TableComparisonService.getDataPages(pageindex, pagelimit, in_date, company_name, material_no);
+        Page<Record> page = TableComparisonService.getDataPages(pageindex, pagelimit, location, company_name);
         
         Map<String, Object> map = new HashMap<String,Object>();
         map.put("rows", page.getList());

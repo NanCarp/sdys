@@ -18,13 +18,13 @@ public abstract class BaseImportTax<M extends BaseImportTax<M>> extends Model<M>
 		return get("id");
 	}
 
-	public M setImport InnerNum(java.lang.String import InnerNum) {
-		set("import _inner_num", import InnerNum);
+	public M setImportInnerNum(java.lang.String importInnerNum) {
+		set("import_inner_num", importInnerNum);
 		return (M)this;
 	}
 
-	public java.lang.String getImport InnerNum() {
-		return get("import _inner_num");
+	public java.lang.String getImportInnerNum() {
+		return get("import_inner_num");
 	}
 
 	public M setPurchasingAgent(java.lang.String purchasingAgent) {
@@ -54,13 +54,13 @@ public abstract class BaseImportTax<M extends BaseImportTax<M>> extends Model<M>
 		return get("import_name");
 	}
 
-	public M setDeclare quantity(java.lang.String declare quantity) {
-		set("declare_ quantity", declare quantity);
+	public M setDeclareQuantity(java.lang.String declareQuantity) {
+		set("declare_quantity", declareQuantity);
 		return (M)this;
 	}
 
-	public java.lang.String getDeclare quantity() {
-		return get("declare_ quantity");
+	public java.lang.String getDeclareQuantity() {
+		return get("declare_quantity");
 	}
 
 	public M setDeclareUnit(java.lang.String declareUnit) {

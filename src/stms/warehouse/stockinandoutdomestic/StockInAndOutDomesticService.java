@@ -27,10 +27,10 @@ public class StockInAndOutDomesticService {
                 + " c.currency,c.amount ";
         String sql = " FROM `t_domes_in_warehouse` AS a "
                 + " LEFT JOIN t_domes_out_warehouse AS b "
-                + " ON a.batch_no = b.batch_no "
+                + " ON a.tray_no = b.tray_no "
                 + " LEFT JOIN t_standard_charge_domestic AS c "
-                + " ON DATE_FORMAT(a.in_date,'%Y%m') = c.period AND a.storage_location = c.location "
-                + " WHERE 1 = 1";
+                + " ON DATE_FORMAT(a.in_date,'%Y%m') = c.period AND a.company_name = c.company_name "
+                + " WHERE 1 = 1 ";
         
         if (company_name != null && !"".equals(company_name)) {
             sql += " AND a.company_name like '%" + company_name + "%'";

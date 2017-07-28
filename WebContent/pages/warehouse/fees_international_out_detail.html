@@ -240,6 +240,15 @@ $(function(){
                     notEmpty: {
                         message: '不能为空!'
                     },
+                    regexp: {
+                        regexp: /^[a-zA-Z0-9]{1,}$/,
+                        message: '请输入正确的集装箱号'
+                    },
+                    stringLength: {
+                        min: 0,
+                        max: 20,
+                        message: '最多20个字符'
+                    }
                 }
             },
 			"out_tray_quantity": {
@@ -247,6 +256,15 @@ $(function(){
 					notEmpty: {
 						message: '不能为空!'
 					},
+                    regexp: {
+                        regexp: /^[0-9]+$/,
+                        message: '请输入正确的数量'
+                    },
+                    stringLength: {
+                        min: 0,
+                        max: 20,
+                        message: '最多20个字符'
+                    }
 				}
 			},
 			"loading_fees": {
@@ -254,6 +272,15 @@ $(function(){
 					notEmpty: {
 						message: '不能为空!'
 					},
+                    regexp: {
+                        regexp: /^[0-9]+(\.[0-9]{1,})?$/,
+                        message: '请输入正确的金额'
+                    },
+                    stringLength: {
+                        min: 0,
+                        max: 20,
+                        message: '最多20个字符'
+                    }
 				}
 			},
 			"customs_fees": {
@@ -261,6 +288,15 @@ $(function(){
 					notEmpty: {
 						message: '不能为空!'
 					},
+                    regexp: {
+                        regexp: /^[0-9]+(\.[0-9]{1,})?$/,
+                        message: '请输入正确的金额'
+                    },
+                    stringLength: {
+                        min: 0,
+                        max: 20,
+                        message: '最多20个字符'
+                    }
 				}
 			},
 			"file_fees": {
@@ -268,6 +304,15 @@ $(function(){
 					notEmpty: {
 						message: '不能为空!'
 					},
+                    regexp: {
+                        regexp: /^[0-9]+(\.[0-9]{1,})?$/,
+                        message: '请输入正确的金额'
+                    },
+                    stringLength: {
+                        min: 0,
+                        max: 20,
+                        message: '最多20个字符'
+                    }
 				}
 			},
 			"delivery_fees": {
@@ -275,6 +320,15 @@ $(function(){
 					notEmpty: {
 						message: '不能为空!'
 					},
+                    regexp: {
+                        regexp: /^[0-9]+(\.[0-9]{1,})?$/,
+                        message: '请输入正确的金额'
+                    },
+                    stringLength: {
+                        min: 0,
+                        max: 20,
+                        message: '最多20个字符'
+                    }
 				}
 			},
             "other_fees": {
@@ -282,6 +336,15 @@ $(function(){
                     notEmpty: {
                         message: '不能为空!'
                     },
+                    regexp: {
+                        regexp: /^[0-9]+(\.[0-9]{1,})?$/,
+                        message: '请输入正确的金额'
+                    },
+                    stringLength: {
+                        min: 0,
+                        max: 20,
+                        message: '最多20个字符'
+                    }
                 }
             },
 			"remark": {
@@ -296,6 +359,15 @@ $(function(){
 					notEmpty: {
 						message: '不能为空!'
 					},
+                    regexp: {
+                        regexp: /^[a-zA-Z0-9]{1,}$/,
+                        message: '请输入正确的发票号'
+                    },
+                    stringLength: {
+                        min: 0,
+                        max: 20,
+                        message: '最多20个字符'
+                    }
 				}
 			},
 			"delivery_no": {
@@ -303,6 +375,15 @@ $(function(){
 					notEmpty: {
 						message: '不能为空!'
 					},
+                    regexp: {
+                        regexp: /^[a-zA-Z0-9]{1,}$/,
+                        message: '请输入正确的出库单号'
+                    },
+                    stringLength: {
+                        min: 0,
+                        max: 20,
+                        message: '最多20个字符'
+                    }
 				}
 			}
 		}

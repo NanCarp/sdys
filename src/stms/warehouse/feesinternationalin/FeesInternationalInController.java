@@ -60,6 +60,11 @@ public class FeesInternationalInController extends Controller {
         renderJson(map);
     }
     
+    /** 
+    * @Title: getRecord 
+    * @Description: TODO(这里用一句话描述这个方法的作用)  void
+    * @author liyu
+    */
     public void getRecord() {
         // id
         Integer id = getParaToInt();
@@ -79,7 +84,11 @@ public class FeesInternationalInController extends Controller {
         render("fees_international_in_detail.html");
     }
     
-    // 保存
+    /** 
+    * @Title: save 
+    * @Description: 保存
+    * @author liyu
+    */
     public void save() {
         InterWarehouseFeesIn record = getModel(InterWarehouseFeesIn.class, "");
         
@@ -126,6 +135,11 @@ public class FeesInternationalInController extends Controller {
         renderJson(response);
     }
     
+    /** 
+    * @Title: importUI 
+    * @Description: 导入页面
+    * @author liyu
+    */
     public void importUI() {
         // 导入页面
         render("fees_international_in_import.html");

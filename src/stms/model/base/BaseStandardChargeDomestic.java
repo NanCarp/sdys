@@ -36,6 +36,15 @@ public abstract class BaseStandardChargeDomestic<M extends BaseStandardChargeDom
 		return get("company_name");
 	}
 
+	public M setLocation(java.lang.String location) {
+		set("location", location);
+		return (M)this;
+	}
+
+	public java.lang.String getLocation() {
+		return get("location");
+	}
+
 	public M setCurrency(java.lang.String currency) {
 		set("currency", currency);
 		return (M)this;

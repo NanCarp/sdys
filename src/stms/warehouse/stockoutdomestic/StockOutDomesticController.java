@@ -82,14 +82,14 @@ public class StockOutDomesticController extends Controller {
         Map<String, Object> response = new HashMap<>();
         // 重复检测
         Integer id = record.getId();
-        String batchNo = record.getBatchNo();
+        /*String batchNo = record.getBatchNo();
         String trayNo = record.getTrayNo();
-        if (id == null && StockOutDomesticService.isDuplicate(batchNo, trayNo)) {
+        if (id == null && StockOutDomesticService.isDuplicate(null, trayNo)) {
             response.put("tips", "数据重复！");
             response.put("isSuccess", false);
             renderJson(response);
             return;
-        }
+        }*/
         
         if (id != null) {// 编辑
             result = record.update();

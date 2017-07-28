@@ -53,8 +53,11 @@
                         <div class="col-sm-2 col-xs-3 head_2">
                             <input type="search" class="form-control" placeholder="物料号" name="material_no" id="material_no" value="${material_no!}">
                         </div> -->
-                        <div class="col-sm-2 col-xs-3 head_2">
+                        <!-- <div class="col-sm-2 col-xs-3 head_2">
                             <input type="search" class="form-control" placeholder="库位" name="location" id="location" value="${location!}">
+                        </div> -->
+                        <div class="col-sm-2 col-xs-3 head_2">
+                            <input type="search" class="form-control" placeholder="批次号" name="批次号" id="batch_no" value="${batch_no!}">
                         </div>
 						<div class="col-sm-1 col-xs-12 head_1">
 							<button class="btn btn-primary" onclick="doQuery()">查询</button>
@@ -121,6 +124,7 @@ function doQuery(){
 	layui.use('layer',function(){
         var layer = layui.layer;
         
+        var batch_no = $.trim($('#batch_no').val());
         var company_name = $.trim($('#company_name').val());
         var material_no = $.trim($('#material_no').val());
         if($.trim($('#company_name').val())!=''){
@@ -133,6 +137,12 @@ function doQuery(){
             var reg = /^[a-zA-Z0-9_ ]{1,30}$/;
             if(!reg.test($('#material_no').val())){
                 layer.tips('不允许有特殊字符，最多20个字符', '#material_no', {tips: [1, '#34495E']});return;
+            }                   
+        }
+        if($.trim($('#batch_no').val())!=''){
+            var reg = /^[a-zA-Z0-9_ ]{1,30}$/;
+            if(!reg.test($('#batch_no').val())){
+                layer.tips('不允许有特殊字符，最多20个字符', '#batch_no', {tips: [1, '#34495E']});return;
             }                   
         }
         $('#tb_departments').bootstrapTable('refresh');    //刷新表格
@@ -182,31 +192,31 @@ var TableInit = function () {
             		return index+1;
             	}
             }, {
-                field: 'location1',
+                field: 'storage_location',
                 title: 'SAP 库位'
             }, {
-                field: 'company_name1',
+                field: 'company_name',
                 title: '物流公司名称'
             }, {
-                field: 'quantity1',
+                field: 'real_time_quantity',
                 title: '数量'
             }, {
-                field: 'tray_quantity1',
+                field: 'real_time_tray_quantity',
                 title: '托盘数量'
             }, {
-                field: 'material_no1',
+                field: 'material_no',
                 title: '物料号'
             }, {
-                field: 'material1',
+                field: 'material',
                 title: '物料描述'
             }, {
-                field: 'batch_no1',
+                field: 'batch_no',
                 title: '批次号'
             }, {
-                field: 'tray_no1',
+                field: 'tray_no',
                 title: '托盘号'
             }, {
-                field: 'module_power1',
+                field: 'module_power',
                 title: '组件功率'
             }, {
                 field: 'location2',
@@ -222,7 +232,10 @@ var TableInit = function () {
                 title: '物料描述'
             }, {
                 field: 'batch_no2',
-                title: '批次号'
+                title: '批次号',
+                formatter:function(value,row,index){
+                    return row.location2 == null ? null : row.batch_no2;
+                },
             }, {
                 field: 'module_power2',
                 title: '组件功率'
@@ -239,7 +252,7 @@ var TableInit = function () {
             	field:'opt',
             	title:'操作',
             	formatter:function(value,row,index){
-            			  return['<button class="btn btn-xs btn-3"  onclick="_edit('+row.id+')">编辑</button>' ]
+            			  return['<button class="btn btn-xs btn-3"  onclick="_edit(\''+row.batch_no+'\')">编辑</button>' ];
             	},
             }]
         });
@@ -252,9 +265,10 @@ var TableInit = function () {
             offset: params.offset,  //页码
             maxrows: params.limit,
             search: params.search,
-           	in_date: $("#in_date").val(),
-           	company_name: $("#company_name").val(),
-           	material_no: $("#material_no").val(),
+           	in_date: $.trim($("#in_date").val()),
+           	company_name: $.trim($("#company_name").val()),
+           	material_no: $.trim($("#material_no").val()),
+           	batch_no: $.trim($("#batch_no").val())
         };
         return temp;
     };
@@ -273,17 +287,17 @@ var ButtonInit = function () {
 };
 
 // 编辑
-function _edit(id){
-	open_window('编辑库位对比','/warehouse/locationComparison/getRecord/' + id, 760, 220);
+function _edit(batch_no){
+    open_window('编辑库位对比','/warehouse/locationComparison/getRecord/' + batch_no, 760, 220);
 }
 function _edit1(){
-    // 获取选中记录 id
-    var id = getIdSelections();
+    // 获取选中记录 batch_no
+    var batch_no = getBatchNo();
     // 如果没有选择，提示勾选至少一条数据
-    if (id.length == 0) {
+    if (batch_no.length == 0) {
         layer.msg('请选择一条记录', {time: 2000});
-    } else if (id.length == 1){
-        _edit(id);
+    } else if (batch_no.length == 1){
+        _edit(batch_no);
     } else {
         layer.msg('最多选择选择一条记录', {time: 2000});
     }
@@ -341,6 +355,12 @@ function stateFormatter(value, row, index) {
 function getIdSelections() {
     return $.map($("#tb_departments").bootstrapTable('getSelections'), function(row) {
         return row.id;
+    });
+}
+//获取被选中数据的批次号
+function getBatchNo() {
+    return $.map($("#tb_departments").bootstrapTable('getSelections'), function(row) {
+        return row.batch_no;
     });
 }
 //全选、全不选

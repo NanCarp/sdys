@@ -1,0 +1,1217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>流转单汇总</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="../../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="../../../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="../../../dist/css/sb-admin-2.css" rel="stylesheet">
+	<link href="../../../css/admin.css" rel="stylesheet">
+	<link href="../../../resource/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+	<style type="text/css">
+		body { margin:0 15px;}
+		form { margin-top:20px;}
+		label { padding-top:6px;padding-right:0;}
+	</style>
+	
+    <!-- Custom Fonts -->
+    <link href="../../../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+<form class="form-horizontal" role="form" style="margin-top:20px;" id="defaultForm">
+	<#if im??>	
+<div style="display: inline-block">	
+	<input hidden="" name="id" value="" id="id">
+     <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="application_date">申请日期：</label>
+        <div class="col-xs-6">
+            <input class="form-control form_datetime" placeholder="申请日期" name="application_date" id="application_date" value="${im.application_date!}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="material_properties">材料性质：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="材料性质" name="material_properties" id="material_properties" value="${im.material_properties!}">
+        </div>
+    </div> 
+     <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="import_code">商品编码：</label>
+        <div class="col-xs-6">
+           <input class="form-control" placeholder="商品编码" name="import_code" id="import_code" value="${im.import_code!}">                      
+        </div>
+    </div>    
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="unit">单位：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="单位" name="unit" id="unit" value="${im.unit!}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="dollar_rate">对美元汇率：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="对美元汇率" name="dollar_rate" id="dollar_rate" value="${im.dollar_rate!}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="CIF_price">CIF价格(RMB)：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="CIF价格(RMB)" name="CIF_price" id="CIF_price" value="${im.CIF_price!}">
+        </div>
+    </div>
+     <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="VAT">增值税(RMB)：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="增值税(RMB)" name="VAT" id="VAT" value="${im.VAT!}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="defer_VAT">增缓：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="增缓" name="defer_VAT" id="defer_VAT" value="${im.defer_VAT!}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="tax_project">补税项目：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="补税项目" name="tax_project" id="tax_project" value="${im.tax_project!}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="withdrawal_date">收回日期：</label>
+        <div class="col-xs-6">
+            <input class="form-control form_datetime" placeholder="收回日期" name="withdrawal_date" id="withdrawal_date" value="${im.withdrawal_date!}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="costum_batch_num">海关批次：</label>
+        <div class="col-xs-6">
+            <input  class="form-control" placeholder="海关批次" name="costum_batch_num" id="costum_batch_num" value="${im.costum_batch_num!}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="business_type">业务类型：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="业务类型" name="business_type" id="business_type" value="${im.business_type!}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="total">合计：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="合计" name="total" id="total" value="${im.total!}">
+        </div>
+    </div>    
+ </div>  
+ <div style="display:inline-block;margin-bottom:50px"> 
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="pay_date">支付日期：</label>
+        <div class="col-xs-6">
+            <input class="form-control form_datetime" placeholder="支付日期" name="pay_date" id="pay_date" value="${im.pay_date!}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="import_specification">规格：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="规格" name="import_specification" id="import_specification" value="${im.import_specification!}" >
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="import_material_name">进口料件名称：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="进口料件名称" name="import_material_name" id="import_material_name" value="${im.import_material_name!}" onblur="getInfoFromImportName()">
+        </div>
+    </div>
+     <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="unit_price">单价：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="单价" name="unit_price" id="unit_price" value="${im.unit_price!}">
+        </div>
+    </div>
+     <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="domes_fees_usd">内销金额(USD)：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="内销金额(USD)" name="domes_fees_usd" id="domes_fees_usd" value="${im.domes_fees_usd!}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="tax_rate">税率：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="税率" name="tax_rate" id="tax_rate" value="${im.tax_rate!}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="tax_relief_days">缓税天数：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="缓税天数" name="tax_relief_days" id="tax_relief_days" value="${im.tax_relief_days!}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="actual_tax_total">实际税费总计：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="实际税费总计" name="actual_tax_total" id="actual_tax_total" value="${im.actual_tax_total!}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="inner_transfer_no">内部流转号：</label>
+        <div class="col-xs-6">
+            <input style="padding-right: 2px" class="form-control" placeholder="内部流转号" name="inner_transfer_no" id="inner_transfer_no" value="${im.inner_transfer_no!}">
+        </div>
+    </div>   
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="receipttax_date">税单签收日期：</label>
+        <div class="col-xs-6">
+            <input class="form-control form_datetime" placeholder="税单签收日期" name="receipttax_date" id="receipttax_date" value="${im.receipttax_date!}">
+        </div>
+    </div> 
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="actual_taxrate">税单实际汇率：</label>
+        <div class="col-xs-6">
+            <input style="padding-right: 2px" class="form-control" placeholder="税单实际汇率" name="actual_taxrate" id="actual_taxrate" value="${im.actual_taxrate!}">
+        </div>
+    </div> 
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="angent_fee">代办费：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="代办费" name="angent_fee" id="angent_fee" value="${im.angent_fee!}">
+        </div>
+    </div> 
+</div>
+<div style="display:inline-block;margin-bottom: 50px">
+	<div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="manual_id">手册号：</label>
+        <div class="col-xs-6">
+            <select style="padding-right: 2px" class="form-control" name="manual_id" id="manual_id">
+                <option value="">--请选择手册号--</option>  
+                <#if normalMasnuals?? && normalMasnuals?size gt 0>      
+                <#list normalMasnuals as normalManual>
+                	<option <#if im.manual_id=normalManual.manual_id>selected</#if> value="${normalManual.manual_id}">${normalManual.manual_id}</option>
+                </#list>
+                </#if>
+           </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="import_num">项号：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="项号" name="import_num" id="import_num" value="${im.import_num!}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="amount">数量：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="数量" name="amount" id="amount" value="${im.amount!}">
+        </div>
+    </div>
+     <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="currency_system">币制：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="币制" name="currency_system" id="currency_system" value="${im.currency_system!}">
+        </div>
+    </div>
+     <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="domes_fees_rmb">内销金额(RMB)：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="内销金额(RMB)" name="domes_fees_rmb" id="domes_fees_rmb" value="${im.domes_fees_rmb!}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="tariff">关税(RMB)：</label>
+        <div class="col-xs-6">
+            <input style="padding-right: 2px" class="form-control" placeholder="关税(RMB)" name="tariff" id="tariff" value="${im.tariff!}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="defer_tariff">关缓：</label>
+        <div class="col-xs-6">
+            <input style="padding-right: 2px" class="form-control" placeholder="关缓" name="defer_tariff" id="defer_tariff" value="${im.defer_tariff!}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="domes_tax_report_num">内销补税报关单：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="内销补税报关单" name="domes_tax_report_num" id="domes_tax_report_num" value="${im.domes_tax_report_num!}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="issue_date">发出日期：</label>
+        <div class="col-xs-6">
+            <input class="form-control form_datetime" placeholder="发出日期" name="issue_date" id="issue_date" value="${im.issue_date!}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="iscompleted_customs_procedures">是否完成报关手续：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="报关单随机单证号" name="iscompleted_customs_procedures" id="iscompleted_customs_procedures" value="${im.iscompleted_customs_procedures!}">
+        </div>
+    </div>   
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="customs_broker">报关行：</label>
+        <div class="col-xs-6">
+           <input class="form-control" placeholder="报关行" name="customs_broker" id="customs_broker" value="${im.customs_broker!}">
+        </div>
+    </div> 
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="transfer_fee">输机费：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="输机费" name="transfer_fee" id="transfer_fee" value="${im.transfer_fee!}">
+        </div>
+    </div> 
+</div>
+	<div style="margin-left: 56px" class="form-group">
+        <label class="col-xs-1 control-label text-right" for="remark">备注：</label>
+        <div class="col-xs-6">
+            <textarea class="form-control" placeholder="备注" name="remark" id="remark" value="">${im.remark!}</textarea>
+        </div>
+    </div>  
+	
+	<#else>
+<div style="display: inline-block">	
+	<input hidden="" name="id" value="" id="id">
+     <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="application_date">申请日期：</label>
+        <div class="col-xs-6">
+            <input class="form-control form_datetime" placeholder="申请日期" name="application_date" id="application_date" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="material_properties">材料性质：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="材料性质" name="material_properties" id="material_properties" value="">
+        </div>
+    </div> 
+     <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="import_code">商品编码：</label>
+        <div class="col-xs-6">
+           <input class="form-control" placeholder="商品编码" name="import_code" id="import_code" value="">                      
+        </div>
+    </div>    
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="unit">单位：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="单位" name="unit" id="unit" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="dollar_rate">对美元汇率：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="对美元汇率" name="dollar_rate" id="dollar_rate" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="CIF_price">CIF价格(RMB)：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="CIF价格(RMB)" name="CIF_price" id="CIF_price" value="">
+        </div>
+    </div>
+     <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="VAT">增值税(RMB)：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="增值税(RMB)" name="VAT" id="VAT" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="defer_VAT">增缓：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="增缓" name="defer_VAT" id="defer_VAT" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="tax_project">补税项目：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="补税项目" name="tax_project" id="tax_project" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="withdrawal_date">收回日期：</label>
+        <div class="col-xs-6">
+            <input class="form-control form_datetime" placeholder="收回日期" name="withdrawal_date" id="withdrawal_date" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="costum_batch_num">海关批次：</label>
+        <div class="col-xs-6">
+            <input style="padding-right: 2px" class="form-control" placeholder="海关批次" name="costum_batch_num" id="costum_batch_num" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="business_type">业务类型：</label>
+        <div class="col-xs-6">
+            <input style="padding-right: 2px" class="form-control" placeholder="业务类型" name="business_type" id="business_type" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="total">合计：</label>
+        <div class="col-xs-6">
+            <input style="padding-right: 2px" class="form-control" placeholder="合计" name="total" id="total" value="">
+        </div>
+    </div>    
+ </div>  
+ <div style="display:inline-block;margin-bottom:50px"> 
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="pay_date">支付日期：</label>
+        <div class="col-xs-6">
+            <input class="form-control form_datetime" placeholder="支付日期" name="pay_date" id="pay_date" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="import_specification">规格：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="规格" name="import_specification" id="import_specification" value="" >
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="import_material_name">进口料件名称：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="进口料件名称" name="import_material_name" id="import_material_name" value="" onblur="getInfoFromImportName()">
+        </div>
+    </div>
+     <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="unit_price">单价：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="单价" name="unit_price" id="unit_price" value="">
+        </div>
+    </div>
+     <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="domes_fees_usd">内销金额(USD)：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="内销金额(USD)" name="domes_fees_usd" id="domes_fees_usd" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="tax_rate">税率：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="税率" name="tax_rate" id="tax_rate" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="tax_relief_days">缓税天数：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="缓税天数" name="tax_relief_days" id="tax_relief_days" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="actual_tax_total">实际税费总计：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="实际税费总计" name="actual_tax_total" id="actual_tax_total" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="inner_transfer_no">内部流转号：</label>
+        <div class="col-xs-6">
+            <input style="padding-right: 2px" class="form-control" placeholder="内部流转号" name="inner_transfer_no" id="inner_transfer_no" value="">
+        </div>
+    </div>   
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="receipttax_date">税单签收日期：</label>
+        <div class="col-xs-6">
+            <input class="form-control form_datetime" placeholder="税单签收日期" name="receipttax_date" id="receipttax_date" value="">
+        </div>
+    </div> 
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="actual_taxrate">税单实际汇率：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="税单实际汇率" name="actual_taxrate" id="actual_taxrate" value="">
+        </div>
+    </div> 
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="angent_fee">代办费：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="代办费" name="angent_fee" id="angent_fee" value="">
+        </div>
+    </div> 
+</div>
+<div style="display:inline-block;margin-bottom: 50px">
+	<div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="manual_id">手册号：</label>
+        <div class="col-xs-6">
+            <select style="padding-right: 2px" class="form-control" name="manual_id" id="manual_id">
+                <option value="">--请选择手册号--</option>  
+                <#if normalMasnuals?? && normalMasnuals?size gt 0>      
+                <#list normalMasnuals as normalManual>
+                	<option value="${normalManual.manual_id}">${normalManual.manual_id}</option>
+                </#list>
+                </#if>
+           </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="import_num">项号：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="项号" name="import_num" id="import_num" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="amount">数量：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="数量" name="amount" id="amount" value="">
+        </div>
+    </div>
+     <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="currency_system">币制：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="币制" name="currency_system" id="currency_system" value="">
+        </div>
+    </div>
+     <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="domes_fees_rmb">内销金额(RMB)：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="内销金额(RMB)" name="domes_fees_rmb" id="domes_fees_rmb" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="tariff">关税(RMB)：</label>
+        <div class="col-xs-6">
+            <input style="padding-right: 2px" class="form-control" placeholder="关税(RMB)" name="tariff" id="tariff" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="defer_tariff">关缓：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="关缓" name="defer_tariff" id="defer_tariff" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="domes_tax_report_num">内销补税报关单：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="内销补税报关单" name="domes_tax_report_num" id="domes_tax_report_num" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="issue_date">发出日期：</label>
+        <div class="col-xs-6">
+            <input class="form-control form_datetime" placeholder="发出日期" name="issue_date" id="issue_date" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="iscompleted_customs_procedures">是否完成报关手续：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="报关单随机单证号" name="iscompleted_customs_procedures" id="iscompleted_customs_procedures" value="">
+        </div>
+    </div>   
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="customs_broker">报关行：</label>
+        <div class="col-xs-6">
+           <input class="form-control" placeholder="报关行" name="customs_broker" id="customs_broker" value="">
+        </div>
+    </div> 
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="transfer_fee">输机费：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="输机费" name="transfer_fee" id="transfer_fee" value="">
+        </div>
+    </div> 
+</div>
+	<div style="margin-left: 56px" class="form-group">
+        <label class="col-xs-1 control-label text-right" for="remark">备注：</label>
+        <div class="col-xs-6">
+            <textarea class="form-control" placeholder="备注" name="remark" id="remark" value=""></textarea>
+        </div>
+    </div>    
+    </#if>
+    <div style="margin-left: 52px" class="form-group">
+        <label class="col-xs-1 control-label" for="v"></label>
+        <div class="col-xs-6">
+            <button id="v" type="submit" class="btn btn-11">　保存　</button>
+       	</div>
+    </div>
+</form>
+<!-- jQuery -->
+<script src="../../../vendor/jquery/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="../../../vendor/bootstrap/js/bootstrap.min.js"></script>
+
+<!-- Metis Menu Plugin JavaScript -->
+<script src="../../../vendor/metisMenu/metisMenu.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="../../../dist/js/sb-admin-2.js"></script>
+<script src="../../../resource/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
+<script src="../../../resource/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script> 
+<script src="../../../resource/bootstrap-datetimepicker/js/moment-with-locales.min.js"></script>
+<script src="../../../resource/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+<script src="../../../js/common/admin.js"></script>
+<script src="../../../resource/layer/layer.js"></script>
+<script type="text/javascript">
+$(".form_datetime").datetimepicker({
+	format: "yyyy-mm-dd",
+	autoclose: true,
+	todayBtn: false,
+	todayHighlight: true,
+	showMeridian: true,
+	pickerPosition: "bottom-right",
+	language: 'zh-CN',//中文，需要引用zh-CN.js包
+	startView: 2,// // 日视图
+	minView: 2,
+});
+$(function(){
+	// 表单校验
+	$('form').bootstrapValidator({
+		message: 'This value is not valid',
+		feedbackIcons: {
+			valid: 'glyphicon glyphicon-ok',
+			invalid: 'glyphicon glyphicon-remove',
+			validating: 'glyphicon glyphicon-refresh'
+		},
+		fields: {
+		application_date: {
+				validators: {
+					notEmpty: {
+						message: '请输入申请日期!'
+					}
+				}
+			},
+			pay_date: {
+				validators: {
+					notEmpty: {
+						message: '请输入支付日期!'
+					}
+				}
+			},
+			manual_id: {
+				validators: {
+					notEmpty: {
+						message: '请选择手册号!'
+					}
+				}
+			},
+	material_properties: {
+				validators: {
+					notEmpty:{
+						message:'请输入材料性质'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 30,
+	                    message: '最多30个字符'
+	                }
+				}
+			},
+	import_specification: {
+				validators: {
+					notEmpty:{
+						message:'请输入规格型号'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 30,
+	                    message: '最多30个字符'
+	                },
+				}
+			},
+			import_num: {
+				validators: {
+					notEmpty:{
+						message:'请输入项号'
+					}
+				}
+			},
+			import_code: {	
+				validators: {
+					notEmpty:{
+						message:'请输入商品编码'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 30,
+	                    message: '最多30个字符'
+	                },
+					regexp:{
+						regexp:/^[a-zA-Z0-9_\-\u0391-\uFFE5 ]{1,30}$/,
+						message:'请勿输入特殊字符'
+					}	
+				}
+			},
+	import_material_name: {
+				validators: {
+					notEmpty:{
+						message:'请输入进口料件名称'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+					regexp:{
+						regexp:/^[a-zA-Z0-9_\-\u0391-\uFFE5 ]{1,30}$/,
+						message:'请勿输入特殊字符'
+					}
+				}
+			},
+			amount: {
+				validators: {
+					notEmpty:{
+						message:'请输入数量'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+	                regexp:{
+						regexp:/^\d+(\.\d{1,4})?$/,
+						message:'请保留小数点后4位'
+					}										
+				}
+			},
+			unit: {
+				validators: {
+					notEmpty:{
+						message:'请输入单位'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+					regexp:{
+						regexp:/^[a-zA-Z0-9_\-\u0391-\uFFE5 ]{1,30}$/,
+						message:'请勿输入特殊字符'
+					}	
+				}
+			},
+			unit_price: {
+				validators: {
+					notEmpty:{
+						message:'请输入单价'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+					regexp:{
+						regexp:/^\d+(\.\d{1,4})?$/,
+						message:'请勿输入特殊字符'
+					}
+				}
+			},
+			currency_system: {
+				validators: {
+					notEmpty:{
+						message:'请输入币制'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+					regexp:{
+						regexp:/^[a-zA-Z0-9_\-\u0391-\uFFE5 ]{1,30}$/,
+						message:'请勿输入特殊字符'
+					}	
+				}
+			},
+			dollar_rate: {
+				validators: {
+					notEmpty:{
+						message:'请输入对美汇率'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+	                regexp:{
+						regexp:/^\d+(\.\d{1,4})?$/,
+						message:'请保留小数点后4位'
+					}					
+				}
+			},
+			domes_fees_usd: {				
+				validators: {
+					notEmpty:{
+						message:'请输入内销金额'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+	                regexp:{
+						regexp:/^\d+(\.\d{1,4})?$/,
+						message:'请保留小数点后4位'
+					}
+				}
+			},
+		domes_fees_rmb: {				
+				validators: {
+					notEmpty:{
+						message:'请输入内销金额'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+	                regexp:{
+						regexp:/^\d+(\.\d{1,4})?$/,
+						message:'请保留小数点后4位'
+					}	
+				}
+			},
+			CIF_price: {
+				validators: {
+					notEmpty:{
+						message:'请输入CIF价格'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+	                regexp:{
+						regexp:/^\d+(\.\d{1,4})?$/,
+						message:'请保留小数点后4位'
+					}
+				}
+			},
+			tax_rate: {
+				validators: {
+					notEmpty:{
+						message:'请输入税率'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+					regexp:{
+						regexp:/^\d+(\.\d{1,4})?$/,
+						message:'请保留小数点后4位'
+					}
+				}
+			},
+			tariff: {
+				validators: {
+					notEmpty:{
+						message:'请输入关税'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+					regexp:{
+						regexp:/^\d+(\.\d{1,4})?$/,
+						message:'请保留小数点后4位'
+					}
+				}
+			},
+			VAT: {
+				validators: {
+					notEmpty:{
+						message:'请输入增值税'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+					regexp:{
+						regexp:/^\d+(\.\d{1,4})?$/,
+						message:'请保留小数点后4位'
+					}
+				}
+			},
+		tax_relief_days: {
+				validators: {
+					notEmpty:{
+						message:'请输入缓税天数'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+					regexp:{
+						regexp:/^[1-9]*[1-9][0-9]*$/,
+						message:'请勿输入特殊字符'
+					}
+				}
+			},
+			defer_tariff: {
+				validators: {
+					notEmpty:{
+						message:'请输入关缓'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+					regexp:{
+						regexp:/^\d+(\.\d{1,4})?$/,
+						message:'请最多保留四位小数'
+					}
+				}
+			},
+			defer_VAT: {
+				validators: {
+					notEmpty:{
+						message:'请输入增缓'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+					regexp:{
+						regexp:/^\d+(\.\d{1,4})?$/,
+						message:'请最多保留四位小数'
+					}
+				}
+			},
+		actual_tax_total: {
+				validators: {
+					notEmpty:{
+						message:'请输入实际税费总计'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+					regexp:{
+						regexp:/^\d+(\.\d{1,4})?$/,
+						message:'请最多保留四位小数'
+					}
+				}
+			},
+	domes_tax_report_num: {
+				validators: {
+					notEmpty:{
+						message:'请输入内销补税报关单'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 30,
+	                    message: '最多30个字符'
+	                }
+				}
+			},
+			tax_project: {
+				validators: {
+					notEmpty:{
+						message:'请输入补税项目'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+					regexp:{
+						regexp:/^[a-zA-Z0-9_\-\u0391-\uFFE5 ]{1,30}$/,
+						message:'请勿输入特殊字符'
+					}
+				}
+			},
+			transport_mode: {
+				validators: {
+					notEmpty:{
+						message:'请输入运输方式'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+					regexp:{
+						regexp:/^[a-zA-Z0-9_\-\u0391-\uFFE5 ]{1,30}$/,
+						message:'请勿输入特殊字符'
+					}
+				}
+			},
+	inner_transfer_no: {
+				validators: {
+					notEmpty:{
+						message:'请输入内部流转号'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+					regexp:{
+						regexp:/^[a-zA-Z0-9_\-\u0391-\uFFE5 ]{1,30}$/,
+						message:'请勿输入特殊字符'
+					}
+				}
+			},
+			issue_date: {
+				validators: {
+					notEmpty:{
+						message:'请输入发出日期'
+					},
+				}
+			},
+		withdrawal_date: {
+				validators: {
+					notEmpty:{
+						message:'请选择收回日期'
+					},
+				}
+			},
+		receipttax_date: {
+				validators: {
+					notEmpty:{
+						message:'请选择税单签收日期'
+					},
+				}
+			},
+iscompleted_customs_procedures: {
+				validators: {
+					notEmpty:{
+						message:'请输入报关单随机单证号'
+					},
+					regexp:{
+						regexp:/^[a-zA-Z0-9_\-\u0391-\uFFE5 ]{1,30}$/,
+						message:'请勿输入特殊字符'
+					}
+				}
+			},
+		costum_batch_num: {
+				validators: {
+					notEmpty:{
+						message:'请输入海关批次号'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+					regexp:{
+						regexp:/^[a-zA-Z0-9_\-\u0391-\uFFE5 ]{1,30}$/,
+						message:'请勿输入特殊字符'
+					}
+				}
+			},
+		actual_taxrate: {
+				validators: {
+					notEmpty:{
+						message:'请输入税单实际税率'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+					regexp:{
+						regexp:/^[a-zA-Z0-9_\-\u0391-\uFFE5 ]{1,30}$/,
+						message:'请勿输入特殊字符'
+					}
+				}
+			},
+		customs_broker: {
+				validators: {
+					notEmpty:{
+						message:'请输入报关行'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+					regexp:{
+						regexp:/^[a-zA-Z0-9_\-\u0391-\uFFE5 ]{1,30}$/,
+						message:'请勿输入特殊字符'
+					}
+				}
+			},
+		business_type: {
+				validators: {	
+					notEmpty:{
+						message:'请输入业务类型'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+	                regexp:{
+						regexp:/^\d+(\.\d{1,4})?$/,
+						message:'请保留小数点后4位'
+					}
+				}
+			},
+			angent_fee: {
+				validators: {
+					notEmpty:{
+						message:'请输入代办费'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+	                regexp:{
+						regexp:/^\d+(\.\d{1,4})?$/,
+						message:'请保留小数点后4位'
+					}
+				}
+			},
+			transfer_fee: {
+				validators: {
+					notEmpty:{
+						message:'请输入输机费'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+	                regexp:{
+						regexp:/^\d+(\.\d{1,4})?$/,
+						message:'请保留小数点后4位'
+					}
+				}
+			},
+			total: {
+				validators: {
+					notEmpty:{
+						message:'请输入输机费'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+	                regexp:{
+						regexp:/^\d+(\.\d{1,4})?$/,
+						message:'请保留小数点后4位'
+					}
+				}
+			},
+			remark: {
+				validators: {
+					stringLength: {
+	                    min: 0,
+	                    max: 255,
+	                    message: '最多255个字符'
+	                },
+				}
+			},
+			return_invoice_date: {
+				validators: {
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                }
+				}
+			},
+			return_declare_date: {
+				validators: {
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                }
+				}
+			},
+			receipt_no: {
+				validators: {
+					notEmpty:{
+						message:'请输入入库单号(校验单)'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                },
+	                regexp:{
+						regexp:/^[a-zA-Z0-9_\u0391-\uFFE5 ]{1,30}$/,
+						message:'请勿输入特殊字符'
+					}
+				}
+			},
+			receipt_type: {
+				validators: {
+					notEmpty:{
+						message:'请输入单据类型'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 20,
+	                    message: '最多20个字符'
+	                }
+				}
+			},
+		}
+	});
+})
+.on('success.form.bv', function(e) {
+	e.preventDefault();
+	 $.post("/purchase/importdomestic", $('#defaultForm').serialize(), function(result) {
+		if (result.result) {
+			if(result.import_inner_num!=null){
+				parent.layer.msg("保存成功<br>"+"内部编号为:"+result.import_inner_num, {time: 3000}, function(){
+					layer_close();
+					parent.parent.refresh_iframe();
+				});
+			}else{
+				parent.layer.msg("保存成功", {time: 2000}, function(){
+					layer_close();
+					parent.parent.refresh_iframe();
+				});
+			}
+		} else {
+			parent.layer.msg('保存失败', {icon: 1});
+		}
+		
+	}); 
+});
+
+//进口料件输入完毕自动带出，单位、项号、商品编码
+function getInfoFromImportName(){
+	var import_material_name = $.trim($("#import_material_name").val());
+	var manual_id = $("#manual_id").val();
+	if(import_material_name!=""&&manual_id!=""){
+		$.post("/purchase/importdomestic/getInfoFromImportName",{"import_material_name":import_material_name,"manual_id":manual_id},function(result){
+			if(result.flag){
+				$("#import_num").val(result.import_num);
+				$("#import_code").val(result.import_code);
+				$("#unit").val(result.import_unit);
+			}
+		},"JSON")	
+	}
+	
+}
+
+//内销金额 = 单价 * 数量
+function getdomes_fees_rmb(){
+	var unit_price = $.trim($("#unit_price").val());
+	var amount = $.trim($("#amount").val());
+	if(unit_price!=""&&unit_price!=null&&amount!=""&&amount!=null){
+		var domes_fees_rmb = parseFloat(unit_price)*parseFloat(amount);
+		alert(domes_fees_rmb);
+	}
+	
+}
+
+
+</script>
+</body>
+
+</html>

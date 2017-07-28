@@ -121,4 +121,15 @@ public class ImportFreightService {
 		String sql =" select * from t_company where id != 1";
 		return Db.find(sql);
 	}
+	
+	/**
+	 * @desc 根据账单周期以及货代修改IBMS号
+	 * @author xuhui
+	 */
+	public static int updateIBMS(String IBMS_num,Integer logistics_id,String statement_date){
+		String sql = "UPDATE t_import_freight SET IBMS_num = '"+IBMS_num
+				+ "' WHERE logistics_id ="+logistics_id+" and statement_date = '"+statement_date+"'";
+		
+		return	Db.update(sql);
+	}
 }

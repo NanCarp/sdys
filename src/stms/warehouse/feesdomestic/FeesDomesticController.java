@@ -8,6 +8,7 @@ import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
+import com.jfinal.upload.UploadFile;
 
 import stms.model.DomesWarehouseFees;
 
@@ -148,5 +149,40 @@ public class FeesDomesticController extends Controller {
         response.put("isSuccess", result);
         response.put("tips", result ? "删除成功": "删除失败");
         renderJson(response);
-    }    
+    }
+    
+    /** 
+    * @Title: importUI 
+    * @Description: 导入页面
+    * @author liyu
+    */
+    public void importUI() {
+        // 导入页面
+        render("fees_domestic_import.html");
+    }
+
+    /** 
+    * @Title: importByExcel 
+    * @Description: 导入 excel 中的数据
+    */
+    public void importByExcel() {
+        // excel
+        UploadFile uploadFile = getFile();
+        
+        Map<String, Object> msgMap = FeesDomesticService.importByExcel(uploadFile, getSession());
+        
+        renderJson(msgMap);
+    }
+    
+    /** 
+    * @Title: showErrorExcelMessage 
+    * @Description: 显示错误信息
+    */
+    public void showErrorExcelMessage(){
+        List<Integer> countlist = getSessionAttr("countWrongList");
+        boolean ErrorFile = getSessionAttr("ErrorFile");
+        setAttr("countlist", countlist);
+        setAttr("ErrorFile", ErrorFile);
+        render("wrong_message.html");
+    }
 }

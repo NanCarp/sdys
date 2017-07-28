@@ -47,14 +47,11 @@
 						<!-- <div class="col-sm-2 col-xs-3 head_2">
                             <input class="form_datetime form-control " placeholder="日期" name="in_date" id="in_date" value="${in_date!}">
                         </div>
-						<div class="col-sm-2 col-xs-3 head_2">
-                            <input type="search" class="form-control" placeholder="公司名称" name="company_name" id="company_name" value="${company_name!}">
-                        </div>
                         <div class="col-sm-2 col-xs-3 head_2">
                             <input type="search" class="form-control" placeholder="物料号" name="material_no" id="material_no" value="${material_no!}">
                         </div> -->
                         <div class="col-sm-2 col-xs-3 head_2">
-                            <input type="search" class="form-control" placeholder="库位" name="location" id="location" value="${location!}">
+                            <input type="search" class="form-control" placeholder="物流公司名称" name="company_name" id="company_name" value="${company_name!}">
                         </div>
 						<div class="col-sm-1 col-xs-12 head_1">
 							<button class="btn btn-primary" onclick="doQuery()">查询</button>
@@ -62,15 +59,15 @@
 						<!-- <div class="col-sm-2 col-xs-6 head_1">
 		                    <button class="btn btn-success" onclick="_add()">新增</button>
 		                </div> -->
-		                <div class="col-sm-1 col-xs-12 head_1">
+		                <!-- <div class="col-sm-1 col-xs-12 head_1">
                             <button class="btn btn-5" onclick="_import()">导入</button>
-                        </div>
+                        </div> -->
                         <!-- <div class="col-sm-1 col-xs-12 head_1">
                             <button class="btn btn-3"  onclick="_edit1()">编辑</button>
                         </div> -->
-                        <div class="col-sm-2 col-xs-6 head_1" >
+                        <!-- <div class="col-sm-2 col-xs-6 head_1" >
 		                     <button class="btn btn-4" onclick=" _batchDelete()">删除</button>
-		                </div>
+		                </div> -->
 		                <div class="col-sm-1 col-xs-4 head_1">
                              <button class="btn btn-9 " onclick="location.replace('/warehouse/tableComparison')"><i class="fa fa-refresh"></i></button>
                         </div>                  
@@ -170,12 +167,12 @@ var TableInit = function () {
             showRefresh:true,           
             locale: "zh-CN",					//中文支持,
             //是否显示父子表
-            columns: [{
+            columns: [/* {
             	field:"checked",
             	checkbox: true,
             	formatter:stateFormatter        	
             	
-            }, {
+            }, */ {
             	field:"SerialNumber",
             	title:'序号',
             	formatter:function(value,row,index){
@@ -185,16 +182,16 @@ var TableInit = function () {
                 field: 'date',
                 title: '日期（年月）'
             }, {
-                field: 'location1',
+                field: 'storage_location',
                 title: 'SAP 库位'
             }, {
-                field: 'company_name1',
+                field: 'company_name',
                 title: '物流公司名称'
             }, {
-                field: 'quantity1',
+                field: 'quality',
                 title: '数量(片)'
             }, {
-                field: 'tray_quantity1',
+                field: 'tray_quality',
                 title: '托盘数量（托）'
             }, {
                 field: 'quantity2',
@@ -202,13 +199,13 @@ var TableInit = function () {
             }, {
                 field: 'tray_quantity3',
                 title: '托盘数量（托）'
-            }, {
+            }/* , {
             	field:'opt',
             	title:'操作',
             	formatter:function(value,row,index){
             			  return['<button class="btn btn-xs btn-3"  onclick="_edit('+row.id+')">编辑</button>' ]
             	},
-            }]
+            } */]
         });
     };
 
@@ -310,14 +307,6 @@ function getIdSelections() {
         return row.id;
     });
 }
-//全选、全不选
-$("#checkAll").click(function() {
-    $("input[name='sub']").prop("checked", this.checked);
-});
-$("input[name='sub']").click(function() {
-    var $subs = $("input[name='sub']");
-    $("#checkAll").prop("checked" , $subs.length == $subs.filter(":checked").length ? true :false);
-});
 //日期控件
 $(".form_datetime").datetimepicker({
     format: "yyyy-mm-dd",

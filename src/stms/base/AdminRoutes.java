@@ -9,7 +9,9 @@ import stms.manual.importation.ImportationController;
 
 import stms.manual.summary.SummaryController;
 import stms.purchase.Importmaterialtax.ImportmaterialtaxController;
+import stms.purchase.importdomestic.ImportDomesticController;
 import stms.purchase.importedmaterials.ImportedmaterialsController;
+import stms.purchase.importfloworder.importfloworderController;
 import stms.purchase.importfreight.ImportFreightControllr;
 import stms.purchase.importsummary.ImportSummaryController;
 import stms.purchase.importtaxbreak.ImporttaxbreakController;
@@ -72,6 +74,10 @@ public class AdminRoutes extends Routes{
 		add("/purchase/Importtax",ImportmaterialtaxController.class,"/purchase");
 		//进口货物-内销管理-转税折料表
 		add("/purchase/Importtaxbreak",ImporttaxbreakController.class,"/purchase");
+		//进口货物-内销管理-流转单汇总
+		add("/purchase/importfloworder",importfloworderController.class,"/purchase");
+		//进口货物-内销管理 -内销补税明细
+		add("/purchase/importdomestic",ImportDomesticController.class,"/purchase");
 		
 		
 		// 系统管理-公司管理控制器

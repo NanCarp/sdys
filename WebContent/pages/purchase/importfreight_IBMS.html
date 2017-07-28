@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>进口运费-IBMS号</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="../../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link href="../../../resource/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <!-- Custom CSS -->
+    <link href="../../../dist/css/sb-admin-2.css" rel="stylesheet">
+	<link href="../../../css/admin.css" rel="stylesheet">
+	<style type="text/css">
+		body { margin:0 15px;}
+		form { margin-top:20px;}
+		label { padding-top:6px;padding-right:0;}
+	</style>
+	
+    <!-- Custom Fonts -->
+    <link href="../../../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+<form class="form-horizontal" role="form" style="margin-top:20px;" id="defaultForm">
+    <div class="form-group">
+        <label class="col-xs-4 control-label text-right" for="statement_date">账单周期：</label>
+        <div class="col-xs-6">
+            <input class="form_datetime form-control" placeholder="账单周期" name="statement_date" id="statement_date">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-4 control-label text-right" for="logistics_id">物流公司：</label>
+        <div class="col-xs-6">
+            <select style="padding-right: 2px" class="form-control" name="logistics_id" id="logistics_id">
+                <option value="">--请选择物流公司--</option>  
+                <#if WuLiuCompanies?? && WuLiuCompanies?size gt 0>      
+                <#list WuLiuCompanies as WuliuCompany>
+                	<option value="${WuliuCompany.id}">${WuliuCompany.company_name}</option>
+                </#list>
+                </#if>
+           </select> 
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-4 control-label text-right" for="IBMS_num">IBMS号：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="IBMS号" name="IBMS_num" id="IBMS_num">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-4 control-label" for="v"></label>
+        <div class="col-xs-6">
+            <button id="v" type="submit" class="btn btn-11">　保存　</button>
+       	</div>
+    </div>
+</form>
+<!-- jQuery -->
+<script src="../../../vendor/jquery/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="../../../vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="../../../resource/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script> 
+<script src="../../../resource/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+<!-- Custom Theme JavaScript -->
+<script src="../../../resource/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
+<script src="../../../js/common/admin.js"></script>
+<script type="text/javascript">
+$(function(){
+	$(".form_datetime").datetimepicker({
+		format:"yyyy-mm",
+		autoclose: true,
+		todayBtn: true,
+		todayHighlight: true,
+		showMeridian: true,
+		pickerPosition: "bottom-right",
+		language: 'zh-CN',//中文，需要引用zh-CN.js包
+		startView: 3,//年视图
+		minView: 3,
+		// 禁止手动输入
+	});
+	// 表单校验
+	$('form').bootstrapValidator({
+		message: 'This value is not valid',
+		feedbackIcons: {
+			valid: 'glyphicon glyphicon-ok',
+			invalid: 'glyphicon glyphicon-remove',
+			validating: 'glyphicon glyphicon-refresh'
+		},
+		fields: {
+		statement_date: {
+				validators: {
+					notEmpty: {
+						message: '请输入账单周期'
+					},
+				}
+			},
+		logistics_id: {
+				validators: {
+					notEmpty: {
+						message: '请输入选择物流公司'
+					},
+				}
+			},
+			IBMS_num: {
+				validators: {
+					notEmpty: {
+						message: '请输入选择物流公司'
+					},
+					stringLength: {
+	                    min: 0,
+	                    max: 200,
+	                    message: '最多200个字符'
+	                },
+					regexp:{
+						regexp:/^[a-zA-Z0-9_\-\u0391-\uFFE5]{1,30}$/,
+						message:'请输入正确的IBMS号'
+					}
+				}
+			},
+		}
+	});
+})
+.on('success.form.bv', function(e) {
+	e.preventDefault();
+	$.post("/purchase/importfreight/updateIBMS", $('#defaultForm').serialize(), function(result) {
+		if (result.isSuccess) {
+            parent.layer.msg("保存成功<br>"+"更新"+result.row+"条IBMS信息", {time: 3000}, function(){
+                layer_close();
+                parent.parent.refresh_iframe();
+            });
+        } else {
+            parent.layer.msg("保存失败",result.tips, {time: 2000});
+        }
+		
+	});
+});
+
+//取消
+$('#cancel').on("click",function() {
+	layer_close();
+});
+</script>
+</body>
+
+</html>

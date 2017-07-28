@@ -55,6 +55,12 @@
             <input class="form-control" placeholder="材料性质" name="material_properties" id="material_properties" value="${im.material_properties!}">
         </div>
     </div> 
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="import_name">进口料件名称：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="规格" name="import_name" id="import_name" value="${im.import_name!}">
+        </div>
+    </div>
      <div class="form-group">
         <label class="col-xs-5 control-label text-right" for="import_specification">规格：</label>
         <div class="col-xs-6">
@@ -100,7 +106,14 @@
     <div class="form-group">
         <label class="col-xs-5 control-label text-right" for="manual_id">手册号：</label>
         <div class="col-xs-6">
-            <input class="form-control" placeholder="手册号" name="manual_id" id="manual_id" value="${im.manual_id!}">
+            <select style="padding-right: 2px" class="form-control" name="manual_id" id="manual_id">
+                <option value="">--请选择手册号--</option>  
+                <#if normanlManuals?? && normanlManuals?size gt 0>      
+                <#list normanlManuals as normalManual>
+                	<option <#if im.manual_id=normalManual.manual_id>selected</#if> value="${normalManual.manual_id}">${normalManual.manual_id}</option>
+                </#list>
+                </#if>
+           </select>
         </div>
     </div>
     <#else>
@@ -116,6 +129,12 @@
             <input class="form-control" placeholder="材料性质" name="material_properties" id="material_properties" value="">
         </div>
     </div> 
+     <div class="form-group">
+        <label class="col-xs-5 control-label text-right" for="import_name">进口料件名称：</label>
+        <div class="col-xs-6">
+            <input class="form-control" placeholder="规格" name="import_name" id="import_name" value="">
+        </div>
+    </div>
      <div class="form-group">
         <label class="col-xs-5 control-label text-right" for="import_specification">规格：</label>
         <div class="col-xs-6">
@@ -161,7 +180,14 @@
     <div class="form-group">
         <label class="col-xs-5 control-label text-right" for="manual_id">手册号：</label>
         <div class="col-xs-6">
-            <input class="form-control" placeholder="手册号" name="manual_id" id="manual_id" value="">
+           <select style="padding-right: 2px" class="form-control" name="manual_id" id="manual_id">
+                <option value="">--请选择手册号--</option>  
+                <#if normanlManuals?? && normanlManuals?size gt 0>      
+                <#list normanlManuals as normalManual>
+                	<option  value="${normalManual.manual_id}">${normalManual.manual_id}</option>
+                </#list>
+                </#if>
+           </select>
         </div>
     </div>
     </#if>
@@ -390,11 +416,6 @@ $(function(){
 		
 	}); 
 });
-
-
-
-
-
 
 </script>
 </body>

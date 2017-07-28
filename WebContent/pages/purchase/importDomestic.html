@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>流转单汇总</title>
+    <title>内销补税明细</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="../../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -27,7 +27,6 @@
     <link href="../../../css/common/common.css" rel="stylesheet">
     <link href="../../../css/admin.css" rel="stylesheet">
 	<link href="../../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"> 
-		<link href="../../../resource/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
 	
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -43,34 +42,31 @@
 		<div class="panel panel-default">		
 			<div class="panel-heading">					
 				<div class="container container-fluid" >				
-					<div class="row">                        	    		                                            		
-						<div class="col-sm-1 col-xs-1 head_2" style="min-width: 130px">
-							<input type="search" class="form-control" placeholder="流转单号" name="flow_number" id="flow_number">
-						</div>
+					<div class="row">  
 						<div class="col-sm-1 col-xs-1 head_2" style="min-width: 130px">
 							<input type="search" class="form-control" placeholder="手册号"  name="manual_id" id="manual_id">
-						</div>
+						</div>                      	    		                                            		
 						<div class="col-sm-1 col-xs-1 head_2" style="min-width: 130px">
-							<input type="search" class="form-control" placeholder="海关批次号"  name="custom_batch_num" id="custom_batch_num">
-						</div>					
+							<input type="search" class="form-control" placeholder="报关单号" name="domes_tax_report_num" id="domes_tax_report_num">
+						</div>						
+						<div class="col-sm-1 col-xs-1 head_2" style="min-width: 130px">
+							<input type="search" class="form-control" placeholder="流转单号"  name="inner_transfer_no" id="inner_transfer_no">
+						</div>						
+						<div class="col-sm-1 col-xs-1 head_2" style="min-width: 130px">
+							<input type="search" class="form-control" placeholder="海关批次号"  name="costum_batch_num" id="costum_batch_num">
+						</div>
 						<div class="col-sm-1 col-xs-12 head_1">
 							<button class="btn btn-primary" onclick="doQuery()">查询</button>
 						</div>                    			
 						<div class="col-sm-2 col-xs-6 head_1">
 		                    <button class="btn btn-success" onclick="_add()">新增</button>
 		                </div>
-		                <div class="col-sm-2 col-xs-12 head_1">
-		                    <button  class="btn btn-5" onclick="uploadexcel()">导入</button>
-		                </div>
 		                <div class="col-sm-2 col-xs-6 head_1">
 		                    <button class="btn btn-3" onclick="_edit()">编辑</button>
-		                </div>
+		                </div>		          
                         <div class="col-sm-2 col-xs-6 head_1" >
 		                     <button class="btn btn-4" onclick=" _batchDelete()">删除</button>
-		                </div>                    									
-		                <div class="col-sm-1 col-xs-4 head_1">
-                             <button class="btn btn-9 " onclick=""><i class="fa fa-refresh"></i></button>
-                        </div>                  
+		                </div>             
 					</div>				
 				</div>
 			</div>		
@@ -96,17 +92,16 @@
 <script src="../../../resource/tableExport.jquery.plugin/tableExport.jquery.plugin/tableExport.js" type="text/javascript"></script> 
 <script src="../../../resource/bootstrap-table/extensions/export/bootstrap-table-export.js" type="text/javascript"></script>
 <script src="../../../resource/bootstrap-table/locale/bootstrap-table-zh-CN.js" type="text/javascript"></script>
-<script src="../../../resource/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script> 
-<script src="../../../resource/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
 <!-- Custom Theme JavaScript -->
 <script src="../../../resource/layer/layer.js"></script>
 <script src="../../../resource/layui/layui.js"></script>
 <script src="../../../js/common/admin.js"></script>
 
 <script>
-var flow_number="";
-var custom_batch_num="";
 var manual_id="";
+var domes_tax_report_num="";
+var inner_transfer_no="";
+var costum_batch_num="";
 
 $(function () {	 
     //1.初始化Table
@@ -120,25 +115,32 @@ $(function () {
 function doQuery(){
 	layui.use('layer',function(){
 		var layer = layui.layer;
-		flow_number = $.trim($('#flow_number').val());
-		custom_batch_num = $.trim($('#custom_batch_num').val());
 		manual_id = $.trim($('#manual_id').val());
-		if($.trim($('#flow_number').val())!=''){
-			var reg = /^[a-zA-Z0-9_\-\u0391-\uFFE5 ]{1,30}$/;
-			if(!reg.test($('#flow_number').val())){
-				layer.tips('不允许有特殊字符，最多20个字符', '#flow_number', {tips: [1, '#34495E']});return;
-			}					
-		}
-		if($.trim($('#custom_batch_num').val())!=''){
-			var reg = /^[a-zA-Z0-9_\-\u0391-\uFFE5 ]{1,30}$/;
-			if(!reg.test($('#custom_batch_num').val())){
-				layer.tips('不允许有特殊字符，最多20个字符', '#custom_batch_num', {tips: [1, '#34495E']});return;
-			}					
-		}
+		domes_tax_report_num = $.trim($('#domes_tax_report_num').val());
+		inner_transfer_no = $.trim($('#inner_transfer_no').val());
+		costum_batch_num = $.trim($('#costum_batch_num').val());
 		if($.trim($('#manual_id').val())!=''){
-			var reg = /^[a-zA-Z0-9_\-\u0391-\uFFE5 ]{1,30}$/;
+			var reg = /^[a-zA-Z0-9_\-\u0391-\uFFE5]{1,30}$/;
 			if(!reg.test($('#manual_id').val())){
 				layer.tips('不允许有特殊字符，最多20个字符', '#manual_id', {tips: [1, '#34495E']});return;
+			}					
+		}
+		if($.trim($('#domes_tax_report_num').val())!=''){
+			var reg = /^[a-zA-Z0-9_\-\u0391-\uFFE5 ]{1,30}$/;
+			if(!reg.test($('#domes_tax_report_num').val())){
+				layer.tips('不允许有特殊字符，最多20个字符', '#domes_tax_report_num', {tips: [1, '#34495E']});return;
+			}					
+		}
+		if($.trim($('#inner_transfer_no').val())!=''){
+			var reg = /^[a-zA-Z0-9_\-\u0391-\uFFE5 ]{1,30}$/;
+			if(!reg.test($('#inner_transfer_no').val())){
+				layer.tips('不允许有特殊字符，最多20个字符', '#inner_transfer_no', {tips: [1, '#34495E']});return;
+			}					
+		}
+		if($.trim($('#costum_batch_num').val())!=''){
+			var reg = /^[a-zA-Z0-9_\-\u0391-\uFFE5 ]{1,30}$/;
+			if(!reg.test($('#costum_batch_num').val())){
+				layer.tips('不允许有特殊字符，最多20个字符', '#costum_batch_num', {tips: [1, '#34495E']});return;
 			}					
 		}
 		 $('#tb_departments').bootstrapTable('refresh');    //刷新表格
@@ -150,7 +152,7 @@ var TableInit = function () {
     //初始化Table
     oTableInit.Init = function () {
         $('#tb_departments').bootstrapTable({
-            url: '/purchase/importfloworder/getJson',         //请求后台的URL（*）
+            url: '/purchase/importdomestic/getJson',         //请求后台的URL（*）
             method: 'get',                      //请求方式（*）
            	toolbar: '#toolbar',                //工具按钮用哪个容器
             showExport: true,                     //是否显示导出
@@ -189,12 +191,12 @@ var TableInit = function () {
             		return index+1;
             	}
             },{
-                field: 'flow_number',
-                title: '流转单号'
+                field: 'application_date',
+                title: '申请日期'
             },{
-                field: 'issue_date',
-                title: '发出日期'
-            }, {
+                field: 'pay_date',
+                title: '支付日期'
+            },{
                 field: 'manual_id',
                 title: '手册号'
             },{
@@ -204,29 +206,101 @@ var TableInit = function () {
                 field: 'import_specification',
                 title: '规格'
             },{
+                field: 'import_num',
+                title: '项号'
+            },{
                 field: 'import_code',
-                title: '物料编码'
+                title: '商品编码'
             },{
-                field: 'batch_num',
-                title: '产品批次号'
+                field: 'import_material_name',
+                title: '进口料件名称'
             },{
-                field: 'domes_sale_num',
-                title: '内销数量'
+                field: 'amount',
+                title: '数量'
             },{
                 field: 'unit',
                 title: '单位'
             },{
-                field: 'overdue_tax_progress',
+                field: 'unit_price',
+                title: '单价'
+            },{
+                field: 'currency_system',
+                title: '币值'
+            },{
+                field: 'dollar_rate',
+                title: '对美汇率'
+            },{
+                field: 'domes_fees_usd',
+                title: '内销金额(USD)'
+            },{
+                field: 'domes_fees_rmb',
+                title: '内销金额(RMB)'
+            },{
+                field: 'CIF_price',
+                title: 'CIF价格'
+            },{
+                field: 'tax_rate',
+                title: '税率'
+            },{
+                field: 'tariff',
+                title: '关税(RMB)'
+            },{
+                field: 'VAT',
+                title: '增值税(RMB)'
+            },{
+                field: 'tax_relief_days',
+                title: '缓税天数'
+            },{
+                field: 'defer_tariff',
+                title: '关缓'
+            },{
+                field: 'defer_VAT',
+                title: '增缓'
+            },{
+                field: 'actual_tax_total',
+                title: '实际税费总计'
+            },{
+                field: 'domes_tax_report_num',
+                title: '内销补税报关单号'
+            },{
+                field: 'tax_project',
                 title: '补税项目'
             },{
-                field: 'applicant',
-                title: '申请人'
+                field: 'inner_transfer_no',
+                title: '内部流转单号'
             },{
-                field: 'storage_location',
-                title: '库位'
+                field: 'issue_date',
+                title: '发出日期'
+            },{
+                field: 'withdrawal_date',
+                title: '收回日期'
+            },{
+                field: 'receipttax_date',
+                title: '签收日期'
+            },{
+                field: 'iscompleted_customs_procedures',
+                title: '是否完成报关手续'
             },{
                 field: 'costum_batch_num',
                 title: '海关批次号'
+            },{
+                field: 'actual_taxrate',
+                title: '税单实际税率'
+            },{
+                field: 'customs_broker',
+                title: '报关行'
+            },{
+                field: 'business_type',
+                title: '业务类型'
+            },{
+                field: 'angent_fee',
+                title: '代办费'
+            },{
+                field: 'transfer_fee',
+                title: '输机费'
+            },{
+                field: 'total',
+                title: '合计'
             },{
                 field: 'remark',
                 title: '备注'
@@ -247,9 +321,10 @@ var TableInit = function () {
             offset: params.offset,  //页码
             maxrows: params.limit,
             search: params.search,
-            flow_number:flow_number,
-            custom_batch_num:custom_batch_num,
             manual_id:manual_id,
+            domes_tax_report_num: domes_tax_report_num,
+            inner_transfer_no: inner_transfer_no,
+            costum_batch_num: costum_batch_num,
         };
         return temp;
     };
@@ -264,9 +339,10 @@ var ButtonInit = function () {
     };
     return oInit;
 };
-//编辑
+
+// 编辑
 function _inedit(id){
-	open_window('编辑转税折料','/purchase/importfloworder/getImportfloworder/' + id,480, 460);
+	open_window('编辑料件清单','/purchase/importdomestic/getImportDomestic/' + id,1200, 600);
 }
 function _edit(){
 	// 获取选中记录 id
@@ -275,15 +351,16 @@ function _edit(){
 	if (id.length == 0) {
         layer.msg('请选择一条记录', {time: 2000});
 	}else if(id.length ==1){
-		open_window('编辑料件清单','/purchase/importfloworder/getImportfloworder/' + id,480, 460);
+		open_window('编辑料件清单','/purchase/importdomestic/getImportDomestic/' + id,1200, 600);
 	}else{
 		layer.msg('最多选择选择一条记录', {time: 2000});
 	}
 }
 
+
 // 新增
 function _add(){
-	open_window('新增料件清单','/purchase/importfloworder/getImportfloworder', 480, 460);
+	open_window('新增料件清单','/purchase/importdomestic/getImportDomestic', 1200, 600);
 }
 
 // 批量删除
@@ -299,7 +376,7 @@ function _batchDelete(){
             title: ['信息', 'font-weight:600;color:#fff;background-color: #3367D6;'],
             btn: ['确认','取消'] //按钮
         }, function(){
-            $.post("/purchase/importfloworder/delete/" + ids,function(result) {
+            $.post("/purchase/importdomestic/delete/" + ids,function(result) {
                 if (result) {
                     layer.msg('删除成功', {time: 2000}, function(){
                         parent.refresh_iframe();
@@ -310,6 +387,7 @@ function _batchDelete(){
                 }
             });
         }, function(){
+
         });
     }
 }
@@ -334,8 +412,14 @@ function getIdSelections() {
 
 //导入Excel
 function uploadexcel(){
-	open_window('导入Excel','/purchase/importfloworder/showimportdesk', 500, 200);
+	open_window('导入Excel','/purchase/importfreight/showimportdesk', 500, 200);
 }
+
+//修改IBMS号
+function openIBMS(){
+	open_window('修改IBMS','/purchase/importfreight/openIBMS',460,280);
+}
+
 </script>
 
 </body>

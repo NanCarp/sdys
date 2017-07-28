@@ -52,10 +52,11 @@ public class ImportedmaterialsController extends Controller{
     	}
     	pageindex += 1;
     	Map<String, Object> map = new HashMap<String,Object>();
-    	List<Record> dictionaryList = ImportedmaterialsService.getImportedmaterials(pageindex, pagelimit,import_inner_num,purchasing_agent,order_num,import_invoice_num,logistics).getList();
+    	List<Record> dictionaryList = ImportedmaterialsService.getImportedmaterials(pageindex,
+    			pagelimit,import_inner_num,purchasing_agent,order_num,import_invoice_num,logistics).getList();
     	map.put("rows", dictionaryList);
-    	map.put("total",ImportedmaterialsService.getImportedmaterials(pageindex, pagelimit,import_inner_num,purchasing_agent,order_num,import_invoice_num,logistics).getTotalRow());
-    	System.out.println(dictionaryList);
+    	map.put("total",ImportedmaterialsService.getImportedmaterials(pageindex, pagelimit,
+    			import_inner_num,purchasing_agent,order_num,import_invoice_num,logistics).getTotalRow());
     	renderJson(map);
     }
 	
@@ -97,20 +98,38 @@ public class ImportedmaterialsController extends Controller{
 		Map<String,Object> map = new HashMap<String,Object>();
 		//生成内部编号
 		if(record.get("id")==null){
-			List<Record> list = ImportedmaterialsService.getMaxImportInnerNum();
-			if(list.size()!=0){
-				String importInner = list.get(0).getStr("import_inner_num");
-				int importInnerCount =  Integer.parseInt(importInner.substring(5, 9));
-				importInnerCount += 10001;
-				String suf = String.valueOf(importInnerCount);
-				String suffix = suf.substring(1, 5);
-				String prefix = "J2017";
-				String import_inner_num = prefix+suffix;
-				record.setImportInnerNum(import_inner_num);
-				result = ImportedmaterialsService.saveOrUpdate(record);
-				map.put("result", result);
-				map.put("import_inner_num",import_inner_num);
-			}
+			String receipt_type = record.getReceiptType();
+			if(receipt_type.equals("进货")){
+				List<Record> list = ImportedmaterialsService.getMaxImportInnerNum("J");
+				if(list.size()!=0){				
+					String importInner = list.get(0).getStr("import_inner_num");
+					int importInnerCount =  Integer.parseInt(importInner.substring(5, 9));
+					importInnerCount += 10001;
+					String suf = String.valueOf(importInnerCount);
+					String suffix = suf.substring(1, 5);
+					String Jprefix = "J2017";
+					String import_inner_num = Jprefix+suffix;
+					record.setImportInnerNum(import_inner_num);
+					result = ImportedmaterialsService.saveOrUpdate(record);
+					map.put("result", result);
+					map.put("import_inner_num",import_inner_num);
+				}
+			}else{
+				List<Record> list = ImportedmaterialsService.getMaxImportInnerNum("T");
+				if(list.size()!=0){				
+					String importInner = list.get(0).getStr("import_inner_num");
+					int importInnerCount =  Integer.parseInt(importInner.substring(5, 9));
+					importInnerCount += 10001;
+					String suf = String.valueOf(importInnerCount);
+					String suffix = suf.substring(1, 5);
+					String Jprefix = "T2017";
+					String import_inner_num = Jprefix+suffix;
+					record.setImportInnerNum(import_inner_num);
+					result = ImportedmaterialsService.saveOrUpdate(record);
+					map.put("result", result);
+					map.put("import_inner_num",import_inner_num);
+				}
+			}					
 		}else{
 			result = ImportedmaterialsService.saveOrUpdate(record);
 			map.put("result", result);
@@ -157,5 +176,13 @@ public class ImportedmaterialsController extends Controller{
 			 map.put("flag", flag);
 		 }
 		 renderJson(map);
+	}
+	
+	/**
+	 * @author xuhui
+	 * @desc 展示导入界面
+	 */
+	public void showimportdesk(){
+		render("importfloworder_import.html");
 	}
 }
